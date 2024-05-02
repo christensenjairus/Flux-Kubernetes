@@ -1,0 +1,8 @@
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: slack-bot-token
+  namespace: monitoring
+spec:
+  itemPath: vaults/HomeLab K8S/items/Slack Bot Token

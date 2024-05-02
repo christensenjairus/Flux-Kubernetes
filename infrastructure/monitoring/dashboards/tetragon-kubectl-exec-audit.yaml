@@ -1,0 +1,800 @@
+apiVersion: v1
+data:
+  tetragong-kubectl-exec-audit-dashboard.json: |
+    {
+      "__inputs": [
+        {
+          "name": "DS_GRAFANACLOUD-ISOVALENT-LOGS",
+          "label": "grafanacloud-isovalent-logs",
+          "description": "",
+          "type": "datasource",
+          "pluginId": "loki",
+          "pluginName": "Loki"
+        }
+      ],
+      "__elements": {},
+      "__requires": [
+        {
+          "type": "panel",
+          "id": "gauge",
+          "name": "Gauge",
+          "version": ""
+        },
+        {
+          "type": "grafana",
+          "id": "grafana",
+          "name": "Grafana",
+          "version": "10.3.0-64399"
+        },
+        {
+          "type": "datasource",
+          "id": "loki",
+          "name": "Loki",
+          "version": "1.0.0"
+        },
+        {
+          "type": "panel",
+          "id": "table",
+          "name": "Table",
+          "version": ""
+        }
+      ],
+      "annotations": {
+        "list": [
+          {
+            "builtIn": 1,
+            "datasource": {
+              "type": "grafana",
+              "uid": "-- Grafana --"
+            },
+            "enable": true,
+            "hide": true,
+            "iconColor": "rgba(0, 211, 255, 1)",
+            "name": "Annotations & Alerts",
+            "type": "dashboard"
+          }
+        ]
+      },
+      "editable": true,
+      "fiscalYearStartMonth": 0,
+      "graphTooltip": 0,
+      "id": null,
+      "links": [],
+      "liveNow": false,
+      "panels": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_GRAFANACLOUD-ISOVALENT-LOGS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 0,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 0
+          },
+          "id": 2,
+          "options": {
+            "minVizHeight": 75,
+            "minVizWidth": 75,
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "sizing": "auto"
+          },
+          "pluginVersion": "10.3.0-64399",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${DS_GRAFANACLOUD-ISOVALENT-LOGS}"
+              },
+              "editorMode": "code",
+              "expr": "sum(count_over_time({cluster=~\"$cluster\", job=\"$export_job\"} |~ \"process_exec\" |~ \"$namespace\" |~ \"$container_runtime\" | json | process_exec_process_pod_namespace =~ \"$namespace\" and process_exec_parent_binary=`$container_runtime` and process_exec_parent_pid != 1 [$__range])) by (process_exec_process_pod_workload)",
+              "legendFormat": "{{process_exec_process_pod_workload}}",
+              "queryType": "instant",
+              "refId": "A"
+            }
+          ],
+          "title": "Malicious \"kubectl exec\" Events by Workload",
+          "transformations": [],
+          "transparent": true,
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_GRAFANACLOUD-ISOVALENT-LOGS}"
+          },
+          "description": "Monitoring the /usr/bin/bash, /usr/bin/sh, /bin/bash or /bin/sh binary executions in the Kubernetes workloads",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "purple",
+                "mode": "fixed"
+              },
+              "decimals": 0,
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 0
+          },
+          "id": 5,
+          "options": {
+            "minVizHeight": 200,
+            "minVizWidth": 200,
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "sizing": "auto"
+          },
+          "pluginVersion": "10.3.0-64399",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${DS_GRAFANACLOUD-ISOVALENT-LOGS}"
+              },
+              "editorMode": "code",
+              "expr": "sum(count_over_time({cluster=~\"$cluster\", job=\"$export_job\"} |~\"process_exec\" |~\"$namespace\" | json | (process_exec_process_pod_namespace=~\"$namespace\" and (process_exec_parent_binary=`/bin/sh` or process_exec_parent_binary=`/usr/bin/sh` or process_exec_parent_binary=`/bin/bash` or process_exec_parent_binary=`/usr/bin/bash`) or (process_exec_parent_binary=`$container_runtime` and process_exec_parent_pid != 1)) [$__range])) by (process_exec_process_pod_workload)",
+              "legendFormat": "{{process_exec_pod_workload}}",
+              "queryType": "instant",
+              "refId": "A"
+            }
+          ],
+          "title": "Runtime Events by Workload",
+          "transformations": [
+            {
+              "id": "extractFields",
+              "options": {
+                "format": "auto",
+                "jsonPaths": [
+                  {
+                    "path": ""
+                  }
+                ],
+                "source": "labels"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Line": true,
+                  "__stream_shard__": true,
+                  "cluster": true,
+                  "filename": true,
+                  "id": true,
+                  "job": true,
+                  "labels": true,
+                  "node_name": true,
+                  "process_exec_parent_arguments": true,
+                  "process_exec_parent_auid": true,
+                  "process_exec_parent_cwd": true,
+                  "process_exec_parent_docker": true,
+                  "process_exec_parent_exec_id": true,
+                  "process_exec_parent_flags": true,
+                  "process_exec_parent_parent_exec_id": true,
+                  "process_exec_parent_pid": false,
+                  "process_exec_parent_pod_container_id": true,
+                  "process_exec_parent_pod_container_image_id": true,
+                  "process_exec_parent_pod_container_image_name": true,
+                  "process_exec_parent_pod_container_name": true,
+                  "process_exec_parent_pod_container_pid": true,
+                  "process_exec_parent_pod_container_start_time": true,
+                  "process_exec_parent_pod_name": true,
+                  "process_exec_parent_pod_namespace": true,
+                  "process_exec_parent_pod_pod_labels_app": true,
+                  "process_exec_parent_pod_pod_labels_app_kubernetes_io_component": true,
+                  "process_exec_parent_pod_pod_labels_app_kubernetes_io_instance": true,
+                  "process_exec_parent_pod_pod_labels_app_kubernetes_io_name": true,
+                  "process_exec_parent_pod_pod_labels_chart": true,
+                  "process_exec_parent_pod_pod_labels_controller_revision_hash": true,
+                  "process_exec_parent_pod_pod_labels_opentelemetry_io_name": true,
+                  "process_exec_parent_pod_pod_labels_pod_template_hash": true,
+                  "process_exec_parent_pod_pod_labels_release": true,
+                  "process_exec_parent_pod_pod_labels_statefulset_kubernetes_io_pod_name": true,
+                  "process_exec_parent_pod_workload": true,
+                  "process_exec_parent_refcnt": true,
+                  "process_exec_parent_start_time": true,
+                  "process_exec_parent_tid": true,
+                  "process_exec_parent_uid": true,
+                  "process_exec_process_auid": true,
+                  "process_exec_process_cwd": true,
+                  "process_exec_process_docker": true,
+                  "process_exec_process_exec_id": true,
+                  "process_exec_process_flags": true,
+                  "process_exec_process_parent_exec_id": true,
+                  "process_exec_process_pod_container_id": true,
+                  "process_exec_process_pod_container_image_id": true,
+                  "process_exec_process_pod_container_image_name": true,
+                  "process_exec_process_pod_container_name": true,
+                  "process_exec_process_pod_container_pid": true,
+                  "process_exec_process_pod_container_start_time": true,
+                  "process_exec_process_pod_namespace": true,
+                  "process_exec_process_pod_pod_labels_app": true,
+                  "process_exec_process_pod_pod_labels_app_kubernetes_io_component": true,
+                  "process_exec_process_pod_pod_labels_app_kubernetes_io_instance": true,
+                  "process_exec_process_pod_pod_labels_app_kubernetes_io_name": true,
+                  "process_exec_process_pod_pod_labels_chart": true,
+                  "process_exec_process_pod_pod_labels_controller_revision_hash": true,
+                  "process_exec_process_pod_pod_labels_opentelemetry_io_name": true,
+                  "process_exec_process_pod_pod_labels_pod_template_hash": true,
+                  "process_exec_process_pod_pod_labels_release": true,
+                  "process_exec_process_pod_pod_labels_statefulset_kubernetes_io_pod_name": true,
+                  "process_exec_process_pod_workload": true,
+                  "process_exec_process_start_time": true,
+                  "process_exec_process_tid": true,
+                  "process_exec_process_uid": false,
+                  "time": true,
+                  "traceID": true,
+                  "tsNs": true
+                },
+                "indexByName": {
+                  "Line": 9,
+                  "Time": 1,
+                  "__stream_shard__": 55,
+                  "cluster": 13,
+                  "filename": 14,
+                  "id": 11,
+                  "job": 15,
+                  "labels": 0,
+                  "node_name": 16,
+                  "process_exec_parent_auid": 17,
+                  "process_exec_parent_binary": 5,
+                  "process_exec_parent_cwd": 18,
+                  "process_exec_parent_docker": 19,
+                  "process_exec_parent_exec_id": 20,
+                  "process_exec_parent_flags": 21,
+                  "process_exec_parent_parent_exec_id": 22,
+                  "process_exec_parent_pid": 8,
+                  "process_exec_parent_pod_container_id": 23,
+                  "process_exec_parent_pod_container_image_id": 24,
+                  "process_exec_parent_pod_container_image_name": 25,
+                  "process_exec_parent_pod_container_name": 26,
+                  "process_exec_parent_pod_container_pid": 27,
+                  "process_exec_parent_pod_container_start_time": 28,
+                  "process_exec_parent_pod_name": 29,
+                  "process_exec_parent_pod_namespace": 30,
+                  "process_exec_parent_pod_pod_labels_app": 31,
+                  "process_exec_parent_pod_pod_labels_pod_template_hash": 56,
+                  "process_exec_parent_pod_workload": 32,
+                  "process_exec_parent_start_time": 33,
+                  "process_exec_parent_tid": 34,
+                  "process_exec_parent_uid": 35,
+                  "process_exec_process_arguments": 4,
+                  "process_exec_process_auid": 36,
+                  "process_exec_process_binary": 3,
+                  "process_exec_process_cwd": 37,
+                  "process_exec_process_docker": 38,
+                  "process_exec_process_exec_id": 39,
+                  "process_exec_process_flags": 40,
+                  "process_exec_process_parent_exec_id": 41,
+                  "process_exec_process_pid": 7,
+                  "process_exec_process_pod_container_id": 42,
+                  "process_exec_process_pod_container_image_id": 43,
+                  "process_exec_process_pod_container_image_name": 44,
+                  "process_exec_process_pod_container_name": 45,
+                  "process_exec_process_pod_container_pid": 46,
+                  "process_exec_process_pod_container_start_time": 47,
+                  "process_exec_process_pod_name": 2,
+                  "process_exec_process_pod_namespace": 48,
+                  "process_exec_process_pod_pod_labels_app": 49,
+                  "process_exec_process_pod_pod_labels_pod_template_hash": 54,
+                  "process_exec_process_pod_workload": 50,
+                  "process_exec_process_start_time": 51,
+                  "process_exec_process_tid": 52,
+                  "process_exec_process_uid": 6,
+                  "time": 53,
+                  "traceID": 12,
+                  "tsNs": 10
+                },
+                "renameByName": {
+                  "Time": "Time",
+                  "process_exec_parent_binary": "ParentBinary",
+                  "process_exec_parent_pid": "Parent PID",
+                  "process_exec_process_arguments": "Arguments",
+                  "process_exec_process_auid": "",
+                  "process_exec_process_binary": "SourceBinary",
+                  "process_exec_process_pid": "PID",
+                  "process_exec_process_pod_name": "SourcePod",
+                  "process_exec_process_uid": "UID"
+                }
+              }
+            }
+          ],
+          "transparent": true,
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_GRAFANACLOUD-ISOVALENT-LOGS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "transparent",
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "left",
+                "cellOptions": {
+                  "mode": "gradient",
+                  "type": "color-background"
+                },
+                "filterable": false,
+                "inspect": false
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "color": "dark-red",
+                      "index": 4,
+                      "text": "0"
+                    },
+                    "1000": {
+                      "color": "green",
+                      "index": 5,
+                      "text": "1000"
+                    },
+                    "1001": {
+                      "color": "semi-dark-green",
+                      "index": 6,
+                      "text": "1001"
+                    },
+                    "/bin/bash": {
+                      "color": "semi-dark-red",
+                      "index": 1,
+                      "text": "/bin/bash"
+                    },
+                    "/bin/sh": {
+                      "color": "orange",
+                      "index": 2,
+                      "text": "/bin/sh"
+                    },
+                    "/usr/bin/bash": {
+                      "color": "red",
+                      "index": 0,
+                      "text": "/usr/bin/bash"
+                    },
+                    "/usr/bin/sh": {
+                      "color": "semi-dark-orange",
+                      "index": 3,
+                      "text": "/usr/bin/sh"
+                    },
+                    "/usr/sbin/runc": {
+                      "color": "semi-dark-orange",
+                      "index": 8,
+                      "text": "/usr/sbin/runc"
+                    }
+                  },
+                  "type": "value"
+                },
+                {
+                  "options": {
+                    "pattern": "/bin/",
+                    "result": {
+                      "color": "light-blue",
+                      "index": 7
+                    }
+                  },
+                  "type": "regex"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "SourceWorkload"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 295
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Arguments"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 315
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 24,
+            "x": 0,
+            "y": 8
+          },
+          "id": 1,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "enablePagination": true,
+              "fields": "",
+              "reducer": [
+                "last"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": []
+          },
+          "pluginVersion": "10.3.0-64399",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${DS_GRAFANACLOUD-ISOVALENT-LOGS}"
+              },
+              "editorMode": "code",
+              "expr": "{cluster=~\"$cluster\", job=\"$export_job\"} |~\"process_exec\" |~\"$namespace\" |~\"$container_runtime\" | json | process_exec_process_pod_namespace=~\"$namespace\" and process_exec_parent_binary=`$container_runtime` and process_exec_parent_pid != 1",
+              "queryType": "range",
+              "refId": "A"
+            }
+          ],
+          "title": "Malicious \"kubectl exec\" Events",
+          "transformations": [
+            {
+              "id": "extractFields",
+              "options": {
+                "source": "labels"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Line": true,
+                  "__stream_shard__": true,
+                  "cluster": true,
+                  "filename": true,
+                  "id": true,
+                  "job": true,
+                  "labels": true,
+                  "node_name": true,
+                  "process_exec_parent_arguments": true,
+                  "process_exec_parent_auid": true,
+                  "process_exec_parent_binary": false,
+                  "process_exec_parent_cwd": true,
+                  "process_exec_parent_docker": true,
+                  "process_exec_parent_exec_id": true,
+                  "process_exec_parent_flags": true,
+                  "process_exec_parent_parent_exec_id": true,
+                  "process_exec_parent_pid": false,
+                  "process_exec_parent_pod_container_id": true,
+                  "process_exec_parent_pod_container_image_id": true,
+                  "process_exec_parent_pod_container_image_name": true,
+                  "process_exec_parent_pod_container_name": true,
+                  "process_exec_parent_pod_container_pid": true,
+                  "process_exec_parent_pod_container_start_time": true,
+                  "process_exec_parent_pod_name": true,
+                  "process_exec_parent_pod_namespace": true,
+                  "process_exec_parent_pod_pod_labels_app": true,
+                  "process_exec_parent_pod_pod_labels_name": true,
+                  "process_exec_parent_pod_pod_labels_pod_template_hash": true,
+                  "process_exec_parent_pod_pod_labels_strimzi_io_kind": true,
+                  "process_exec_parent_pod_workload": true,
+                  "process_exec_parent_start_time": true,
+                  "process_exec_parent_tid": true,
+                  "process_exec_parent_uid": false,
+                  "process_exec_process_auid": true,
+                  "process_exec_process_cwd": true,
+                  "process_exec_process_docker": true,
+                  "process_exec_process_exec_id": true,
+                  "process_exec_process_flags": true,
+                  "process_exec_process_parent_exec_id": true,
+                  "process_exec_process_pid": false,
+                  "process_exec_process_pod_container_id": true,
+                  "process_exec_process_pod_container_image_id": true,
+                  "process_exec_process_pod_container_image_name": true,
+                  "process_exec_process_pod_container_maybe_exec_probe": true,
+                  "process_exec_process_pod_container_name": true,
+                  "process_exec_process_pod_container_pid": true,
+                  "process_exec_process_pod_container_start_time": true,
+                  "process_exec_process_pod_name": true,
+                  "process_exec_process_pod_namespace": true,
+                  "process_exec_process_pod_pod_labels_app": true,
+                  "process_exec_process_pod_pod_labels_app_kubernetes_io_component": true,
+                  "process_exec_process_pod_pod_labels_app_kubernetes_io_instance": true,
+                  "process_exec_process_pod_pod_labels_app_kubernetes_io_managed_by": true,
+                  "process_exec_process_pod_pod_labels_app_kubernetes_io_name": true,
+                  "process_exec_process_pod_pod_labels_app_kubernetes_io_part_of": true,
+                  "process_exec_process_pod_pod_labels_app_kubernetes_io_version": true,
+                  "process_exec_process_pod_pod_labels_chart": true,
+                  "process_exec_process_pod_pod_labels_controller_revision_hash": true,
+                  "process_exec_process_pod_pod_labels_helm_sh_chart": true,
+                  "process_exec_process_pod_pod_labels_name": true,
+                  "process_exec_process_pod_pod_labels_opentelemetry_io_name": true,
+                  "process_exec_process_pod_pod_labels_pod_template_generation": true,
+                  "process_exec_process_pod_pod_labels_pod_template_hash": true,
+                  "process_exec_process_pod_pod_labels_release": true,
+                  "process_exec_process_pod_pod_labels_statefulset_kubernetes_io_pod_name": true,
+                  "process_exec_process_pod_pod_labels_strimzi_io_kind": true,
+                  "process_exec_process_pod_workload": false,
+                  "process_exec_process_pod_workload_kind": true,
+                  "process_exec_process_start_time": true,
+                  "process_exec_process_tid": true,
+                  "process_exec_process_uid": false,
+                  "time": true,
+                  "traceID": true,
+                  "tsNs": true
+                },
+                "indexByName": {
+                  "Line": 14,
+                  "Time": 0,
+                  "__stream_shard__": 18,
+                  "cluster": 11,
+                  "filename": 19,
+                  "id": 16,
+                  "job": 20,
+                  "labels": 9,
+                  "node_name": 12,
+                  "process_exec_parent_arguments": 21,
+                  "process_exec_parent_auid": 22,
+                  "process_exec_parent_binary": 5,
+                  "process_exec_parent_cwd": 23,
+                  "process_exec_parent_exec_id": 24,
+                  "process_exec_parent_flags": 25,
+                  "process_exec_parent_parent_exec_id": 26,
+                  "process_exec_parent_pid": 8,
+                  "process_exec_parent_start_time": 27,
+                  "process_exec_parent_tid": 28,
+                  "process_exec_parent_uid": 6,
+                  "process_exec_process_arguments": 3,
+                  "process_exec_process_auid": 30,
+                  "process_exec_process_binary": 2,
+                  "process_exec_process_cwd": 10,
+                  "process_exec_process_docker": 31,
+                  "process_exec_process_exec_id": 32,
+                  "process_exec_process_flags": 33,
+                  "process_exec_process_parent_exec_id": 34,
+                  "process_exec_process_pid": 7,
+                  "process_exec_process_pod_container_id": 35,
+                  "process_exec_process_pod_container_image_id": 36,
+                  "process_exec_process_pod_container_image_name": 37,
+                  "process_exec_process_pod_container_name": 38,
+                  "process_exec_process_pod_container_pid": 39,
+                  "process_exec_process_pod_container_start_time": 40,
+                  "process_exec_process_pod_name": 29,
+                  "process_exec_process_pod_namespace": 13,
+                  "process_exec_process_pod_pod_labels_app_kubernetes_io_component": 45,
+                  "process_exec_process_pod_pod_labels_app_kubernetes_io_instance": 46,
+                  "process_exec_process_pod_pod_labels_app_kubernetes_io_name": 47,
+                  "process_exec_process_pod_pod_labels_opentelemetry_io_name": 48,
+                  "process_exec_process_pod_pod_labels_pod_template_hash": 44,
+                  "process_exec_process_pod_workload": 1,
+                  "process_exec_process_pod_workload_kind": 49,
+                  "process_exec_process_start_time": 41,
+                  "process_exec_process_tid": 42,
+                  "process_exec_process_uid": 4,
+                  "time": 43,
+                  "traceID": 17,
+                  "tsNs": 15
+                },
+                "renameByName": {
+                  "Time": "StartTime",
+                  "process_exec_parent_binary": "ParentBinary",
+                  "process_exec_parent_pid": "Parent PID",
+                  "process_exec_parent_uid": "Parent UID",
+                  "process_exec_process_arguments": "Arguments",
+                  "process_exec_process_binary": "SourceBinary",
+                  "process_exec_process_cwd": "",
+                  "process_exec_process_pid": "PID",
+                  "process_exec_process_pod_name": "",
+                  "process_exec_process_pod_workload": "SourceWorkload",
+                  "process_exec_process_uid": "UID"
+                }
+              }
+            }
+          ],
+          "transparent": true,
+          "type": "table"
+        }
+      ],
+      "refresh": "30s",
+      "schemaVersion": 39,
+      "tags": [
+        "tetragon",
+        "security"
+      ],
+      "templating": {
+        "list": [
+          {
+            "current": {},
+            "datasource": {
+              "type": "loki",
+              "uid": "${DS_GRAFANACLOUD-ISOVALENT-LOGS}"
+            },
+            "definition": "",
+            "hide": 0,
+            "includeAll": false,
+            "label": "export job",
+            "multi": false,
+            "name": "export_job",
+            "options": [],
+            "query": {
+              "label": "job",
+              "refId": "LokiVariableQueryEditor-VariableQuery",
+              "stream": "",
+              "type": 1
+            },
+            "refresh": 1,
+            "regex": "",
+            "skipUrlSync": false,
+            "sort": 0,
+            "type": "query"
+          },
+          {
+            "allValue": ".*",
+            "current": {},
+            "datasource": {
+              "type": "loki",
+              "uid": "${DS_GRAFANACLOUD-ISOVALENT-LOGS}"
+            },
+            "definition": "",
+            "hide": 0,
+            "includeAll": true,
+            "label": "",
+            "multi": true,
+            "name": "cluster",
+            "options": [],
+            "query": {
+              "label": "cluster",
+              "refId": "LokiVariableQueryEditor-VariableQuery",
+              "stream": "",
+              "type": 1
+            },
+            "refresh": 1,
+            "regex": "",
+            "skipUrlSync": false,
+            "sort": 1,
+            "type": "query"
+          },
+          {
+            "allValue": ".*",
+            "current": {},
+            "datasource": {
+              "type": "loki",
+              "uid": "${DS_GRAFANACLOUD-ISOVALENT-LOGS}"
+            },
+            "definition": "",
+            "hide": 0,
+            "includeAll": true,
+            "label": "",
+            "multi": true,
+            "name": "namespace",
+            "options": [],
+            "query": {
+              "label": "namespace",
+              "refId": "LokiVariableQueryEditor-VariableQuery",
+              "stream": "",
+              "type": 1
+            },
+            "refresh": 1,
+            "regex": "",
+            "skipUrlSync": false,
+            "sort": 1,
+            "type": "query"
+          },
+          {
+            "current": {
+              "selected": false,
+              "text": "/usr/sbin/runc",
+              "value": "/usr/sbin/runc"
+            },
+            "hide": 0,
+            "label": "container runtime",
+            "name": "container_runtime",
+            "options": [
+              {
+                "selected": true,
+                "text": "/usr/sbin/runc",
+                "value": "/usr/sbin/runc"
+              }
+            ],
+            "query": "/usr/sbin/runc",
+            "skipUrlSync": false,
+            "type": "textbox"
+          }
+        ]
+      },
+      "time": {
+        "from": "now-6h",
+        "to": "now"
+      },
+      "timepicker": {},
+      "timezone": "browser",
+      "title": "Tetragon / Kubectl Exec Audit",
+      "uid": "c987f26f-0982-4bc4-8173-ebb9548378ff",
+      "version": 1,
+      "weekStart": "",
+      "gnetId": 20189,
+      "description": "Dashboard showing \"kubectl exec\" runs for selected clusters and namespaces, split by Kubernetes workload."
+    }
+kind: ConfigMap
+metadata:
+  labels:
+    grafana_dashboard: "1"
+  name: tetragong-kubectl-exec-audit-dashboard
+  namespace: monitoring

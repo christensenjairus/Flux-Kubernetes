@@ -1,0 +1,466 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-crds
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 1m
+  timeout: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/crds
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-arp
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 1m
+  timeout: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/arp
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/blocks/0/start
+          value: "10.0.5.200"
+      target:
+        kind: CiliumLoadBalancerIPPool
+        name: cilium-loadbalancer-ip-pool
+    - patch: |
+        - op: replace
+          path: /spec/blocks/0/stop
+          value: "10.0.5.254"
+      target:
+        kind: CiliumLoadBalancerIPPool
+        name: cilium-loadbalancer-ip-pool
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-networking
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    - name: infra-arp
+    - name: infra-ingress
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/networking
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/cluster/id
+          value: 5
+        - op: replace
+          path: /spec/values/cluster/name
+          value: epsilon
+        - op: replace
+          path: /spec/values/k8sServiceHost
+          value: "10.0.5.100"
+        - op: replace
+          path: /spec/values/clustermesh/apiserver/service/annotations/io.cilium~1lb-ipam-ips
+          value: "10.0.5.254"
+        - op: remove
+          path: /spec/values/clustermesh/apiserver/nodeSelector
+        - op: remove
+          path: /spec/values/operator/nodeSelector
+      target:
+        kind: HelmRelease
+        name: cilium
+    - patch: |
+        - op: replace
+          path: /spec/rules/0/host
+          value: "hubble-epsilon.christensencloud.us"
+        - op: replace
+          path: /spec/tls/0/hosts/0
+          value: "hubble-epsilon.christensencloud.us"
+        - op: replace
+          path: /spec/tls/0/secretName
+          value: "hubble-epsilon-christensencloud.us-tls"
+      target:
+        kind: Ingress
+        name: hubble
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-monitoring
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    - name: infra-networking
+    - name: infra-ceph-cluster
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/monitoring
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/alertmanager/ingress/hosts/0
+          value: "alertmanager-epsilon.christensencloud.us"
+        - op: replace
+          path: /spec/values/alertmanager/ingress/tls/0/secretName
+          value: "alertmanager-epsilon-christensencloud.us-tls"
+        - op: replace
+          path: /spec/values/alertmanager/ingress/tls/0/hosts/0
+          value: "alertmanager-epsilon.christensencloud.us"
+        - op: replace
+          path: /spec/values/vmalert/ingress/hosts/0
+          value: "vmalert-epsilon.christensencloud.us"
+        - op: replace
+          path: /spec/values/vmalert/ingress/tls/0/secretName
+          value: "vmalert-epsilon-christensencloud.us-tls"
+        - op: replace
+          path: /spec/values/vmalert/ingress/tls/0/hosts/0
+          value: "vmalert-epsilon.christensencloud.us"
+        - op: replace
+          path: /spec/values/vmagent/ingress/hosts/0
+          value: "vmagent-epsilon.christensencloud.us"
+        - op: replace
+          path: /spec/values/vmagent/ingress/tls/0/secretName
+          value: "vmagent-epsilon-christensencloud.us-tls"
+        - op: replace
+          path: /spec/values/vmagent/ingress/tls/0/hosts/0
+          value: "vmagent-epsilon.christensencloud.us"
+        - op: replace
+          path: /spec/values/grafana/ingress/hosts/0
+          value: "grafana-epsilon.christensencloud.us"
+        - op: replace
+          path: /spec/values/grafana/ingress/tls/0/secretName
+          value: "grafana-epsilon-christensencloud.us-tls"
+        - op: replace
+          path: /spec/values/grafana/ingress/tls/0/hosts/0
+          value: "grafana-epsilon.christensencloud.us"
+        - op: replace
+          path: /spec/values/alertmanager/spec/externalURL
+          value: "https://alertmanager-epsilon.christensencloud.us"
+        - op: replace
+          path: /spec/values/vmagent/spec/externalLabels/cluster
+          value: epsilon
+        - op: replace
+          path: /spec/values/alertmanager/config/receivers/1/slack_configs/0/channel
+          value: "#epsilon-alerts"
+#        - op: replace
+#          path: /spec/values/vmsingle/enabled
+#          value: false
+#        - op: replace
+#          path: /spec/values/vmcluster/enabled
+#          value: true
+#        - op: replace
+#          path: /spec/values/vmcluster/ingress/storage/hosts/0
+#          value: "vmstorage-epsilon.christensencloud.us"
+#        - op: replace
+#          path: /spec/values/vmcluster/ingress/storage/tls/0/secretName
+#          value: "vmstorage-epsilon-christensencloud.us-tls"
+#        - op: replace
+#          path: /spec/values/vmcluster/ingress/storage/tls/0/hosts/0
+#          value: "vmstorage-epsilon.christensencloud.us"
+#        - op: replace
+#          path: /spec/values/vmcluster/ingress/select/hosts/0
+#          value: "vm-epsilon.christensencloud.us"
+#        - op: replace
+#          path: /spec/values/vmcluster/ingress/select/tls/0/secretName
+#          value: "vm-epsilon-christensencloud.us-tls"
+#        - op: replace
+#          path: /spec/values/vmcluster/ingress/select/tls/0/hosts/0
+#          value: "vmselect-epsilon.christensencloud.us"
+#          value: "vm-epsilon.christensencloud.us"
+#        - op: replace
+#          path: /spec/values/vmcluster/spec/replicationFactor
+#          value: 2
+#        - op: replace
+#          path: /spec/values/vmcluster/spec/vmselect/replicaCount
+#          value: 2
+#        - op: replace
+#          path: /spec/values/vmcluster/spec/vminsert/replicaCount
+#          value: 2
+#        - op: replace
+#          path: /spec/values/vmcluster/spec/vmstorage/replicaCount
+#          value: 3
+      target:
+        kind: HelmRelease
+        name: victoria-metrics-k8s-stack
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-certificates
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    - name: infra-networking
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/certificates
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-certificate-issuers
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    - name: infra-certificates
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/certificate-issuers
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-ingress
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    - name: infra-arp
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/ingress
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
+          value: "10.0.5.200"
+      target:
+        kind: HelmRelease
+        name: ingress-nginx
+    # reduce the severity of NGINXTooMany400s alert
+    - patch: |
+        - op: replace
+          path: /spec/groups/0/rules/0/labels/severity
+          value: "none"
+      target:
+        kind: PrometheusRule
+        name: prometheus-ingress-rules
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-policies
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/policies
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-scaling
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    - name: infra-ingress
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/scaling
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/dashboard/ingress/hosts/0/host
+          value: vpa-epsilon.christensencloud.us
+        - op: replace
+          path: /spec/values/dashboard/ingress/tls/0/hosts/0
+          value: vpa-epsilon.christensencloud.us
+        - op: replace
+          path: /spec/values/dashboard/ingress/tls/0/secretName
+          value: vpa-epsilon-christensencloud.us-tls
+      target:
+        kind: HelmRelease
+        name: goldilocks
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-ceph
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/ceph
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        # forget about osd placement
+        - op: remove
+          path: /spec/values/discover/nodeAffinity
+      target:
+        kind: HelmRelease
+        name: rook-ceph
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-ceph-cluster
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    - name: infra-ingress
+    - name: infra-ceph
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/ceph-cluster
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/ingress/dashboard/host/name
+          value: ceph-epsilon.christensencloud.us
+        - op: replace
+          path: /spec/values/ingress/dashboard/tls/0/hosts/0
+          value: ceph-epsilon.christensencloud.us
+        - op: replace
+          path: /spec/values/ingress/dashboard/tls/0/secretName
+          value: ceph-epsilon-christensencloud.us-tls
+        - op: replace
+          path: /spec/values/cephObjectStores/0/ingress/host/name
+          value: s3-epsilon.christensencloud.us
+        - op: replace
+          path: /spec/values/cephObjectStores/0/ingress/tls/0/hosts/0
+          value: s3-epsilon.christensencloud.us
+        - op: replace
+          path: /spec/values/cephObjectStores/0/ingress/tls/0/secretName
+          value: s3-epsilon-christensencloud.us-tls
+        # allow multiple mons and mgrs per node and forget about placement
+        - op: replace
+          path: /spec/values/cephClusterSpec/mon/allowMultiplePerNode
+          value: true
+        - op: replace
+          path: /spec/values/cephClusterSpec/mgr/allowMultiplePerNode
+          value: true
+        - op: remove
+          path: /spec/values/cephClusterSpec/placement
+      target:
+        kind: HelmRelease
+        name: rook-ceph-cluster
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-backups
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/backups
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/configuration/backupStorageLocation/0/bucket
+          value: epsilon-cluster
+      target:
+        kind: HelmRelease
+        name: velero
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-external-storage
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/external-storage
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/itemPath
+          value: "vaults/HomeLab K8S/items/Epsilon Democratic CSI Driver iSCSI Config"
+      target:
+        kind: OnePasswordItem
+        name: democratic-csi-driver-iscsi-config
+    - patch: |
+        - op: replace
+          path: /spec/itemPath
+          value: "vaults/HomeLab K8S/items/Epsilon Democratic CSI Driver NFS Config"
+      target:
+        kind: OnePasswordItem
+        name: democratic-csi-driver-nfs-config

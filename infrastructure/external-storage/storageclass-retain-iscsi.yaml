@@ -1,0 +1,28 @@
+# Took the helm-created storageclass and modified it
+# 1) reclaim policy, 2) name, 3) detached volume policies, 4) helm info, 5) unnecessary metadata
+
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  labels:
+    app.kubernetes.io/instance: truenas-iscsi
+    app.kubernetes.io/name: democratic-csi
+  name: truenas-iscsi-retain
+parameters:
+  csi.storage.k8s.io/controller-expand-secret-name: controller-expand-secret-truenas-iscsi-truenas-iscsi-democratic
+  csi.storage.k8s.io/controller-expand-secret-namespace: democratic-csi-iscsi
+  csi.storage.k8s.io/controller-publish-secret-name: controller-publish-secret-truenas-iscsi-truenas-iscsi-democrati
+  csi.storage.k8s.io/controller-publish-secret-namespace: democratic-csi-iscsi
+  csi.storage.k8s.io/node-publish-secret-name: node-publish-secret-truenas-iscsi-truenas-iscsi-democratic-csi
+  csi.storage.k8s.io/node-publish-secret-namespace: democratic-csi-iscsi
+  csi.storage.k8s.io/node-stage-secret-name: node-stage-secret-truenas-iscsi-truenas-iscsi-democratic-csi
+  csi.storage.k8s.io/node-stage-secret-namespace: democratic-csi-iscsi
+  csi.storage.k8s.io/provisioner-secret-name: provisioner-secret-truenas-iscsi-truenas-iscsi-democratic-csi
+  csi.storage.k8s.io/provisioner-secret-namespace: democratic-csi-iscsi
+  detachedVolumesFromSnapshots: "true"
+  detachedVolumesFromVolumes: "true"
+  fsType: xfs
+provisioner: org.democratic-csi.iscsi
+reclaimPolicy: Retain
+volumeBindingMode: Immediate

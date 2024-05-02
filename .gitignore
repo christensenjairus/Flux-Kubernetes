@@ -1,0 +1,4 @@
+# GitHub actions binaries
+bin/
+.idea/
+.vscode/

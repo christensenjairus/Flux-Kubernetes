@@ -1,0 +1,7 @@
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: democratic-csi-driver-iscsi-config
+  namespace: democratic-csi-iscsi
+spec:
+  itemPath: "vaults/HomeLab K8S/items/Zeta Democratic CSI Driver iSCSI Config"
