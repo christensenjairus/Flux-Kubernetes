@@ -600,3 +600,9 @@ spec:
       target:
         kind: Deployment
         name: virt-operator
+    - patch: |
+        - op: remove
+          path: /spec/infra/nodePlacement/nodeSelector
+      target:
+        kind: KubeVirt
+        name: kubevirt

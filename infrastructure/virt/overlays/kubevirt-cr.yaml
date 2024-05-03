@@ -5,6 +5,10 @@ metadata:
   name: kubevirt
   namespace: kubevirt
 spec:
+  infra:
+    nodePlacement:
+      nodeSelector:
+        nodeclass: general
   certificateRotateStrategy: {}
   configuration:
     developerConfiguration:
