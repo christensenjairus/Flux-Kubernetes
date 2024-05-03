@@ -603,6 +603,8 @@ spec:
     - patch: |
         - op: remove
           path: /spec/infra/nodePlacement/nodeSelector
+        - op: remove
+          path: /spec/workloads/nodePlacement/nodeSelector
       target:
         kind: KubeVirt
         name: kubevirt

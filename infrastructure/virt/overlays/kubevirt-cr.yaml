@@ -9,6 +9,10 @@ spec:
     nodePlacement:
       nodeSelector:
         nodeclass: general
+  workloads:
+    nodePlacement:
+      nodeSelector:
+        nodeclass: general
   certificateRotateStrategy: {}
   configuration:
     developerConfiguration:
