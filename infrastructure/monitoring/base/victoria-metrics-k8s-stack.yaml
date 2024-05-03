@@ -187,7 +187,7 @@ spec:
           search.logSlowQueryDuration: "15s" # default is 5s
           enableTCP6: "false"
           loggerTimezone: "America/Denver"
-          memory.allowedPercent: "100" # default is 60. Increase because it's in a container and the memory is already allocated.
+          memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
 #          maxLabelsPerTimeseries: "100" # default is 30
         resources:
           limits:
@@ -262,7 +262,7 @@ spec:
           extraArgs:
             enableTCP6: "false"
             loggerTimezone: "America/Denver"
-            memory.allowedPercent: "100" # default is 60. Increase because it's in a container and the memory is already allocated.
+            memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
 #            loggerLevel: "WARN" # default is INFO
 #            loggerWarnsPerSecondLimit: "5"
 #            loggerErrorsPerSecondLimit: "5"
@@ -304,7 +304,7 @@ spec:
           extraArgs:
             enableTCP6: "false"
             loggerTimezone: "America/Denver"
-            memory.allowedPercent: "100" # default is 60. Increase because it's in a container and the memory is already allocated.
+            memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
 #            loggerWarnsPerSecondLimit: "5"
 #            loggerErrorsPerSecondLimit: "5"
 #            search.maxConcurrentRequests: "16" # default is 4. Increase to handle more concurrent queries. Not recommended to go above 16 because you could overload vmstorage pods.
@@ -345,7 +345,7 @@ spec:
           extraArgs:
             enableTCP6: "false"
             loggerTimezone: "America/Denver"
-            memory.allowedPercent: "100" # default is 60. Increase because it's in a container and the memory is already allocated.
+            memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
 #            loggerLevel: "WARN" # default is INFO
 #            loggerWarnsPerSecondLimit: "5"
 #            loggerErrorsPerSecondLimit: "5"
