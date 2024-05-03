@@ -644,6 +644,7 @@ spec:
             - kube-node-lease
             - kube-public
             - kube-system
+            - kubevirt
             - kyverno
             - local-path-storage
             - monitoring
@@ -675,6 +676,7 @@ spec:
           - kube-node-lease
           - kube-public
           - kube-system
+          - kubevirt
           - kyverno
           - local-path-storage
           - monitoring

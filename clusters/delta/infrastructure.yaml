@@ -194,36 +194,10 @@ spec:
           value: "#delta-alerts"
         - op: remove
           path: /spec/values/vmsingle/spec/nodeSelector
-#        - op: replace
-#          path: /spec/values/vmsingle/enabled
-#          value: true
-#        - op: replace
-#          path: /spec/values/vmcluster/enabled
-#          value: false
-#        - op: replace
-#          path: /spec/values/defaultRules/rules/vmsingle
-#          value: true
-#        - op: replace
-#          path: /spec/values/defaultRules/rules/vmcluster
-#          value: false
       target:
         kind: HelmRelease
         name: victoria-metrics-k8s-stack
     # hide non-applicable dashboards from grafana
-#    - patch: |
-#        - op: add
-#          path: /metadata/labels
-#          value:
-#            grafana_dashboard: "1"
-#      target:
-#        kind: ConfigMap
-#        name: vm-single-node-dashboard
-#    - patch: |
-#        - op: remove
-#          path: /metadata/labels/grafana_dashboard
-#      target:
-#        kind: ConfigMap
-#        name: vm-cluster-dashboard
     - patch: |
         - op: remove
           path: /metadata/labels/grafana_dashboard
@@ -338,6 +312,12 @@ spec:
       target:
         kind: ConfigMap
         name: rook-ceph-pools-dashboard
+    - patch: |
+        - op: remove
+          path: /metadata/labels/grafana_dashboard
+      target:
+        kind: ConfigMap
+        name: harbor-overview-dashboard
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

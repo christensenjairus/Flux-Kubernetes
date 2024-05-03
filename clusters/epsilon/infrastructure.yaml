@@ -165,46 +165,16 @@ spec:
         - op: replace
           path: /spec/values/alertmanager/config/receivers/1/slack_configs/0/channel
           value: "#epsilon-alerts"
-#        - op: replace
-#          path: /spec/values/vmsingle/enabled
-#          value: false
-#        - op: replace
-#          path: /spec/values/vmcluster/enabled
-#          value: true
-#        - op: replace
-#          path: /spec/values/vmcluster/ingress/storage/hosts/0
-#          value: "vmstorage-epsilon.christensencloud.us"
-#        - op: replace
-#          path: /spec/values/vmcluster/ingress/storage/tls/0/secretName
-#          value: "vmstorage-epsilon-christensencloud.us-tls"
-#        - op: replace
-#          path: /spec/values/vmcluster/ingress/storage/tls/0/hosts/0
-#          value: "vmstorage-epsilon.christensencloud.us"
-#        - op: replace
-#          path: /spec/values/vmcluster/ingress/select/hosts/0
-#          value: "vm-epsilon.christensencloud.us"
-#        - op: replace
-#          path: /spec/values/vmcluster/ingress/select/tls/0/secretName
-#          value: "vm-epsilon-christensencloud.us-tls"
-#        - op: replace
-#          path: /spec/values/vmcluster/ingress/select/tls/0/hosts/0
-#          value: "vmselect-epsilon.christensencloud.us"
-#          value: "vm-epsilon.christensencloud.us"
-#        - op: replace
-#          path: /spec/values/vmcluster/spec/replicationFactor
-#          value: 2
-#        - op: replace
-#          path: /spec/values/vmcluster/spec/vmselect/replicaCount
-#          value: 2
-#        - op: replace
-#          path: /spec/values/vmcluster/spec/vminsert/replicaCount
-#          value: 2
-#        - op: replace
-#          path: /spec/values/vmcluster/spec/vmstorage/replicaCount
-#          value: 3
       target:
         kind: HelmRelease
         name: victoria-metrics-k8s-stack
+    # hide non-applicable dashboards from grafana
+    - patch: |
+        - op: remove
+          path: /metadata/labels/grafana_dashboard
+      target:
+        kind: ConfigMap
+        name: harbor-overview-dashboard
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -243,6 +213,14 @@ spec:
   path: ./infrastructure/certificate-issuers
   prune: true
   wait: true
+  patches:
+    - patch: | # use staging letsencrypt server
+        - op: replace
+          path: /spec/acme/server
+          value: https://acme-staging-v02.api.letsencrypt.org/directory
+      target:
+        kind: ClusterIssuer
+        name: letsencrypt
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
