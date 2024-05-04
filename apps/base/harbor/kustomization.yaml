@@ -3,8 +3,10 @@ kind: Kustomization
 namespace: harbor
 resources:
   - namespace.yaml
-  - repository.yaml
-  - release.yaml
+  - harbor-repository.yaml
   - harbor-encryption-secret-key.yaml
   - harbor-admin-credentials.yaml
   - harbor-minio-credentials.yaml
+  - harbor-redis-credentials.yaml
+  - redis-release.yaml
+  - harbor-release.yaml

@@ -897,7 +897,7 @@ spec:
         username: ""
         password: ""
         # If using existingSecret, the key must be REDIS_PASSWORD
-        existingSecret: ""
+        existingSecret: "harbor-redis-credentials"
       ## Additional deployment annotations
       podAnnotations: {}
       ## Additional deployment labels
