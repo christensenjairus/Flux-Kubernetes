@@ -10,7 +10,6 @@ spec:
     - name: infra-arp
     - name: infra-backups
     - name: infra-ceph
-    - name: infra-ceph-cluster
     - name: infra-certificate-issuers
     - name: infra-certificates
     - name: infra-crds
