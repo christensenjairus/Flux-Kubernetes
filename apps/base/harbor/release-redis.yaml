@@ -7,7 +7,7 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: redis-cluster
+      chart: redis-replication
       version: "0.15.x"
       sourceRef:
         kind: HelmRepository
@@ -16,19 +16,18 @@ spec:
       interval: 12h
   values:
 
-    redisCluster:
+    redisReplication:
       name: ""
       clusterSize: 3
-      clusterVersion: v7
-      persistenceEnabled: true
       image: quay.io/opstree/redis
       tag: v7.0.12
       imagePullPolicy: IfNotPresent
-      imagePullSecrets: { }
+      imagePullSecrets: [ ]
       # - name:  Secret with Registry credentials
       redisSecret:
         secretName: "harbor-redis-credentials"
         secretKey: "REDIS_PASSWORD"
+      serviceType: ClusterIP
       resources: { }
         # requests:
         #   cpu: 100m
@@ -36,60 +35,15 @@ spec:
         # limits:
       #   cpu: 100m
       #   memory: 128Mi
-      leader:
-        replicas: 3
-        serviceType: ClusterIP
-        affinity: { }
-          # nodeAffinity:
-          #   requiredDuringSchedulingIgnoredDuringExecution:
-          #     nodeSelectorTerms:
-          #     - matchExpressions:
-          #       - key: disktype
-          #         operator: In
-        #         values:
-        #         - ssd
-        tolerations: [ ]
-          # - key: "key"
-          #   operator: "Equal"
-        #   value: "value"
-        #   effect: "NoSchedule"
-        nodeSelector: null
-        # memory: medium
-        securityContext: { }
-        pdb:
-          enabled: false
-          maxUnavailable: 1
-          minAvailable: 1
+      ignoreAnnotations: [ ]
+      # - "redis.opstreelabs.in/ignore"
 
-      follower:
-        replicas: 3
-        serviceType: ClusterIP
-        affinity: null
-          # nodeAffinity:
-          #   requiredDuringSchedulingIgnoredDuringExecution:
-          #     nodeSelectorTerms:
-          #     - matchExpressions:
-          #       - key: disktype
-          #         operator: In
-        #         values:
-        #         - ssd
-        tolerations: [ ]
-          # - key: "key"
-          #   operator: "Equal"
-        #   value: "value"
-        #   effect: "NoSchedule"
-        nodeSelector: null
-        # memory: medium
-        securityContext: { }
-        pdb:
-          enabled: false
-          maxUnavailable: 1
-          minAvailable: 1
+    # Overwite name for resources
+    # name: ""
 
     labels: { }
     #   foo: bar
     #   test: echo
-
 
     externalConfig:
       enabled: false
@@ -102,7 +56,7 @@ spec:
       enabled: false
       # annotations:
       #   foo: bar
-      serviceType: LoadBalancer
+      serviceType: NodePort
       port: 6379
 
     serviceMonitor:
@@ -127,21 +81,6 @@ spec:
       # - name: VAR_NAME
       #   value: "value1"
 
-    sidecars:
-      name: ""
-      image: ""
-      imagePullPolicy: "IfNotPresent"
-      resources:
-        limits:
-          cpu: "100m"
-          memory: "128Mi"
-        requests:
-          cpu: "50m"
-          memory: "64Mi"
-      env: { }
-      # - name: MY_ENV_VAR
-      #   value: "my-env-var-value"
-
     initContainer:
       enabled: false
       image: ""
@@ -157,19 +96,30 @@ spec:
       command: [ ]
       args: [ ]
 
+    sidecars:
+      name: ""
+      image: ""
+      imagePullPolicy: "IfNotPresent"
+      resources:
+        limits:
+          cpu: "100m"
+          memory: "128Mi"
+        requests:
+          cpu: "50m"
+          memory: "64Mi"
+      env: [ ]
+      # - name: MY_ENV_VAR
+      #   value: "my-env-var-value"
+
     priorityClassName: ""
+
+    nodeSelector: { }
+    # memory: medium
 
     storageSpec:
       volumeClaimTemplate:
         spec:
           storageClassName: "ceph-block"
-          accessModes: [ "ReadWriteOnce" ]
-          resources:
-            requests:
-              storage: 1Gi
-      nodeConfVolume: true
-      nodeConfVolumeClaimTemplate:
-        spec:
           accessModes: [ "ReadWriteOnce" ]
           resources:
             requests:
@@ -180,8 +130,25 @@ spec:
       runAsUser: 1000
       fsGroup: 1000
 
+    securityContext: { }
 
-    # serviceAccountName: redis-sa
+    affinity: { }
+      # nodeAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     nodeSelectorTerms:
+      #     - matchExpressions:
+      #       - key: disktype
+      #         operator: In
+    #         values:
+    #         - ssd
+
+    tolerations: [ ]
+      # - key: "key"
+      #   operator: "Equal"
+    #   value: "value"
+    #   effect: "NoSchedule"
+
+    serviceAccountName: ""
 
     TLS:
       ca: ca.key
@@ -197,6 +164,4 @@ spec:
     env: [ ]
     # - name: VAR_NAME
     #   value: "value1"
-
-    serviceAccountName: ""
 
