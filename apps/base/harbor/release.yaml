@@ -220,9 +220,9 @@ spec:
         jobservice:
           jobLog:
             existingClaim: ""
-            storageClass: "ceph-block"
+            storageClass: "ceph-filesystem"
             subPath: ""
-            accessMode: ReadWriteOnce
+            accessMode: ReadWriteMany
             size: 1Gi
             annotations: {}
         # If external database is used, the following settings for database will
