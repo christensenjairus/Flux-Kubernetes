@@ -194,6 +194,8 @@ spec:
           value: "#delta-alerts"
         - op: remove
           path: /spec/values/vmsingle/spec/nodeSelector
+        - op: remove
+          path: /spec/values/grafana/nodeSelector
       target:
         kind: HelmRelease
         name: victoria-metrics-k8s-stack

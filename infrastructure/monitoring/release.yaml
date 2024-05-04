@@ -249,7 +249,6 @@ spec:
               memory: 500Mi # default is 100Mi
           nodeSelector:
             nodeclass: general
-          # not using nodeSelector because I want to spread the vmstorage pods across all nodes
           affinity:
             podAntiAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
@@ -781,6 +780,8 @@ spec:
     # Grafana dependency chart configuration. For possible values refer to https://github.com/grafana/helm-charts/tree/main/charts/grafana#configuration
     grafana:
       enabled: true
+      nodeSelector:
+        nodeclass: general
       ## all values for grafana helm chart can be specified here
       sidecar:
         datasources:
