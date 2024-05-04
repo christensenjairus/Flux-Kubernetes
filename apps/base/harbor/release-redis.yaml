@@ -25,8 +25,8 @@ spec:
       imagePullSecrets: [ ]
       # - name:  Secret with Registry credentials
       redisSecret:
-#        secretName: "harbor-redis-credentials"
-#        secretKey: "REDIS_PASSWORD"
+        secretName: "harbor-redis-credentials"
+        secretKey: "REDIS_PASSWORD"
       serviceType: ClusterIP
       resources: { }
         # requests:
