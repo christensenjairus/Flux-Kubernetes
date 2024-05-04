@@ -619,6 +619,7 @@ spec:
             - democratic-csi-iscsi
             - democratic-csi-nfs
             - flux-system
+            - general-operators
             - goldilocks
             - groundcover
             - ingress-nginx
@@ -651,6 +652,7 @@ spec:
           - democratic-csi-iscsi
           - democratic-csi-nfs
           - flux-system
+          - general-operators
           - goldilocks
           - groundcover
           - ingress-nginx
