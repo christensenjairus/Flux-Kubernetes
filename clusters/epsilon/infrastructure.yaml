@@ -243,7 +243,14 @@ spec:
           value: "none"
       target:
         kind: PrometheusRule
-        name: prometheus-ingress-rules
+        name: prometheus-ingress-rules-private
+    - patch: |
+        - op: replace
+          path: /spec/groups/0/rules/0/labels/severity
+          value: "none"
+      target:
+        kind: PrometheusRule
+        name: prometheus-ingress-rules-public
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
