@@ -9,7 +9,7 @@ resources:
   - harbor-minio-credentials.yaml
   - harbor-redis-credentials.yaml
   - release-redis.yaml
-  - release-redis-sentinel.yaml
+  - release-sentinel.yaml
   - release-harbor.yaml
   - harbor-overview-dashboard.yaml
   - harbor-redis-dashboard.yaml
