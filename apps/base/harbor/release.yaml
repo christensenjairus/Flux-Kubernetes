@@ -56,7 +56,7 @@ spec:
         controller: default
         ## Allow .Capabilities.KubeVersion.Version to be overridden while creating ingress
         kubeVersionOverride: ""
-        className: "nginx"
+        className: "nginx-private"
         annotations:
           # note different ingress controllers may require a different ssl-redirect annotation
           # for Envoy, use ingress.kubernetes.io/force-ssl-redirect: "true" and remove the nginx lines below

@@ -24,7 +24,7 @@ spec:
       tag: 7.0.6
     ingress:
       enabled: true
-      className: nginx
+      className: nginx-private
       hosts:
         - host: podinfo.christensencloud.us
           paths:
