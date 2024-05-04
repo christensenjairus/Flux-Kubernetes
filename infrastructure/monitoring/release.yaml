@@ -882,7 +882,7 @@ spec:
         - "https://storage.googleapis.com/plugins-community/vonage-status-panel/release/1.0.11/vonage-status-panel-1.0.11.zip;vonage-status-panel" # used for some Ceph dashboards
         - "https://storage.googleapis.com/plugins-community/redis-datasource/release/2.2.0/redis-datasource-2.2.0.zip;redis-datasource"
         - "https://storage.googleapis.com/plugins-community/redis-app/release/2.2.1/redis-app-2.2.1.zip;redis-app"
-        - "https://github.com/oliver006/redis_exporter/releases/download/v1.59.0/redis_exporter-v1.59.0.linux-amd64.tar.gz;redis-exporter"
+        - "https://github.com/oliver006/redis_exporter/archive/refs/tags/v1.59.0.zip;redis-exporter"
       # grafana.ini:
       #  plugins:
          # Why VictoriaMetrics datasource is unsigned: https://github.com/VictoriaMetrics/grafana-datasource/blob/main/README.md#why-victoriametrics-datasource-is-unsigned
