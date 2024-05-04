@@ -9,7 +9,6 @@ spec:
   dependsOn:
     - name: infra-arp
     - name: infra-backups
-    - name: infra-certificate-issuers
     - name: infra-certificates
     - name: infra-crds
     - name: infra-external-storage
