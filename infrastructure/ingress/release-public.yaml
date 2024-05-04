@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: ingress-nginx-public
+  name: ingress-nginx
   namespace: ingress-nginx-public
 spec:
   interval: 30m
