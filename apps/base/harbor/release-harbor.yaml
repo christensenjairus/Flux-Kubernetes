@@ -905,7 +905,7 @@ spec:
         username: ""
         password: ""
         # If using existingSecret, the key must be REDIS_PASSWORD
-        existingSecret: "harbor-redis-credentials"
+        # existingSecret: "harbor-redis-credentials" # Harbor currently doesn't support sentinel + auth
       ## Additional deployment annotations
       podAnnotations: {}
       ## Additional deployment labels
