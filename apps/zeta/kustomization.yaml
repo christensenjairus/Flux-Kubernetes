@@ -8,9 +8,3 @@ patches:
     target:
       kind: HelmRelease
       name: podinfo
-#---
-#apiVersion: kustomize.config.k8s.io/v1beta1
-#kind: Kustomization
-#namespace: harbor
-#resources:
-#  - ../base/harbor

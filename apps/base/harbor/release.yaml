@@ -61,9 +61,9 @@ spec:
           # note different ingress controllers may require a different ssl-redirect annotation
           # for Envoy, use ingress.kubernetes.io/force-ssl-redirect: "true" and remove the nginx lines below
           cert-manager.io/cluster-issuer: letsencrypt
-          nginx.ingress.kubernetes.io/auth-realm: Authentication Required
-          nginx.ingress.kubernetes.io/auth-secret: basic-auth
-          nginx.ingress.kubernetes.io/auth-type: basic
+#          nginx.ingress.kubernetes.io/auth-realm: Authentication Required
+#          nginx.ingress.kubernetes.io/auth-secret: basic-auth
+#          nginx.ingress.kubernetes.io/auth-type: basic
           nginx.ingress.kubernetes.io/ssl-redirect: "true"
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
           ingress.kubernetes.io/ssl-redirect: "true"
@@ -364,7 +364,7 @@ spec:
     # The initial password of Harbor admin. Change it from portal after launching Harbor
     # or give an existing secret for it
     # key in secret is given via (default to HARBOR_ADMIN_PASSWORD)
-    existingSecretAdminPassword: harbor-login-credentials
+    existingSecretAdminPassword: harbor-admin-credentials
     existingSecretAdminPasswordKey: password
     #harborAdminPassword: "Harbor12345"
 

@@ -180,7 +180,7 @@ spec:
         enabled: true
 
         # dashboard.ingress.ingressClassName -- From Kubernetes 1.18+ this field is supported in case your ingress controller supports it. When set, you do not need to add the ingress class as annotation.
-        ingressClassName: nginx
+        ingressClassName: nginx-private
         annotations: #{}
           cert-manager.io/cluster-issuer: letsencrypt
           nginx.ingress.kubernetes.io/auth-type: basic

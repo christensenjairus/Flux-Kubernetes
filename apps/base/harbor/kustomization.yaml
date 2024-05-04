@@ -7,5 +7,4 @@ resources:
   - release.yaml
   - harbor-encryption-secret-key.yaml
   - harbor-credentials.yaml
-  - basic-auth-secret.yaml
   - harbor-minio-credentials.yaml

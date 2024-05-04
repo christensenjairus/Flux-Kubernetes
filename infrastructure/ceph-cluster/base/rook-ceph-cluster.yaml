@@ -480,7 +480,7 @@ spec:
           secretName: ceph-christensencloud.us-tls
         ## Note: Only one of ingress class annotation or the `ingressClassName:` can be used at a time
         ## to set the ingress class
-        ingressClassName: nginx
+        ingressClassName: nginx-private
 
     # -- A list of CephBlockPool configurations to deploy
     # @default -- See [below](#ceph-block-pools)
@@ -672,7 +672,7 @@ spec:
           - hosts:
               - s3.christensencloud.us
             secretName: s3-christensencloud.us-tls
-          ingressClassName: nginx
+          ingressClassName: nginx-private
     # cephECBlockPools are disabled by default, please remove the comments and set desired values to enable it
     #cephECBlockPools:
     #  # For erasure coded a replicated metadata pool is required.

@@ -244,10 +244,17 @@ spec:
     - patch: |
         - op: replace
           path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
+          value: "10.0.5.201"
+      target:
+        kind: HelmRelease
+        name: ingress-nginx-private
+    - patch: |
+        - op: replace
+          path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
           value: "10.0.5.200"
       target:
         kind: HelmRelease
-        name: ingress-nginx
+        name: ingress-nginx-public
     # reduce the severity of NGINXTooMany400s alert
     - patch: |
         - op: replace
