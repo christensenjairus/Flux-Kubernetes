@@ -888,7 +888,7 @@ spec:
         # support redis, redis+sentinel
         # addr for redis: <host_redis>:<port_redis>
         # addr for redis+sentinel: <host_sentinel1>:<port_sentinel1>,<host_sentinel2>:<port_sentinel2>,<host_sentinel3>:<port_sentinel3>
-        addr: "harbor-sentinel-0:6379,harbor-sentinel-1:6379,harbor-sentinel-2:6379"
+        addr: "harbor-redis-sentinel-0:6379,harbor-redis-sentinel-1:6379,harbor-redis-sentinel-2:6379"
         # The name of the set of Redis instances to monitor, it must be set to support redis+sentinel
         sentinelMasterSet: "harbor-redis"
         # The "coreDatabaseIndex" must be "0" as the library Harbor
