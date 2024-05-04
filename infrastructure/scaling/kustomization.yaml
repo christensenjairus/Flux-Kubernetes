@@ -1,5 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./base
+  - namespace-goldilocks.yaml
+  - namespace-keda.yaml
+  - repository-goldilocks.yaml
+  - repository-keda.yaml
+  - repository-vpa.yaml
   - basic-auth-secret.yaml
+  - release-goldilocks.yaml
+  - release-keda.yaml
+  - release-vpa.yaml

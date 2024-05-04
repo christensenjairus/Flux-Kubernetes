@@ -59,7 +59,7 @@ spec:
   dependsOn:
     - name: infra-crds
     - name: infra-networking
-    - name: infra-ceph-cluster
+    - name: infra-ceph
   interval: 1h
   retryInterval: 1m
   timeout: 5m
@@ -86,25 +86,6 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/certificates
-  prune: true
-  wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: infra-certificate-issuers
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: infra-crds
-    - name: infra-certificates
-  interval: 1h
-  retryInterval: 1m
-  timeout: 5m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/certificate-issuers
   prune: true
   wait: true
 ---

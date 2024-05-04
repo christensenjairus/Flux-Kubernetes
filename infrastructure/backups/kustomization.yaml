@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - repository.yaml
+  - velero-credentials.yaml
   - release.yaml
   - rbac-snapshot-controller.yaml
   - setup-snapshot-controller.yaml
-  - velero-credentials.yaml
