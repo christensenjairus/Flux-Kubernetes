@@ -10,3 +10,6 @@ resources:
   - harbor-redis-credentials.yaml
   - redis-release.yaml
   - harbor-release.yaml
+  - harbor-overview-dashboard.yaml
+  - harbor-redis-dashboard.yaml
+  - harbor-redis-rts-dashboard.yaml

@@ -312,12 +312,6 @@ spec:
       target:
         kind: ConfigMap
         name: rook-ceph-pools-dashboard
-    - patch: |
-        - op: remove
-          path: /metadata/labels/grafana_dashboard
-      target:
-        kind: ConfigMap
-        name: harbor-overview-dashboard
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
