@@ -49,10 +49,10 @@ spec:
       redisReplicationName: "harbor-redis"
       masterGroupName: "harbor-redis"
       redisPort: "6379"
-      quorum: ""
-      parallelSyncs: ""
-      failoverTimeout: ""
-      downAfterMilliseconds: ""
+      quorum: "2" # minimum number of sentinels required to agree on master promotion?
+      parallelSyncs: "1" # Number of replicas that can be reconfigured at the same time?
+      failoverTimeout: "10000" # 10 seconds
+      downAfterMilliseconds: "5000" # 5 seconds
 
     externalConfig:
       enabled: false
