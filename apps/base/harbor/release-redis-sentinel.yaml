@@ -17,7 +17,7 @@ spec:
   values:
 
     redisSentinel:
-      name: ""
+      name: "harbor-sentinel"
       clusterSize: 3
       image: quay.io/opstree/redis-sentinel
       tag: v7.0.12

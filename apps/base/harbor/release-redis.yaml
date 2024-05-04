@@ -17,7 +17,7 @@ spec:
   values:
 
     redisReplication:
-      name: ""
+      name: "harbor-redis"
       clusterSize: 3
       image: quay.io/opstree/redis
       tag: v7.0.12
