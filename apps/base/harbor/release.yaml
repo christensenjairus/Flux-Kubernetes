@@ -212,9 +212,9 @@ spec:
           # Specify the "storageClass" used to provision the volume. Or the default
           # StorageClass will be used (the default).
           # Set it to "-" to disable dynamic provisioning
-          storageClass: "ceph-block" # this does not matter if s3 is the storage type
+          storageClass: "ceph-filesystem" # this does not matter if s3 is the storage type
           subPath: ""
-          accessMode: ReadWriteOnce
+          accessMode: ReadWriteMany
           size: 5Gi
           annotations: {}
         jobservice:
@@ -245,9 +245,9 @@ spec:
           annotations: {}
         trivy:
           existingClaim: ""
-          storageClass: "ceph-block"
+          storageClass: "ceph-filesystem"
           subPath: ""
-          accessMode: ReadWriteOnce
+          accessMode: ReadWriteMany
           size: 5Gi
           annotations: {}
       # Define which storage backend is used for registry to store
