@@ -40,7 +40,7 @@ data:
           "collapsed": false,
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "gridPos": {
             "h": 1,
@@ -55,7 +55,7 @@ data:
             {
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "refId": "A"
             }
@@ -66,7 +66,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -123,7 +123,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -149,7 +149,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -207,7 +207,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -245,7 +245,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -357,7 +357,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -407,7 +407,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -456,7 +456,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -482,7 +482,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -531,7 +531,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -557,7 +557,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -604,7 +604,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -630,7 +630,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -677,7 +677,7 @@ data:
             {
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "dbsize",
               "refId": "A",
@@ -690,7 +690,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -742,7 +742,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -780,7 +780,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -832,7 +832,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -870,7 +870,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -918,7 +918,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -945,7 +945,7 @@ data:
           "collapsed": false,
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "gridPos": {
             "h": 1,
@@ -960,7 +960,7 @@ data:
             {
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "refId": "A"
             }
@@ -971,7 +971,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -1079,7 +1079,7 @@ data:
               "command": "clientList",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -1121,7 +1121,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -1253,7 +1253,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -1282,7 +1282,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -1385,7 +1385,7 @@ data:
               "command": "slowlogGet",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -1422,7 +1422,7 @@ data:
           "collapsed": false,
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "gridPos": {
             "h": 1,
@@ -1436,7 +1436,7 @@ data:
             {
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "refId": "A"
             }
@@ -1447,7 +1447,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -1498,7 +1498,7 @@ data:
               "command": "clusterInfo",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -1523,7 +1523,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -1574,7 +1574,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -1600,7 +1600,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -1650,7 +1650,7 @@ data:
               "command": "clusterInfo",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",
@@ -1686,7 +1686,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+            "uid": "PD429EC3107F1B030"
           },
           "fieldConfig": {
             "defaults": {
@@ -1822,7 +1822,7 @@ data:
               "command": "clusterNodes",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "b42366fb-f4c5-4d94-a854-ef15aa7df0df"
+                "uid": "PD429EC3107F1B030"
               },
               "query": "",
               "refId": "A",

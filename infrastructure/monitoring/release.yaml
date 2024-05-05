@@ -805,7 +805,7 @@ spec:
       ## ref: http://docs.grafana.org/administration/provisioning/#datasources
       additionalDataSources:
         - name: "Harbor Redis"
-          type: redis-datasource
+          type: redis-datasource # datasource UID seems to be PD429EC3107F1B030
           access: proxy # access through grafana, not direct from browser
           orgId: 1 # 1 is default
           isDefault: false # only one default data source per organization
