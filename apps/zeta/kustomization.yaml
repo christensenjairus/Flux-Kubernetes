@@ -8,3 +8,25 @@ patches:
     target:
       kind: HelmRelease
       name: podinfo
+  - patch: |
+      - op: add
+        path: /spec/values/grafana/additionalDataSources/-
+        value: |
+          name: "Harbor Redis"
+          type: redis-datasource # datasource UID seems to be PD429EC3107F1B030
+          access: proxy # access through grafana, not direct from browser
+          orgId: 1 # 1 is default
+          isDefault: false # only one default data source per organization
+          version: 1
+          url: redis://harbor-redis-sentinel.harbor.svc:26379
+          jsonData:
+            client: sentinel
+            sentinelName: harbor-redis
+            poolSize: 3
+            timeout: 10
+            pingInterval: 0
+            pipelineWindow: 0
+          editable: false
+    target:
+      kind: HelmRelease
+      name: victoria-metrics-k8s-stack
