@@ -803,22 +803,22 @@ spec:
 
       ## Configure additional grafana datasources (passed through tpl)
       ## ref: http://docs.grafana.org/administration/provisioning/#datasources
-      additionalDataSources: {}
-#        - name: "Harbor Redis"
-#          type: redis-datasource # datasource UID seems to be PD429EC3107F1B030
-#          access: proxy # access through grafana, not direct from browser
-#          orgId: 1 # 1 is default
-#          isDefault: false # only one default data source per organization
-#          version: 1
-#          url: redis://harbor-redis-sentinel.harbor.svc:26379
-#          jsonData:
-#            client: sentinel
-#            sentinelName: harbor-redis
-#            poolSize: 3
-#            timeout: 10
-#            pingInterval: 0
-#            pipelineWindow: 0
-#          editable: false
+      additionalDataSources:
+        - name: "Harbor Redis"
+          type: redis-datasource # datasource UID seems to be PD429EC3107F1B030
+          access: proxy # access through grafana, not direct from browser
+          orgId: 1 # 1 is default
+          isDefault: false # only one default data source per organization
+          version: 1
+          url: redis://harbor-redis-sentinel.harbor.svc:26379
+          jsonData:
+            client: sentinel
+            sentinelName: harbor-redis
+            poolSize: 3
+            timeout: 10
+            pingInterval: 0
+            pipelineWindow: 0
+          editable: false
 
       # - name: prometheus-sample
       #   access: proxy
