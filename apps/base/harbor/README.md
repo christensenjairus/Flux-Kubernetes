@@ -6,8 +6,8 @@ kubectl get secret -n harbor harbor-db-pguser-harbor -o jsonpath='{.data.passwor
 * Delete the `harbor-database-harbor` onepassword item in k8s.
 * Re-apply the harbor db creds onepassword item.
 ```bash
-kubectl delete -f ./apps/base/harbor/harbor-database-credentials.yaml
-kubectl apply -f ./apps/base/harbor/harbor-database-credentials.yaml
+kubectl delete -f ./apps/base/harbor/postgres/harbor-database-credentials.yaml
+kubectl apply -f ./apps/base/harbor/postgres/harbor-database-credentials.yaml
 ```
 * Ensure that the new password is picked up by new harbor-core pods and connects successfully to the database.
 ```bash
@@ -41,5 +41,6 @@ kubectl rollout restart -n harbor deployment harbor-jobservice
 * Verify that you can docker login to the harbor registry
 * Verify that you can pull the nginx image
 * Interrogation Services: 
-  * Schedule to scan all: weekly
-  * 'Scan now' to scan the nginx image, verify that it works
+  * Vulnerability
+    * Schedule to scan all: weekly
+    * 'Scan now' to scan the nginx image, verify that it works

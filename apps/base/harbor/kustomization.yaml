@@ -2,18 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - namespace.yaml
-  - harbor-repository.yaml
-  - harbor-encryption-secret-key.yaml
-  - harbor-admin-credentials.yaml
-  - harbor-minio-credentials.yaml
-  - harbor-database-credentials.yaml
-  - harbor-database-minio-credentials.yaml
-#  - harbor-redis-credentials.yaml # currently no auth because redis with sentintel and auth isn't supported by harbor
-  - harbor-database.yaml
-  - harbor-database-podmonitor.yaml
-  - release-redis.yaml
-  - release-sentinel.yaml
-  - release-harbor.yaml
-  - harbor-overview-dashboard.yaml
-  - harbor-redis-dashboard.yaml
-  - harbor-redis-rts-dashboard.yaml
+  - ./redis
+  - ./postgres
+  - ./harbor
