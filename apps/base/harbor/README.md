@@ -1,11 +1,19 @@
 ### Setup instructions
 * Find password from secret named `harbor-db-pguser-harbor` and place it in 1password under `Harbor DB Creds`.
 ```bash
-kubectl get secret harbor-db-pguser-harbor -o jsonpath='{.data.password}' | base64 -d 
+kubectl get secret -n harbor harbor-db-pguser-harbor -o jsonpath='{.data.password}' | base64 -d 
 ```
 * Delete the `harbor-database-harbor` onepassword item in k8s.
-* Re-apply the harbor release and harbor db creds onepassword item.
-* Ensure that the new password is picked up by the harbor-core pod and connects successfully to the database.
+* Re-apply the harbor db creds onepassword item.
+```bash
+kubectl delete -f ./apps/base/harbor/harbor-database-credentials.yaml
+kubectl apply -f ./apps/base/harbor/harbor-database-credentials.yaml
+```
+* Ensure that the new password is picked up by new harbor-core pods and connects successfully to the database.
+```bash
+kubectl rollout restart -n harbor deployment harbor-core
+kubectl rollout restart -n harbor deployment harbor-jobservice
+```
 * Login as admin
 * Create line6 user
 * Set line6 user as admin
