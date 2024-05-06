@@ -23,7 +23,7 @@ data:
       "fiscalYearStartMonth": 0,
       "gnetId": 9628,
       "graphTooltip": 0,
-      "id": 52,
+      "id": 45,
       "links": [],
       "liveNow": false,
       "panels": [
@@ -119,7 +119,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_static{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\"}",
+              "expr": "pg_static{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "instant": true,
               "intervalFactor": 1,
@@ -207,7 +207,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_postmaster_start_time_seconds{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\"} * 1000",
+              "expr": "pg_postmaster_start_time_seconds{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\", job=~\"$namespace.*\"} * 1000",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "",
@@ -294,9 +294,11 @@ data:
                 "type": "prometheus",
                 "uid": "P4169E866C3094E38"
               },
-              "expr": "SUM(pg_stat_database_tup_fetched{datname=~\"$datname\", deployment=~\"$deployment\"})",
+              "editorMode": "code",
+              "expr": "SUM(pg_stat_database_tup_fetched{datname=~\"$datname\", deployment=~\"$deployment\", job=~\"$namespace.*\"})",
               "format": "time_series",
               "intervalFactor": 2,
+              "range": true,
               "refId": "A",
               "step": 4
             }
@@ -381,7 +383,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "SUM(pg_stat_database_tup_inserted{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", datname=~\"$datname\", deployment=~\"$deployment\"})",
+              "expr": "SUM(pg_stat_database_tup_inserted{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", datname=~\"$datname\", deployment=~\"$deployment\", job=~\"$namespace.*\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "range": true,
@@ -468,9 +470,11 @@ data:
                 "type": "prometheus",
                 "uid": "P4169E866C3094E38"
               },
-              "expr": "SUM(pg_stat_database_tup_updated{datname=~\"$datname\", deployment=~\"$deployment\"})",
+              "editorMode": "code",
+              "expr": "SUM(pg_stat_database_tup_updated{datname=~\"$datname\", deployment=~\"$deployment\", job=~\"$namespace.*\"})",
               "format": "time_series",
               "intervalFactor": 2,
+              "range": true,
               "refId": "A",
               "step": 4
             }
@@ -554,7 +558,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_settings_max_connections{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\"}",
+              "expr": "pg_settings_max_connections{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\", job=~\"$namespace.*\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -634,7 +638,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "avg(rate(process_cpu_seconds_total{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\"}[5m]) * 1000)",
+              "expr": "avg(rate(process_cpu_seconds_total{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\", job=~\"$namespace.*\"}[5m]) * 1000)",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "CPU Time",
@@ -732,7 +736,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "avg(rate(process_resident_memory_bytes{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\"}[5m]))",
+              "expr": "avg(rate(process_resident_memory_bytes{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\", job=~\"$namespace.*\"}[5m]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Resident Mem",
@@ -745,7 +749,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "avg(rate(process_virtual_memory_bytes{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\"}[5m]))",
+              "expr": "avg(rate(process_virtual_memory_bytes{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\", job=~\"$namespace.*\"}[5m]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Virtual Mem",
@@ -843,7 +847,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "process_open_fds{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\"}",
+              "expr": "process_open_fds{postgres_operator_crunchydata_com_cluster=\"$cluster_name\", deployment=\"$deployment\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Open FD",
@@ -973,7 +977,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_settings_shared_buffers_bytes{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\"}",
+              "expr": "pg_settings_shared_buffers_bytes{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -1059,7 +1063,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_settings_effective_cache_size_bytes{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\"}",
+              "expr": "pg_settings_effective_cache_size_bytes{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -1145,7 +1149,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_settings_maintenance_work_mem_bytes{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\"}",
+              "expr": "pg_settings_maintenance_work_mem_bytes{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -1231,7 +1235,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_settings_work_mem_bytes{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\"}",
+              "expr": "pg_settings_work_mem_bytes{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "",
@@ -1319,7 +1323,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_settings_max_wal_size_bytes{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\"}",
+              "expr": "pg_settings_max_wal_size_bytes{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -1405,7 +1409,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_settings_random_page_cost{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\"}",
+              "expr": "pg_settings_random_page_cost{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -1491,7 +1495,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_settings_seq_page_cost{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\"}",
+              "expr": "pg_settings_seq_page_cost{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -1577,7 +1581,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_settings_max_worker_processes{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\"}",
+              "expr": "pg_settings_max_worker_processes{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -1663,7 +1667,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_settings_max_parallel_workers{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\"}",
+              "expr": "pg_settings_max_parallel_workers{deployment=\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -1771,7 +1775,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_stat_activity_count{datname=~\"$datname\", deployment=~\"$deployment\", state=\"active\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\"}",
+              "expr": "pg_stat_activity_count{datname=~\"$datname\", deployment=~\"$deployment\", state=\"active\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
@@ -1871,10 +1875,12 @@ data:
                 "type": "prometheus",
                 "uid": "P4169E866C3094E38"
               },
-              "expr": "irate(pg_stat_database_xact_commit{deployment=\"$deployment\", datname=~\"$datname\"}[5m])",
+              "editorMode": "code",
+              "expr": "irate(pg_stat_database_xact_commit{deployment=\"$deployment\", datname=~\"$datname\", job=~\"$namespace.*\"}[5m])",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{datname}} commits",
+              "range": true,
               "refId": "A"
             },
             {
@@ -1882,10 +1888,12 @@ data:
                 "type": "prometheus",
                 "uid": "P4169E866C3094E38"
               },
-              "expr": "irate(pg_stat_database_xact_rollback{deployment=\"$deployment\", datname=~\"$datname\"}[5m])",
+              "editorMode": "code",
+              "expr": "irate(pg_stat_database_xact_rollback{deployment=\"$deployment\", datname=~\"$datname\", job=~\"$namespace.*\"}[5m])",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{datname}} rollbacks",
+              "range": true,
               "refId": "B"
             }
           ],
@@ -1981,7 +1989,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_stat_database_tup_updated{datname=~\"$datname\", deployment=~\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\"} != 0",
+              "expr": "pg_stat_database_tup_updated{datname=~\"$datname\", deployment=~\"$deployment\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\", job=~\"$namespace.*\"} != 0",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{datname}}",
@@ -2081,10 +2089,12 @@ data:
                 "type": "prometheus",
                 "uid": "P4169E866C3094E38"
               },
-              "expr": "pg_stat_database_tup_fetched{datname=~\"$datname\", deployment=~\"$deployment\"} != 0",
+              "editorMode": "code",
+              "expr": "pg_stat_database_tup_fetched{datname=~\"$datname\", deployment=~\"$deployment\", job=~\"$namespace.*\"} != 0",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{datname}}",
+              "range": true,
               "refId": "A",
               "step": 2
             }
@@ -2180,10 +2190,12 @@ data:
                 "type": "prometheus",
                 "uid": "P4169E866C3094E38"
               },
-              "expr": "pg_stat_database_tup_inserted{datname=~\"$datname\", deployment=~\"$deployment\"} != 0",
+              "editorMode": "code",
+              "expr": "pg_stat_database_tup_inserted{datname=~\"$datname\", deployment=~\"$deployment\", job=~\"$namespace.*\"} != 0",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{datname}}",
+              "range": true,
               "refId": "A",
               "step": 2
             }
@@ -2282,7 +2294,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "pg_locks_count{datname=~\"$datname\", deployment=~\"$deployment\", mode=~\"$mode\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\"}",
+              "expr": "pg_locks_count{datname=~\"$datname\", deployment=~\"$deployment\", mode=~\"$mode\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{datname}},{{mode}}",
@@ -2384,10 +2396,12 @@ data:
                 "type": "prometheus",
                 "uid": "P4169E866C3094E38"
               },
-              "expr": "pg_stat_database_tup_returned{datname=~\"$datname\", deployment=~\"$deployment\"} != 0",
+              "editorMode": "code",
+              "expr": "pg_stat_database_tup_returned{datname=~\"$datname\", deployment=~\"$deployment\", job=~\"$namespace.*\"} != 0",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{datname}}",
+              "range": true,
               "refId": "A",
               "step": 2
             }
@@ -2483,10 +2497,12 @@ data:
                 "type": "prometheus",
                 "uid": "P4169E866C3094E38"
               },
-              "expr": "pg_stat_activity_count{datname=~\"$datname\", deployment=~\"$deployment\", state=~\"idle|idle in transaction|idle in transaction (aborted)\"}",
+              "editorMode": "code",
+              "expr": "pg_stat_activity_count{datname=~\"$datname\", deployment=~\"$deployment\", state=~\"idle|idle in transaction|idle in transaction (aborted)\", job=~\"$namespace.*\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{datname}}, s: {{state}}",
+              "range": true,
               "refId": "A",
               "step": 2
             }
@@ -2583,10 +2599,12 @@ data:
                 "type": "prometheus",
                 "uid": "P4169E866C3094E38"
               },
-              "expr": "pg_stat_database_tup_deleted{datname=~\"$datname\", deployment=~\"$deployment\"} != 0",
+              "editorMode": "code",
+              "expr": "pg_stat_database_tup_deleted{datname=~\"$datname\", deployment=~\"$deployment\", job=~\"$namespace.*\"} != 0",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{datname}}",
+              "range": true,
               "refId": "A",
               "step": 2
             }
@@ -2680,10 +2698,12 @@ data:
                 "type": "prometheus",
                 "uid": "P4169E866C3094E38"
               },
-              "expr": "pg_stat_database_blks_hit{deployment=\"$deployment\", datname=~\"$datname\"} / (pg_stat_database_blks_read{deployment=\"$deployment\", datname=~\"$datname\"} + pg_stat_database_blks_hit{deployment=\"$deployment\", datname=~\"$datname\"})",
+              "editorMode": "code",
+              "expr": "pg_stat_database_blks_hit{deployment=\"$deployment\", datname=~\"$datname\", job=~\"$namespace.*\"} / (pg_stat_database_blks_read{deployment=\"$deployment\", datname=~\"$datname\", job=~\"$namespace.*\"} + pg_stat_database_blks_hit{deployment=\"$deployment\", datname=~\"$datname\", job=~\"$namespace.*\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{ datname }}",
+              "range": true,
               "refId": "A"
             }
           ],
@@ -2779,7 +2799,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "irate(pg_stat_database_temp_bytes{deployment=\"$deployment\", datname=~\"$datname\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\"}[5m])",
+              "expr": "irate(pg_stat_database_temp_bytes{deployment=\"$deployment\", datname=~\"$datname\", postgres_operator_crunchydata_com_cluster=\"$cluster_name\", job=~\"$namespace.*\"}[5m])",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{datname}}",
@@ -2877,10 +2897,12 @@ data:
                 "type": "prometheus",
                 "uid": "P4169E866C3094E38"
               },
-              "expr": "irate(pg_stat_database_conflicts{deployment=\"$deployment\", datname=~\"$datname\"}[5m])",
+              "editorMode": "code",
+              "expr": "irate(pg_stat_database_conflicts{deployment=\"$deployment\", datname=~\"$datname\", job=~\"$namespace.*\"}[5m])",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{datname}} conflicts",
+              "range": true,
               "refId": "B"
             },
             {
@@ -2888,10 +2910,12 @@ data:
                 "type": "prometheus",
                 "uid": "P4169E866C3094E38"
               },
-              "expr": "irate(pg_stat_database_deadlocks{deployment=\"$deployment\", datname=~\"$datname\"}[5m])",
+              "editorMode": "code",
+              "expr": "irate(pg_stat_database_deadlocks{deployment=\"$deployment\", datname=~\"$datname\", job=~\"$namespace.*\"}[5m])",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{datname}} deadlocks",
+              "range": true,
               "refId": "A"
             }
           ],
@@ -2929,9 +2953,7 @@ data:
       ],
       "refresh": "30s",
       "schemaVersion": 39,
-      "tags": [
-        "postgres"
-      ],
+      "tags": [],
       "templating": {
         "list": [
           {
@@ -2998,6 +3020,10 @@ data:
               "text": "master",
               "value": "master"
             },
+            "datasource": {
+              "type": "prometheus",
+              "uid": "P4169E866C3094E38"
+            },
             "definition": "query_result(pg_up{postgres_operator_crunchydata_com_cluster=\"$cluster_name\"})",
             "hide": 0,
             "includeAll": false,
@@ -3019,8 +3045,8 @@ data:
           {
             "current": {
               "selected": false,
-              "text": "harbor-db-postgres-gwtc",
-              "value": "harbor-db-postgres-gwtc"
+              "text": "harbor-db-postgres-bgzs",
+              "value": "harbor-db-postgres-bgzs"
             },
             "datasource": {
               "type": "prometheus",
@@ -3051,10 +3077,10 @@ data:
             "current": {
               "selected": true,
               "text": [
-                "All"
+                "registry"
               ],
               "value": [
-                "$__all"
+                "registry"
               ]
             },
             "datasource": {
@@ -3143,7 +3169,7 @@ data:
       "timezone": "browser",
       "title": "PostgreSQL Database",
       "uid": "000000039",
-      "version": 5,
+      "version": 1,
       "weekStart": ""
     }
 kind: ConfigMap
