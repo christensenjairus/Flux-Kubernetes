@@ -5,6 +5,10 @@ metadata:
   namespace: kube-system
 spec:
   interval: 30m
+  install:
+    timeout: 20m # takes a while to install because every pod needs to roll out one at a time
+  upgrade:
+    timeout: 20m
   chart:
     spec:
       chart: cilium

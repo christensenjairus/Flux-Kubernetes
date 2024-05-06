@@ -5,6 +5,8 @@ metadata:
   namespace: groundcover
 spec:
   interval: 30m
+  install:
+    timeout: 20m # takes a while to install because its waiting for ceph to be ready
   chart:
     spec:
       chart: groundcover

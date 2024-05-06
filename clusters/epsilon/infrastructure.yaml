@@ -6,7 +6,7 @@ metadata:
 spec:
   interval: 1h
   retryInterval: 1m
-  timeout: 10m
+  timeout: 5m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -22,7 +22,7 @@ metadata:
 spec:
   interval: 1h
   retryInterval: 1m
-  timeout: 10m
+  timeout: 5m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -57,7 +57,7 @@ spec:
     - name: infra-ingress
   interval: 1h
   retryInterval: 1m
-  timeout: 15m # takes forever to install/upgrade because the cilium pods rollout one at a time
+  timeout: 5m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -111,7 +111,7 @@ spec:
     - name: infra-ceph
   interval: 1h
   retryInterval: 1m
-  timeout: 20m # takes forever to install because it needs to wait for ceph to be ready
+  timeout: 5m
   sourceRef:
     kind: GitRepository
     name: flux-system
