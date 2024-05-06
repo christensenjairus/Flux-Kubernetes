@@ -55,13 +55,9 @@ spec:
     - name: infra-crds
     - name: infra-arp
     - name: infra-ingress
-  install: # takes forever to install/upgrade because the cilium pods rollout one at a time
-    timeout: 15m
-  upgrade:
-    timeout: 15m
   interval: 1h
   retryInterval: 1m
-  timeout: 5m
+  timeout: 15m # takes forever to install/upgrade because the cilium pods rollout one at a time
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -113,11 +109,9 @@ spec:
     - name: infra-crds
     - name: infra-networking
     - name: infra-ceph
-  install: # takes forever to install because it needs to wait for ceph to be ready
-    timeout: 20m
   interval: 1h
   retryInterval: 1m
-  timeout: 5m
+  timeout: 20m # takes forever to install because it needs to wait for ceph to be ready
   sourceRef:
     kind: GitRepository
     name: flux-system
