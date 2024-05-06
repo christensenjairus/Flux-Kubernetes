@@ -60,7 +60,7 @@ spec:
       serviceMonitor:
         enabled: true
     operator:
-      replicas: 2
+      replicas: 1
       nodeSelector:
         nodeclass: general
       prometheus:

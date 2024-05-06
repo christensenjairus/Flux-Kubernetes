@@ -10,6 +10,7 @@ resources:
   - harbor-database-minio-credentials.yaml
 #  - harbor-redis-credentials.yaml # currently no auth because redis with sentintel and auth isn't supported by harbor
   - harbor-database.yaml
+  - harbor-database-podmonitor.yaml
   - release-redis.yaml
   - release-sentinel.yaml
   - release-harbor.yaml

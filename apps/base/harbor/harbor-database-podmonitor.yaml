@@ -1,13 +1,12 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: postgres-exporter
-  namespace: monitoring
+  name: harbor-database-exporter
+  namespace: harbor
 spec:
-  namespaceSelector: {}
-#    matchNames:
-#      - harbor
-#      - general-operators
+  namespaceSelector:
+    matchNames:
+      - harbor
   selector:
     matchLabels:
       postgres-operator.crunchydata.com/crunchy-postgres-exporter: "true"
