@@ -514,7 +514,7 @@ spec:
       # Using redis will bring up some delay for quota usage updation for display, so only
       # suggest switch provider to redis if you were ran into the db connections spike around
       # the scenario of high concurrent pushing to same project, no improvment for other scenes.
-      quotaUpdateProvider: db # Or redis
+      quotaUpdateProvider: redis # Or db
       # Secret is used when core server communicates with other components.
       # If a secret key is not specified, Helm will generate one. Alternatively set existingSecret to use an existing secret
       # Must be a string of 16 chars.
@@ -565,7 +565,7 @@ spec:
       # The logger for jobs: "file", "database" or "stdout"
       jobLoggers:
         - file
-        # - database
+        - database
         # - stdout
       # The jobLogger sweeper duration (ignored if `jobLogger` is `stdout`)
       loggerSweeperDuration: 14 #days
@@ -780,7 +780,7 @@ spec:
     database:
       # if external database is used, set "type" to "external"
       # and fill the connection information in "external" section
-      type: internal
+      type: external
       internal:
         # set the service account to be used, default if left empty
         serviceAccountName: ""
@@ -824,13 +824,13 @@ spec:
           #    memory: 128Mi
           #    cpu: 100m
       external:
-        host: "192.168.0.1"
+        host: "harbor-db-ha.harbor.svc" #"harbor-db-pgbouncer.harbor.svc"
         port: "5432"
-        username: "user"
-        password: "password"
+        username: "harbor"
+        password: ""
         coreDatabase: "registry"
         # if using existing secret, the key must be "password"
-        existingSecret: ""
+        existingSecret: "harbor-database-credentials"
         # "disable" - No SSL
         # "require" - Always SSL (skip verification)
         # "verify-ca" - Always SSL (verify that the certificate presented by the
@@ -838,7 +838,10 @@ spec:
         # "verify-full" - Always SSL (verify that the certification presented by the
         # server was signed by a trusted CA and the server host name matches the one
         # in the certificate)
-        sslmode: "disable"
+#        sslmode: "disable"
+        sslmode: "require"
+#        sslmode: "verify-ca"
+#        sslmode: "verify-full"
       # The maximum number of connections in the idle connection pool per pod (core+exporter).
       # If it <=0, no idle connections are retained.
       maxIdleConns: 100

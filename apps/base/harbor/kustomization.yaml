@@ -6,7 +6,10 @@ resources:
   - harbor-encryption-secret-key.yaml
   - harbor-admin-credentials.yaml
   - harbor-minio-credentials.yaml
+  - harbor-database-credentials.yaml
+  - harbor-database-minio-credentials.yaml
 #  - harbor-redis-credentials.yaml # currently no auth because redis with sentintel and auth isn't supported by harbor
+  - harbor-database.yaml
   - release-redis.yaml
   - release-sentinel.yaml
   - release-harbor.yaml

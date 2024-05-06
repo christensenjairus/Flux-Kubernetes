@@ -1,0 +1,79 @@
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: bogus-db
+  namespace: bogus
+spec:
+  users:
+    - name: bogus
+      password:
+        type: "AlphaNumeric"
+      databases:
+        - bogus
+      options: 'SUPERUSER' # can't be a superuser through pgbouncer btw
+  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-16.2-0
+  postgresVersion: 16
+  instances:
+    - name: postgres
+      replicas: 3
+      dataVolumeClaimSpec:
+        storageClassName: ceph-block
+        accessModes:
+        - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 3Gi # replicated, 3Gi per replica
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  postgres-operator.crunchydata.com/cluster: bogus-db
+                  postgres-operator.crunchydata.com/instance-set: postgres
+  backups:
+    pgbackrest:
+      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.49-0
+      global:
+        repo1-retention-full: "21" # three weeks
+        repo1-retention-full-type: time # count in days
+        repo1-retention-diff: "7"
+
+#        repo2-s3-uri-style: path
+#        repo2-retention-full: "21" # three weeks
+#        repo2-retention-full-type: time # count in days
+#        repo2-retention-diff: "7"
+#      manual:
+#        repoName: repo2 # when running a manual backup, do a full backup to repo2
+#        options:
+#          - --type=full
+#      configuration:
+#        - secret:
+#            name: minio-database-minio-credentials
+      repos:
+      - name: repo1
+        schedules:
+          full: "0 1 * * 0" # weekly on Sunday at 1am
+          differential: "0 1 * * 1-6" # daily at 1am every day except Sunday
+        volume:
+          volumeClaimSpec:
+            storageClassName: ceph-block
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: 5Gi # stores ~9 backups here
+#      - name: repo2
+#        schedules:
+#          full: "0 1 * * 0" # weekly on Sunday at 1am
+#          differential: "0 1 * * 1-6" # daily at 1am every day except Sunday
+#        s3:
+#          bucket: "harbor"
+#          endpoint: "nas3.christensencloud.us"
+#          region: "default"
+  monitoring:
+    pgmonitor:
+      exporter:
+        image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.5.1-0
