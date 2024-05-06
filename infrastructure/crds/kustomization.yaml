@@ -17,3 +17,6 @@ resources:
   - snapshot.storage.k8s.io_volumesnapshotclasses.yaml
   - snapshot.storage.k8s.io_volumesnapshotcontents.yaml
   - snapshot.storage.k8s.io_volumesnapshots.yaml
+
+  # cert-manager (needed before it installs so that the cluster-issuer can pass the dry run check)
+  - crd-cluster-issuer.yaml

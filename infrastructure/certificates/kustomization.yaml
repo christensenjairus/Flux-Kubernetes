@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - repository.yaml
-  - release.yaml
   - cloudflare-api-key-secret.yaml
+  - release.yaml
+  - cluster-issuer.yaml
