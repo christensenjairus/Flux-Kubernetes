@@ -40,18 +40,6 @@ spec:
         repo1-retention-full: "21" # three weeks
         repo1-retention-full-type: time # count in days
         repo1-retention-diff: "7"
-
-#        repo2-s3-uri-style: path
-#        repo2-retention-full: "21" # three weeks
-#        repo2-retention-full-type: time # count in days
-#        repo2-retention-diff: "7"
-#      manual:
-#        repoName: repo2 # when running a manual backup, do a full backup to repo2
-#        options:
-#          - --type=full
-#      configuration:
-#        - secret:
-#            name: minio-database-minio-credentials
       repos:
       - name: repo1
         schedules:
@@ -65,14 +53,6 @@ spec:
             resources:
               requests:
                 storage: 5Gi # stores ~9 backups here
-#      - name: repo2
-#        schedules:
-#          full: "0 1 * * 0" # weekly on Sunday at 1am
-#          differential: "0 1 * * 1-6" # daily at 1am every day except Sunday
-#        s3:
-#          bucket: "harbor"
-#          endpoint: "nas3.christensencloud.us"
-#          region: "default"
   monitoring:
     pgmonitor:
       exporter:
