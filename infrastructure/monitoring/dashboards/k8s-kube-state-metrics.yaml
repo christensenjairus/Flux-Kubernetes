@@ -3911,7 +3911,7 @@ data:
       "refresh": "30s",
       "schemaVersion": 39,
       "tags": [
-        "k8s",
+        "k8s"
       ],
       "templating": {
         "list": [

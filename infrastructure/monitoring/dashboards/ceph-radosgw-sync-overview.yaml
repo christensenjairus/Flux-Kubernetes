@@ -426,7 +426,7 @@ data:
       "schemaVersion": 16,
       "style": "dark",
       "tags": [
-          "ceph",
+          "ceph"
       ],
       "templating": {
           "list": [
