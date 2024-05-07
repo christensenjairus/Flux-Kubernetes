@@ -14065,7 +14065,7 @@ data:
       "refresh": "30s",
       "schemaVersion": 39,
       "tags": [
-        "linux"
+        "nodes"
       ],
       "templating": {
         "list": [

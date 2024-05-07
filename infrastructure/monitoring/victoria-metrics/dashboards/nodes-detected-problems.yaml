@@ -598,6 +598,7 @@ data:
       "refresh": "30s",
       "schemaVersion": 39,
       "tags": [
+        "nodes",
         "node-problem-detector"
       ],
       "templating": {
@@ -692,7 +693,7 @@ data:
       },
       "timepicker": {},
       "timezone": "browser",
-      "title": "Node Problem Detector",
+      "title": "Nodes / Detected Problems",
       "uid": "6wz5Uh1nk",
       "version": 2,
       "weekStart": ""

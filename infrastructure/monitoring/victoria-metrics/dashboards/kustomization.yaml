@@ -10,7 +10,7 @@ resources:
   - k8s-views-global.yaml
   - k8s-views-namespaces.yaml
   - k8s-views-pods.yaml
-  - nodes.yaml
+  - nodes-overview.yaml
   - vm-backupmanager.yaml
   - vm-cluster.yaml
   - vm-operator.yaml
@@ -39,7 +39,7 @@ resources:
   - postgres-database.yaml
 
   # node-problem-detector dashboard
-  - node-problem-detector.yaml
+  - nodes-detected-problems.yaml
 
   # Ceph Dashboards from their repo here: https://github.com/ceph/ceph/tree/main/monitoring/ceph-mixin/dashboards_out
   - ceph-cephfs-overview.yaml
