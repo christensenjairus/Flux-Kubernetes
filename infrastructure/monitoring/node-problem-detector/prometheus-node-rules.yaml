@@ -1,0 +1,143 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: prometheus-node-rules
+  namespace: node-problem-detector
+spec:
+  groups:
+  - name: node-problem-detector.rules
+    rules:
+    - alert: NodeProblemTaskHung
+      annotations:
+        description: Task hung in node {{ $labels.node }}
+        summary: Task hung
+      expr: increase(problem_counter{reason="TaskHung"}[2m]) > 0
+      for: 1s
+      labels:
+        severity: warning
+    - alert: NodeProblemOOMKilling
+      annotations:
+        description: Process Out-Of-Memory Killed in node {{ $labels.node }}
+        summary: Process Out-Of-Memory Killed
+      expr: increase(problem_counter{reason="OOMKilling"}[2m]) > 0
+      for: 1s
+      labels:
+        severity: warning
+    - alert: NodeProblemUnregisterNetDevice
+      annotations:
+        description: Unable to unregister a network device in node {{ $labels.node
+          }}
+        summary: Unregister Network Device
+      expr: increase(problem_counter{reason="UnregisterNetDevice"}[2m]) > 0
+      for: 1s
+      labels:
+        severity: warning
+    - alert: NodeProblemMemoryReadError
+      annotations:
+        description: CE memory read error in node {{ $labels.node }}
+        summary: Memory Read Error
+      expr: increase(problem_counter{reason="MemoryReadError"}[2m]) > 0
+      for: 1s
+      labels:
+        severity: warning
+    - alert: NodeProblemKernelOops
+      annotations:
+        description: Kernel oops detected in node {{ $labels.node }}
+        summary: Kernel oops
+      expr: increase(problem_counter{reason="KernelOops"}[2m]) > 0
+      for: 1s
+      labels:
+        severity: warning
+    - alert: NodeProblemIOError
+      annotations:
+        description: Buffer I/O error in node {{ $labels.node }}
+        summary: Buffer I/O error
+      expr: increase(problem_counter{reason="IOError"}[2m]) > 0
+      for: 1s
+      labels:
+        severity: warning
+    - alert: NodeProblemFilesystemIsReadOnly
+      annotations:
+        description: Filesystem is read only in node {{ $labels.node }}
+        summary: Filesystem is read only
+      expr: increase(problem_counter{reason="FilesystemIsReadOnly"}[2m]) > 0
+      for: 1s
+      labels:
+        severity: warning
+    - alert: NodeProblemExt4Warning
+      annotations:
+        description: EXT4-fs warning in node {{ $labels.node }}
+        summary: EXT4-fs warning
+      expr: increase(problem_counter{reason="Ext4Warning"}[2m]) > 0
+      for: 1s
+      labels:
+        severity: warning
+    - alert: NodeProblemExt4Error
+      annotations:
+        description: EXT4-fs error in node {{ $labels.node }}
+        summary: EXT4-fs error
+      expr: increase(problem_counter{reason="Ext4Error"}[2m]) > 0
+      for: 1s
+      labels:
+        severity: warning
+    - alert: NodeProblemDockerHung
+      annotations:
+        description: Docker hung in node {{ $labels.node }}
+        summary: Docker hung
+      expr: increase(problem_counter{reason="DockerHung"}[2m]) > 0
+      for: 1s
+      labels:
+        severity: warning
+    - alert: NodeProblemDockerContainerStartupFailure
+      annotations:
+        description: Docker container startup failure in node {{ $labels.node }}
+        summary: Docker container startup failure
+      expr: increase(problem_counter{reason="DockerContainerStartupFailure"}[2m])
+        > 0
+      for: 1s
+      labels:
+        severity: warning
+    - alert: NodeProblemCorruptDockerOverlay2
+      annotations:
+        description: Corrupt docker overlay2 in node {{ $labels.node }}
+        summary: Corrupt docker overlay2
+      expr: increase(problem_counter{reason="CorruptDockerOverlay2"}[2m]) > 0
+      for: 1s
+      labels:
+        severity: warning
+    - alert: NodeProblemCorruptDockerImage
+      annotations:
+        description: Corrupt docker image in node {{ $labels.node }}
+        summary: Corrupt docker image
+      expr: increase(problem_counter{reason="CorruptDockerImage"}[2m]) > 0
+      for: 1s
+      labels:
+        severity: warning
+    - alert: NodeProblemGaugeCorruptDockerOverlay2
+      annotations:
+        description: Corrupt docker overlay2 is affecting node {{ $labels.node }}
+        summary: Corrupt docker overlay2
+      expr: increase(problem_gauge{reason="CorruptDockerOverlay2",type="CorruptDockerOverlay2"}[2m])
+        > 0
+      for: 1s
+      labels:
+        severity: critical
+    - alert: NodeProblemGaugeDockerHung
+      annotations:
+        description: Docker hung (Kernel deadlock) is affecting node {{ $labels.node
+          }}
+        summary: Docker hung
+      expr: increase(problem_gauge{reason="DockerHung",type="KernelDeadlock"}[2m])
+        > 0
+      for: 1s
+      labels:
+        severity: critical
+    - alert: NodeProblemGaugeFilesystemIsReadOnly
+      annotations:
+        description: Read only filesystem is affecting node {{ $labels.node }}
+        summary: Filesystem is read only
+      expr: increase(problem_gauge{reason="FilesystemIsReadOnly",type="ReadonlyFilesystem"}[2m])
+        > 0
+      for: 1s
+      labels:
+        severity: critical

@@ -139,7 +139,7 @@ spec:
         additionalRelabelings: []
         metricRelabelings: []
       prometheusRule:
-        enabled: true
+        enabled: false # apply these manually
         defaultRules:
           create: true
           disabled: []
