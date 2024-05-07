@@ -154,11 +154,11 @@ spec:
           enableTCP6: "false"
           loggerTimezone: "America/Denver"
           memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
-#          maxLabelsPerTimeseries: "100" # default is 30
+          # maxLabelsPerTimeseries: "100" # default is 30
         resources:
           limits:
             cpu: 1500m # default is 1200m
-            memory: 1500Mi # default is 1500Mi
+            memory: 2500Mi # default is 1500Mi
           requests:
             cpu: 500m # default is 150m
             memory: 500Mi # default is 500Mi

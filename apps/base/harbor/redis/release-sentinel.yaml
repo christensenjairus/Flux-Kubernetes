@@ -122,8 +122,8 @@ spec:
 
     priorityClassName: ""
 
-    nodeSelector: { }
-    # memory: medium
+    nodeSelector:
+      nodeclass: database
 
     podSecurityContext:
       runAsUser: 1000
@@ -131,15 +131,16 @@ spec:
 
     securityContext: { }
 
-    affinity: { }
-      # nodeAffinity:
-      #   requiredDuringSchedulingIgnoredDuringExecution:
-      #     nodeSelectorTerms:
-      #     - matchExpressions:
-      #       - key: disktype
-      #         operator: In
-    #         values:
-    #         - ssd
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: "app.kubernetes.io/instance"
+                  operator: "In"
+                  values:
+                    - "harbor-sentinel"
+            topologyKey: "kubernetes.io/hostname"
 
     tolerations: [ ]
       # - key: "key"

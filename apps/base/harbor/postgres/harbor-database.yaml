@@ -16,6 +16,7 @@ spec:
   instances:
     - name: postgres
       replicas: 3
+      minAvailable: 1 # pod disruption budget used here
       dataVolumeClaimSpec:
         storageClassName: ceph-block
         accessModes:
@@ -24,15 +25,26 @@ spec:
           requests:
             storage: 3Gi # replicated, 3Gi per replica
       affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
-              labelSelector:
-                matchLabels:
-                  postgres-operator.crunchydata.com/cluster: harbor-db
-                  postgres-operator.crunchydata.com/instance-set: postgres
+        nodeAffinity: # try to only schedule on database nodes. (operator still takes this as a suggestion)
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: "nodeclass"
+                    operator: "In"
+                    values:
+                      - "database"
+      topologySpreadConstraints: # spread the replicas across the nodes
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              postgres-operator.crunchydata.com/cluster: harbor-db
+            matchExpressions:
+              - key: postgres-operator.crunchydata.com/data
+                operator: In
+                values:
+                  - postgres
   backups:
     pgbackrest:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.49-0

@@ -113,8 +113,8 @@ spec:
 
     priorityClassName: ""
 
-    nodeSelector: { }
-    # memory: medium
+    nodeSelector:
+     nodeclass: database
 
     storageSpec:
       volumeClaimTemplate:
@@ -132,15 +132,16 @@ spec:
 
     securityContext: { }
 
-    affinity: { }
-      # nodeAffinity:
-      #   requiredDuringSchedulingIgnoredDuringExecution:
-      #     nodeSelectorTerms:
-      #     - matchExpressions:
-      #       - key: disktype
-      #         operator: In
-    #         values:
-    #         - ssd
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: "app.kubernetes.io/instance"
+                  operator: "In"
+                  values:
+                    - "harbor-redis"
+            topologyKey: "kubernetes.io/hostname"
 
     tolerations: [ ]
       # - key: "key"
