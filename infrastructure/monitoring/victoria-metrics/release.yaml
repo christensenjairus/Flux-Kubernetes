@@ -646,13 +646,16 @@ spec:
         image:
           tag: v1.100.1
         evaluationInterval: 15s
-
+        extraArgs:
+          memory.allowedPercent: "95"
+          enableTCP6: "false"
+          loggerTimezone: "America/Denver"
         resources:
           limits:
             cpu: 1000m # default is 200m
             memory: 500Mi
           requests:
-            cpu: 50m
+            cpu: 100m # default is 50m
             memory: 200Mi
 
         # External labels to add to all generated recording rules and alerts
