@@ -18,7 +18,7 @@ My kubernetes cluster configurations orchestrated by Flux.
 
 See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to know how I set up my clusters on Proxmox.
 
-### List of Flux-Managed Apps
+### List of Flux-Managed Infrastructure
 * Cert-Manager w/ DNS ClusterIssuer
 * Cilium with clustermesh, l2announcements, externalIPs, and full eBPF
 * Democratic-CSI for NFS & iSCSI
@@ -26,10 +26,6 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 * Redis Operator
 * Goldilocks
 * Groundcover
-* Harbor Registry
-  * HA Redis
-  * HA Postgres
-  * Stores docker images & database backups in Minio
 * Private Nginx Ingress
 * Public Nginx Ingress
 * Keda
@@ -45,3 +41,9 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 * Rook-Ceph
 * Velero (connected to Minio)
 * Vertical Pod Autoscaler
+
+### List of Flux-Managed Apps
+* Harbor Registry
+  * HA Redis
+  * HA Postgres
+  * Stores docker images & database backups in Minio
