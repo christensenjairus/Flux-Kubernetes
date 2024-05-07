@@ -157,11 +157,11 @@ spec:
           # maxLabelsPerTimeseries: "100" # default is 30
         resources:
           limits:
-            cpu: 1500m # default is 1200m
+            cpu: 2500m # default is 1200m
             memory: 2500Mi # default is 1500Mi
           requests:
-            cpu: 500m # default is 150m
-            memory: 500Mi # default is 500Mi
+            cpu: 1000m # default is 150m
+            memory: 1000Mi # default is 500Mi
         storage:
           storageClassName: "ceph-block"
           accessModes:
