@@ -38,6 +38,9 @@ resources:
   # postgres dashboard working with crunchydata postgres-operator. I took the dashboard info from a postgres_exporter dash and edited it
   - postgres-database.yaml
 
+  # node-problem-detector dashboard
+  - node-problem-detector.yaml
+
   # Ceph Dashboards from their repo here: https://github.com/ceph/ceph/tree/main/monitoring/ceph-mixin/dashboards_out
   - ceph-cephfs-overview.yaml
   - ceph-cluster-advanced.yaml
