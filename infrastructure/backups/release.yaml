@@ -613,6 +613,8 @@ spec:
         template:
           ttl: "720h" # one month
           storageLocation: default # use the same name you defined above in backupStorageLocation
+          snapshotVolumes: true # apparently only applies to PVs in AWS, GCP, and Azure?
+          includeClusterResources: true # pvs are cluster-scoped!
           excludedNamespaces:
             - cert-manager
             - cilium-secrets
@@ -646,6 +648,8 @@ spec:
         template:
           ttl: "72h" # 3 days
           storageLocation: default # use the same name you defined above in backupStorageLocation
+          snapshotVolumes: true # apparently only applies to PVs in AWS, GCP, and Azure?
+          includeClusterResources: true # pvs are cluster-scoped!
           excludedNamespaces:
           - cert-manager
           - cilium-secrets
