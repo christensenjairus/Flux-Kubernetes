@@ -601,6 +601,9 @@ spec:
     - patch: |
         - op: remove
           path: /spec/values/splunkOperator/nodeSelector/nodeclass
+        - op: replace
+          path: /spec/values/splunkOperator/volumes/0/persistentVolumeClaim/storageClassName
+          value: "local-path"
       target:
         kind: HelmRelease
         name: splunk-operator
