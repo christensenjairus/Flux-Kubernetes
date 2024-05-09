@@ -1,0 +1,259 @@
+--- # works great, but needed to use splunk-minio instead of splunk-minio. Going to try to reinstall with splunk-minio
+# Source: splunk-enterprise/templates/enterprise_v4_clustermanager.yaml
+apiVersion:  enterprise.splunk.com/v4
+kind: ClusterManager
+metadata:
+  name: cm
+  namespace: splunk
+spec:
+  appRepo: 
+    appSources:
+    - location: idxApps/
+      name: idxApps
+    appsRepoPollIntervalSeconds: 60
+    defaults:
+      scope: cluster
+      volumeName: volume_app_repo
+    volumes:
+    - endpoint: https://nas3.christensencloud.us
+      name: volume_app_repo
+      path: splunk/apps/
+      provider: minio
+      secretRef: splunk-minio
+      storageType: s3
+  smartstore:
+    defaults:
+      volumeName: volume_smartstore
+    indexes:
+    - hotlistRecencySecs: 259206
+      maxGlobalDataSizeMB: 90000
+      maxGlobalRawDataSizeMB: 95000
+      name: main
+      volumeName: volume_smartstore
+    volumes:
+    - endpoint: https://nas3.christensencloud.us
+      name: volume_smartstore
+      path: splunk/indexes/
+      secretRef: splunk-minio
+  imagePullPolicy: IfNotPresent
+  defaults: |-
+    splunk:
+      hec:
+        enable: true
+        ssl: false
+      idxc:
+        replication_factor: 3 # replicate to three indexers
+        search_factor: 3 # allow for one indexer to be down
+      ignore_license: true
+      shc:
+        replication_factor: 2 # allow for one search head to be down
+  livenessInitialDelaySeconds: 300
+  readinessInitialDelaySeconds: 600
+  startupProbe:
+    failureThreshold: 28
+    initialDelaySeconds: 60
+  livenessProbe:
+    failureThreshold: 29
+  readinessProbe:
+    initialDelaySeconds: 600 # don't use until 10m after starting, once it's ready and stabilized. Helps with HPA.
+    failureThreshold: 60
+  etcVolumeStorageConfig:
+    ephemeralStorage: false
+    storageCapacity: 3Gi
+    storageClassName: ceph-block
+  varVolumeStorageConfig:
+    ephemeralStorage: false
+    storageCapacity: 3Gi
+    storageClassName: ceph-block
+  volumes:
+    - name: configs
+      secret:
+        secretName: splunk-configs
+  defaultsUrl: /mnt/configs/configs.yaml
+  resources:
+    requests:
+      memory: "2Gi"
+      cpu: "2"
+    limits:
+      memory: "4Gi"
+      cpu: "4"
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: nodeclass
+            operator: In
+            values:
+            - general
+---
+# Source: splunk-enterprise/templates/enterprise_v4_indexercluster.yaml
+apiVersion: v1
+kind: List
+items:
+- apiVersion:  enterprise.splunk.com/v4
+  kind: IndexerCluster
+  metadata:
+    name: idx
+    namespace: splunk
+  spec:
+    replicas: 3
+    clusterManagerRef:
+      name: cm
+    imagePullPolicy: IfNotPresent
+    defaults: |-
+      splunk:
+        disable_popups: true
+        hec:
+          enable: true
+          ssl: false
+        idxc:
+          replication_factor: 3 # replicate to three indexers
+          search_factor: 3 # allow for one indexer to be down
+        ignore_license: true
+        shc:
+          replication_factor: 2 # allow for one search head to be down
+    livenessInitialDelaySeconds: 300
+    readinessInitialDelaySeconds: 600
+    startupProbe:
+      failureThreshold: 28
+      initialDelaySeconds: 60
+    livenessProbe:
+      failureThreshold: 29
+    readinessProbe:
+      initialDelaySeconds: 600 # don't use until 10m after starting, once it's ready and stabilized. Helps with HPA.
+      failureThreshold: 60
+    etcVolumeStorageConfig:
+      ephemeralStorage: false
+      storageCapacity: 3Gi
+      storageClassName: ceph-block
+    varVolumeStorageConfig:
+      ephemeralStorage: false
+      storageCapacity: 100Gi
+      storageClassName: ceph-block
+    volumes:
+      - name: configs
+        secret:
+          secretName: splunk-configs
+    defaultsUrl: /mnt/configs/configs.yaml
+    resources:
+      requests:
+        memory: "2Gi"
+        cpu: "2"
+      limits:
+        memory: "4Gi"
+        cpu: "4"
+    topologySpreadConstraints:
+      - labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/component
+            operator: In
+            values:
+            - indexer
+          matchLabels:
+            app.kubernetes.io/instance: splunk-idx-indexer
+        maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: nodeclass
+              operator: In
+              values:
+              - general
+---
+# Source: splunk-enterprise/templates/enterprise_v4_searchheadcluster.yaml
+apiVersion: v1
+kind: List
+items:
+- apiVersion:  enterprise.splunk.com/v4
+  kind: SearchHeadCluster
+  metadata:
+    name: shc
+    namespace: splunk
+  spec:
+    replicas: 3
+    appRepo: 
+      appSources:
+      - location: shcApps/
+        name: shcApps
+      appsRepoPollIntervalSeconds: 60
+      defaults:
+        scope: cluster
+        volumeName: volume_app_repo
+      volumes:
+      - endpoint: https://nas3.christensencloud.us
+        name: volume_app_repo
+        path: splunk/apps/
+        provider: minio
+        secretRef: splunk-minio
+        storageType: s3
+    clusterManagerRef:
+      name: cm
+    imagePullPolicy: IfNotPresent
+    defaults: |-
+      splunk:
+        disable_popups: true
+        hec:
+          enable: true
+          ssl: false
+        idxc:
+          replication_factor: 3 # replicate to three indexers
+          search_factor: 3 # allow for one indexer to be down
+        ignore_license: true
+        shc:
+          replication_factor: 2 # allow for one search head to be down
+    livenessInitialDelaySeconds: 300
+    readinessInitialDelaySeconds: 600
+    startupProbe:
+      failureThreshold: 28
+      initialDelaySeconds: 60
+    livenessProbe:
+      failureThreshold: 29
+    readinessProbe:
+      initialDelaySeconds: 600 # don't use until 10m after starting, once it's ready and stabilized. Helps with HPA.
+      failureThreshold: 60
+    etcVolumeStorageConfig:
+      ephemeralStorage: false
+      storageCapacity: 3Gi
+      storageClassName: ceph-block
+    varVolumeStorageConfig:
+      ephemeralStorage: false
+      storageCapacity: 5Gi
+      storageClassName: ceph-block
+    volumes:
+      - name: configs
+        secret:
+          secretName: splunk-configs
+    defaultsUrl: /mnt/configs/configs.yaml
+    resources:
+      requests:
+        memory: "2Gi"
+        cpu: "2"
+      limits:
+        memory: "4Gi"
+        cpu: "4"
+    topologySpreadConstraints:
+      - labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/component
+            operator: In
+            values:
+            - search-head
+          matchLabels:
+            app.kubernetes.io/instance: splunk-shc-search-head
+        maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: nodeclass
+              operator: In
+              values:
+              - general

@@ -1,0 +1,146 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+#    nginx.ingress.kubernetes.io/affinity: "cookie"
+#    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
+#    nginx.ingress.kubernetes.io/client-body-buffer-size: 100M
+#    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+#    nginx.ingress.kubernetes.io/session-cookie-samesite: "true"
+#    nginx.ingress.kubernetes.io/session-cookie-path: "/en-US"
+#    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+#    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+#    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+  name: splunk-collector
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: splunk-collector.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: splunk-idx-indexer-service
+                port:
+                  number: 8088
+            path: /services/collector/event/
+            pathType: Prefix
+  tls:
+    - hosts:
+        - splunk-collector.christensencloud.us
+      secretName: splunk-collector-christensencloud.us-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 100M
+    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "true"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/en-US"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+  name: splunk-services
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: splunk-manager.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: splunk-cm-cluster-manager-service
+                port:
+                  number: 8000
+            path: /
+            pathType: Prefix
+    - host: splunk-deployer.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: splunk-shc-deployer-service
+                port:
+                  number: 8000
+            path: /
+            pathType: Prefix
+#    - host: splunk-indexer-christensencloud.us
+#      http:
+#        paths:
+#          - backend:
+#              service:
+#                name: splunk-idx-indexer-service
+#                port:
+#                  number: 8000
+#            path: /
+#            pathType: Prefix
+#    - host: splunk-license-christensencloud.us
+#      http:
+#        paths:
+#          - backend:
+#              service:
+#                name: splunk-lm-license-manager-service
+#                port:
+#                  number: 8000
+#            path: /
+#            pathType: Prefix
+  tls:
+    - hosts:
+        - splunk-manager.christensencloud.us
+      secretName: splunk-manager-christensencloud.us-tls
+    - hosts:
+        - splunk-deployer.christensencloud.us
+      secretName: splunk-deployer-christensencloud.us-tls
+#    - hosts:
+#        - splunk-indexer-christensencloud.us
+#      secretName: splunk-indexer-christensencloud.us-tls
+#    - hosts:
+#        - splunk-license-christensencloud.us
+#      secretName: splunk-license-christensencloud.us-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 100M
+    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "true"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/en-US"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+  name: splunk-web
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: splunk.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: splunk-shc-search-head-service
+                port:
+                  number: 8000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - splunk.christensencloud.us
+      secretName: splunk-christensencloud.us-tls

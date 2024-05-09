@@ -597,3 +597,22 @@ spec:
   path: ./infrastructure/general-operators
   prune: true
   wait: true
+  patches:
+    - patch: |
+        - op: remove
+          path: /spec/values/splunkOperator/nodeSelector/nodeclass
+      target:
+        kind: HelmRelease
+        name: splunk-operator
+    - patch: |
+        - op: remove
+          path: /spec/values/nodeSelector/nodeclass
+      target:
+        kind: HelmRelease
+        name: redis-operator
+    - patch: |
+        - op: remove
+          path: /spec/template/spec/nodeSelector/nodeclass
+      target:
+        kind: Deployment
+        name: postgres-operator

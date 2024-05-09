@@ -1,0 +1,22 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: splunk-operator
+  namespace: general-operators
+spec:
+  namespaceSelector:
+    matchNames:
+      - general-operators
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: splunk-operator
+  podTargetLabels:
+    - app.kubernetes.io/name
+    - control-plane
+  podMetricsEndpoints:
+    - port: metric
+      path: /metrics
+      honorLabels: true
+      interval: 10s
+#      relabelings:
+#      - sourceLabels:...

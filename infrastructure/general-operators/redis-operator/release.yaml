@@ -71,7 +71,8 @@ spec:
       enabled: false
 
     priorityClassName: ""
-    nodeSelector: { }
+    nodeSelector:
+      nodeclass: general
     tolerateAllTaints: false
     tolerations: [ ]
     affinity: { }

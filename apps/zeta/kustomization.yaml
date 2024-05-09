@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ../base/podinfo
   - ../base/harbor
+  - ../base/splunk
 patches:
   - path: podinfo-values.yaml
     target:
