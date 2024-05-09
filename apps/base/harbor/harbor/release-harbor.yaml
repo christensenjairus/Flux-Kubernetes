@@ -588,7 +588,7 @@ spec:
       tolerations: []
       affinity: {}
       # Spread Pods across failure-domains like regions, availability zones or nodes
-      topologySpreadConstraints:
+      topologySpreadConstraints: []
       # - maxSkew: 1
       #   topologyKey: topology.kubernetes.io/zone
       #   nodeTaintsPolicy: Honor

@@ -143,18 +143,6 @@ items:
       limits:
         memory: "4Gi"
         cpu: "4"
-    topologySpreadConstraints:
-      - labelSelector:
-          matchExpressions:
-          - key: app.kubernetes.io/component
-            operator: In
-            values:
-            - indexer
-          matchLabels:
-            app.kubernetes.io/instance: splunk-idx-indexer
-        maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: ScheduleAnyway
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -164,6 +152,19 @@ items:
               operator: In
               values:
               - general
+      podAntiAffinity: # don't schedule on the same node as another
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                    - splunk-idx-indexer
+                - key: app.kubernetes.io/component
+                  operator: In
+                  values:
+                    - indexer
+            topologyKey: topology.kubernetes.io/hostname
 ---
 # Source: splunk-enterprise/templates/enterprise_v4_searchheadcluster.yaml
 apiVersion: v1
@@ -236,18 +237,6 @@ items:
       limits:
         memory: "4Gi"
         cpu: "4"
-    topologySpreadConstraints:
-      - labelSelector:
-          matchExpressions:
-          - key: app.kubernetes.io/component
-            operator: In
-            values:
-            - search-head
-          matchLabels:
-            app.kubernetes.io/instance: splunk-shc-search-head
-        maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: ScheduleAnyway
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -257,3 +246,16 @@ items:
               operator: In
               values:
               - general
+      podAntiAffinity: # don't schedule on the same node as another
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                    - splunk-shc-search-head
+                - key: app.kubernetes.io/component
+                  operator: In
+                  values:
+                    - search-head
+            topologyKey: topology.kubernetes.io/hostname
