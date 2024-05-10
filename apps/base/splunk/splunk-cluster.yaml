@@ -63,7 +63,7 @@ spec:
     storageClassName: ceph-block
   varVolumeStorageConfig:
     ephemeralStorage: false
-    storageCapacity: 3Gi
+    storageCapacity: 10Gi
     storageClassName: ceph-block
   volumes:
     - name: configs
@@ -223,7 +223,7 @@ items:
       storageClassName: ceph-block
     varVolumeStorageConfig:
       ephemeralStorage: false
-      storageCapacity: 5Gi
+      storageCapacity: 10Gi
       storageClassName: ceph-block
     volumes:
       - name: configs
