@@ -48,15 +48,15 @@ spec:
       shc:
         replication_factor: 2 # allow for one search head to be down
   livenessInitialDelaySeconds: 300
-  readinessInitialDelaySeconds: 600
+  readinessInitialDelaySeconds: 300
   startupProbe:
     failureThreshold: 28
     initialDelaySeconds: 60
   livenessProbe:
     failureThreshold: 29
   readinessProbe:
-    initialDelaySeconds: 600 # don't use until 10m after starting, once it's ready and stabilized. Helps with HPA.
-    failureThreshold: 60
+    initialDelaySeconds: 300 # don't use until 5m after starting, once it's ready and stabilized.
+    failureThreshold: 120
   etcVolumeStorageConfig:
     ephemeralStorage: false
     storageCapacity: 3Gi
@@ -114,15 +114,15 @@ items:
         shc:
           replication_factor: 2 # allow for one search head to be down
     livenessInitialDelaySeconds: 300
-    readinessInitialDelaySeconds: 600
+    readinessInitialDelaySeconds: 300
     startupProbe:
       failureThreshold: 28
       initialDelaySeconds: 60
     livenessProbe:
       failureThreshold: 29
     readinessProbe:
-      initialDelaySeconds: 600 # don't use until 10m after starting, once it's ready and stabilized. Helps with HPA.
-      failureThreshold: 60
+      initialDelaySeconds: 300 # don't use until 5m after starting, once it's ready and stabilized.
+      failureThreshold: 120
     etcVolumeStorageConfig:
       ephemeralStorage: false
       storageCapacity: 3Gi
@@ -208,15 +208,15 @@ items:
         shc:
           replication_factor: 2 # allow for one search head to be down
     livenessInitialDelaySeconds: 300
-    readinessInitialDelaySeconds: 600
+    readinessInitialDelaySeconds: 300
     startupProbe:
       failureThreshold: 28
       initialDelaySeconds: 60
     livenessProbe:
       failureThreshold: 29
     readinessProbe:
-      initialDelaySeconds: 600 # don't use until 10m after starting, once it's ready and stabilized. Helps with HPA.
-      failureThreshold: 60
+      initialDelaySeconds: 300 # don't use until 5m after starting, once it's ready and stabilized.
+      failureThreshold: 120
     etcVolumeStorageConfig:
       ephemeralStorage: false
       storageCapacity: 3Gi
