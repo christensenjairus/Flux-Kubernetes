@@ -21,6 +21,7 @@ spec:
     - name: infra-observability-nr
     - name: infra-policies
     - name: infra-scaling
+    - name: infra-scheduling
     - name: infra-virt
   sourceRef:
     kind: GitRepository

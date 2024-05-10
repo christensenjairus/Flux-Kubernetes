@@ -22,8 +22,8 @@ spec:
       secretRef: splunk-minio
       storageType: s3
   smartstore:
-    defaults:
-      volumeName: volume_smartstore
+#    defaults:
+#      volumeName: volume_smartstore
     indexes:
     - hotlistRecencySecs: 259206
       maxGlobalDataSizeMB: 90000
@@ -58,11 +58,11 @@ spec:
     initialDelaySeconds: 300 # don't use until 5m after starting, once it's ready and stabilized.
     failureThreshold: 120
   etcVolumeStorageConfig:
-    ephemeralStorage: false
+    ephemeralStorage: true # I don't believe there's anything important stored here
     storageCapacity: 3Gi
     storageClassName: ceph-block
   varVolumeStorageConfig:
-    ephemeralStorage: false
+    ephemeralStorage: true # I don't believe there's anything important stored here
     storageCapacity: 10Gi
     storageClassName: ceph-block
   volumes:
@@ -103,7 +103,6 @@ items:
     imagePullPolicy: IfNotPresent
     defaults: |-
       splunk:
-        disable_popups: true
         hec:
           enable: true
           ssl: false
@@ -124,7 +123,7 @@ items:
       initialDelaySeconds: 300 # don't use until 5m after starting, once it's ready and stabilized.
       failureThreshold: 120
     etcVolumeStorageConfig:
-      ephemeralStorage: false
+      ephemeralStorage: true # I don't believe there's anything important stored here
       storageCapacity: 3Gi
       storageClassName: ceph-block
     varVolumeStorageConfig:
