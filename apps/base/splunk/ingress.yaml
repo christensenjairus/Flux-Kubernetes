@@ -16,6 +16,7 @@ metadata:
 #    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
 #    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
   name: splunk-collector
+  namespace: splunk
 spec:
   ingressClassName: nginx-public
   rules:
@@ -52,6 +53,7 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
     nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
   name: splunk-services
+  namespace: splunk
 spec:
   ingressClassName: nginx-private
   rules:
@@ -127,6 +129,7 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
     nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
   name: splunk-web
+  namespace: splunk
 spec:
   ingressClassName: nginx-private
   rules:

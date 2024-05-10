@@ -4,6 +4,24 @@ metadata:
   name: harbor-db
   namespace: harbor
 spec:
+
+  ### perform a restore of the latest backup. See lower for how to do an in-place point-in-time restore.
+#  dataSource:
+#    postgresCluster:
+#      clusterName: harbor-db
+#      repoName: repo2
+  ### end latest backup restore
+
+  ### perform a clone of a point-in-time. See lower for how to do an in-place point-in-time restore.
+#  dataSource:
+#    postgresCluster:
+#      clusterName: <pgcluster_to_clone> # if you want to clone this one, rename the manifest and put the original name here.
+#      repoName: repo2
+#      options:
+#        - --type=time
+#        - --target="2024-05-09 20:00:00-06" # will restore the latest backup that precedes this time. The dash and the last two digits are the timezone offset. -06 is mountain daylight time.
+  ### end clone of point-in-time.
+
   users:
     - name: harbor
       password:
@@ -48,16 +66,29 @@ spec:
               topologyKey: topology.kubernetes.io/hostname
   backups:
     pgbackrest:
+
+      ### in-place point-in-time restore. See above for how to do a restore of the latest backup or make a clone instead of an in-place restore.
+#      restore:
+#        enabled: true # Set it to true until the restore is complete, then set it to false.
+#        repoName: repo2
+#        options:
+#          - --type=time
+#          - --target="2024-05-09 20:00:00-06" # will restore the latest backup that precedes this time. The dash and the last two digits are the timezone offset. -06 is mountain daylight time.
+        # after this is complete, you must annotate the cluster to trigger the restore
+        # kubectl annotate -n harbor postgrescluster harbor-db --overwrite postgres-operator.crunchydata.com/pgbackrest-restore="$(date)"
+        # once the restore is done, comment out this section and re-apply the manifest.
+      ### end point-in-time restore
+
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.49-0
       global:
-        repo1-retention-full: "21" # three weeks
+        repo1-retention-full: "7" # one week
         repo1-retention-full-type: time # count in days
-        repo1-retention-diff: "7"
+        repo1-retention-diff: "3" # three days
 
         repo2-s3-uri-style: path
         repo2-retention-full: "21" # three weeks
         repo2-retention-full-type: time # count in days
-        repo2-retention-diff: "7"
+        repo2-retention-diff: "7" # one week
       manual:
         repoName: repo2 # when running a manual backup, do a full backup to repo2
         options:
@@ -68,8 +99,8 @@ spec:
       repos:
       - name: repo1
         schedules:
-          full: "0 1 * * 0" # weekly on Sunday at 1am
-          differential: "0 1 * * 1-6" # daily at 1am every day except Sunday
+          full: "0 1 * * *" # daily at 1am
+          differential: "30 * * * *" # every hour at :30
         volume:
           volumeClaimSpec:
             storageClassName: ceph-block
@@ -77,11 +108,11 @@ spec:
             - "ReadWriteOnce"
             resources:
               requests:
-                storage: 5Gi # stores ~9 backups here
+                storage: 5Gi
       - name: repo2
         schedules:
-          full: "0 1 * * 0" # weekly on Sunday at 1am
-          differential: "0 1 * * 1-6" # daily at 1am every day except Sunday
+          full: "0 0 * * *" # daily at midnight
+          differential: "0 * * * *" # every hour on the hour
         s3:
           bucket: "harbor"
           endpoint: "nas3.christensencloud.us"
