@@ -21,7 +21,7 @@ spec:
     # Declare variables to be passed into your templates.
 
     # CronJob or Deployment
-    kind: CronJob
+    kind: Deployment
 
     image:
       repository: registry.k8s.io/descheduler/descheduler
@@ -70,7 +70,7 @@ spec:
     # timeZone: Etc/UTC
 
     # Required when running as a Deployment
-    deschedulingInterval: 5m
+    deschedulingInterval: 10m
 
     # Specifies the replica count for Deployment
     # Set leaderElection if you want to use more than 1 replica
@@ -207,7 +207,7 @@ spec:
       periodSeconds: 10
 
     service:
-      enabled: false
+      enabled: true
       # @param service.ipFamilyPolicy [string], support SingleStack, PreferDualStack and RequireDualStack
       #
       ipFamilyPolicy: ""
