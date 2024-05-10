@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: collectorforkubernetes
+  labels:
+    toolkit.fluxcd.io/tenant: dev-team
+    goldilocks.fairwinds.com/enabled: "true"
+    app: collectorforkubernetes

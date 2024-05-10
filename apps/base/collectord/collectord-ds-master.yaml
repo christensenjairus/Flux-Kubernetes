@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: collectorforkubernetes-master
+  namespace: collectorforkubernetes
+  labels:
+    app: collectorforkubernetes
+spec:
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      daemon: collectorforkubernetes
+  template:
+    metadata:
+      name: collectorforkubernetes-master
+      labels:
+        daemon: collectorforkubernetes
+    spec:
+      priorityClassName: collectorforkubernetes-critical
+      dnsPolicy: ClusterFirstWithHostNet
+      imagePullSecrets:
+        - name: homelab-registry-creds
+      hostNetwork: true
+      serviceAccountName: collectorforkubernetes
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
+      tolerations:
+      - operator: "Exists"
+        effect: "NoSchedule"
+      - operator: "Exists"
+        effect: "NoExecute"
+      containers:
+      - name: collectorforkubernetes
+        image: outcoldsolutions/collectorforkubernetes:latest
+        imagePullPolicy: Always
+        securityContext:
+          runAsUser: 0
+          privileged: true
+        resources:
+          limits:
+            cpu: 2
+            memory: 512Mi
+          requests: {}
+            # cpu: 200m
+            # memory: 192Mi
+        env:
+        - name: KUBERNETES_NODENAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        volumeMounts:
+        - name: collectorforkubernetes-state
+          mountPath: /data
+        - name: collectorforkubernetes-config
+          mountPath: /config/
+          readOnly: true
+        - name: rootfs
+          mountPath: /rootfs/
+          readOnly: true
+          mountPropagation: HostToContainer
+        - name: localtime
+          mountPath: /etc/localtime
+          readOnly: true
+      volumes:
+      - name: collectorforkubernetes-state
+        hostPath:
+          path: /var/lib/collectorforkubernetes/data/
+          type: DirectoryOrCreate
+      - name: rootfs
+        hostPath:
+          path: /
+      - name: localtime
+        hostPath:
+          path: /etc/localtime
+      - name: collectorforkubernetes-config
+        secret:
+          secretName: collectorforkubernetes
+          items:
+          - key: 001-general.conf
+            path: 001-general.conf
+          - key: 002-daemonset.conf
+            path: 002-daemonset.conf
+          - key: 003-daemonset-master.conf
+            path: 003-daemonset-master.conf

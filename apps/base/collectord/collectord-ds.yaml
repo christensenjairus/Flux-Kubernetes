@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: collectorforkubernetes
+  namespace: collectorforkubernetes
+  labels:
+    app: collectorforkubernetes
+spec:
+  # Default updateStrategy is OnDelete. For collector RollingUpdate is suitable
+  # When you update configuration
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      daemon: collectorforkubernetes
+  template:
+    metadata:
+      name: collectorforkubernetes
+      labels:
+        daemon: collectorforkubernetes
+    spec:
+      priorityClassName: collectorforkubernetes-critical
+      dnsPolicy: ClusterFirstWithHostNet
+      imagePullSecrets:
+        - name: homelab-registry-creds
+      hostNetwork: true
+      serviceAccountName: collectorforkubernetes
+      # We run this DaemonSet only for Non-Masters
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+      tolerations:
+      - operator: "Exists"
+        effect: "NoSchedule"
+      - operator: "Exists"
+        effect: "NoExecute"
+      containers:
+      - name: collectorforkubernetes
+        # Collector version
+        # ARM images are available with suffix -arm64
+        # image: docker.io/outcoldsolutions/collectorforkubernetes:5.19.391-arm64
+        image: outcoldsolutions/collectorforkubernetes:latest
+        imagePullPolicy: Always
+        securityContext:
+          runAsUser: 0
+          privileged: true
+        # Define your resources if you need. Defaults should be fine for most.
+        # You can lower or increase based on your hosts.
+        resources:
+          limits:
+            cpu: 2
+            memory: 512Mi
+          requests: {}
+            # cpu: 200m
+            # memory: 192Mi
+        env:
+        - name: KUBERNETES_NODENAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        volumeMounts:
+        # We store state in /data folder (file positions)
+        - name: collectorforkubernetes-state
+          mountPath: /data
+        # Configuration file deployed with ConfigMap
+        - name: collectorforkubernetes-config
+          mountPath: /config/
+          readOnly: true
+        # Root filesystem to have access to logs and metrics
+        - name: rootfs
+          mountPath: /rootfs/
+          readOnly: true
+          mountPropagation: HostToContainer
+        # correct timezone
+        - name: localtime
+          mountPath: /etc/localtime
+          readOnly: true
+      volumes:
+      # We store state directly on host, change this location, if
+      # your persistent volume is somewhere else
+      - name: collectorforkubernetes-state
+        hostPath:
+          path: /var/lib/collectorforkubernetes/data/
+          type: DirectoryOrCreate
+      # Location of docker root (for container logs and metadata)
+      - name: rootfs
+        hostPath:
+          path: /
+      # correct timezone
+      - name: localtime
+        hostPath:
+          path: /etc/localtime
+      # configuration from ConfigMap
+      - name: collectorforkubernetes-config
+        secret:
+          secretName: collectorforkubernetes
+          items:
+          - key: 001-general.conf
+            path: 001-general.conf
+          - key: 002-daemonset.conf
+            path: 002-daemonset.conf

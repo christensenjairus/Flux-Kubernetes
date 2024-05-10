@@ -4,6 +4,7 @@ resources:
   - ../base/podinfo
   - ../base/harbor
   - ../base/splunk
+  - ../base/collectord
 patches:
   - path: podinfo-values.yaml
     target:
