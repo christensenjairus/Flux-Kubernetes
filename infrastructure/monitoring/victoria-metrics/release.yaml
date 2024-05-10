@@ -157,11 +157,11 @@ spec:
           maxLabelsPerTimeseries: "250" # default is 30. KubeVirt has a ton of labels. If you can find a way to reduce the number of labels, you can reduce this.
         resources:
           limits:
-            cpu: 2500m # default is 1200m
-            memory: 2500Mi # default is 1500Mi
+            cpu: 4000m # default is 1200m
+            memory: 4000Mi # default is 1500Mi. I was getting OOMKilled with less than 3GB.
           requests:
-            cpu: 1000m # default is 150m
-            memory: 1000Mi # default is 500Mi
+            cpu: 2000m # default is 150m
+            memory: 2000Mi # default is 500Mi
         storage:
           storageClassName: "ceph-block"
           accessModes:
