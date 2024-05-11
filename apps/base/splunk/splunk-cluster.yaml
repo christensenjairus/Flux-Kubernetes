@@ -28,7 +28,7 @@ spec:
     - hotlistRecencySecs: 259206
       maxGlobalDataSizeMB: 90000
       maxGlobalRawDataSizeMB: 95000
-      name: s3 # main
+      name: main
       volumeName: volume_smartstore
     volumes:
     - endpoint: https://nas3.christensencloud.us
