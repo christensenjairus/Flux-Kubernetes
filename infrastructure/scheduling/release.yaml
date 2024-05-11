@@ -100,11 +100,13 @@ spec:
     deschedulerPolicyAPIVersion: "descheduler/v1alpha1"
 
     deschedulerPolicy:
-      # nodeSelector: "key1=value1,key2=value2"
-      # maxNoOfPodsToEvictPerNode: 10
-      # maxNoOfPodsToEvictPerNamespace: 10
+      nodeSelector: "nodeclass=general" # I've been careful of which workloads I place on storage/database nodes. The general should be all that's needed.
+      maxNoOfPodsToEvictPerNode: 3
+      maxNoOfPodsToEvictPerNamespace: 1
       ignorePvcPods: true # don't touch pods with PVCs. Default is false.
-      # evictLocalStoragePods: true
+      evictLocalStoragePods: true
+      evictFailedBarePods: true
+      nodeFit: true
       # tracing:
       #   collectorEndpoint: otel-collector.observability.svc.cluster.local:4317
       #   transportCert: ""
