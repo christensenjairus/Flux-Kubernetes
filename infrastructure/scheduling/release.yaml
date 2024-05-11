@@ -103,7 +103,7 @@ spec:
       # nodeSelector: "key1=value1,key2=value2"
       # maxNoOfPodsToEvictPerNode: 10
       # maxNoOfPodsToEvictPerNamespace: 10
-      # ignorePvcPods: true
+      ignorePvcPods: true # don't touch pods with PVCs. Default is false.
       # evictLocalStoragePods: true
       # tracing:
       #   collectorEndpoint: otel-collector.observability.svc.cluster.local:4317
@@ -114,7 +114,7 @@ spec:
       #   fallbackToNoOpProviderOnError: true
       strategies:
         RemoveDuplicates:
-          enabled: true
+          enabled: false # I don't think this is necessary
         RemovePodsHavingTooManyRestarts:
           enabled: true
           params:
@@ -124,7 +124,7 @@ spec:
         RemovePodsViolatingNodeTaints:
           enabled: true
         RemovePodsViolatingNodeAffinity:
-          enabled: true
+          enabled: false # default is true. If enabled, it would not be 'ignored during execution'
           params:
             nodeAffinityType:
             - requiredDuringSchedulingIgnoredDuringExecution
@@ -139,13 +139,13 @@ spec:
           params:
             nodeResourceUtilizationThresholds:
               thresholds:
-                cpu: 40
-                memory: 40
-                pods: 40
+                cpu: 30
+                memory: 30
+                pods: 20
               targetThresholds:
-                cpu: 70
-                memory: 70
-                pods: 70
+                cpu: 80
+                memory: 80
+                pods: 500
 
     priorityClassName: system-cluster-critical
 

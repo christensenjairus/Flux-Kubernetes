@@ -28,7 +28,7 @@ spec:
     - hotlistRecencySecs: 259206
       maxGlobalDataSizeMB: 90000
       maxGlobalRawDataSizeMB: 95000
-      name: main
+      name: s3 # main
       volumeName: volume_smartstore
     volumes:
     - endpoint: https://nas3.christensencloud.us
@@ -50,10 +50,11 @@ spec:
   livenessInitialDelaySeconds: 300
   readinessInitialDelaySeconds: 300
   startupProbe:
-    failureThreshold: 28
-    initialDelaySeconds: 60
+    initialDelaySeconds: 300
+    failureThreshold: 20
   livenessProbe:
-    failureThreshold: 29
+    initialDelaySeconds: 300
+    failureThreshold: 20
   readinessProbe:
     initialDelaySeconds: 300 # don't use until 5m after starting, once it's ready and stabilized.
     failureThreshold: 120
@@ -115,10 +116,11 @@ items:
     livenessInitialDelaySeconds: 300
     readinessInitialDelaySeconds: 300
     startupProbe:
-      failureThreshold: 28
-      initialDelaySeconds: 60
+      initialDelaySeconds: 300
+      failureThreshold: 20
     livenessProbe:
-      failureThreshold: 29
+      initialDelaySeconds: 300
+      failureThreshold: 20
     readinessProbe:
       initialDelaySeconds: 300 # don't use until 5m after starting, once it's ready and stabilized.
       failureThreshold: 120
@@ -209,10 +211,11 @@ items:
     livenessInitialDelaySeconds: 300
     readinessInitialDelaySeconds: 300
     startupProbe:
-      failureThreshold: 28
-      initialDelaySeconds: 60
+      initialDelaySeconds: 300
+      failureThreshold: 20
     livenessProbe:
-      failureThreshold: 29
+      initialDelaySeconds: 300
+      failureThreshold: 20
     readinessProbe:
       initialDelaySeconds: 300 # don't use until 5m after starting, once it's ready and stabilized.
       failureThreshold: 120
@@ -221,7 +224,7 @@ items:
       storageCapacity: 3Gi
       storageClassName: ceph-block
     varVolumeStorageConfig:
-      ephemeralStorage: false
+      ephemeralStorage: true # I don't believe there's anything important stored here
       storageCapacity: 10Gi
       storageClassName: ceph-block
     volumes:

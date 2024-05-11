@@ -29,4 +29,7 @@ spec:
   path: ./apps/zeta
   prune: true
   wait: true
-  timeout: 5m0s
+  timeout: 20m0s
+  # takes a while for harbor and splunk to settle.
+  #   * Splunk needs 5-10 mins for each component, but once the indexers are created, the kustomization will say its applied.
+  #   * Harbor needs manual intervention when setting up a new installation.
