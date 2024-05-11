@@ -105,7 +105,7 @@ spec:
       maxNoOfPodsToEvictPerNamespace: 1
       ignorePvcPods: true # don't touch pods with PVCs. Default is false.
       evictLocalStoragePods: true
-      evictFailedBarePods: true
+      evictFailedBarePods: false # I added this as true and a warning was thrown. "This could cause eviction of pods without ownerReferences"
       nodeFit: true
       # tracing:
       #   collectorEndpoint: otel-collector.observability.svc.cluster.local:4317
@@ -147,7 +147,7 @@ spec:
               targetThresholds:
                 cpu: 80
                 memory: 80
-                pods: 500
+                pods: 100 # this is the max
 
     priorityClassName: system-cluster-critical
 
