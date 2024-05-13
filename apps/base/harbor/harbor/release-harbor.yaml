@@ -229,7 +229,7 @@ spec:
         # be ignored
         database:
           existingClaim: ""
-          storageClass: "ceph-block"
+          storageClass: "ceph-block-3"
           subPath: ""
           accessMode: ReadWriteOnce
           size: 1Gi
@@ -238,7 +238,7 @@ spec:
         # be ignored
         redis:
           existingClaim: ""
-          storageClass: "ceph-block"
+          storageClass: "ceph-block-3"
           subPath: ""
           accessMode: ReadWriteOnce
           size: 1Gi

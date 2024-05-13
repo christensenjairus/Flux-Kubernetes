@@ -199,14 +199,14 @@ clusterManager:
   etcVolumeStorageConfig:
     ephemeralStorage: true
     storageCapacity: 3Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   # Storage configuration for /opt/splunk/var volume
   # To use a StorageClass other than your default StorageClass, specify the storageClassName
   # reference: https://github.com/splunk/splunk-operator/blob/develop/docs/StorageClass.md
   varVolumeStorageConfig:
     ephemeralStorage: true
     storageCapacity: 3Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   # Set resource requests and limits for Splunk instance pod containers
   # reference: https://github.com/splunk/splunk-operator/blob/develop/docs/CustomResources.md#examples-of-guaranteed-and-burstable-qos
   resources: {}
@@ -300,11 +300,11 @@ indexerCluster:
   etcVolumeStorageConfig:
     ephemeralStorage: true
     storageCapacity: 3Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   varVolumeStorageConfig:
     ephemeralStorage: true
     storageCapacity: 100Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   resources: {}
     # requests:
     #   memory: "2Gi"
@@ -437,11 +437,11 @@ searchHeadCluster:
   etcVolumeStorageConfig:
     ephemeralStorage: true
     storageCapacity: 3Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   varVolumeStorageConfig:
     ephemeralStorage: true
     storageCapacity: 5Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   resources: {}
     # requests:
     #   memory: "2Gi"
@@ -553,11 +553,11 @@ monitoringConsole:
   etcVolumeStorageConfig:
     ephemeralStorage: true
     storageCapacity: 3Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   varVolumeStorageConfig:
     ephemeralStorage: true
     storageCapacity: 3Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   resources: {}
     # requests:
     #   memory: "2Gi"
@@ -668,11 +668,11 @@ licenseManager:
   etcVolumeStorageConfig:
     ephemeralStorage: true
     storageCapacity: 3Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   varVolumeStorageConfig:
     ephemeralStorage: true
     storageCapacity: 3Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   resources: {}
     # requests:
     #   memory: "2Gi"
@@ -778,11 +778,11 @@ standalone:
   etcVolumeStorageConfig:
     ephemeralStorage: true
     storageCapacity: 10Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   varVolumeStorageConfig:
     ephemeralStorage: true
     storageCapacity: 100Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   resources: {}
     # requests:
     #   memory: "2Gi"
