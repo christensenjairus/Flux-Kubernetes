@@ -22,6 +22,7 @@ spec:
       secretRef: splunk-minio
       storageType: s3
   smartstore:
+# I won't use this for the default configuration. We don't need to store the _indexes in s3
 #    defaults:
 #      volumeName: volume_smartstore
     indexes:

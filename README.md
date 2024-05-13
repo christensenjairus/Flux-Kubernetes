@@ -24,6 +24,7 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 * Democratic-CSI for NFS & iSCSI
 * Postgres Operator
 * Redis Operator
+* Splunk Operator
 * Goldilocks
 * Groundcover
 * Private Nginx Ingress
@@ -41,9 +42,20 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 * Rook-Ceph
 * Velero (connected to Minio)
 * Vertical Pod Autoscaler
+* Descheduler
 
 ### List of Flux-Managed Apps
 * Harbor Registry
   * HA Redis
   * HA Postgres
-  * Stores docker images & database backups in Minio
+  * Stores docker images & database backups to S3
+* Splunk
+  * 3 indexers, 3 search heads, 1 manager, 1 deployer
+  * Passwords and configs loaded from 1Password
+  * LDAP authentication
+  * `main` index backs up to S3
+  * Auto-installs all Splunk apps in an S3 bucket
+  * Managed by the splunk operator
+* Collectord
+  * Collects logs and metrics and sends to Splunk
+  * Tokens and configs are loaded from 1Password
