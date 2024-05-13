@@ -8,3 +8,4 @@ resources:
   - release.yaml
   - rbac-snapshot-controller.yaml
   - setup-snapshot-controller.yaml
+  - restore-to-different-storageclass.yaml
