@@ -73,7 +73,7 @@ spec:
 #        repoName: repo2
 #        options:
 #          - --type=time
-#          - --target="2024-05-13 15:00:00-06" # will restore the latest backup that precedes this time. The dash and the last two digits are the timezone offset. -06 is mountain daylight time.
+#          - --target="2024-05-13 00:00:00-06" # will restore the latest backup that precedes this time. The dash and the last two digits are the timezone offset. -06 is mountain daylight time.
         # after this is complete, you must annotate the cluster to trigger the restore
         # kubectl annotate -n harbor postgrescluster harbor-db --overwrite postgres-operator.crunchydata.com/pgbackrest-restore="$(date)"
         # once the restore is done, comment out this section and re-apply the manifest.
