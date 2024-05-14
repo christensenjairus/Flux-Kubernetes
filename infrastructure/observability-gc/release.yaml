@@ -202,7 +202,7 @@ spec:
             memory: 300Mi
             cpu: 160m
           limits:
-            memory: 700Mi
+            memory: 1000Mi # default is 700Mi
             cpu: 800m
         nodelabels: []
         contentTypesToDrop: []
