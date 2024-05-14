@@ -149,7 +149,7 @@ spec:
         #     topologyKey: "kubernetes.io/hostname"
       # -- Liveness probes for Metrics API Server ([docs](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/))
       livenessProbe:
-        initialDelaySeconds: 5
+        initialDelaySeconds: 60
         periodSeconds: 10
         timeoutSeconds: 1
         failureThreshold: 3
