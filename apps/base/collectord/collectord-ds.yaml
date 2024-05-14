@@ -21,8 +21,7 @@ spec:
     spec:
       priorityClassName: collectorforkubernetes-critical
       dnsPolicy: ClusterFirstWithHostNet
-      imagePullSecrets:
-        - name: homelab-registry-creds
+      imagePullSecrets: []
       hostNetwork: true
       serviceAccountName: collectorforkubernetes
       # We run this DaemonSet only for Non-Masters
