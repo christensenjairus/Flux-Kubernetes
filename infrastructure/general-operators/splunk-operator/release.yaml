@@ -116,7 +116,7 @@ spec:
         httpGet:
           path: /readyz
           port: 8081
-        initialDelaySeconds: 5
+        initialDelaySeconds: 60
         periodSeconds: 10
 
       # Define splunk operator manager service ports
