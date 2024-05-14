@@ -497,7 +497,7 @@ spec:
         storageClass:
           enabled: true
           name: ceph-block-3
-          isDefault: true
+          isDefault: false
           reclaimPolicy: Delete
           allowVolumeExpansion: true
           volumeBindingMode: "Immediate"
@@ -557,7 +557,7 @@ spec:
         storageClass:
           enabled: true
           name: ceph-block-2
-          isDefault: false
+          isDefault: true
           reclaimPolicy: Delete
           allowVolumeExpansion: true
           volumeBindingMode: "Immediate"
