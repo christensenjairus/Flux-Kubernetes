@@ -468,7 +468,7 @@ spec:
       # -- Manage [resource request & limits] of KEDA admission webhooks pod
       webhooks:
         limits:
-          cpu: 50m
+          cpu: 100m # default is 50m
           memory: 100Mi
         requests:
           cpu: 10m
