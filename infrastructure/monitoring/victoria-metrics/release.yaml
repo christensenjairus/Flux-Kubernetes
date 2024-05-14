@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: victoria-metrics-k8s-stack
-      version: "0.19.x"
+      version: "0.21.x"
       sourceRef:
         kind: HelmRepository
         name: vm
@@ -243,7 +243,7 @@ spec:
                   requests:
                     storage: 50Gi
           resources:
-            limits: 
+            limits:
               cpu: 1500m # default is 1000m
               memory: 1500Mi
             requests:
@@ -1002,7 +1002,7 @@ spec:
       vmServiceScrape:
         spec: {}
 
-      #TODO: selector override for kube-state-metrics deployed separatelly
+      # TODO: selector override for kube-state-metrics deployed separatelly
 
     #################################################
     ###              Service Monitors           #####
