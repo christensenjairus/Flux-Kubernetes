@@ -385,7 +385,7 @@ spec:
         repository: "{{ .Values.global.origin.registry }}/portal"
       resources:
         limits:
-          cpu: 300m
+          cpu: 800m # default is 300m
           memory: 512Mi
         requests:
           cpu: 50m

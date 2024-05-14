@@ -734,7 +734,7 @@ spec:
           promscrape.dropOriginalLabels: "false" # was true, but discovery didn't work well
         resources:
           limits:
-            cpu: 1200m # default is 100m
+            cpu: 2000m # default is 100m
             memory: 500Mi
           requests:
             cpu: 350m # default is 100m
