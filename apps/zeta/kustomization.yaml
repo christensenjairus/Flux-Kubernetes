@@ -5,6 +5,8 @@ resources:
   - ../base/harbor
   - ../base/splunk
   - ../base/collectord
+  - ../base/openldap
+  - ../base/authelia
 patches:
   - path: podinfo-values.yaml
     target:

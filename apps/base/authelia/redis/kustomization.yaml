@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - release-redis.yaml
+  - release-sentinel.yaml
+  - authelia-redis-dashboard.yaml
+  - authelia-redis-rts-dashboard.yaml

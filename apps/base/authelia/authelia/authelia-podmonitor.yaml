@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: authelia-exporter
+  namespace: authelia
+spec:
+  namespaceSelector:
+    matchNames:
+      - authelia
+  selector:
+    matchLabels:
+      app: authelia
+#  podTargetLabels:
+#    - authelia
+  podMetricsEndpoints:
+    - port: metrics
+      path: /metrics
+      honorLabels: true
+      interval: 90s
+#      relabelings:

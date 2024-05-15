@@ -1,0 +1,655 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: openldap
+  namespace: openldap
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: openldap-stack-ha
+      version: "4.2.x"
+      sourceRef:
+        kind: HelmRepository
+        name: openldap
+        namespace: openldap
+      interval: 12h
+  values:
+
+    # Default values for openldap.
+    # This is a YAML-formatted file.
+    # Declare variables to be passed into your templates.
+
+    # Global Docker image parameters
+    # Please, note that this will override the image parameters, including dependencies, configured to use the global value
+    # Current available global Docker image parameters: imageRegistry, imagePullSecrets and storageClass
+    global:
+      imageRegistry: ""
+      ## E.g.
+      ## imagePullSecrets:
+      ##   - myRegistryKeySecretName
+      ##
+      #imagePullSecrets: [""]
+      ## ldapDomain , can be explicit (e.g dc=toto,c=ca) or domain based (e.g example.com)
+      ldapDomain: "christensencloud.us"
+      # Specifies an existing secret to be used for admin and config user passwords. The expected key are LDAP_ADMIN_PASSWORD and LDAP_CONFIG_ADMIN_PASSWORD.
+      existingSecret: openldap-config
+      ## Default Passwords to use, stored as a secret. Not used if existingSecret is set.
+      adminUser: "admin"
+      adminPassword: ""
+      configUserEnabled: true
+      configUser: "admin"
+      configPassword: ""
+      ldapPort: 389
+      sslLdapPort: 636
+
+    ## @section Common parameters
+
+    ## @param kubeVersion Override Kubernetes version
+    ##
+    kubeVersion: ""
+    ## @param nameOverride String to partially override common.names.fullname
+    ##
+    nameOverride: ""
+    ## @param fullnameOverride String to fully override common.names.fullname
+    ##
+    fullnameOverride: "openldap"
+    ## @param commonLabels Labels to add to all deployed objects
+    ##
+    commonLabels: {}
+    ## @param commonAnnotations Annotations to add to all deployed objects
+    ##
+    commonAnnotations: {}
+    ## @param clusterDomain Kubernetes cluster domain name
+    ##
+    clusterDomain: cluster.local
+    ## @param extraDeploy Array of extra objects to deploy with the release
+    ##
+    extraDeploy: []
+
+    replicaCount: 3
+
+    image:
+      # From repository https://hub.docker.com/r/bitnami/openldap/
+      repository: bitnami/openldap
+      tag: 2.6.3
+      pullPolicy: Always
+      pullSecrets: []
+
+    # Set the container log level
+    # Valid log levels: none, error, warning, info (default), debug, trace
+    logLevel: info
+
+
+    extraLabels: {}
+
+    service:
+      annotations: {}
+      ## If service type NodePort, define the value here
+      #ldapPortNodePort:
+      #sslLdapPortNodePort:
+      ## List of IP addresses at which the service is available
+      ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
+      ##
+      externalIPs: []
+
+      loadBalancerIP: 10.0.6.205
+      #loadBalancerSourceRanges: []
+      type: LoadBalancer
+      sessionAffinity: None
+
+    # Default configuration for openldap as environment variables. These get injected directly in the container.
+    # Use the env variables from https://hub.docker.com/r/bitnami/openldap/
+    # Be careful, do not modify the following values unless you know exactly what your are doing
+    env:
+     BITNAMI_DEBUG: "true"
+     LDAP_LOGLEVEL: "256"
+     LDAP_TLS_ENFORCE: "false"
+     LDAPTLS_REQCERT: "never"
+     LDAP_ENABLE_TLS: "yes"
+     LDAP_SKIP_DEFAULT_TREE: "no"
+
+    # Pod Disruption Budget for Stateful Set
+    # Disabled by default, to ensure backwards compatibility
+    pdb:
+      enabled: true
+      minAvailable: 1
+      maxUnavailable: ""
+
+    ## User list to create (comma separated list) , can't be use with customLdifFiles
+    ## Default set by bitnami image
+    # users: admin
+
+    ## User password to create (comma separated list, one for each user)
+    ## Default set by bitnami image
+    # userPasswords: ""
+
+    ## Group to create and add list of user above
+    ## Default set by bitnami image
+    # group: users
+
+    # Custom openldap schema files used to be used in addition to default schemas
+    # customSchemaFiles:
+    #   custom.ldif: |-
+    #     # custom schema
+    #   anothercustom.ldif: |-
+    #     # another custom schema
+
+    ## Existing configmap with custom ldif
+    # Can't be use with customLdifFiles
+    # Same format as customLdifFiles
+    # customLdifCm: my-custom-ldif-cm
+
+    # Custom openldap configuration files used to override default settings
+    # DO NOT FORGET to put the Root Organisation object as it won't be created while using customLdifFiles
+    # customLdifFiles:
+    #   00-root.ldif: |-
+    #     # Root creation
+    #     dn: dc=example,dc=org
+    #     objectClass: dcObject
+    #     objectClass: organization
+    #     o: Example, Inc
+    #   01-default-group.ldif: |-
+    #     dn: cn=myGroup,dc=example,dc=org
+    #     cn: myGroup
+    #     gidnumber: 500
+    #     objectclass: posixGroup
+    #     objectclass: top
+    #   02-default-user.ldif: |-
+    #     dn: cn=Jean Dupond,dc=example,dc=org
+    #     cn: Jean Dupond
+    #     gidnumber: 500
+    #     givenname: Jean
+    #     homedirectory: /home/users/jdupond
+    #     objectclass: inetOrgPerson
+    #     objectclass: posixAccount
+    #     objectclass: top
+    #     sn: Dupond
+    #     uid: jdupond
+    #     uidnumber: 1000
+    #     userpassword: ""
+
+    # Custom openldap ACLs
+    # If not defined, the following default ACLs are applied:
+    # customAcls: |-
+    #   dn: olcDatabase={2}mdb,cn=config
+    #   changetype: modify
+    #   replace: olcAccess
+    #   olcAccess: {0}to *
+    #     by dn.exact=gidNumber=0+uidNumber=1001,cn=peercred,cn=external,cn=auth manage
+    #     by * break
+    #   olcAccess: {1}to attrs=userPassword,shadowLastChange
+    #     by self write
+    #     by dn="{{ include "global.bindDN" . }}" write
+    #     by anonymous auth by * none
+    #   olcAccess: {2}to *
+    #     by dn="{{ include "global.bindDN" . }}" write
+    #     by self read
+    #     by * none
+
+    replication:
+      enabled: true
+      # Enter the name of your cluster, defaults to "cluster.local"
+      clusterName: "cluster.local"
+      retry: 60
+      timeout: 1
+      interval: 00:00:00:10
+      starttls: "critical"
+      tls_reqcert: "never"
+    ## Persist data to a persistent volume
+    persistence:
+      enabled: true
+      ## database data Persistent Volume Storage Class
+      ## If defined, storageClassName: <storageClass>
+      ## If set to "-", storageClassName: "", which disables dynamic provisioning
+      ## If undefined (the default) or set to null, no storageClassName spec is
+      ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+      ##   GKE, AWS & OpenStack)
+      ##
+      # storageClass: "standard-singlewriter"
+      # existingClaim: openldap-pvc
+      accessModes:
+        - ReadWriteOnce
+      size: 3Gi
+      storageClass: "ceph-block-3"
+
+    ## @param customLivenessProbe Custom livenessProbe that overrides the default one
+    ##
+    customLivenessProbe: {}
+    ## @param customReadinessProbe Custom readinessProbe that overrides the default one
+    ##
+    customReadinessProbe: {}
+    ## @param customStartupProbe Custom startupProbe that overrides the default one
+    ##
+    customStartupProbe: {}
+    ## OPENLDAP  resource requests and limits
+    ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+    ## @param resources.limits The resources limits for the OPENLDAP  containers
+    ## @param resources.requests The requested resources for the OPENLDAP  containers
+    ##
+    resources:
+      limits: {}
+      requests: {}
+    ## Configure Pods Security Context
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+    ## @param podSecurityContext.enabled Enabled OPENLDAP  pods' Security Context
+    ## @param podSecurityContext.fsGroup Set OPENLDAP  pod's Security Context fsGroup
+    ##
+    podSecurityContext:
+      enabled: true
+      fsGroup: 1001
+    ## Configure Container Security Context
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+    ## @param containerSecurityContext.enabled Enabled OPENLDAP  containers' Security Context
+    ## @param containerSecurityContext.runAsUser Set OPENLDAP  containers' Security Context runAsUser
+    ## @param containerSecurityContext.runAsNonRoot Set OPENLDAP  containers' Security Context runAsNonRoot
+    ##
+    containerSecurityContext:
+      enabled: false
+      runAsUser: 1001
+      runAsNonRoot: true
+
+    ## @param existingConfigmap The name of an existing ConfigMap with your custom configuration for OPENLDAP
+    ##
+    existingConfigmap:
+    ## @param command Override default container command (useful when using custom images)
+    ##
+    command: []
+    ## @param args Override default container args (useful when using custom images)
+    ##
+    args: []
+    ## @param hostAliases OPENLDAP  pods host aliases
+    ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
+    ##
+    hostAliases: []
+    ## @param podLabels Extra labels for OPENLDAP  pods
+    ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+    ##
+    podLabels: {}
+    ## @param podAnnotations Annotations for OPENLDAP  pods
+    ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+    ##
+    podAnnotations: {}
+    ## @param podAffinityPreset Pod affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
+    ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
+    ##
+    podAffinityPreset: ""
+    ## @param podAntiAffinityPreset Pod anti-affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
+    ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
+    ##
+    podAntiAffinityPreset: soft
+    ## Node affinity preset
+    ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity
+    ##
+    nodeAffinityPreset:
+      ## @param nodeAffinityPreset.type Node affinity preset type. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
+      ##
+      type: ""
+      ## @param nodeAffinityPreset.key Node label key to match. Ignored if `affinity` is set
+      ##
+      key: ""
+      ## @param nodeAffinityPreset.values Node label values to match. Ignored if `affinity` is set
+      ## E.g.
+      ## values:
+      ##   - e2e-az1
+      ##   - e2e-az2
+      ##
+      values: []
+    ## @param affinity Affinity for OPENLDAP  pods assignment
+    ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+    ## NOTE: `podAffinityPreset`, `podAntiAffinityPreset`, and `nodeAffinityPreset` will be ignored when it's set
+    ##
+    affinity: {}
+    ## @param nodeSelector Node labels for OPENLDAP  pods assignment
+    ## ref: https://kubernetes.io/docs/user-guide/node-selection/
+    ##
+    nodeSelector: {}
+    ## @param tolerations Tolerations for OPENLDAP  pods assignment
+    ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+    ##
+    tolerations: []
+    ## @param updateStrategy.type OPENLDAP  statefulset strategy type
+    ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
+    ##
+    updateStrategy:
+      ## StrategyType
+      ## Can be set to RollingUpdate or OnDelete
+      ##
+      type: RollingUpdate
+    ## @param priorityClassName OPENLDAP  pods' priorityClassName
+    ##
+    priorityClassName: ""
+    ## @param schedulerName Name of the k8s scheduler (other than default) for OPENLDAP  pods
+    ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
+    ##
+    schedulerName: ""
+    ## @param lifecycleHooks for the OPENLDAP  container(s) to automate configuration before or after startup
+    ##
+    lifecycleHooks: {}
+    ## @param extraEnvVars Array with extra environment variables to add to OPENLDAP  nodes
+    ## e.g:
+    ## extraEnvVars:
+    ##   - name: FOO
+    ##     value: "bar"
+    ##
+    extraEnvVars: []
+    ## @param extraEnvVarsCM Name of existing ConfigMap containing extra env vars for OPENLDAP  nodes
+    ##
+    extraEnvVarsCM:
+    ## @param extraEnvVarsSecret Name of existing Secret containing extra env vars for OPENLDAP  nodes
+    ##
+    extraEnvVarsSecret:
+    ## @param extraVolumes Optionally specify extra list of additional volumes for the OPENLDAP  pod(s)
+    ##
+    extraVolumes: []
+    ## @param extraVolumeMounts Optionally specify extra list of additional volumeMounts for the OPENLDAP  container(s)
+    ##
+    extraVolumeMounts: []
+    ## @param sidecars Add additional sidecar containers to the OPENLDAP  pod(s)
+    ## e.g:
+    ## sidecars:
+    ##   - name: your-image-name
+    ##     image: your-image
+    ##     imagePullPolicy: Always
+    ##     ports:
+    ##       - name: portname
+    ##         containerPort: 1234
+    ##
+    sidecars: {}
+    ## @param initContainers Add additional init containers to the OPENLDAP  pod(s)
+    ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+    ## e.g:
+    ## initContainers:
+    ##  - name: your-image-name
+    ##    image: your-image
+    ##    imagePullPolicy: Always
+    ##    command: ['sh', '-c', 'echo "hello world"']
+    ##
+    initContainers: {}
+    ## ServiceAccount configuration
+    ##
+    serviceAccount:
+      ## @param serviceAccount.create Specifies whether a ServiceAccount should be created
+      ##
+      create: true
+      ## @param serviceAccount.name The name of the ServiceAccount to use.
+      ## If not set and create is true, a name is generated using the common.names.fullname template
+      ##
+      name: "openldap"
+
+    ## @section Init Container Parameters
+
+    ## 'initTlsSecret' init container parameters
+    ## need a secret with tls.crt, tls.key and ca.crt keys with associated files
+    ## based on the *containerSecurityContext parameters
+    ##
+    initTLSSecret:
+      tls_enabled: false
+      ##  openssl image
+      ## @param initTlsSecret.image.registry openssl image registry
+      ## @param initTlsSecret.image.repository openssl image name
+      ## @param initTlsSecret.image.tag openssl image tag
+      ##
+      image:
+        registry: docker.io
+        repository: alpine/openssl
+        tag: latest
+        ## @param image.pullPolicy openssl image pull policy
+        ## Specify a imagePullPolicy
+        ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+        ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+        ##
+        pullPolicy: IfNotPresent
+      # The name of a kubernetes.io/tls type secret to use for TLS
+      secret: "ldap-zeta-christensencloud.us-tls"
+      ## init-tls-secret container's resource requests and limits
+      ## ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+      ## @param initTlsSecret.resources.limits The resources limits for the init container
+      ## @param initTlsSecret.resources.requests The requested resources for the init container
+      ##
+      resources:
+        ## Example:
+        ## limits:
+        ##   cpu: 500m
+        ##   memory: 1Gi
+        limits: {}
+        requests: {}
+
+    ## 'volumePermissions' init container parameters
+    ## Changes the owner and group of the persistent volume mount point to runAsUser:fsGroup values
+    ##   based on the *podSecurityContext/*containerSecurityContext parameters
+    ##
+    volumePermissions:
+      ## @param volumePermissions.enabled Enable init container that changes the owner/group of the PV mount point to `runAsUser:fsGroup`
+      ##
+      enabled: false
+      ## Bitnami Shell image
+      ## ref: https://hub.docker.com/r/bitnami/bitnami-shell/tags/
+      ## @param volumePermissions.image.registry Bitnami Shell image registry
+      ## @param volumePermissions.image.repository Bitnami Shell image repository
+      ## @param volumePermissions.image.tag Bitnami Shell image tag (immutable tags are recommended)
+      ## @param volumePermissions.image.pullPolicy Bitnami Shell image pull policy
+      ##
+      image:
+        registry: docker.io
+        repository: bitnami/bitnami-shell
+        tag: 10-debian-10
+        pullPolicy: IfNotPresent
+
+      ## Command to execute during the volumePermission startup
+      ## command: ['sh', '-c', 'echo "hello world"']
+      command: {}
+      ## Init container's resource requests and limits
+      ## ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+      ## @param volumePermissions.resources.limits The resources limits for the init container
+      ## @param volumePermissions.resources.requests The requested resources for the init container
+      ##
+      resources:
+        ## Example:
+        ## limits:
+        ##   cpu: 500m
+        ##   memory: 1Gi
+        limits: {}
+        requests: {}
+
+    ## 'updateReplication' init container parameters
+    ## based on the *global.existingSecret/*containerSecurityContext parameters
+    ##
+    updateReplication:
+      ## Init container's resource requests and limits
+      ## ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+      ## @param volumePermissions.resources.limits The resources limits for the init container
+      ## @param volumePermissions.resources.requests The requested resources for the init container
+      ##
+      resources:
+        ## Example:
+        ## limits:
+        ##   cpu: 500m
+        ##   memory: 1Gi
+        limits: {}
+        requests: {}
+
+
+    ## Configure extra options for liveness, readiness, and startup probes
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      timeoutSeconds: 1
+      successThreshold: 1
+      failureThreshold: 10
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      timeoutSeconds: 1
+      successThreshold: 1
+      failureThreshold: 10
+    startupProbe:
+      enabled: true
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      successThreshold: 1
+      failureThreshold: 30
+
+    ## test container details
+    test:
+      enabled: true
+      image:
+        repository: dduportal/bats
+        tag: 0.4.0
+
+    ## ltb-passwd
+    # For more parameters check following file: ./charts/ltb-passwd/values.yaml
+    ltb-passwd:
+      enabled : true
+      image:
+        tag: 5.2.3
+      ingress:
+        enabled: true
+        annotations: #{}
+        # See https://kubernetes.io/docs/concepts/services-networking/ingress/#ingressclass-scope
+          cert-manager.io/cluster-issuer: acme-issuer
+        ingressClassName: nginx-public
+        path: /
+        pathType: Prefix
+        ## Ingress Host
+        hosts:
+        - "ldap-reset-zeta.christensencloud.us"
+        ## Ingress cert
+        tls: #[]
+        - secretName: ldap-reset-zeta-christensencloud.us-tls
+          hosts:
+          - ldap-reset-zeta.christensencloud.us
+      # ldap:
+        # if you want to restrict search base tree for users instead of complete domain
+        # searchBase: "ou=....,dc=mydomain,dc=com"
+        # if you want to use a dedicated bindDN for the search with less permissions instead of cn=admin one
+        # bindDN: "cn=....,dc=mydomain,dc=com"
+        # if you want to use a specific key of the credentials secret instead of the default one (LDAP_ADMIN_PASSWORD)
+        # passKey: LDAP_MY_KEY
+      env:
+        ### LDAP
+        - name: LDAP_SERVER
+          value: ldaps://openldap.openldap:636
+        - name: LDAP_STARTTLS
+          value: "false"
+        - name: LDAP_BINDDN
+          value: cn=admin,dc=christensencloud,dc=us
+        - name: LDAP_BINDPASS
+          valueFrom:
+            secretKeyRef:
+              key: LDAP_ADMIN_PASSWORD
+              name: openldap-config
+        - name: LDAP_BASE_SEARCH
+          value: ou=users,dc=christensencloud,dc=us
+        - name: SECRETKEY # Used for encryption/decryption
+          valueFrom:
+            secretKeyRef:
+              key: SECRETKEY
+              name: openldap-config
+        - name: LDAP_LOGIN_ATTRIBUTE
+          value: uid
+        - name: LDAP_FULLNAME_ATTRIBUTE
+          value: displayName
+        ### Password Policy
+        - name: PASSWORD_MIN_LENGTH
+          value: "15"
+        - name: PASSWORD_MIN_LOWERCASE
+          value: "1"
+        - name: PASSWORD_MIN_UPPERCASE
+          value: "1"
+        - name: PASSWORD_MIN_SPECIAL
+          value: "1"
+        - name: PASSWORD_NO_REUSE
+          value: "true"
+        - name: PASSWORD_NO_SPECIAL_ENDS
+          value: "true"
+        - name: PASSWORD_SHOW_POLICY
+          value: "always"
+        - name: CHANGE_SSHKEY
+          value: "false"
+        - name: PASSWORD_HASH
+          value: "SSHA"
+        - name: USE_QUESTIONS
+          value: "false"
+        - name: QUESTIONS_MULTIPLE_ANSWERS
+          value: "false"
+        ### SMTP
+        - name: MAIL_FROM_NAME
+          value: "LDAP Self Service"
+        - name: MAIL_FROM
+          valueFrom:
+            secretKeyRef:
+              key: MAIL_FROM
+              name: openldap-config
+        - name: MAIL_USE_LDAP
+          value: "true"
+        - name: NOTIFY_ON_CHANGE
+          value: "true"
+        - name: SMTP_AUTH_ON
+          value: "true"
+        - name: SMTP_AUTOTLS
+          value: "true"
+        - name: SMTP_HOST
+          value: smtp.gmail.com
+        - name: SMTP_USER
+          valueFrom:
+            secretKeyRef:
+              key: SMTP_USER
+              name: openldap-config
+        - name: SMTP_PASS
+          valueFrom:
+            secretKeyRef:
+              key: SMTP_PASS
+              name: openldap-config
+        - name: SMTP_PORT
+          value: "587"
+        - name: SMTP_SECURE_TYPE
+          value: "tls"
+        ### Theming
+        - name: BACKGROUND_IMAGE
+          value: "https://getwallpapers.com/wallpaper/full/f/8/c/573277.jpg"
+        - name: LOGO
+          value: "https://christensenusa.com/wp-content/uploads/2022/12/Christensen-logo-white.png"
+        ### OTHER
+        - name: DEFAULT_ACTION
+          value: change
+        - name: DEBUG_MODE
+          value: "false"
+        - name: ENABLE_RESET_LOG
+          value: "true"
+        - name: IS_BEHIND_PROXY
+          value: "true"
+        - name: SITE_URL
+          value: "https://ldap-reset-zeta.christensencloud.us"
+
+    ## phpldapadmin
+    ## For more parameters check following file: ./charts/phpldapadmin/values.yaml
+    phpldapadmin:
+      enabled: true
+      image:
+        tag: 0.9.0
+      env:
+        PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT: "never"
+      ingress:
+        enabled: true
+        annotations: #{}
+        ## See https://kubernetes.io/docs/concepts/services-networking/ingress/#ingressclass-scope
+          cert-manager.io/cluster-issuer: acme-issuer
+          nginx.ingress.kubernetes.io/auth-type: basic
+          nginx.ingress.kubernetes.io/auth-secret: basic-auth
+          nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+        ingressClassName: nginx-private
+        path: /
+        pathType: Prefix
+        ## Ingress Host
+        hosts:
+        - ldap-admin-zeta.christensencloud.us
+        ## Ingress cert
+        tls: #[]
+        - secretName: ldap-admin-zeta-christensencloud.us-tls
+          hosts:
+          - ldap-admin-zeta.christensencloud.us

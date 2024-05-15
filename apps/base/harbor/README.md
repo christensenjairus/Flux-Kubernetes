@@ -1,13 +1,7 @@
 ### Setup instructions
-* Find password from secret named `harbor-db-pguser-harbor` and place it in 1password under `Harbor DB Creds`.
+* Set the database password
 ```bash
-kubectl get secret -n harbor harbor-db-pguser-harbor -o jsonpath='{.data.password}' | base64 -d 
-```
-* Delete the `harbor-database-harbor` onepassword item in k8s.
-* Re-apply the harbor db creds onepassword item.
-```bash
-kubectl delete -f ./apps/base/harbor/postgres/harbor-database-credentials.yaml
-kubectl apply -f ./apps/base/harbor/postgres/harbor-database-credentials.yaml
+./set_db_password.sh
 ```
 * Ensure that the new password is picked up by new harbor-core pods and connects successfully to the database.
 ```bash
