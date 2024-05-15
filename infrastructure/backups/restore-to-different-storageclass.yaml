@@ -22,3 +22,5 @@ data:
   # class name.
   ceph-block: "ceph-block-3"
   ceph-filesystem: "ceph-filesystem-3"
+  longhorn: "ceph-block-3"
+  longhorn-one-replica: "ceph-block-2"
