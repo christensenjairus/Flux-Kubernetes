@@ -825,7 +825,7 @@ spec:
             pipelineWindow: 0
           editable: false
         - name: "Authelia Redis"
-          type: redis-datasource # datasource UID seems to be PD429EC3107F1B030
+          type: redis-datasource # datasource UID seems to be P68943E3A4BA1DEA6
           access: proxy # access through grafana, not direct from browser
           orgId: 1 # 1 is default
           isDefault: false # only one default data source per organization
@@ -840,7 +840,7 @@ spec:
             pipelineWindow: 0
           editable: false
         - name: "GitLab Redis"
-          type: redis-datasource # datasource UID seems to be PD429EC3107F1B030
+          type: redis-datasource # datasource UID seems to be P013154F8CA11F6FD
           access: proxy # access through grafana, not direct from browser
           orgId: 1 # 1 is default
           isDefault: false # only one default data source per organization
