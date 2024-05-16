@@ -14,6 +14,10 @@ spec:
         name: gitlab
         namespace: gitlab
       interval: 12h
+      install:
+        timeout: 20m # takes a while to bootstrap and for the sidekiq jobs to run
+      upgrade:
+        timeout: 20m # takes a while to bootstrap and for the sidekiq jobs to run
   values:
 
     ## NOTICE

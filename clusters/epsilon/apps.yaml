@@ -5,7 +5,7 @@ metadata:
   name: apps
   namespace: flux-system
 spec:
-  interval: 10m0s
+  interval: 20m0s
   dependsOn:
     - name: infra-arp
     - name: infra-backups
