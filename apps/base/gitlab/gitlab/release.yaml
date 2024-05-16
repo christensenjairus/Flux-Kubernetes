@@ -72,7 +72,7 @@ spec:
         labels: {}
 
       ## https://docs.gitlab.com/charts/installation/deployment#deploy-the-community-edition
-      edition: ee
+      edition: ce
 
       ## https://docs.gitlab.com/charts/charts/globals#application-resource
       application:
@@ -144,9 +144,9 @@ spec:
       ## Initial root password for this GitLab installation
       ## Secret created according to https://docs.gitlab.com/charts/installation/secrets#initial-root-password
       ## If allowing shared-secrets generation, this is OPTIONAL.
-      initialRootPassword:
-        secret: root-password
-        key: password
+      initialRootPassword: {}
+#        secret: root-password
+#        key: password
 
       ## https://docs.gitlab.com/charts/charts/globals#configure-postgresql-settings
       psql:
@@ -420,7 +420,7 @@ spec:
           connection: {}
 
         backups:
-          bucket: gitlab-backups
+          bucket: gitlab
           tmpBucket: tmp
 
         ## https://docs.gitlab.com/charts/charts/globals#outgoing-email
@@ -513,7 +513,7 @@ spec:
               base: 'ou=users,dc=christensencloud,dc=us'
               lowercase_usernames: false
               retry_empty_result_with_codes: [ 80 ]
-              allow_username_or_email_login: false
+              allow_username_or_email_login: true
               block_auto_created_users: false
 
         duoAuth:

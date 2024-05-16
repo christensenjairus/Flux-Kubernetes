@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - minio-credentials.yaml
   - ldap-password.yaml
-  - root-password.yaml
   - smtp-password.yaml
   - repository.yaml
   - release.yaml

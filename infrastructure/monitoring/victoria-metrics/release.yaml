@@ -815,7 +815,7 @@ spec:
           orgId: 1 # 1 is default
           isDefault: false # only one default data source per organization
           version: 1
-          url: redis://harbor-redis-sentinel.harbor.svc:26379
+          url: redis://harbor-redis-sentinel-0.harbor-redis-sentinel-headless.harbor.svc:26379,harbor-redis-sentinel-1.harbor-redis-sentinel-headless.harbor.svc:26379,harbor-redis-sentinel-2.harbor-redis-sentinel-headless.harbor.svc:26379
           jsonData:
             client: sentinel
             sentinelName: harbor-redis
@@ -830,7 +830,7 @@ spec:
           orgId: 1 # 1 is default
           isDefault: false # only one default data source per organization
           version: 1
-          url: redis://authelia-redis-sentinel.harbor.svc:26379
+          url: redis://authelia-redis-sentinel-0.authelia-redis-sentinel-headless.authelia.svc:26379,authelia-redis-sentinel-1.authelia-redis-sentinel-headless.authelia.svc:26379,authelia-redis-sentinel-2.authelia-redis-sentinel-headless.authelia.svc:26379
           jsonData:
             client: sentinel
             sentinelName: authelia-redis
@@ -845,7 +845,7 @@ spec:
           orgId: 1 # 1 is default
           isDefault: false # only one default data source per organization
           version: 1
-          url: redis://gitlab-redis-sentinel.harbor.svc:26379
+          url: redis://gitlab-redis-sentinel-0.gitlab-redis-sentinel-headless.gitlab.svc:26379,gitlab-redis-sentinel-1.gitlab-redis-sentinel-headless.gitlab.svc:26379,gitlab-redis-sentinel-2.gitlab-redis-sentinel-headless.gitlab.svc:26379
           jsonData:
             client: sentinel
             sentinelName: gitlab-redis
