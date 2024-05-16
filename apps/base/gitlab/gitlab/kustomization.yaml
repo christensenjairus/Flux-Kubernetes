@@ -1,9 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - repository.yaml
-  - encryption-secret-key.yaml
-  - admin-credentials.yaml
   - minio-credentials.yaml
+  - ldap-password.yaml
+  - root-password.yaml
+  - smtp-password.yaml
+  - repository.yaml
   - release.yaml
-  - overview-dashboard.yaml

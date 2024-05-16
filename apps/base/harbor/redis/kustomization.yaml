@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - release-redis.yaml
   - release-sentinel.yaml
-  - harbor-redis-dashboard.yaml
-  - harbor-redis-rts-dashboard.yaml
+  - redis-dashboard.yaml
+  - redis-rts-dashboard.yaml
