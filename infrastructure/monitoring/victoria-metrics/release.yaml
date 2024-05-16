@@ -824,6 +824,36 @@ spec:
             pingInterval: 0
             pipelineWindow: 0
           editable: false
+        - name: "Authelia Redis"
+          type: redis-datasource # datasource UID seems to be PD429EC3107F1B030
+          access: proxy # access through grafana, not direct from browser
+          orgId: 1 # 1 is default
+          isDefault: false # only one default data source per organization
+          version: 1
+          url: redis://authelia-redis-sentinel.harbor.svc:26379
+          jsonData:
+            client: sentinel
+            sentinelName: authelia-redis
+            poolSize: 3
+            timeout: 10
+            pingInterval: 0
+            pipelineWindow: 0
+          editable: false
+        - name: "GitLab Redis"
+          type: redis-datasource # datasource UID seems to be PD429EC3107F1B030
+          access: proxy # access through grafana, not direct from browser
+          orgId: 1 # 1 is default
+          isDefault: false # only one default data source per organization
+          version: 1
+          url: redis://gitlab-redis-sentinel.harbor.svc:26379
+          jsonData:
+            client: sentinel
+            sentinelName: gitlab-redis
+            poolSize: 3
+            timeout: 10
+            pingInterval: 0
+            pipelineWindow: 0
+          editable: false
 
       # - name: prometheus-sample
       #   access: proxy
