@@ -5,6 +5,10 @@ metadata:
   namespace: gitlab
 spec:
   interval: 30m
+  install:
+    timeout: 20m # takes a while to bootstrap and for the sidekiq jobs to run
+  upgrade:
+    timeout: 20m # takes a while to bootstrap and for the sidekiq jobs to run
   chart:
     spec:
       chart: gitlab
@@ -14,10 +18,6 @@ spec:
         name: gitlab
         namespace: gitlab
       interval: 12h
-      install:
-        timeout: 20m # takes a while to bootstrap and for the sidekiq jobs to run
-      upgrade:
-        timeout: 20m # takes a while to bootstrap and for the sidekiq jobs to run
   values:
 
     ## NOTICE
@@ -229,7 +229,7 @@ spec:
           # secretName:
 
       praefect:
-        enabled: false
+        enabled: true
         ntpHost: pool.ntp.org
         replaceInternalGitaly: true
         authToken: {}
@@ -239,8 +239,9 @@ spec:
           - name: default
             gitalyReplicas: 3
             maxUnavailable: 1
+            defaultReplicationFactor: 3
         psql:
-          sslMode: disable
+          sslMode: prefer
         # serviceName:
         service:
           name: praefect
@@ -1357,34 +1358,104 @@ spec:
         antiAffinityLabels:
           matchLabels:
             app: gitaly
+        resources:
+          requests:
+            cpu: 1m
+            memory: 1M
+          limits:
+            cpu: 100m
+            memory: 100M
       ## https://docs.gitlab.com/charts/charts/gitlab/migrations
       #   migrations:
       #     enabled: false
       ## https://docs.gitlab.com/charts/charts/gitlab/webservice
-      #   webservice:
-      #     enabled: false
+      webservice:
+        hpa:
+          cpu:
+            targetType: Utilization
+            targetAverageUtilization: 250
+          memory:
+            targetType: Utilization
+            targetAverageUtilization: 250
+        resources:
+          requests:
+            cpu: 200m
+            memory: 1200M
+          limits:
+            cpu: 1000m
+            memory: 2400M
       ## https://docs.gitlab.com/charts/charts/gitlab/sidekiq
-      #   sidekiq:
-      #     enabled: false
+      sidekiq:
+        hpa:
+          cpu:
+            targetType: Utilization
+            targetAverageUtilization: 250
+          memory:
+            targetType: Utilization
+            targetAverageUtilization: 250
+        resources:
+          requests:
+            cpu: 250m
+            memory: 900M
+          limits:
+            cpu: 1500m
+            memory: 2000M
       ## https://docs.gitlab.com/charts/charts/gitlab/gitaly
       gitaly:
         persistence:
-          storageClass: ceph-filesystem-3
-          size: 8Gi
+          enabled: true
+          storageClass: ceph-filesystem-2
+          accessMode: ReadWriteOnce
+          size: 3Gi
+        resources:
+          requests:
+            cpu: 125m
+            memory: 125M
+          limits:
+            cpu: 500m
+            memory: 500M
 
       ## https://docs.gitlab.com/charts/charts/gitlab/gitlab-shell
       gitlab-shell:
         service:
-          minReplicas: 1
-          maxReplicas: 3
           type: NodePort
           nodePort: 32022
+        hpa:
+          cpu:
+            targetType: Utilization
+            targetAverageUtilization: 250
+          memory:
+            targetType: Utilization
+            targetAverageUtilization: 250
+        resources:
+          requests:
+            cpu: 50m
+            memory: 10M
+          limits:
+            cpu: 250m
+            memory: 100M
+      gitlab-exporter:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 25M
+          limits:
+            cpu: 250m
+            memory: 250M
+
       ## https://docs.gitlab.com/charts/charts/gitlab/gitlab-pages
       #   gitlab-pages:
       ## https://docs.gitlab.com/charts/charts/gitlab/kas
       #   kas:
       ## https://docs.gitlab.com/charts/charts/gitlab/praefect
-      #   praefect:
+      praefect:
+        resources:
+          requests:
+            cpu: 200m
+            memory: 100M
+          limits:
+            cpu: 500m
+            memory: 250M
 
     ## Installation & configuration of gitlab/gitlab-zoekt
     gitlab-zoekt:

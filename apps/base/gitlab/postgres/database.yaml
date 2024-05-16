@@ -29,6 +29,12 @@ spec:
       databases:
         - gitlab
       options: 'SUPERUSER' # can't be a superuser through pgbouncer btw
+    - name: praefect
+      password:
+        type: "AlphaNumeric"
+      databases:
+        - praefect
+      options: 'SUPERUSER' # can't be a superuser through pgbouncer btw
   image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-16.2-0
   postgresVersion: 16
   instances:
@@ -36,12 +42,19 @@ spec:
       replicas: 3
       minAvailable: 1 # pod disruption budget used here
       dataVolumeClaimSpec:
-        storageClassName: ceph-block-3
+        storageClassName: ceph-block-2
         accessModes:
         - "ReadWriteOnce"
         resources:
           requests:
             storage: 3Gi # replicated, 3Gi per replica
+      resources:
+        requests:
+          cpu: 250m
+          memory: 250M
+        limits:
+          cpu: 1000m
+          memory: 1G
       affinity:
         nodeAffinity: # try to only schedule on database nodes. (operator still takes this as a suggestion)
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -96,6 +109,14 @@ spec:
       configuration:
         - secret:
             name: minio-database-minio-credentials
+      repoHost:
+        resources:
+          requests:
+            cpu: 5m
+            memory: 5M
+          limits:
+            cpu: 100m
+            memory: 100M
       repos:
       - name: repo1
         schedules:

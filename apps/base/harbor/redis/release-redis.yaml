@@ -28,13 +28,13 @@ spec:
         secretName: "" #"harbor-redis-credentials"
         secretKey: "" #"REDIS_PASSWORD"
       serviceType: ClusterIP
-      resources: { }
-        # requests:
-        #   cpu: 100m
-        #   memory: 128Mi
-        # limits:
-      #   cpu: 100m
-      #   memory: 128Mi
+      resources:
+        requests:
+          cpu: 50m
+          memory: 20Mi
+        limits:
+          cpu: 200m
+          memory: 120Mi
       ignoreAnnotations: [ ]
       # - "redis.opstreelabs.in/ignore"
 
