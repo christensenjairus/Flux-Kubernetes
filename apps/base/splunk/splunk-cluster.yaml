@@ -12,7 +12,7 @@ spec:
     appSources:
     - location: idxApps/
       name: idxApps
-    appsRepoPollIntervalSeconds: 600 # every 10 min, check for new apps. These don't get hardly any apps, so check less often
+    appsRepoPollIntervalSeconds: 60 # every 1 min, check for new apps.
     defaults:
       scope: cluster
       volumeName: volume_app_repo

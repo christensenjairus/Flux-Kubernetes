@@ -30,6 +30,7 @@ spec:
         prometheus.io/port: "10254"
         prometheus.io/scrape: "true"
       ingressClassResource:
+        enabled: true
         name: "nginx-public"
         default: false
         controllerValue: "k8s.io/nginx-public"
@@ -42,7 +43,7 @@ spec:
           cpu: 1500m
           memory: 2048Mi
       autoscaling:
-        enabled: true
+        enabled: false # had some issues with the leader election when one of the replicas was scaled down
         minReplicas: 2
         maxReplicas: 10
         targetCPUUtilizationPercentage: 50
