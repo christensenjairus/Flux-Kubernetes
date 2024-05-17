@@ -17,6 +17,7 @@ spec:
   values:
     controller:
       kind: Deployment
+      replicaCount: 3
       service:
         external:
           enabled: true
