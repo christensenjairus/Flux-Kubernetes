@@ -114,7 +114,7 @@ spec:
       repos:
       - name: repo1
         schedules:
-          full: "0 1 * * *" # daily at 1am
+          full: "15 1 * * *" # daily at 1:15am
           differential: "30 * * * *" # every hour at :30
         volume:
           volumeClaimSpec:
@@ -126,7 +126,7 @@ spec:
                 storage: 5Gi
       - name: repo2
         schedules:
-          full: "0 0 * * *" # daily at midnight
+          full: "45 0 * * *" # daily at 12:45am
           differential: "0 * * * *" # every hour on the hour
         s3:
           bucket: "harbor"

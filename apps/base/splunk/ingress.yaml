@@ -91,16 +91,16 @@ spec:
 #                  number: 8000
 #            path: /
 #            pathType: Prefix
-#    - host: splunk-license-christensencloud.us
-#      http:
-#        paths:
-#          - backend:
-#              service:
-#                name: splunk-lm-license-manager-service
-#                port:
-#                  number: 8000
-#            path: /
-#            pathType: Prefix
+    - host: splunk-license.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: splunk-lm-license-manager-service
+                port:
+                  number: 8000
+            path: /
+            pathType: Prefix
   tls:
     - hosts:
         - splunk-manager.christensencloud.us
@@ -111,9 +111,9 @@ spec:
 #    - hosts:
 #        - splunk-indexer-christensencloud.us
 #      secretName: splunk-indexer-christensencloud.us-tls
-#    - hosts:
-#        - splunk-license-christensencloud.us
-#      secretName: splunk-license-christensencloud.us-tls
+    - hosts:
+        - splunk-license.christensencloud.us
+      secretName: splunk-license-christensencloud.us-tls
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

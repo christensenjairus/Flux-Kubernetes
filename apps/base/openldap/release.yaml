@@ -511,7 +511,7 @@ spec:
         enabled: true
         annotations: #{}
         # See https://kubernetes.io/docs/concepts/services-networking/ingress/#ingressclass-scope
-          cert-manager.io/cluster-issuer: acme-issuer
+          cert-manager.io/cluster-issuer: letsencrypt
         ingressClassName: nginx-public
         path: /
         pathType: Prefix
@@ -638,7 +638,7 @@ spec:
         enabled: true
         annotations: #{}
         ## See https://kubernetes.io/docs/concepts/services-networking/ingress/#ingressclass-scope
-          cert-manager.io/cluster-issuer: acme-issuer
+          cert-manager.io/cluster-issuer: letsencrypt
           nginx.ingress.kubernetes.io/auth-type: basic
           nginx.ingress.kubernetes.io/auth-secret: basic-auth
           nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'

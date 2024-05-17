@@ -1,4 +1,4 @@
---- # works great, but needed to use splunk-minio instead of splunk-minio. Going to try to reinstall with splunk-minio
+---
 # Source: splunk-enterprise/templates/enterprise_v4_clustermanager.yaml
 apiVersion:  enterprise.splunk.com/v4
 kind: ClusterManager
@@ -6,6 +6,8 @@ metadata:
   name: cm
   namespace: splunk
 spec:
+  licenseManagerRef:
+    name: lm
   appRepo: 
     appSources:
     - location: idxApps/
@@ -89,6 +91,72 @@ spec:
             values:
             - general
 ---
+# Source: splunk-enterprise/templates/enterprise_v4_clustermanager.yaml
+apiVersion:  enterprise.splunk.com/v4
+kind: LicenseManager
+metadata:
+  name: lm
+  namespace: splunk
+spec:
+  clusterManagerRef:
+    name: cm
+  imagePullPolicy: IfNotPresent
+  defaults: |-
+    splunk:
+      hec:
+        enable: true
+        ssl: false
+      idxc:
+        replication_factor: 3 # replicate to three indexers
+        search_factor: 3 # allow for one indexer to be down
+      ignore_license: true
+      shc:
+        replication_factor: 2 # allow for one search head to be down
+  livenessInitialDelaySeconds: 300
+  readinessInitialDelaySeconds: 300
+  startupProbe:
+    initialDelaySeconds: 300
+    failureThreshold: 20
+  livenessProbe:
+    initialDelaySeconds: 300
+    failureThreshold: 20
+  readinessProbe:
+    initialDelaySeconds: 300 # don't use until 5m after starting, once it's ready and stabilized.
+    failureThreshold: 120
+  etcVolumeStorageConfig:
+    ephemeralStorage: true # I don't believe there's anything important stored here
+    storageCapacity: 3Gi
+    storageClassName: ceph-block-2
+  varVolumeStorageConfig:
+    ephemeralStorage: true # I don't believe there's anything important stored here
+    storageCapacity: 3Gi
+    storageClassName: ceph-block-2
+  volumes:
+    - name: configs
+      secret:
+        secretName: splunk-configs
+    - name: licenses
+      secret:
+        secretName: splunk-license
+  licenseUrl: /mnt/licenses/license.lic
+  defaultsUrl: /mnt/configs/configs.yaml
+  resources:
+    requests:
+      memory: "2Gi"
+      cpu: "2"
+    limits:
+      memory: "4Gi"
+      cpu: "4"
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: nodeclass
+            operator: In
+            values:
+            - general
+---
 # Source: splunk-enterprise/templates/enterprise_v4_indexercluster.yaml
 apiVersion: v1
 kind: List
@@ -102,6 +170,8 @@ items:
     replicas: 3
     clusterManagerRef:
       name: cm
+    licenseManagerRef:
+      name: lm
     imagePullPolicy: IfNotPresent
     defaults: |-
       splunk:
@@ -196,6 +266,8 @@ items:
         storageType: s3
     clusterManagerRef:
       name: cm
+    licenseManagerRef:
+      name: lm
     imagePullPolicy: IfNotPresent
     defaults: |-
       splunk:

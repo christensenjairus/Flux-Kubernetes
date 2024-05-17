@@ -89,9 +89,9 @@ spec:
         hostSuffix:
         https: false
         externalIP:
-        ssh: gitlab-zeta.christensencloud.us
+        ssh: gitlab.christensencloud.us
         gitlab:
-          name: gitlab-zeta.christensencloud.us
+          name: gitlab.christensencloud.us
           https: false
         minio: {}
         registry: {}
@@ -102,7 +102,7 @@ spec:
 
       ## https://docs.gitlab.com/charts/charts/globals#configure-ingress-settings
       ingress:
-        apiVersion: ""
+        apiVersion: "networking.k8s.io/v1"
         configureCertmanager: false
         useNewIngressForCerts: false
         provider: nginx
@@ -112,7 +112,7 @@ spec:
         enabled: true
         tls:
           enabled: true
-          secretName: gitlab-zeta-christensencloud.us-tls
+          secretName: gitlab-christensencloud.us-tls
         path: /
         pathType: Prefix
 
@@ -257,7 +257,7 @@ spec:
 
       ## https://docs.gitlab.com/charts/charts/globals#configure-minio-settings
       minio:
-        enabled: false
+        enabled: true
         credentials: {}
           # secret:
 
@@ -379,53 +379,63 @@ spec:
             # secret:
             # key:
         lfs:
-          enabled: false
+          enabled: true
           proxy_download: true
           bucket: git-lfs
           connection: {}
             # secret:
             # key:
         artifacts:
-          enabled: false
+          enabled: true
           proxy_download: true
           bucket: gitlab-artifacts
           connection: {}
             # secret:
             # key:
         uploads:
-          enabled: false
+          enabled: true
           proxy_download: true
           bucket: gitlab-uploads
           connection: {}
             # secret:
             # key:
         packages:
-          enabled: false
+          enabled: true
           proxy_download: true
           bucket: gitlab-packages
           connection: {}
+            # secret:
+            # key:
         externalDiffs:
-          enabled: false
+          enabled: true
           when:
           proxy_download: true
           bucket: gitlab-mr-diffs
           connection: {}
+            # secret:
+            # key:
         terraformState:
           enabled: false
           bucket: gitlab-terraform-state
           connection: {}
+            # secret:
+            # key:
         ciSecureFiles:
           enabled: false
           bucket: gitlab-ci-secure-files
           connection: {}
+            # secret:
+            # key:
         dependencyProxy:
           enabled: false
           proxy_download: true
           bucket: gitlab-dependency-proxy
           connection: {}
+            # secret:
+            # key:
 
         backups:
-          bucket: gitlab
+          bucket: gitlab-backups
           tmpBucket: tmp
 
         ## https://docs.gitlab.com/charts/charts/globals#outgoing-email
@@ -1379,11 +1389,11 @@ spec:
             targetAverageUtilization: 250
         resources:
           requests:
-            cpu: 200m
+            cpu: 500m
             memory: 1200M
           limits:
-            cpu: 1000m
-            memory: 2400M
+            cpu: 1500m
+            memory: 3000M
       ## https://docs.gitlab.com/charts/charts/gitlab/sidekiq
       sidekiq:
         hpa:
@@ -1454,8 +1464,8 @@ spec:
             cpu: 200m
             memory: 100M
           limits:
-            cpu: 500m
-            memory: 250M
+            cpu: 1000m
+            memory: 500M
 
     ## Installation & configuration of gitlab/gitlab-zoekt
     gitlab-zoekt:
@@ -1471,5 +1481,21 @@ spec:
           secretKey: '{{ include "gitlab.zoekt.indexer.internalApi.secretKey" $ }}'
           gitlabUrl: '{{ include "gitlab.zoekt.indexer.internalApi.gitlabUrl" $ }}'
 
-    tcp:
-      "22": "gitlab/mygitlab-gitlab-shell:22"
+#    tcp:
+#      "22": "gitlab/mygitlab-gitlab-shell:22"
+
+    minio:
+      ingress:
+        enabled: false
+      persistence:
+        enabled: true
+        storageClass: ceph-block-3
+        accessMode: ReadWriteOnce
+        size: 5Gi
+      resources:
+        requests:
+          cpu: 25m
+          memory: 25M
+        limits:
+          cpu: 100m
+          memory: 100M
