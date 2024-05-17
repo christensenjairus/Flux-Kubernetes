@@ -1439,10 +1439,10 @@ spec:
             targetAverageUtilization: 250
         resources:
           requests:
-            cpu: 50m
+            cpu: 150m
             memory: 10M
           limits:
-            cpu: 250m
+            cpu: 500m
             memory: 100M
       gitlab-exporter:
         resources:
