@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: echo
+  namespace: echo
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: echo.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: echo
+                port:
+                  number: 9000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - echo.christensencloud.us
+      secretName: echo-christensencloud.us-tls

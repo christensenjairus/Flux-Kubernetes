@@ -1,0 +1,204 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: uptime-kuma
+  namespace: uptime-kuma
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: uptime-kuma
+      version: "2.18.x"
+      sourceRef:
+        kind: HelmRepository
+        name: uptime-kuma
+        namespace: uptime-kuma
+      interval: 12h
+  values:
+
+
+    # Default values for uptime-kuma.
+    # This is a YAML-formatted file.
+    # Declare variables to be passed into your templates.
+
+    image:
+      repository: louislam/uptime-kuma
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: "1.23.11-debian"
+
+    imagePullSecrets: []
+    nameOverride: ""
+    fullnameOverride: ""
+
+    # If this option is set to false a StateFulset instead of a Deployment is used
+    useDeploy: true
+
+    serviceAccount:
+      # Specifies whether a service account should be created
+      create: false
+      # Annotations to add to the service account
+      annotations: {}
+      # The name of the service account to use.
+      # If not set and create is true, a name is generated using the fullname template
+      name: ""
+
+    podAnnotations: {}
+    podLabels:
+      {}
+      # app: uptime-kuma
+    podEnv:
+      # a default port must be set. required by container
+      - name: "UPTIME_KUMA_PORT"
+        value: "3001"
+
+    podSecurityContext:
+      {}
+      # fsGroup: 2000
+
+    securityContext:
+      {}
+      # capabilities:
+      #   drop:
+      #   - ALL
+      # readOnlyRootFilesystem: true
+      # runAsNonRoot: true
+      # runAsUser: 1000
+
+    service:
+      type: ClusterIP
+      port: 3001
+      nodePort:
+      annotations: {}
+
+    ingress:
+      enabled: true
+      className: "nginx-public"
+      extraLabels:
+        {}
+        # vhost: uptime-kuma.company.corp
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+        nginx.ingress.kubernetes.io/server-snippets: |
+          location / {
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_http_version 1.1;
+            proxy_set_header X-Forwarded-Host $http_host;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Forwarded-For $remote_addr;
+            proxy_set_header Host $host;
+            proxy_set_header Connection "upgrade";
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header   Upgrade $http_upgrade;
+            proxy_cache_bypass $http_upgrade;
+          }
+      hosts:
+        - host: uptime-kuma.christensencloud.us
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+
+      tls:
+        - secretName: uptime-kuma-christensencloud.us-tls
+          hosts:
+            - uptime-kuma.christensencloud.us
+
+    resources:
+      {}
+      # We usually recommend not to specify default resources and to leave this as a conscious
+      # choice for the user. This also increases chances charts run on environments with little
+      # resources, such as Minikube. If you do want to specify resources, uncomment the following
+      # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+
+    nodeSelector: {}
+
+    tolerations: []
+
+    affinity: {}
+
+    livenessProbe:
+      enabled: true
+      timeoutSeconds: 2
+      initialDelaySeconds: 15
+
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 5
+
+    volume:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 3Gi
+      # If you want to use a storage class other than the default, uncomment this
+      # line and define the storage class name
+      storageClassName: ceph-block-3
+      # Reuse your own pre-existing PVC.
+      existingClaim: ""
+
+    # -- A list of additional volumes to be added to the pod
+    additionalVolumes:
+      []
+      # - name: "additional-certificates"
+      #   configMap:
+      #     name: "additional-certificates"
+      #     optional: true
+      #     defaultMode: 420
+
+    # -- A list of additional volumeMounts to be added to the pod
+    additionalVolumeMounts:
+      []
+      # - name: "additional-certificates"
+      #   mountPath: "/etc/ssl/certs/additional/additional-ca.pem"
+      #   readOnly: true
+      #   subPath: "additional-ca.pem"
+
+    strategy:
+      type: Recreate
+
+    # Prometheus ServiceMonitor configuration
+    serviceMonitor:
+      enabled: true
+      # -- Scrape interval. If not set, the Prometheus default scrape interval is used.
+      interval: 60s
+      # -- Timeout if metrics can't be retrieved in given time interval
+      scrapeTimeout: 10s
+      # -- Scheme to use when scraping, e.g. http (default) or https.
+      scheme: ~
+      # -- TLS configuration to use when scraping, only applicable for scheme https.
+      tlsConfig: {}
+      # -- Prometheus [RelabelConfigs] to apply to samples before scraping
+      relabelings: []
+      # -- Prometheus [MetricRelabelConfigs] to apply to samples before ingestion
+      metricRelabelings: []
+      # -- Prometheus ServiceMonitor selector, only select Prometheus's with these
+      # labels (if not set, select any Prometheus)
+      selector: {}
+
+      # -- Namespace where the ServiceMonitor resource should be created, default is
+      # the same as the release namespace
+      namespace: ~
+      # -- Additional labels to add to the ServiceMonitor
+      additionalLabels: {}
+      # -- Additional annotations to add to the ServiceMonitor
+      annotations: {}
+
+      # -- BasicAuth credentials for scraping metrics, use API token and any string for username
+      # basicAuth:
+      #   username: "metrics"
+      #   password: ""
+
+    # -- Use this option to set a custom DNS policy to the created deployment
+    dnsPolicy: ""
+
+    # -- Use this option to set custom DNS configurations to the created deployment
+    dnsConfig: {}
+

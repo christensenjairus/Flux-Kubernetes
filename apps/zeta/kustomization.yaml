@@ -8,6 +8,9 @@ resources:
   - ../base/openldap
   - ../base/authelia
   - ../base/gitlab
+  - ../base/echo
+  - ../base/uptime-kuma
+  - ../base/homarr
 patches:
   - path: podinfo-values.yaml
     target:

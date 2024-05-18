@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo
+  namespace: echo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: echo
+  template:
+    metadata:
+      labels:
+        app: echo
+    spec:
+      containers:
+        - image: fdeantoni/echo-server:latest
+          name: echo
+          ports:
+            - containerPort: 9000
+              protocol: TCP

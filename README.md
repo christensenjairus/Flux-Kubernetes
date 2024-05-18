@@ -45,17 +45,35 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 * Descheduler
 
 ### List of Flux-Managed Apps
-* Harbor Registry
+* GitLab
   * HA Redis
   * HA Postgres
-  * Stores docker images & database backups to S3
+  * Stores gitlab & database backups in S3
+  * Distributed gitaly instances
+  * Minio-backed object storage
+  * LDAP Authentication via OpenLDAP
 * Splunk
-  * 3 indexers, 3 search heads, 1 manager, 1 deployer
+  * 3 indexers, 3 search heads, 1 cluster manager, 1 license manager, 1 deployer
   * Passwords and configs loaded from 1Password
-  * LDAP authentication
+  * LDAP authentication via OpenLDAP
   * `main` index backs up to S3
   * Auto-installs all Splunk apps in an S3 bucket
   * Managed by the splunk operator
 * Collectord
   * Collects logs and metrics and sends to Splunk
   * Tokens and configs are loaded from 1Password
+* Harbor Registry
+  * HA Redis
+  * HA Postgres
+  * Stores docker images & database backups to S3
+* OpenLDAP
+  * HA Setup (3 replicas)
+  * PHP LDAP Admin
+  * LDAP Self-Service Password Reset
+* Authelia
+  * HA Redis
+  * HA Postgres
+  * LDAP Authentication via OpenLDAP
+* Uptime-Kuma
+* Echo Server
+* Homarr

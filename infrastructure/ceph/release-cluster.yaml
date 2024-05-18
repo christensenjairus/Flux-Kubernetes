@@ -327,7 +327,7 @@ spec:
             memory: "128Mi" # 512Mi is the default
         mon:
           limits:
-            memory: "500Mi" # default is 1G
+            memory: "750Mi" # default is 1G
           requests:
             cpu: "200m" # 1000m is the default
             memory: "128Mi" # 1Gi is the default
