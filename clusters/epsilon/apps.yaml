@@ -20,7 +20,7 @@ spec:
     - name: infra-policies
     - name: infra-scaling
     - name: infra-scheduling
-    - name: infra-virt
+#    - name: infra-virt
   sourceRef:
     kind: GitRepository
     name: flux-system
