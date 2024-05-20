@@ -109,7 +109,7 @@ spec:
             cpu: 5m
             memory: 5M
           limits:
-            cpu: 300m
+            cpu: 500m
             memory: 100M
       repos:
       - name: repo1
