@@ -17,7 +17,7 @@ fi
 echo "Continuing with context $current_context..."
 
 # Get all evicted pods from all namespaces
-evicted_pods=$(kubectl get pods --all-namespaces --field-selector 'status.phase==Failed' -o json | jq -r '.items[] | select(.status.reason=="Evicted") | .metadata.name + " " + .metadata.namespace')
+evicted_pods=$(kubectl get pods --all-namespaces --field-selector 'status.phase==Failed' -o json | jq -r '.items[] | select(.status.phase=="Failed") | .metadata.name + " " + .metadata.namespace')
 
 # Loop through the evicted pods and delete them
 echo "$evicted_pods" | while read -r pod namespace; do
