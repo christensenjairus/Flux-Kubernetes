@@ -33,6 +33,8 @@ spec:
       enabled: true
       # -- Tells helm to clean up vm cr resources when uninstalling
       cleanupCRD: true
+      nodeSelector:
+        nodeclass: general
       cleanupImage:
         repository: gcr.io/google_containers/hyperkube
         tag: v1.18.0
@@ -456,6 +458,8 @@ spec:
       # spec for VMAlertmanager crd
       # https://docs.victoriametrics.com/operator/api.html#vmalertmanagerspec
       spec:
+        nodeSelector:
+          nodeclass: general
         selectAllByDefault: true
         image:
           tag: v0.25.0
@@ -642,6 +646,8 @@ spec:
       # spec for VMAlert crd
       # https://docs.victoriametrics.com/operator/api.html#vmalertspec
       spec:
+        nodeSelector:
+          nodeclass: general
         selectAllByDefault: true
         image:
           tag: v1.100.1
@@ -721,6 +727,8 @@ spec:
       # spec for VMAgent crd
       # https://docs.victoriametrics.com/operator/api.html#vmagentspec
       spec:
+        nodeSelector:
+          nodeclass: general
         selectAllByDefault: true
         image:
           tag: v1.100.1
@@ -1024,15 +1032,15 @@ spec:
     kube-state-metrics:
       enabled: true
       ## all values for kube-state-metrics helm chart can be specified here
-
-
+      nodeSelector:
+        nodeclass: general
 
       # spec for VMServiceScrape crd
       # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
       vmServiceScrape:
         spec: {}
 
-      # TODO: selector override for kube-state-metrics deployed separatelly
+      # TODO: selector override for kube-state-metrics deployed separately
 
     #################################################
     ###              Service Monitors           #####

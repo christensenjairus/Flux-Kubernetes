@@ -193,9 +193,19 @@ spec:
           path: /spec/values/alertmanager/config/receivers/1/slack_configs/0/channel
           value: "#delta-alerts"
         - op: remove
-          path: /spec/values/vmsingle/spec/nodeSelector
+          path: /spec/values/vmsingle/spec/nodeSelector/nodeclass
         - op: remove
-          path: /spec/values/grafana/nodeSelector
+          path: /spec/values/grafana/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/victoria-metrics-operator/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/alertmanager/spec/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/vmalert/spec/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/vmagent/spec/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/kube-state-metrics/nodeSelector/nodeclass
       target:
         kind: HelmRelease
         name: victoria-metrics-k8s-stack
@@ -336,7 +346,13 @@ spec:
   patches:
     - patch: |
         - op: remove
-          path: /spec/values/nodeSelector
+          path: /spec/values/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/webhook/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/cainjector/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/startupapicheck/nodeSelector/nodeclass
       target:
         kind: HelmRelease
         name: cert-manager

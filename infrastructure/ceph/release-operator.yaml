@@ -427,7 +427,7 @@ spec:
       #      effect: NoSchedule
 
       # -- The node labels for affinity of the CSI provisioner deployment [^1]
-      provisionerNodeAffinity: #key1=value1,value2; key2=value3
+      provisionerNodeAffinity: nodeclass=general #key1=value1,value2; key2=value3
       # Set pluginTolerations and pluginNodeAffinity for plugin daemonset pods.
       # The CSI plugins need to be started on all the nodes where the clients need to mount the storage.
 
