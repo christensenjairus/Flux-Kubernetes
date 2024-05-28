@@ -209,6 +209,15 @@ spec:
       target:
         kind: HelmRelease
         name: victoria-metrics-k8s-stack
+    - patch: |
+        - op: remove
+          path: /spec/template/spec/nodeSelector/nodeclass
+        - op: replace
+          path: /spec/replicas
+          value: 1
+      target:
+        kind: Deployment
+        name: metrics-server
     # hide non-applicable dashboards from grafana
     - patch: |
         - op: remove
