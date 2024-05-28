@@ -138,7 +138,7 @@ spec:
       # `CSI_ENABLE_OMAP_GENERATOR` needs to be enabled when we are using rbd mirroring feature.
       # By default OMAP generator is disabled and when enabled, it will be deployed as a
       # sidecar with CSI provisioner pod, to enable set it to true.
-      enableOMAPGenerator: true
+      enableOMAPGenerator: false
 
       # -- Set CephFS Kernel mount options to use https://docs.ceph.com/en/latest/man/8/mount.ceph/#options.
       # Set to "ms_mode=secure" when connections.encrypted is enabled in CephCluster CR
@@ -530,13 +530,13 @@ spec:
 
       csiAddons:
         # -- Enable CSIAddons
-        enabled: true
+        enabled: false
         # -- CSIAddons Sidecar image
         image: "quay.io/csiaddons/k8s-sidecar:v0.8.0"
 
       nfs:
         # -- Enable the nfs csi driver
-        enabled: true
+        enabled: false
 
       topology:
         # -- Enable topology based provisioning

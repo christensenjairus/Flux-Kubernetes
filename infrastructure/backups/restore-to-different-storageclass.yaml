@@ -20,7 +20,9 @@ data:
   # add 1+ key-value pairs here, where the key is the old
   # storage class name and the value is the new storage
   # class name.
-  ceph-block: "ceph-block-3"
-  ceph-filesystem: "ceph-filesystem-3"
-  longhorn: "ceph-block-3"
-  longhorn-one-replica: "ceph-block-2"
+  ceph-block-3: "ceph-block"
+  ceph-block-2: "ceph-block"
+  ceph-filesystem-3: "ceph-filesystem"
+  ceph-filesystem-2: "ceph-filesystem"
+  longhorn: "ceph-block"
+  longhorn-one-replica: "ceph-block"

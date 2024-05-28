@@ -1414,7 +1414,7 @@ spec:
       gitaly:
         persistence:
           enabled: true
-          storageClass: ceph-filesystem-2
+          storageClass: ceph-filesystem
           accessMode: ReadWriteOnce
           size: 3Gi
         resources:
@@ -1489,7 +1489,7 @@ spec:
         enabled: false
       persistence:
         enabled: true
-        storageClass: ceph-block-3
+        storageClass: ceph-block
         accessMode: ReadWriteOnce
         size: 5Gi
       resources:

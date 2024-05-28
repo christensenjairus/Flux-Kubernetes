@@ -485,7 +485,7 @@ spec:
     # -- A list of CephBlockPool configurations to deploy
     # @default -- See [below](#ceph-block-pools)
     cephBlockPools:
-      - name: ceph-blockpool-3
+      - name: ceph-blockpool
         # see https://github.com/rook/rook/blob/v1.13.7/Documentation/CRDs/Block-Storage/ceph-block-pool-crd.md#spec for available configuration
         spec:
           failureDomain: host
@@ -496,7 +496,7 @@ spec:
           # enableRBDStats: true
         storageClass:
           enabled: true
-          name: ceph-block-3
+          name: ceph-block
           isDefault: false
           reclaimPolicy: Delete
           allowVolumeExpansion: true
@@ -547,7 +547,7 @@ spec:
             # in hyperconverged settings where the volume is mounted on the same node as the osds.
             csi.storage.k8s.io/fstype: ext4
 
-      - name: ceph-blockpool-2
+      - name: ceph-blockpool
         # see https://github.com/rook/rook/blob/v1.13.7/Documentation/CRDs/Block-Storage/ceph-block-pool-crd.md#spec for available configuration
         spec:
           failureDomain: host
@@ -558,7 +558,7 @@ spec:
           # enableRBDStats: true
         storageClass:
           enabled: true
-          name: ceph-block-2
+          name: ceph-block
           isDefault: true
           reclaimPolicy: Delete
           allowVolumeExpansion: true
@@ -612,7 +612,7 @@ spec:
     # -- A list of CephFileSystem configurations to deploy
     # @default -- See [below](#ceph-file-systems)
     cephFileSystems:
-      - name: ceph-filesystem-3
+      - name: ceph-filesystem
         # see https://github.com/rook/rook/blob/v1.13.7/Documentation/CRDs/Shared-Filesystem/ceph-filesystem-crd.md#filesystem-settings for available configuration
         spec:
           metadataPool:
@@ -637,7 +637,7 @@ spec:
         storageClass:
           enabled: true
           isDefault: false
-          name: ceph-filesystem-3
+          name: ceph-filesystem
           # (Optional) specify a data pool to use, must be the name of one of the data pools above, 'data0' by default
           pool: data0
           reclaimPolicy: Delete # REVERT IN PRODUCTION
@@ -660,7 +660,7 @@ spec:
             # in hyperconverged settings where the volume is mounted on the same node as the osds.
             csi.storage.k8s.io/fstype: ext4
 
-      - name: ceph-filesystem-2
+      - name: ceph-filesystem
         # see https://github.com/rook/rook/blob/v1.13.7/Documentation/CRDs/Shared-Filesystem/ceph-filesystem-crd.md#filesystem-settings for available configuration
         spec:
           metadataPool:
@@ -685,7 +685,7 @@ spec:
         storageClass:
           enabled: true
           isDefault: false
-          name: ceph-filesystem-2
+          name: ceph-filesystem
           # (Optional) specify a data pool to use, must be the name of one of the data pools above, 'data0' by default
           pool: data0
           reclaimPolicy: Delete # REVERT IN PRODUCTION

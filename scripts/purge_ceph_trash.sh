@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pools="ceph-blockpool-3 ceph-blockpool-2"
+pools="ceph-blockpool"
 
 # Get the current kubectl context
 export current_context=$(kubectl config current-context)

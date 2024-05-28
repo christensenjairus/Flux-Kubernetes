@@ -93,11 +93,11 @@ spec:
     # https://velero.io/docs/v1.6/customize-installation/#customize-resource-requests-and-limits
     resources:
       requests:
-        cpu: 500m
-        memory: 128Mi
-      limits:
         cpu: 1000m
-        memory: 512Mi
+        memory: 1024Mi
+      limits:
+        cpu: 2000m
+        memory: 2048Mi
 
     # Resource requests/limits to specify for the upgradeCRDs job pod. Need to be adjusted by user accordingly.
     upgradeJobResources: {}
