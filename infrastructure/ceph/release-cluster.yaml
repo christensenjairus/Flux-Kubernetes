@@ -578,12 +578,10 @@ spec:
           name: ceph-filesystem
           # (Optional) specify a data pool to use, must be the name of one of the data pools above, 'data0' by default
           pool: data0
-          reclaimPolicy: Delete # REVERT IN PRODUCTION
+          reclaimPolicy: Delete
           allowVolumeExpansion: true
           volumeBindingMode: "Immediate"
-          mountOptions: [
-            "discard"
-          ]
+          mountOptions: []
           # see https://github.com/rook/rook/blob/v1.13.7/Documentation/Storage-Configuration/Shared-Filesystem-CephFS/filesystem-storage.md#provision-storage for available configuration
           parameters:
             # The secrets contain Ceph admin credentials.
@@ -604,7 +602,7 @@ spec:
       enabled: true
       name: ceph-filesystem
       isDefault: false
-      deletionPolicy: Delete # REVERT IN PRODUCTION
+      deletionPolicy: Delete
       annotations: {}
       labels: #{}
         velero.io/csi-volumesnapshot-class: "true"
@@ -617,7 +615,7 @@ spec:
       enabled: true
       name: ceph-block
       isDefault: true
-      deletionPolicy: Delete # REVERT IN PRODUCTION
+      deletionPolicy: Delete
       annotations: {}
       labels: #{}
         velero.io/csi-volumesnapshot-class: "true"
@@ -655,7 +653,7 @@ spec:
         storageClass:
           enabled: true
           name: ceph-bucket
-          reclaimPolicy: Delete # REVERT IN PRODUCTION
+          reclaimPolicy: Delete
           volumeBindingMode: "Immediate"
           # see https://github.com/rook/rook/blob/v1.13.7/Documentation/Storage-Configuration/Object-Storage-RGW/ceph-object-bucket-claim.md#storageclass for available configuration
           parameters:
@@ -735,7 +733,7 @@ spec:
     #    # imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
     #    imageFeatures: layering
     #  allowVolumeExpansion: true
-    #  reclaimPolicy: Delete # REVERT IN PRODUCTION
+    #  reclaimPolicy: Delete
 
     # -- CSI driver name prefix for cephfs, rbd and nfs.
     # @default -- `namespace name where rook-ceph operator is deployed`

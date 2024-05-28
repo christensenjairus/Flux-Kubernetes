@@ -6,10 +6,10 @@ metadata:
 spec:
 
   ### perform a restore of the latest backup. See lower for how to do an in-place point-in-time restore.
-  dataSource:
-    postgresCluster:
-      clusterName: harbor-db
-      repoName: repo2
+#  dataSource:
+#    postgresCluster:
+#      clusterName: harbor-db
+#      repoName: repo2
   ### end latest backup restore
 
   ### perform a clone of a point-in-time. See lower for how to do an in-place point-in-time restore.

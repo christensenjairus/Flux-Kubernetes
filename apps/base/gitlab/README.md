@@ -1,4 +1,5 @@
 ### Setup instructions
+* Wait for shared secrets job to complete
 * Set the database password
 ```bash
 ./set_db_password.sh
