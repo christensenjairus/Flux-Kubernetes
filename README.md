@@ -79,3 +79,5 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 * Uptime-Kuma
 * Echo Server
 * Homarr
+* Joplin Server
+  * HA Postgres

@@ -1,14 +1,14 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: harbor-db
-  namespace: harbor
+  name: joplin-db
+  namespace: joplin
 spec:
 
   ### perform a restore of the latest backup. See lower for how to do an in-place point-in-time restore.
 #  dataSource:
 #    postgresCluster:
-#      clusterName: harbor-db
+#      clusterName: joplin-db
 #      repoName: repo2
   ### end latest backup restore
 
@@ -23,11 +23,11 @@ spec:
   ### end clone of point-in-time.
 
   users:
-    - name: harbor
+    - name: joplin
       password:
         type: "AlphaNumeric"
       databases:
-        - registry
+        - joplin
       options: 'SUPERUSER' # can't be a superuser through pgbouncer btw
   image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-16.2-0
   postgresVersion: 16
@@ -65,7 +65,7 @@ spec:
                   - key: postgres-operator.crunchydata.com/cluster
                     operator: In
                     values:
-                      - harbor-db
+                      - joplin-db
                   - key: postgres-operator.crunchydata.com/data
                     operator: In
                     values:
@@ -82,7 +82,7 @@ spec:
 #          - --type=time
 #          - --target="2024-05-13 00:00:00-06" # will restore the latest backup that precedes this time. The dash and the last two digits are the timezone offset. -06 is mountain daylight time.
         # after this is complete, you must annotate the cluster to trigger the restore
-        # kubectl annotate -n harbor postgrescluster harbor-db --overwrite postgres-operator.crunchydata.com/pgbackrest-restore="$(date)"
+        # kubectl annotate -n joplin postgrescluster joplin-db --overwrite postgres-operator.crunchydata.com/pgbackrest-restore="$(date)"
         # once the restore is done, comment out this section and re-apply the manifest.
       ### end point-in-time restore
 
@@ -129,7 +129,7 @@ spec:
           full: "45 0 * * *" # daily at 12:45am
           differential: "0 * * * *" # every hour on the hour
         s3:
-          bucket: "harbor"
+          bucket: "joplin"
           endpoint: "nas3.christensencloud.us"
           region: "default"
   monitoring:

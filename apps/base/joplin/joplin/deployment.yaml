@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: joplin-server
+  labels:
+    app.kubernetes.io/instance: joplin-server
+    app.kubernetes.io/name: joplin-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: joplin-server
+      app.kubernetes.io/instance: joplin-server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: joplin-server
+        app.kubernetes.io/instance: joplin-server
+    spec:
+      nodeSelector:
+        nodeclass: general
+      containers:
+        - name: joplin-server
+          image: "joplin/server:2.14.2-beta"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: APP_BASE_URL
+              value: https://joplin.christensencloud.us
+            - name: APP_PORT
+              value: "22300"
+            - name: DB_CLIENT
+              value: pg
+            - name: NODE_TLS_REJECT_UNAUTHORIZED # ignore self-signed certs (allows connection to the database over TLS but untrusted)
+              value: "0"
+            - name: POSTGRES_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  key: connection_string
+                  name: joplin-database-credentials
+            - name: TZ
+              value: America/Denver
+            - name: MAILER_ENABLED
+              value: "1"
+            - name: MAILER_HOST
+              value: smtp.gmail.com
+            - name: MAILER_PORT
+              value: "465"
+            - name: MAILER_SECURE
+              value: "1"
+            - name: MAILER_AUTH_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: joplin-mailer-credentials
+            - name: MAILER_AUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: credential
+                  name: joplin-mailer-credentials
+            - name: MAILER_NOREPLY_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  key: reply_to_address
+                  name: joplin-mailer-credentials
+            - name: MAILER_NOREPLY_NAME
+              value: Joplin
+          ports:
+            - name: http
+              containerPort: 22300
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: 22300
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 22300
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 22300
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5

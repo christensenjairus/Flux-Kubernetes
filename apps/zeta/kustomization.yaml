@@ -11,6 +11,8 @@ resources:
   - ../base/echo
   - ../base/uptime-kuma
   - ../base/homarr
+  - ../base/redirects
+  - ../base/joplin
 patches:
   - path: podinfo-values.yaml
     target:

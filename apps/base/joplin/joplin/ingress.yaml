@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: joplin
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: joplin.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: joplin-server
+                port:
+                  number: 22300
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - joplin.christensencloud.us
+      secretName: joplin-christensencloud.us-tls

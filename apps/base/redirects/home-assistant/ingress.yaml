@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: home-assistant
+  namespace: redirects
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: assistant.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: home-assistant
+                port:
+                  number: 8123
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - assistant.christensencloud.us
+      secretName: assistant-christensencloud.us-tls

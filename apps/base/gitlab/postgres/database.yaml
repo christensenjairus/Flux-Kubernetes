@@ -108,7 +108,7 @@ spec:
           - --type=full
       configuration:
         - secret:
-            name: minio-database-minio-credentials
+            name: database-minio-credentials
       repoHost:
         resources:
           requests:

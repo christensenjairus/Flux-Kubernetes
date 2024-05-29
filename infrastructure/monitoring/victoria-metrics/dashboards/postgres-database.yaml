@@ -3079,10 +3079,10 @@ data:
             "current": {
               "selected": true,
               "text": [
-                "registry"
+                "All"
               ],
               "value": [
-                "registry"
+                "$__all"
               ]
             },
             "datasource": {

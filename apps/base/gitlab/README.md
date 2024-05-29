@@ -7,6 +7,10 @@
 * Ensure that the new password is picked up by gitlab pods and connects successfully to the database.
 * Login as jchristensen via LDAP
 * Upload SSH Key
+* Create HomeLab group (private)
+* Set homelab group icon
+* Git push repos
+* Set icons for repos
 * Log out
 * Log in as root
 * Set jchristensen as admin and 'validate user account'

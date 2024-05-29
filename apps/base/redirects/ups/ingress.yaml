@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: ups
+  namespace: redirects
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: ups.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: ups
+                port:
+                  number: 80
+            path: /cgi-bin/nut/ #upsstats.cgi
+            pathType: Prefix
+  tls:
+    - hosts:
+        - ups.christensencloud.us
+      secretName: ups-christensencloud.us-tls

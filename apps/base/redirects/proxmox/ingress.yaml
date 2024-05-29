@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/secure-backends: "true"
+  name: proxmox
+  namespace: redirects
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: proxmox.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: proxmox
+                port:
+                  number: 443
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - proxmox.christensencloud.us
+      secretName: proxmox-christensencloud.us-tls
