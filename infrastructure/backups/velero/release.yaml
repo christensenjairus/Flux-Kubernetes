@@ -248,7 +248,7 @@ spec:
 
       serviceMonitor:
         autodetect: true
-        enabled: false
+        enabled: true
         annotations: {}
         additionalLabels: {}
 
@@ -265,7 +265,7 @@ spec:
         # tlsConfig: {}
       nodeAgentPodMonitor:
         autodetect: true
-        enabled: false
+        enabled: true
         annotations: {}
         additionalLabels: {}
         # ServiceMonitor namespace. Default to Velero namespace.
@@ -277,7 +277,7 @@ spec:
 
       prometheusRule:
         autodetect: true
-        enabled: false
+        enabled: true
         # Additional labels to add to deployed PrometheusRule
         additionalLabels: {}
         # PrometheusRule namespace. Defaults to Velero namespace.
@@ -533,7 +533,7 @@ spec:
     snapshotsEnabled: true
 
     # Whether to deploy the node-agent daemonset.
-    deployNodeAgent: false
+    deployNodeAgent: true
 
     nodeAgent:
       podVolumePath: /var/lib/kubelet/pods

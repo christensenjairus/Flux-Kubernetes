@@ -555,10 +555,21 @@ spec:
         kind: HelmRelease
         name: velero
     - patch: |
-        - op: remove
-          path: /spec/template/spec/nodeSelector
+        - op: replace
+          path: /spec/template/spec/containers/0/env/0/valueFrom/secretKeyRef/key
+          value: delta
       target:
-        kind: Deployment
+        kind: deployment
+        name: cloudcasa-kubeagent-manager
+    - patch: |
+        - op: remove
+          path: /spec/values/controller/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/webhook/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/webhook/tests/nodeSelector/nodeclass
+      target:
+        kind: HelmRelease
         name: snapshot-controller
         namespace: kube-system
 ---

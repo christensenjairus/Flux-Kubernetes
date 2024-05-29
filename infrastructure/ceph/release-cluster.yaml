@@ -614,7 +614,7 @@ spec:
     cephBlockPoolsVolumeSnapshotClass:
       enabled: true
       name: ceph-block
-      isDefault: true
+      isDefault: false
       deletionPolicy: Delete
       annotations: {}
       labels: #{}

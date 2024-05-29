@@ -378,6 +378,13 @@ spec:
       target:
         kind: HelmRelease
         name: velero
+    - patch: |
+        - op: replace
+          path: /spec/template/spec/containers/0/env/0/valueFrom/secretKeyRef/key
+          value: epsilon
+      target:
+        kind: deployment
+        name: cloudcasa-kubeagent-manager
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
