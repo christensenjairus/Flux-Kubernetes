@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# Ensure a namespace is provided
+# Ensure at least the backup name is provided
 if [ -z "$1" ]; then
-  echo "Usage: $0 <namespace>"
+  echo "Usage: $0 [namespaces] <name_of_backup_to_restore>"
+  echo "Namespaces can be either \"*\" for all namespaces or a comma-separated list of namespaces"
   exit 1
 fi
 
@@ -23,10 +24,23 @@ fi
 echo "Continuing with context $current_context..."
 echo ""
 
-NAMESPACE=$1
-BACKUP_NAME="scripted-backup-$(date +'%Y-%m-%d-%H-%M-%S')"
+# Check if the second parameter is provided (namespace)
+if [ -z "$2" ]; then
+  NAMESPACE="*"
+  BACKUP_NAME=$1
+else
+  NAMESPACE=$1
+  BACKUP_NAME=$2
+fi
 
-echo "Creating backup of '$NAMESPACE' namespace(s) with Velero set to backup volumes, move data, include cluster resources, and have a ttl of 7d"
+# Set restore name to include "all" if the namespace is "*"
+if [ "$NAMESPACE" == "*" ]; then
+  RESTORE_NAME="restore-of-all-from-$BACKUP_NAME"
+else
+  RESTORE_NAME="restore-of-$(echo $NAMESPACE | sed 's/*/all/g' | sed 's/,/-/g')-from-$BACKUP_NAME"
+fi
+
+echo "Creating restore of '$NAMESPACE' namespace with Velero set to restore volumes and include cluster resources"
 echo ""
 
-velero create backup $BACKUP_NAME --include-namespaces="$NAMESPACE" --snapshot-volumes=true --snapshot-move-data=true --include-resources="*" --include-cluster-resources=true --ttl=168h0m0s --csi-snapshot-timeout=1h0m0s --wait
+velero create restore "$RESTORE_NAME" --from-backup="$BACKUP_NAME" --include-namespaces="$NAMESPACE" --restore-volumes=true --include-resources="*" --include-cluster-resources=true --wait

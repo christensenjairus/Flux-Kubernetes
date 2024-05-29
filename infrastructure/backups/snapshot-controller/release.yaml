@@ -100,7 +100,7 @@ spec:
       dnsPolicy: ClusterFirst
 
     webhook:
-      enabled: true
+      enabled: false # I would normally enable this, but velero and rook-ceph don't know how to handle the certificate it uses and webhooks needs TLS
 
       replicaCount: 1
 
@@ -110,7 +110,7 @@ spec:
         tlsPrivateKeyFile: /etc/snapshot-validation/tls.key
         tlsCertFile: /etc/snapshot-validation/tls.crt
         port: 8443
-        # enableVolumeGroupSnapshotWebhook: true
+        enableVolumeGroupSnapshotWebhook: true
 
       image:
         repository: registry.k8s.io/sig-storage/snapshot-validation-webhook
@@ -119,7 +119,7 @@ spec:
         tag: ""
 
       webhook:
-        timeoutSeconds: 2
+        timeoutSeconds: 5
         failurePolicy: Fail
 
       tls:

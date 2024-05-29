@@ -39,8 +39,10 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 * NewRelic
 * 1Password Operator
 * Snapshot Controller
+* Metrics Server
 * Rook-Ceph
 * Velero (connected to Minio)
+* CloudCasa (UI for managing velero)
 * Vertical Pod Autoscaler
 * Descheduler
 
