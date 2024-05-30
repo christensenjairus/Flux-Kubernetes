@@ -33,7 +33,7 @@ else
   BACKUP_NAME="$current_context-$(echo $NAMESPACE | sed 's/*/all/g' | sed 's/,/-/g')-$(date +'%Y-%m-%d-%H-%M-%S')"
 fi
 
-echo "Creating backup of '$NAMESPACE' namespace(s) with Velero set to backup volumes, move data, include cluster resources, and have a ttl of 7d"
+echo "Creating backup of '$NAMESPACE' namespace(s) with Velero set to backup volumes, move data, and have a ttl of 7d"
 echo ""
 
-velero create backup "$BACKUP_NAME" --include-namespaces="$NAMESPACE" --snapshot-volumes=true --snapshot-move-data=true --include-resources="*" --include-cluster-resources=true --ttl=168h0m0s --csi-snapshot-timeout=1h0m0s --wait
+velero create backup "$BACKUP_NAME" --include-namespaces="$NAMESPACE" --snapshot-volumes=true --snapshot-move-data=true --ttl=168h0m0s --csi-snapshot-timeout=1h0m0s --wait

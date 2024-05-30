@@ -29,7 +29,7 @@ spec:
       # -- Image pull policy
       pullPolicy: IfNotPresent
       # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.15.3"
+      tag: latest #"0.15.3"
 
     env:
       # -- Your local time zone
@@ -202,7 +202,7 @@ spec:
         # -- homarr-database storage size
         size: "50Mi"
         # -- homarr-database mount path inside the pod
-        mountPath: "/app/database"
+        mountPath: "/data"
       - name: homarr-icons
         # -- Enable homarr-icons persistent storage
         enabled: true

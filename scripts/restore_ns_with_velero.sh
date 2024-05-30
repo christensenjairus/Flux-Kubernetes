@@ -40,7 +40,7 @@ else
   RESTORE_NAME="$current_context-$(echo $NAMESPACE | sed 's/*/all/g' | sed 's/,/-/g')-from-$BACKUP_NAME"
 fi
 
-echo "Creating restore of '$NAMESPACE' namespace with Velero set to restore volumes and include cluster resources"
+echo "Creating restore of '$NAMESPACE' namespace with Velero set to restore volumes"
 echo ""
 
-velero create restore "$RESTORE_NAME" --from-backup="$BACKUP_NAME" --include-namespaces="$NAMESPACE" --restore-volumes=true --include-resources="*" --include-cluster-resources=true --wait
+velero create restore "$RESTORE_NAME" --from-backup="$BACKUP_NAME" --include-namespaces="$NAMESPACE" --restore-volumes=true  --wait
