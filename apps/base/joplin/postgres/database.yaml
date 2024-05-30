@@ -41,7 +41,7 @@ spec:
         - "ReadWriteOnce"
         resources:
           requests:
-            storage: 10Gi # replicated, 10Gi per replica
+            storage: 15Gi # replicated, 15Gi per replica
       resources:
         requests:
           cpu: 250m
