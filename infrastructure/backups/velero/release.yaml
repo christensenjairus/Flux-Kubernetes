@@ -678,7 +678,7 @@ spec:
             - onepassword-connect
             - rook-ceph
             - velero
-      hourly-cluster-backup-no-system-or-infra-namespaces:
+      hourly-cluster-snapshot-no-system-or-infra-namespaces:
         disabled: false
         # labels:
           # myenv: foo
@@ -689,7 +689,7 @@ spec:
         template:
           ttl: "72h" # 3 days
           storageLocation: default # use the same name you defined above in backupStorageLocation
-          snapshotMoveData: true
+          snapshotMoveData: false
           snapshotVolumes: true # apparently only applies to PVs in AWS, GCP, and Azure?
           includeClusterResources: true # pvs are cluster-scoped!
           excludedNamespaces:
