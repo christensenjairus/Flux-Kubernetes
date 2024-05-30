@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: sonarr-4k
+  namespace: media
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: sonarr-4k.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: sonarr-4k
+                port:
+                  number: 8989
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - sonarr-4k.christensencloud.us
+      secretName: sonarr-4k-christensencloud.us-tls

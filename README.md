@@ -81,3 +81,13 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 * Homarr
 * Joplin Server
   * HA Postgres
+* Home Media Helpers
+  * Radarr (with a 4k instance)
+  * Sonarr (with a 4k instance)
+  * Lidarr
+  * Readarr
+  * Prowlarr
+  * Bazarr
+  * Overseerr
+  * Tautulli
+  * Deluge (with built-in VPN)

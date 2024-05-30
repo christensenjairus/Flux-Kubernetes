@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: lidarr
+  namespace: media
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: lidarr.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: lidarr
+                port:
+                  number: 8686
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - lidarr.christensencloud.us
+      secretName: lidarr-christensencloud.us-tls

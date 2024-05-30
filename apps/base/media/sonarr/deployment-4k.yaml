@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sonarr-4k
+  name: sonarr-4k
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr-4k
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: sonarr-4k
+    spec:
+      nodeSelector:
+        nodeclass: general
+      containers:
+        - env:
+            - name: TZ
+              value: America/Denver
+          image: linuxserver/sonarr:nightly
+          name: sonarr-4k
+          ports:
+            - containerPort: 7878
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /config
+              name: sonarr-4k-config
+            - mountPath: /media
+              name: media
+            - mountPath: /data
+              name: downloads
+      volumes:
+        - name: sonarr-4k-config
+          persistentVolumeClaim:
+            claimName: sonarr-4k-config
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: downloads

@@ -27,10 +27,10 @@ NAMESPACE=$1
 
 # Set backup name to include "all" if the namespace is "*"
 if [ "$NAMESPACE" == "*" ]; then
-  BACKUP_NAME="backup-of-all-$(date +'%Y-%m-%d-%H-%M-%S')"
+  BACKUP_NAME="$current_context-all-$(date +'%Y-%m-%d-%H-%M-%S')"
 else
   # Replace '*' with 'all' and ',' with '-'
-  BACKUP_NAME="backup-of-$(echo $NAMESPACE | sed 's/*/all/g' | sed 's/,/-/g')-$(date +'%Y-%m-%d-%H-%M-%S')"
+  BACKUP_NAME="$current_context-$(echo $NAMESPACE | sed 's/*/all/g' | sed 's/,/-/g')-$(date +'%Y-%m-%d-%H-%M-%S')"
 fi
 
 echo "Creating backup of '$NAMESPACE' namespace(s) with Velero set to backup volumes, move data, include cluster resources, and have a ttl of 7d"

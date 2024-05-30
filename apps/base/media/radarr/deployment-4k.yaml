@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: radarr-4k
+  name: radarr-4k
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr-4k
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: radarr-4k
+    spec:
+      nodeSelector:
+        nodeclass: general
+      containers:
+        - env:
+            - name: TZ
+              value: America/Denver
+          image: linuxserver/radarr:latest
+          name: radarr-4k
+          ports:
+            - containerPort: 7878
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /config
+              name: radarr-4k-config
+            - mountPath: /media
+              name: media
+            - mountPath: /data
+              name: downloads
+      hostAliases:
+        - hostnames:
+            - api.radarr.video
+          ip: 172.64.200.7
+      volumes:
+        - name: radarr-4k-config
+          persistentVolumeClaim:
+            claimName: radarr-4k-config
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: downloads

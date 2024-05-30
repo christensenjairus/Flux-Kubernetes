@@ -13,6 +13,7 @@ resources:
   - ../base/homarr
   - ../base/redirects
   - ../base/joplin
+  - ../base/media
 patches:
   - path: podinfo-values.yaml
     target:

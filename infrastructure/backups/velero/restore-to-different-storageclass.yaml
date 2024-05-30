@@ -26,3 +26,7 @@ data:
   ceph-filesystem-2: "ceph-filesystem"
   longhorn: "ceph-block"
   longhorn-one-replica: "ceph-block"
+  truenas-nfs: "ceph-filesystem"
+  truenas-iscsi: "ceph-block"
+  truenas-nfs-no-retain: "ceph-filesystem"
+  truenas-iscsi-no-retain: "ceph-block"

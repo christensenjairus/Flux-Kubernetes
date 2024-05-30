@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: lidarr
+  name: lidarr
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lidarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: lidarr
+    spec:
+      nodeSelector:
+        nodeclass: general
+      containers:
+        - env:
+            - name: TZ
+              value: America/Denver
+          image: linuxserver/lidarr:latest
+          name: lidarr
+          ports:
+            - containerPort: 6767
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /config
+              name: lidarr-config
+            - mountPath: /media
+              name: media
+            - mountPath: /data
+              name: downloads
+      volumes:
+        - name: lidarr-config
+          persistentVolumeClaim:
+            claimName: lidarr-config
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: downloads

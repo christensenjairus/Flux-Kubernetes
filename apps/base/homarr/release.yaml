@@ -189,10 +189,10 @@ spec:
         # -- homarr-config access mode
         accessMode: "ReadWriteOnce"
         # -- homarr-config storage size
-        size: "500Mi"
+        size: "50Mi"
         # -- homarr-config mount path inside the pod
         mountPath: "/app/data/configs"
-      - name: homarr-database
+      - name: homarr-data
         # -- Enable homarr-database persistent storage
         enabled: true
         # -- homarr-database storage class name
@@ -200,7 +200,7 @@ spec:
         # -- homarr-database access mode
         accessMode: "ReadWriteOnce"
         # -- homarr-database storage size
-        size: "500Mi"
+        size: "50Mi"
         # -- homarr-database mount path inside the pod
         mountPath: "/app/database"
       - name: homarr-icons
@@ -211,7 +211,7 @@ spec:
         # -- homarr-icons access mode
         accessMode: "ReadWriteOnce"
         # -- homarr-icons storage size
-        size: "500Mi"
+        size: "50Mi"
         # -- homarr-icons mount path inside the pod
         mountPath: "/app/public/icons"
 

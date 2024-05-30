@@ -35,9 +35,9 @@ fi
 
 # Set restore name to include "all" if the namespace is "*"
 if [ "$NAMESPACE" == "*" ]; then
-  RESTORE_NAME="restore-of-all-from-$BACKUP_NAME"
+  RESTORE_NAME="$current_context-all-from-$BACKUP_NAME"
 else
-  RESTORE_NAME="restore-of-$(echo $NAMESPACE | sed 's/*/all/g' | sed 's/,/-/g')-from-$BACKUP_NAME"
+  RESTORE_NAME="$current_context-$(echo $NAMESPACE | sed 's/*/all/g' | sed 's/,/-/g')-from-$BACKUP_NAME"
 fi
 
 echo "Creating restore of '$NAMESPACE' namespace with Velero set to restore volumes and include cluster resources"

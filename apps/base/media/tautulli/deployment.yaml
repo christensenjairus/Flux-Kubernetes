@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: tautulli
+  name: tautulli
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tautulli
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: tautulli
+    spec:
+      nodeSelector:
+        nodeclass: general
+      containers:
+        - env:
+            - name: TZ
+              value: America/Denver
+          image: linuxserver/tautulli:latest
+          name: tautulli
+          ports:
+            - containerPort: 8181
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /config
+              name: tautulli-config
+      volumes:
+        - name: tautulli-config
+          persistentVolumeClaim:
+            claimName: tautulli-config

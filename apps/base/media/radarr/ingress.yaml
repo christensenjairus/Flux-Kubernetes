@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: radarr
+  namespace: media
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: radarr.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: radarr
+                port:
+                  number: 7878
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - radarr.christensencloud.us
+      secretName: radarr-christensencloud.us-tls

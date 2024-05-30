@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: deluge
+  name: deluge
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deluge
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: deluge
+    spec:
+      nodeSelector:
+        nodeclass: general
+      containers:
+        - env:
+          - name: VPN_USER
+            valueFrom:
+              secretKeyRef:
+                key: username
+                name: pia-credentials
+          - name: VPN_PASS
+            valueFrom:
+              secretKeyRef:
+                key: credential
+                name: pia-credentials
+          - name: VPN_ENABLED
+            value: "yes"
+          - name: VPN_PROV
+            value: "pia"
+          - name: VPN_CLIENT
+            value: "openvpn"
+          - name: LAN_NETWORK
+            value: "10.0.6.0/24"
+          image: binhex/arch-delugevpn:latest
+          name: deluge
+          ports:
+#            - containerPort: 58846
+#              name: port-58846
+#              protocol: TCP
+#            - containerPort: 58946
+#              name: port-58946
+#              protocol: TCP
+            - containerPort: 8112
+              name: port-8112
+              protocol: TCP
+#            - containerPort: 8118
+#              name: port-8118
+#              protocol: TCP
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+          volumeMounts:
+            - mountPath: /data
+              name: downloads
+            - mountPath: /config
+              name: deluge-config
+      initContainers:
+        - command:
+            - sh
+            - -c
+            - mkdir -p /config/openvpn/ && wget https://www.privateinternetaccess.com/openvpn/openvpn.zip && unzip openvpn.zip -o -d /config/openvpn/
+          image: busybox:latest
+          name: init-deluge
+          volumeMounts:
+            - mountPath: /config
+              name: deluge-config
+      volumes:
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: downloads
+        - name: deluge-config
+          persistentVolumeClaim:
+            claimName: deluge-config

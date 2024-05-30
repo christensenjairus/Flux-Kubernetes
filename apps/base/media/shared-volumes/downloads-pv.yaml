@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: downloads
+spec:
+  accessModes:
+    - ReadWriteMany
+    - ReadOnlyMany
+    - ReadWriteOnce
+  capacity:
+    storage: 5000Gi
+  mountOptions:
+    - async
+    - nfsvers=4.2
+    - noatime
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  nfs:
+    path: /mnt/HDD_POOL/downloads
+    server: 10.0.6.2

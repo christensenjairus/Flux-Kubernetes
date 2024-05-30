@@ -341,7 +341,7 @@ spec:
       backupStorageLocation:
         # name is the name of the backup storage location where backups should be stored. If a name is not provided,
         # a backup storage location will be created with the name "default". Optional.
-      - name:
+      - name: zeta
         # provider is the name for the backup storage location provider.
         provider: aws
         # bucket is the name of the bucket to store backups in. Required.
@@ -351,7 +351,47 @@ spec:
         # prefix is the directory under which all Velero data should be stored within the bucket. Optional.
         prefix:
         # default indicates this location is the default backup storage location. Optional.
-        default:
+        default: true
+        # validationFrequency defines how frequently Velero should validate the object storage. Optional.
+        validationFrequency:
+        # accessMode determines if velero can write to this backup storage location. Optional.
+        # default to ReadWrite, ReadOnly is used during migrations and restores.
+        accessMode: ReadWrite
+        credential:
+          # name of the secret used by this backupStorageLocation.
+          name: velero-credentials
+          # name of key that contains the secret data to be used.
+          key: notesPlain
+        # Additional provider-specific configuration. See link above
+        # for details of required/optional fields for your provider.
+        config: #{}
+          region: default
+          s3ForcePathStyle: true
+          s3Url: https://nas3.christensencloud.us
+        #  kmsKeyId:
+        #  resourceGroup:
+        #  The ID of the subscription containing the storage account, if different from the cluster’s subscription. (Azure only)
+        #  subscriptionId:
+        #  storageAccount:
+        #  publicUrl:
+        #  Name of the GCP service account to use for this backup storage location. Specify the
+        #  service account here if you want to use workload identity instead of providing the key file.(GCP only)
+        #  serviceAccount:
+        #  Option to skip certificate validation or not if insecureSkipTLSVerify is set to be true, the client side should set the
+        #  flag. For Velero client Command like velero backup describe, velero backup logs needs to add the flag --insecure-skip-tls-verify
+        #  insecureSkipTLSVerify:
+
+      - name: prod-k3s
+        # provider is the name for the backup storage location provider.
+        provider: aws
+        # bucket is the name of the bucket to store backups in. Required.
+        bucket: prod-k3s-cluster
+        # caCert defines a base64 encoded CA bundle to use when verifying TLS connections to the provider. Optional.
+        caCert:
+        # prefix is the directory under which all Velero data should be stored within the bucket. Optional.
+        prefix:
+        # default indicates this location is the default backup storage location. Optional.
+        default: false
         # validationFrequency defines how frequently Velero should validate the object storage. Optional.
         validationFrequency:
         # accessMode determines if velero can write to this backup storage location. Optional.

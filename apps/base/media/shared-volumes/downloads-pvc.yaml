@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: downloads
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteMany
+    - ReadWriteMany
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 5000Gi
+  volumeMode: Filesystem
+  volumeName: downloads
+  storageClassName: ''

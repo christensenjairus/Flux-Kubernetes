@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: deluge
+  namespace: media
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: deluge.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: deluge
+                port:
+                  number: 8112
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - deluge.christensencloud.us
+      secretName: deluge-christensencloud.us-tls

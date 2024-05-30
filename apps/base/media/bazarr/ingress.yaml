@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: bazarr
+  namespace: media
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: bazarr.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: bazarr
+                port:
+                  number: 6767
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - bazarr.christensencloud.us
+      secretName: bazarr-christensencloud.us-tls

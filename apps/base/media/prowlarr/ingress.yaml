@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: prowlarr
+  namespace: media
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: prowlarr.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: prowlarr
+                port:
+                  number: 9696
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - prowlarr.christensencloud.us
+      secretName: prowlarr-christensencloud.us-tls
