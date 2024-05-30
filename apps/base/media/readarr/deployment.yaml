@@ -26,7 +26,7 @@ spec:
           image: linuxserver/readarr:nightly
           name: readarr
           ports:
-            - containerPort: 6767
+            - containerPort: 8787
               name: http
               protocol: TCP
           volumeMounts:

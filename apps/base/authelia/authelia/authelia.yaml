@@ -69,7 +69,7 @@ metadata:
 spec:
   ingressClassName: nginx-public
   rules:
-  - host: auth-zeta.christensencloud.us
+  - host: auth.christensencloud.us
     http:
       paths:
       - backend:
@@ -81,5 +81,5 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - auth-zeta.christensencloud.us
-    secretName: auth-zeta-christensencloud.us-tls
+    - auth.christensencloud.us
+    secretName: auth-christensencloud.us-tls

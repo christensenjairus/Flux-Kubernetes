@@ -26,7 +26,7 @@ spec:
           image: linuxserver/overseerr:latest
           name: overseerr
           ports:
-            - containerPort: 6767
+            - containerPort: 5055
               name: http
               protocol: TCP
           volumeMounts:

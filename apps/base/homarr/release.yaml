@@ -139,18 +139,22 @@ spec:
       # -- Ingress annotations
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
+        nginx.ingress.kubernetes.io/auth-method: 'GET'
+        nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
+        nginx.ingress.kubernetes.io/auth-signin: 'https://auth.christensencloud.us?rm=$request_method'
+        nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
       # -- Ingress hosts configuration
       hosts:
-        - host: homarr-zeta.christensencloud.us
+        - host: homarr.christensencloud.us
           paths:
             - path: /
       # -- Ingress TLS configuration
       tls:
-       - secretName: homarr-zeta-christensencloud.us-tls
+       - secretName: homarr-christensencloud.us-tls
          hosts:
-           - homarr-zeta.christensencloud.us
+           - homarr.christensencloud.us
 
     # -- Resource configuration
     resources: { }

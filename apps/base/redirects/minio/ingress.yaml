@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: minio
+  namespace: redirects
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: minio.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: minio
+                port:
+                  number: 9002
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - minio.christensencloud.us
+      secretName: minio-christensencloud.us-tls

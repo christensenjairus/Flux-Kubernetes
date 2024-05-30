@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: nextcloud
+  namespace: redirects
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: nextcloud
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - christensencloud.us
+      secretName: christensencloud.us-tls

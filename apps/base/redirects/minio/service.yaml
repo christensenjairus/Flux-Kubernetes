@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+  namespace: redirects
+spec:
+  internalTrafficPolicy: Cluster
+  ports:
+    - port: 9002
+      protocol: TCP
+      targetPort: 9002
+  sessionAffinity: None
+  type: ClusterIP

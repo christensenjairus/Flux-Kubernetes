@@ -23,10 +23,10 @@ spec:
         - env:
             - name: TZ
               value: America/Denver
-          image: linuxserver/sonarr:nightly
+          image: linuxserver/sonarr:latest
           name: sonarr
           ports:
-            - containerPort: 7878
+            - containerPort: 8989
               name: http
               protocol: TCP
           volumeMounts:

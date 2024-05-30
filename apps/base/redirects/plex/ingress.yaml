@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: plex
+  namespace: redirects
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: plex.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: plex
+                port:
+                  number: 32400
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - plex.christensencloud.us
+      secretName: plex-christensencloud.us-tls

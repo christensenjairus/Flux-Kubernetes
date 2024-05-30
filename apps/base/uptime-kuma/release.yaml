@@ -96,15 +96,15 @@ spec:
             proxy_cache_bypass $http_upgrade;
           }
       hosts:
-        - host: uptime-kuma.christensencloud.us
+        - host: uptime.christensencloud.us
           paths:
             - path: /
               pathType: ImplementationSpecific
 
       tls:
-        - secretName: uptime-kuma-christensencloud.us-tls
+        - secretName: uptime-christensencloud.us-tls
           hosts:
-            - uptime-kuma.christensencloud.us
+            - uptime.christensencloud.us
 
     resources:
       {}
@@ -137,12 +137,12 @@ spec:
     volume:
       enabled: true
       accessMode: ReadWriteOnce
-      size: 3Gi
+      size: 4Gi
       # If you want to use a storage class other than the default, uncomment this
       # line and define the storage class name
       storageClassName: ceph-block
       # Reuse your own pre-existing PVC.
-      existingClaim: ""
+      existingClaim: "uptime-kuma-pvc" # volume name from prod-k3s cluster migration
 
     # -- A list of additional volumes to be added to the pod
     additionalVolumes:

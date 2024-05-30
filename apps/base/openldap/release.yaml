@@ -401,7 +401,7 @@ spec:
         ##
         pullPolicy: IfNotPresent
       # The name of a kubernetes.io/tls type secret to use for TLS
-      secret: "ldap-zeta-christensencloud.us-tls"
+      secret: "ldap-christensencloud.us-tls"
       ## init-tls-secret container's resource requests and limits
       ## ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
       ## @param initTlsSecret.resources.limits The resources limits for the init container
@@ -517,12 +517,12 @@ spec:
         pathType: Prefix
         ## Ingress Host
         hosts:
-        - "ldap-reset-zeta.christensencloud.us"
+        - "ldap-reset.christensencloud.us"
         ## Ingress cert
         tls: #[]
-        - secretName: ldap-reset-zeta-christensencloud.us-tls
+        - secretName: ldap-reset-christensencloud.us-tls
           hosts:
-          - ldap-reset-zeta.christensencloud.us
+          - ldap-reset.christensencloud.us
       # ldap:
         # if you want to restrict search base tree for users instead of complete domain
         # searchBase: "ou=....,dc=mydomain,dc=com"
@@ -624,7 +624,7 @@ spec:
         - name: IS_BEHIND_PROXY
           value: "true"
         - name: SITE_URL
-          value: "https://ldap-reset-zeta.christensencloud.us"
+          value: "https://ldap-reset.christensencloud.us"
 
     ## phpldapadmin
     ## For more parameters check following file: ./charts/phpldapadmin/values.yaml
@@ -647,9 +647,9 @@ spec:
         pathType: Prefix
         ## Ingress Host
         hosts:
-        - ldap-admin-zeta.christensencloud.us
+        - ldap-admin.christensencloud.us
         ## Ingress cert
         tls: #[]
-        - secretName: ldap-admin-zeta-christensencloud.us-tls
+        - secretName: ldap-admin-christensencloud.us-tls
           hosts:
-          - ldap-admin-zeta.christensencloud.us
+          - ldap-admin.christensencloud.us
