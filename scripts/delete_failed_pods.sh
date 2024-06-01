@@ -21,7 +21,7 @@ evicted_pods=$(kubectl get pods --all-namespaces --field-selector 'status.phase=
 
 # Loop through the evicted pods and delete them
 echo "$evicted_pods" | while read -r pod namespace; do
-  echo "Deleting evicted pod $pod in namespace $namespace"
+  echo "Deleting failed pod $pod in namespace $namespace"
   kubectl delete pod "$pod" -n "$namespace"
 done
 

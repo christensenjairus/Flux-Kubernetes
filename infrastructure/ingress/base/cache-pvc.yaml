@@ -1,16 +1,14 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: media
-  namespace: media
+  name: ingress-nginx-cache
+  namespace: ingress-nginx
 spec:
   accessModes:
     - ReadWriteOnce
     - ReadWriteMany
-    - ReadOnlyMany
   resources:
     requests:
-      storage: 75000Gi
+      storage: 5Gi
   volumeMode: Filesystem
-  volumeName: media
-  storageClassName: ''
+  storageClassName: 'ceph-filesystem'

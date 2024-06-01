@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ingress-nginx
+spec:
+  releaseName: ingress-nginx-private
+  values:
+    controller:
+      service:
+        annotations:
+          io.cilium/lb-ipam-ips: "10.0.6.201"
+      ingressClassResource:
+        name: nginx-private
+        controllerValue: k8s.io/nginx-private
+      ingressClass: nginx-private

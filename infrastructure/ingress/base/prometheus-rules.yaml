@@ -1,11 +1,11 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: prometheus-ingress-rules-private
-  namespace: ingress-nginx-private
+  name: prometheus-ingress-rules
+  namespace: ingress-nginx
 spec:
   groups:
-  - name: ingress-nginx-private
+  - name: ingress-nginx
     rules:
     - alert: NGINXTooMany400s
       annotations:

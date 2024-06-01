@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: wordpress
+spec:
+  releaseName: wpcyberengine
+  values:
+    wordpressBlogName: "Cyber-Engine"
+    ingress:
+      hostname: cyber-engine.com
+    secondaryIngress:
+      hostname: cyber-engine.com
+    extraEnvVars:
+      - name: WEBSITE_URL
+        value: "cyber-engine.com"

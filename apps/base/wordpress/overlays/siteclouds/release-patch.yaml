@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: wordpress
+spec:
+  releaseName: wpsiteclouds
+  values:
+    wordpressBlogName: "Site Clouds"
+    ingress:
+      hostname: siteclouds.net
+    secondaryIngress:
+      hostname: siteclouds.net
+    extraEnvVars:
+      - name: WEBSITE_URL
+        value: "siteclouds.net"

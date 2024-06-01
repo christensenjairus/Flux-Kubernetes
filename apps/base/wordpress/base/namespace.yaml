@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ingress-nginx-public
+  name: wordpress
   labels:
-    toolkit.fluxcd.io/tenant: sre-team
+    toolkit.fluxcd.io/tenant: dev-team
     goldilocks.fairwinds.com/enabled: "true"

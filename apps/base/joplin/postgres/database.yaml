@@ -41,7 +41,7 @@ spec:
         - "ReadWriteOnce"
         resources:
           requests:
-            storage: 15Gi # replicated, 15Gi per replica
+            storage: 25Gi # replicated, 15Gi per replica
       resources:
         requests:
           cpu: 250m
@@ -123,7 +123,7 @@ spec:
             - "ReadWriteOnce"
             resources:
               requests:
-                storage: 30Gi
+                storage: 50Gi
       - name: repo2
         schedules:
           full: "45 0 * * *" # daily at 12:45am

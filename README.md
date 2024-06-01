@@ -91,3 +91,7 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
   * Overseerr
   * Tautulli
   * Deluge (with built-in VPN)
+* WordPress
+  * 3 instances with different URLs
+  * MariaDB
+[//]: # (  * Memcached)
