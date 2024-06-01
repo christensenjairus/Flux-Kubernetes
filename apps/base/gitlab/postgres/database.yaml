@@ -94,14 +94,11 @@ spec:
 
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.49-0
       global:
-        repo1-retention-full: "7" # one week
-        repo1-retention-full-type: time # count in days
         repo1-retention-diff: "3" # three days
 
         repo2-s3-uri-style: path
         repo2-retention-full: "21" # three weeks
         repo2-retention-full-type: time # count in days
-        repo2-retention-diff: "7" # one week
       manual:
         repoName: repo2 # when running a manual backup, do a full backup to repo2
         options:
@@ -120,8 +117,7 @@ spec:
       repos:
       - name: repo1
         schedules:
-          full: "15 1 * * *" # daily at 1:15am
-          differential: "30 * * * *" # every hour at :30
+          differential: "0 * * * *" # every hour at :00
         volume:
           volumeClaimSpec:
             storageClassName: ceph-block
@@ -132,8 +128,7 @@ spec:
                 storage: 5Gi
       - name: repo2
         schedules:
-          full: "45 0 * * *" # daily at 12:45am
-          differential: "0 * * * *" # every hour on the hour
+          full: "30 0 * * *" # daily at 12:30am
         s3:
           bucket: "gitlab"
           endpoint: "nas3.christensencloud.us"
