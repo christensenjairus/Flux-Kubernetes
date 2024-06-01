@@ -6,3 +6,4 @@
 * Log in as admin@localhost with password admin
 * Change the admin password
 * Create a new user - line6
+* Upload your notes
