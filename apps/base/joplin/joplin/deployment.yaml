@@ -6,9 +6,12 @@ metadata:
     app.kubernetes.io/instance: joplin-server
     app.kubernetes.io/name: joplin-server
 spec:
-  replicas: 1
+  replicas: 3
   strategy:
-    type: Recreate
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
   selector:
     matchLabels:
       app.kubernetes.io/name: joplin-server
@@ -21,6 +24,16 @@ spec:
     spec:
       nodeSelector:
         nodeclass: general
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                      - joplin-server
+              topologyKey: kubernetes.io/hostname
       containers:
         - name: joplin-server
           image: "joplin/server:2.14.2-beta"
