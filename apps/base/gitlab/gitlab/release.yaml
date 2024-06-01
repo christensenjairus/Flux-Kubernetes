@@ -1428,8 +1428,10 @@ spec:
       ## https://docs.gitlab.com/charts/charts/gitlab/gitlab-shell
       gitlab-shell:
         service:
-          type: NodePort
-          nodePort: 32022
+          type: LoadBalancer
+          loadBalancerIP: 10.0.6.204
+          externalTrafficPolicy: Local
+          # nodePort: 32022
         hpa:
           cpu:
             targetType: Utilization
