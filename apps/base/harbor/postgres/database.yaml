@@ -89,6 +89,8 @@ spec:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.49-0
       global:
         repo1-retention-diff: "3" # three days
+        repo1-retention-full-type: count
+        repo1-retention-full: "1" # one full backup, this repo is for diffs
 
         repo2-s3-uri-style: path
         repo2-retention-full: "21" # three weeks
