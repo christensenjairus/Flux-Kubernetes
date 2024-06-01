@@ -388,7 +388,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/ingress
+  path: ./infrastructure/ingress/overlays
   prune: true
   wait: true
   patches:
