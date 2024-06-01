@@ -41,7 +41,7 @@ spec:
         - "ReadWriteOnce"
         resources:
           requests:
-            storage: 25Gi # replicated, 15Gi per replica
+            storage: 50Gi # replicated, 50Gi per replica. Way too much, but I kept running out of space.
       resources:
         requests:
           cpu: 250m
