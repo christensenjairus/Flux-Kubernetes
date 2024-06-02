@@ -1347,7 +1347,7 @@ spec:
         replicas: 1
         backups:
           cron:
-            enabled: true
+            enabled: false # Don't need it
             concurrencyPolicy: Replace
             failedJobsHistoryLimit: 1
             schedule: "0 1 * * *"
