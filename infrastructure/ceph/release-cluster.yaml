@@ -321,7 +321,7 @@ spec:
       resources:
         mgr:
           limits:
-            memory: "800Mi" # default is 1G
+            memory: "1200Mi" # default is 1G
           requests:
             cpu: "200m" # 250m is the default
             memory: "128Mi" # 512Mi is the default

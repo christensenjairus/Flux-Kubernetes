@@ -94,6 +94,8 @@ spec:
         repo2-s3-uri-style: path
         repo2-retention-full: "21" # three weeks
         repo2-retention-full-type: time # count in days
+
+        archive-timeout: "3540" # 59 minutes
       manual: # take a manual backup: kubectl annotate -n authelia postgrescluster authelia-db postgres-operator.crunchydata.com/pgbackrest-backup="$(date)"
         repoName: repo2 # when running a manual backup, do a full backup to repo2
         options:
