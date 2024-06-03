@@ -682,7 +682,7 @@ spec:
             - splunk # not a system namespace, but we shouldn't need to back it up
             - velero
       hourly-cluster-snapshot-no-system-or-infra-namespaces:
-        disabled: false
+        disabled: true # temporarily disable keeping local snapshots to see if ceph fills up less slowly
         # labels:
           # myenv: foo
         # annotations:
