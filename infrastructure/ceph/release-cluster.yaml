@@ -581,7 +581,9 @@ spec:
           reclaimPolicy: Delete
           allowVolumeExpansion: true
           volumeBindingMode: "Immediate"
-          mountOptions: []
+          mountOptions: [
+            "discard"
+          ]
           # see https://github.com/rook/rook/blob/v1.13.7/Documentation/Storage-Configuration/Shared-Filesystem-CephFS/filesystem-storage.md#provision-storage for available configuration
           parameters:
             # The secrets contain Ceph admin credentials.
