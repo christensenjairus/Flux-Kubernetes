@@ -78,9 +78,9 @@ spec:
     requests:
       memory: "2Gi"
       cpu: "2"
-    limits: {}
-#      memory: "4Gi"
-#      cpu: "4"
+    limits:
+      memory: "4Gi"
+      cpu: "4"
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -144,9 +144,9 @@ spec:
     requests:
       memory: "2Gi"
       cpu: "2"
-    limits: {}
-#      memory: "4Gi"
-#      cpu: "4"
+    limits:
+      memory: "4Gi"
+      cpu: "4"
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -212,9 +212,9 @@ items:
       requests:
         memory: "4Gi"
         cpu: "8"
-      limits: {}
-#        memory: "8Gi"
-#        cpu: "16" # these are cpu-heavy!
+      limits:
+        memory: "8Gi"
+        cpu: "16" # these are cpu-heavy!
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -309,9 +309,9 @@ items:
       requests:
         memory: "3Gi"
         cpu: "3"
-      limits: {}
-#        memory: "9Gi"
-#        cpu: "9"
+      limits:
+        memory: "9Gi"
+        cpu: "9"
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
