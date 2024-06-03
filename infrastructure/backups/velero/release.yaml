@@ -665,7 +665,8 @@ spec:
             - general-operators
             - goldilocks
             - groundcover
-            - ingress-nginx
+            - ingress-nginx-public
+            - ingress-nginx-private
             - keda
             - kube-node-lease
             - kube-public
@@ -675,8 +676,10 @@ spec:
             - local-path-storage
             - monitoring
             - newrelic
+            - node-problem-detector
             - onepassword-connect
             - rook-ceph
+            - splunk # not a system namespace, but we shouldn't need to back it up
             - velero
       hourly-cluster-snapshot-no-system-or-infra-namespaces:
         disabled: false
@@ -687,7 +690,7 @@ spec:
         schedule: "0 * * * *" # every hour
         # useOwnerReferencesInBackup: false
         template:
-          ttl: "72h" # 3 days
+          ttl: "24h" # 1 day
           storageLocation: default # use the same name you defined above in backupStorageLocation
           snapshotMoveData: false
           snapshotVolumes: true # apparently only applies to PVs in AWS, GCP, and Azure?
@@ -701,7 +704,8 @@ spec:
           - general-operators
           - goldilocks
           - groundcover
-          - ingress-nginx
+          - ingress-nginx-public
+          - ingress-nginx-private
           - keda
           - kube-node-lease
           - kube-public
@@ -711,8 +715,10 @@ spec:
           - local-path-storage
           - monitoring
           - newrelic
+          - node-problem-detector
           - onepassword-connect
           - rook-ceph
+          - splunk # not a system namespace, but we shouldn't need to back it up
           - velero
 
     # Velero ConfigMaps.
