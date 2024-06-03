@@ -162,6 +162,9 @@ spec:
       # Set storageClassName for the PersistentVolumeClaim
       persistentVolumeClaim:
         storageClassName: "ceph-filesystem-2"
+        resources:
+          requests:
+            storage: 1Gi
 
       # Specify volumes for splunk Operator pod, append additional volumes to list
       # reference: https://kubernetes.io/docs/concepts/storage/volumes/
@@ -170,9 +173,6 @@ spec:
         persistentVolumeClaim:
           claimName: splunk-operator-app-download
           storageClassName: ceph-filesystem-2
-          resources:
-            requests:
-              storage: 1Gi
     # - name:
     #   persistentVolumeClaim:
     #     claimName:
