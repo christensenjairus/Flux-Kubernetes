@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/proxy-body-size: 64m # raised because I couldn't upload some files via the web ui
   name: minio
   namespace: redirects
 spec:
