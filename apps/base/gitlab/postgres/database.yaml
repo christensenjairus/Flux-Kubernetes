@@ -52,9 +52,6 @@ spec:
         requests:
           cpu: 250m
           memory: 250M
-        limits: {}
-#          cpu: 1000m
-#          memory: 1G
       affinity:
         nodeAffinity: # try to only schedule on database nodes. (operator still takes this as a suggestion)
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -114,9 +111,6 @@ spec:
           requests:
             cpu: 5m
             memory: 5M
-          limits: {}
-#            cpu: 500m
-#            memory: 100M
       repos: # If you have issues getting the first backup to run, I've found that removing repo2 and restoring it after the first backup runs helps.
       - name: repo1
         schedules:
