@@ -165,7 +165,7 @@ spec:
             cpu: 2000m # default is 150m
             memory: 2000Mi # default is 500Mi
         storage:
-          storageClassName: "ceph-block"
+          storageClassName: "ceph-block-2"
           accessModes:
             - ReadWriteOnce
           resources:
@@ -240,7 +240,7 @@ spec:
           storage:
             volumeClaimTemplate:
               spec:
-                storageClassName: "ceph-block"
+                storageClassName: "ceph-block-2"
                 resources:
                   requests:
                     storage: 50Gi
@@ -292,7 +292,7 @@ spec:
           storage:
             volumeClaimTemplate:
               spec:
-                storageClassName: "ceph-block"
+                storageClassName: "ceph-block-2"
                 resources:
                   requests:
                     storage: 5Gi

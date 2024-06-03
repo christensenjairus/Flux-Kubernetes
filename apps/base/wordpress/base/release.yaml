@@ -902,7 +902,7 @@ spec:
       ## If set to "-", storageClassName: "", which disables dynamic provisioning
       ## If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner
       ##
-      storageClass: "ceph-block"
+      storageClass: "ceph-block-2"
       ## @param persistence.accessModes [array] Persistent Volume access modes
       ##
       accessModes:
@@ -913,7 +913,7 @@ spec:
       accessMode: ReadWriteOnce
       ## @param persistence.size Persistent Volume size
       ##
-      size: 10Gi
+      size: 3Gi
       ## @param persistence.dataSource Custom PVC data source
       ##
       dataSource: { }
@@ -1321,10 +1321,10 @@ spec:
         ##
         persistence:
           enabled: true
-          storageClass: "ceph-block"
+          storageClass: "ceph-block-2"
           accessModes:
             - ReadWriteOnce
-          size: 8Gi
+          size: 3Gi
         ## MariaDB primary container's resource requests and limits
         ## ref: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
         ## We usually recommend not to specify default resources and to leave this as a conscious
@@ -1360,10 +1360,10 @@ spec:
         ##
         persistence:
           enabled: true
-          storageClass: "ceph-block"
+          storageClass: "ceph-block-2"
           accessModes:
             - ReadWriteOnce
-          size: 8Gi
+          size: 3Gi
         ## MariaDB primary container's resource requests and limits
         ## ref: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
         ## We usually recommend not to specify default resources and to leave this as a conscious

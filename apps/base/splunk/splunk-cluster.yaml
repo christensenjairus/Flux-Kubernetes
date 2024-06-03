@@ -64,11 +64,11 @@ spec:
   etcVolumeStorageConfig:
     ephemeralStorage: true # I don't believe there's anything important stored here
     storageCapacity: 3Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   varVolumeStorageConfig:
     ephemeralStorage: true # I don't believe there's anything important stored here
     storageCapacity: 10Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   volumes:
     - name: configs
       secret:
@@ -126,11 +126,11 @@ spec:
   etcVolumeStorageConfig:
     ephemeralStorage: true # I don't believe there's anything important stored here
     storageCapacity: 3Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   varVolumeStorageConfig:
     ephemeralStorage: true # I don't believe there's anything important stored here
     storageCapacity: 3Gi
-    storageClassName: ceph-block
+    storageClassName: ceph-block-2
   volumes:
     - name: configs
       secret:
@@ -198,11 +198,11 @@ items:
     etcVolumeStorageConfig:
       ephemeralStorage: true # I don't believe there's anything important stored here
       storageCapacity: 3Gi
-      storageClassName: ceph-block
+      storageClassName: ceph-block-2
     varVolumeStorageConfig:
       ephemeralStorage: false
       storageCapacity: 50Gi
-      storageClassName: ceph-block
+      storageClassName: ceph-block-2
     volumes:
       - name: configs
         secret:
@@ -295,11 +295,11 @@ items:
     etcVolumeStorageConfig:
       ephemeralStorage: false
       storageCapacity: 3Gi
-      storageClassName: ceph-block
+      storageClassName: ceph-block-2
     varVolumeStorageConfig:
       ephemeralStorage: true # I don't believe there's anything important stored here
       storageCapacity: 10Gi
-      storageClassName: ceph-block
+      storageClassName: ceph-block-2
     volumes:
       - name: configs
         secret:

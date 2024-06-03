@@ -211,7 +211,7 @@ spec:
       accessModes:
         - ReadWriteOnce
       size: 3Gi
-      storageClass: "ceph-block"
+      storageClass: "ceph-block-2"
 
     ## @param customLivenessProbe Custom livenessProbe that overrides the default one
     ##

@@ -212,7 +212,7 @@ spec:
           # Specify the "storageClass" used to provision the volume. Or the default
           # StorageClass will be used (the default).
           # Set it to "-" to disable dynamic provisioning
-          storageClass: "ceph-filesystem" # this does not matter if s3 is the storage type
+          storageClass: "ceph-filesystem-3" # this does not matter if s3 is the storage type
           subPath: ""
           accessMode: ReadWriteMany
           size: 5Gi
@@ -220,7 +220,7 @@ spec:
         jobservice:
           jobLog:
             existingClaim: ""
-            storageClass: "ceph-filesystem"
+            storageClass: "ceph-filesystem-2"
             subPath: ""
             accessMode: ReadWriteMany
             size: 1Gi
@@ -229,7 +229,7 @@ spec:
         # be ignored
         database:
           existingClaim: ""
-          storageClass: "ceph-block"
+          storageClass: "ceph-block-3"
           subPath: ""
           accessMode: ReadWriteOnce
           size: 1Gi
@@ -238,14 +238,14 @@ spec:
         # be ignored
         redis:
           existingClaim: ""
-          storageClass: "ceph-block"
+          storageClass: "ceph-block-2"
           subPath: ""
           accessMode: ReadWriteOnce
           size: 1Gi
           annotations: {}
         trivy:
           existingClaim: ""
-          storageClass: "ceph-filesystem"
+          storageClass: "ceph-filesystem-2"
           subPath: ""
           accessMode: ReadWriteMany
           size: 5Gi

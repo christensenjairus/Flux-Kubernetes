@@ -20,13 +20,13 @@ data:
   # add 1+ key-value pairs here, where the key is the old
   # storage class name and the value is the new storage
   # class name.
-  ceph-block-3: "ceph-block"
-  ceph-block-2: "ceph-block"
-  ceph-filesystem-3: "ceph-filesystem"
-  ceph-filesystem-2: "ceph-filesystem"
-  longhorn: "ceph-block"
-  longhorn-one-replica: "ceph-block"
-  truenas-nfs: "ceph-filesystem"
-  truenas-iscsi: "ceph-block"
-  truenas-nfs-no-retain: "ceph-filesystem"
-  truenas-iscsi-no-retain: "ceph-block"
+  ceph-block: "ceph-block-2"
+  ceph-filesystem: "ceph-filesystem-2"
+  longhorn: "ceph-block-2"
+  longhorn-one-replica: "ceph-block-2"
+  truenas-nfs: "ceph-filesystem-2"
+  truenas-iscsi: "ceph-block-2"
+  truenas-nfs-no-retain: "ceph-filesystem-2"
+  truenas-iscsi-no-retain: "ceph-block-2"
+#  ceph-block: "local-path"
+#  ceph-filesystem: "local-path"

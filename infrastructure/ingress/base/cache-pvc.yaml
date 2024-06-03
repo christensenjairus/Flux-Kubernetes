@@ -11,4 +11,4 @@ spec:
     requests:
       storage: 5Gi
   volumeMode: Filesystem
-  storageClassName: 'ceph-filesystem'
+  storageClassName: 'ceph-filesystem-2'
