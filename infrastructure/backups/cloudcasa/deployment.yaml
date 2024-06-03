@@ -43,9 +43,9 @@
           image: catalogicsoftware/amds-kagent:3.1.0-prod.311
           name: kubeagentmanager
           resources:
-            limits:
-              cpu: 500m
-              memory: 128Mi
+            limits: {}
+#              cpu: 500m
+#              memory: 128Mi
             requests:
               cpu: 250m
               memory: 64Mi

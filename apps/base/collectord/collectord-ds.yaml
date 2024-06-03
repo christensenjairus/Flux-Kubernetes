@@ -50,9 +50,9 @@ spec:
         # Define your resources if you need. Defaults should be fine for most.
         # You can lower or increase based on your hosts.
         resources:
-          limits:
-            cpu: 2
-            memory: 512Mi
+          limits: {}
+#            cpu: 2
+#            memory: 512Mi
           requests: {}
             # cpu: 200m
             # memory: 192Mi

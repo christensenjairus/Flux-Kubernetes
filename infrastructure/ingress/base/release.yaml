@@ -391,9 +391,9 @@ spec:
       ## Ideally, there should be no limits.
       ## https://engineering.indeedblog.com/blog/2019/12/cpu-throttling-regression-fix/
       resources:
-        limits:
-          cpu: 3000m
-          memory: 4096Mi
+        limits: {}
+#          cpu: 3000m
+#          memory: 4096Mi
         requests:
           cpu: 1500m
           memory: 2048Mi

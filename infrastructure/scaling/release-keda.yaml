@@ -451,25 +451,25 @@ spec:
     resources:
       # -- Manage [resource request & limits] of KEDA operator pod
       operator:
-        limits:
-          cpu: 1
-          memory: 250Mi # default is 1000m
+        limits: {}
+#          cpu: 1
+#          memory: 250Mi # default is 1000m
         requests:
           cpu: 100m
           memory: 100Mi
       # -- Manage [resource request & limits] of KEDA metrics apiserver pod
       metricServer:
-        limits:
-          cpu: 1
-          memory: 250Mi # default is 1000m
+        limits: {}
+#          cpu: 1
+#          memory: 250Mi # default is 1000m
         requests:
           cpu: 100m
           memory: 100Mi
       # -- Manage [resource request & limits] of KEDA admission webhooks pod
       webhooks:
-        limits:
-          cpu: 100m # default is 50m
-          memory: 100Mi
+        limits: {}
+#          cpu: 100m # default is 50m
+#          memory: 100Mi
         requests:
           cpu: 10m
           memory: 10Mi

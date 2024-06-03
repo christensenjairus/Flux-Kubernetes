@@ -190,9 +190,9 @@ spec:
           requests:
             cpu: 50m
             memory: 64Mi
-          limits:
-            cpu: 200m # default is 100m
-            memory: 64Mi
+          limits: {}
+#            cpu: 200m # default is 100m
+#            memory: 64Mi
         env: []
       alligator:
         image:
@@ -201,9 +201,9 @@ spec:
           requests:
             memory: 300Mi
             cpu: 160m
-          limits:
-            memory: 1000Mi # default is 700Mi
-            cpu: 800m
+          limits: {}
+#            memory: 1000Mi # default is 700Mi
+#            cpu: 800m
         nodelabels: []
         contentTypesToDrop: []
         watchOnlyLocalNode: false
@@ -295,9 +295,9 @@ spec:
           requests:
             memory: 512Mi
             cpu: 125m
-          limits:
-            memory: 2048Mi
-            cpu: 750m
+          limits: {}
+#            memory: 2048Mi
+#            cpu: 750m
     dbManager:
       additionalLabels:
       podLabels:
@@ -311,9 +311,9 @@ spec:
       image:
         repository: "{{ .Values.global.origin.registry }}/db-manager"
       resources:
-        limits:
-          cpu: 100m
-          memory: 1Gi
+        limits: {}
+#          cpu: 100m
+#          memory: 1Gi
         requests:
           cpu: 15m
           memory: 15Mi
@@ -337,9 +337,9 @@ spec:
       tolerations: []
       priorityClassName:
       resources:
-        limits:
-          cpu: 1000m
-          memory: 1024Mi
+        limits: {}
+#          cpu: 1000m
+#          memory: 1024Mi
         requests:
           cpu: 50m
           memory: 256Mi
@@ -384,9 +384,9 @@ spec:
       image:
         repository: "{{ .Values.global.origin.registry }}/portal"
       resources:
-        limits:
-          cpu: 800m # default is 300m
-          memory: 512Mi
+        limits: {}
+#          cpu: 800m # default is 300m
+#          memory: 512Mi
         requests:
           cpu: 50m
           memory: 256Mi
@@ -506,8 +506,8 @@ spec:
         requests:
           cpu: 300m
           memory: 2048Mi
-        limits:
-          memory: 4096Mi
+        limits: {}
+#          memory: 4096Mi
 
       ## @param affinity Affinity for ClickHouse pods assignment
       ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
@@ -822,9 +822,9 @@ spec:
         requests:
           cpu: 100m
           memory: 512Mi
-        limits:
-          cpu: 1000m
-          memory: 512Mi # default is 2048
+        limits: {}
+#          cpu: 1000m
+#          memory: 512Mi # default is 2048
       podDisruptionBudget:
         enabled: true
         maxUnavailable: "25%"
@@ -890,9 +890,9 @@ spec:
           readOnly: true
           mountPath: /etc/ssl/certs
       resources:
-        limits:
-          cpu: 500m
-          memory: 512Mi
+        limits: {}
+#          cpu: 500m
+#          memory: 512Mi
         requests:
           cpu: 100m
           memory: 256Mi
@@ -909,9 +909,9 @@ spec:
       rbac:
         namespaced: true
       resources:
-        limits:
-          cpu: 500m
-          memory: 256Mi
+        limits: {}
+#          cpu: 500m
+#          memory: 256Mi
         requests:
           cpu: 100m
           memory: 128Mi
@@ -1069,9 +1069,9 @@ spec:
       image:
         repository: "{{ .Values.global.origin.registry }}/vmagent"
       resources:
-        limits:
-          cpu: 500m
-          memory: 512Mi
+        limits: {}
+#          cpu: 500m
+#          memory: 512Mi
         requests:
           cpu: 100m
           memory: 128Mi
@@ -1498,8 +1498,8 @@ spec:
           requests:
             cpu: 100m
             memory: 500Mi # default is 3000
-          limits:
-            memory: 1000Mi # default is 3000
+          limits: {}
+#            memory: 1000Mi # default is 3000
 
         # -- Node tolerations for server scheduling to nodes with taints. Ref: [https://kubernetes.io/docs/concepts/configuration/assign-pod-node/](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/)
         tolerations: []

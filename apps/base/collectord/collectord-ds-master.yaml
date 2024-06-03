@@ -42,9 +42,9 @@ spec:
           runAsUser: 0
           privileged: true
         resources:
-          limits:
-            cpu: 2
-            memory: 512Mi
+          limits: {}
+#            cpu: 2
+#            memory: 512Mi
           requests: {}
             # cpu: 200m
             # memory: 192Mi

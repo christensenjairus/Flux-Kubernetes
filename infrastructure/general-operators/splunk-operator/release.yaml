@@ -36,9 +36,9 @@ spec:
 
       # Set resource requests and limits for kube-rbac-proxy container
       resources:
-        limits:
-          cpu: 500m
-          memory: 128Mi
+        limits: {}
+#          cpu: 500m
+#          memory: 128Mi
         requests:
           cpu: 5m
           memory: 64Mi
@@ -135,9 +135,9 @@ spec:
 
       # Set resource requests and limits for manager container
       resources:
-        limits:
-          cpu: 1000m
-          memory: 2000Mi
+        limits: {}
+#          cpu: 1000m
+#          memory: 2000Mi
         requests:
           cpu: 1000m
           memory: 2000Mi

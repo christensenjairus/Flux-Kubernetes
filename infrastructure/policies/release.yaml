@@ -458,9 +458,9 @@ spec:
 
       resources:
         # -- Pod resource limits
-        limits:
-          cpu: 100m
-          memory: 256Mi
+        limits: {}
+#          cpu: 100m
+#          memory: 256Mi
         # -- Pod resource requests
         requests:
           cpu: 10m
@@ -1110,9 +1110,9 @@ spec:
 
         resources:
           # -- Pod resource limits
-          limits:
-            cpu: 100m
-            memory: 256Mi
+          limits: {}
+#            cpu: 100m
+#            memory: 256Mi
           # -- Pod resource requests
           requests:
             cpu: 10m
@@ -1155,8 +1155,8 @@ spec:
 
         resources:
           # -- Pod resource limits
-          limits:
-            memory: 384Mi
+          limits: {}
+#            memory: 384Mi
           # -- Pod resource requests
           requests:
             cpu: 100m
@@ -1425,8 +1425,8 @@ spec:
 
       resources:
         # -- Pod resource limits
-        limits:
-          memory: 128Mi
+        limits: {}
+#          memory: 128Mi
         # -- Pod resource requests
         requests:
           cpu: 100m
@@ -1690,8 +1690,8 @@ spec:
 
       resources:
         # -- Pod resource limits
-        limits:
-          memory: 128Mi
+        limits: {}
+#          memory: 128Mi
         # -- Pod resource requests
         requests:
           cpu: 100m
@@ -2012,8 +2012,8 @@ spec:
 
       resources:
         # -- Pod resource limits
-        limits:
-          memory: 128Mi
+        limits: {}
+#          memory: 128Mi
         # -- Pod resource requests
         requests:
           cpu: 100m

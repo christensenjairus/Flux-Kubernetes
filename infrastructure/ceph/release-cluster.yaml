@@ -58,8 +58,8 @@ spec:
           drop: ["ALL"]
       # -- Toolbox resources
       resources:
-        limits:
-          memory: "1Gi"
+        limits: {}
+          # memory: "1Gi"
         requests:
           cpu: "100m"
           memory: "128Mi"
@@ -320,20 +320,20 @@ spec:
 
       resources:
         mgr:
-          limits:
-            memory: "2000Mi" # default is 1G
+          limits: {}
+#            memory: "2000Mi" # default is 1G
           requests:
             cpu: "200m" # 250m is the default
             memory: "128Mi" # 512Mi is the default
         mon:
-          limits:
-            memory: "750Mi" # default is 1G
+          limits: {}
+#            memory: "750Mi" # default is 1G
           requests:
             cpu: "200m" # 1000m is the default
             memory: "128Mi" # 1Gi is the default
         osd:
-          limits:
-            memory: "2Gi" # some see errors if under 2Gi
+          limits: {}
+#            memory: "2Gi" # some see errors if under 2Gi
           requests:
             cpu: "100m" # 1000m is the default
             memory: "100Mi" # 4Gi is the default
@@ -350,32 +350,32 @@ spec:
             cpu: "100m" # default is 500m
             memory: "50Mi"
         mgr-sidecar:
-          limits:
-            memory: "100Mi"
+          limits: {}
+#            memory: "100Mi"
           requests:
             cpu: "50m" # default is 100m
             memory: "40Mi"
         crashcollector:
-          limits:
-            memory: "60Mi"
+          limits: {}
+#            memory: "60Mi"
           requests:
             cpu: "50m" # default is 100m
             memory: "60Mi"
         logcollector:
-          limits:
-            memory: "1Gi"
+          limits: {}
+#            memory: "1Gi"
           requests:
             cpu: "50m" # default is 100m
             memory: "100Mi"
         cleanup:
-          limits:
-            memory: "1Gi"
+          limits: {}
+#            memory: "1Gi"
           requests:
             cpu: "50m" # default is 100m
             memory: "100Mi"
         exporter:
-          limits:
-            memory: "128Mi"
+          limits: {}
+#            memory: "128Mi"
           requests:
             cpu: "50m"
             memory: "50Mi"
@@ -566,8 +566,8 @@ spec:
             activeCount: 2
             activeStandby: true
             resources:
-              limits:
-                memory: "1Gi" # default is 4G
+              limits: {}
+#                memory: "1Gi" # default is 4G
               requests:
                 cpu: "250m" # default is 1000m
                 memory: "300M" # default is 4G
@@ -641,8 +641,8 @@ spec:
           gateway:
             port: 80
             resources:
-              limits:
-                memory: "2Gi"
+              limits: {}
+#                memory: "2Gi"
               requests:
                 cpu: "250m" # default is 1000m
                 memory: "250Mi" # default is 1G

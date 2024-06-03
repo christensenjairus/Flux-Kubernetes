@@ -32,9 +32,9 @@ spec:
         requests:
           cpu: 25m
           memory: 25Mi
-        limits:
-          cpu: 100m
-          memory: 100Mi
+        limits: {}
+#          cpu: 100m
+#          memory: 100Mi
       ignoreAnnotations: [ ]
       # - "redis.opstreelabs.in/ignore"
 
@@ -110,9 +110,9 @@ spec:
       image: ""
       imagePullPolicy: "IfNotPresent"
       resources:
-        limits:
-          cpu: "100m"
-          memory: "128Mi"
+        limits: {}
+#          cpu: "100m"
+#          memory: "128Mi"
         requests:
           cpu: "50m"
           memory: "64Mi"

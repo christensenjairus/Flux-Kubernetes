@@ -158,9 +158,9 @@ spec:
           memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
           maxLabelsPerTimeseries: "250" # default is 30. KubeVirt has a ton of labels. If you can find a way to reduce the number of labels, you can reduce this.
         resources:
-          limits:
-            cpu: 6000m # default is 1200m
-            memory: 6000Mi # default is 1500Mi. I was getting OOMKilled with less than 3GB.
+          limits: {}
+#            cpu: 6000m # default is 1200m
+#            memory: 6000Mi # default is 1500Mi. I was getting OOMKilled with less than 3GB.
           requests:
             cpu: 2000m # default is 150m
             memory: 2000Mi # default is 500Mi
@@ -245,9 +245,9 @@ spec:
                   requests:
                     storage: 50Gi
           resources:
-            limits:
-              cpu: 1500m # default is 1000m
-              memory: 1500Mi
+            limits: {}
+#              cpu: 1500m # default is 1000m
+#              memory: 1500Mi
             requests:
               cpu: 500m # default is 100m
               memory: 500Mi # default is 100Mi
@@ -297,9 +297,9 @@ spec:
                   requests:
                     storage: 5Gi
           resources:
-            limits: 
-              cpu: 3000m # default is 1500m
-              memory: 1000Mi
+            limits: {}
+#              cpu: 3000m # default is 1500m
+#              memory: 1000Mi
             requests:
               cpu: 500m
               memory: 100Mi
@@ -321,9 +321,9 @@ spec:
 #            rpc.disableCompression: "true" # lower cpu usage at the expense of network bandwidth
 #            loggerFormat: "json"
           resources:
-            limits: 
-              cpu: 1000m
-              memory: 1000Mi
+            limits: {}
+#              cpu: 1000m
+#              memory: 1000Mi
             requests:
               cpu: 100m
               memory: 100Mi
@@ -657,9 +657,9 @@ spec:
           enableTCP6: "false"
           loggerTimezone: "America/Denver"
         resources:
-          limits:
-            cpu: 1000m # default is 200m
-            memory: 500Mi
+          limits: {}
+#            cpu: 1000m # default is 200m
+#            memory: 500Mi
           requests:
             cpu: 100m # default is 50m
             memory: 200Mi
@@ -741,9 +741,9 @@ spec:
           # but makes vmagent debugging UI less informative. See: https://docs.victoriametrics.com/vmagent/#relabel-debug
           promscrape.dropOriginalLabels: "false" # was true, but discovery didn't work well
         resources:
-          limits:
-            cpu: 2000m # default is 100m
-            memory: 500Mi
+          limits: {}
+#            cpu: 2000m # default is 100m
+#            memory: 500Mi
           requests:
             cpu: 350m # default is 100m
             memory: 200Mi
