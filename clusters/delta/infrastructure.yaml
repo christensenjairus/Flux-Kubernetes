@@ -431,6 +431,13 @@ spec:
       target:
         kind: PrometheusRule
         name: prometheus-ingress-rules-public
+    - patch: |
+        - op: replace
+          path: /spec/storageClassName
+          value: "local-path"
+      target:
+        kind: PersistentVolumeClaim
+        name: ingress-nginx-cache
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
