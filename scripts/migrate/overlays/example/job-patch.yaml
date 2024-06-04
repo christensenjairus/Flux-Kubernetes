@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Job
+metadata:
+  name: volume-migration
+spec:
+  template:
+    spec:
+      volumes:
+
+# ------------ Edit below --------------------
+        - name: old-vol
+          persistentVolumeClaim:
+            claimName: example-pvc-old     # change to data source PVC
+        - name: new-vol
+          persistentVolumeClaim:
+            claimName: example-pvc-new     # change to data target PVC

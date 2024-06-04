@@ -189,14 +189,14 @@ spec:
         # -- Enable homarr-config persistent storage
         enabled: true
         # -- homarr-config storage class name
-        storageClassName: "ceph-block-3"
+        storageClassName: "ceph-filesystem-3"
         # -- homarr-config access mode
         accessMode: "ReadWriteOnce"
         # -- homarr-config storage size
         size: "50Mi"
         # -- homarr-config mount path inside the pod
         mountPath: "/app/data/configs"
-      - name: homarr-data
+      - name: homarr-database
         # -- Enable homarr-database persistent storage
         enabled: true
         # -- homarr-database storage class name
@@ -211,7 +211,7 @@ spec:
         # -- Enable homarr-icons persistent storage
         enabled: true
         # -- homarr-icons storage class name
-        storageClassName: "ceph-block-3"
+        storageClassName: "ceph-filesystem-3"
         # -- homarr-icons access mode
         accessMode: "ReadWriteOnce"
         # -- homarr-icons storage size
