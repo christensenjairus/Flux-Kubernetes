@@ -29,7 +29,7 @@ spec:
       # -- Image pull policy
       pullPolicy: IfNotPresent
       # -- Overrides the image tag whose default is the chart appVersion
-      tag: latest #"0.15.3"
+      tag: "0.15.3"
 
     env:
       # -- Your local time zone
