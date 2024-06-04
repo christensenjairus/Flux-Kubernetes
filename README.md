@@ -7,8 +7,8 @@ My kubernetes cluster configurations orchestrated by Flux.
 
 ### Install Flux
 ```bash
-./scripts/install/onepassword-connect.sh
-./scripts/install/flux.sh
+./tools/install/onepassword-connect.sh
+./tools/install/flux.sh
 ```
 
 ### List of Clusters

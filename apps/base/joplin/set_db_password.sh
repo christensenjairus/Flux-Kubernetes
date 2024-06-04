@@ -19,4 +19,4 @@ echo "Continuing with context $current_context..."
 DB_USERNAME=$(op item get "Joplin DB Creds" --vault "HomeLab K8S" --format json | jq '.fields[0].value' | tr -d '"')
 DB_PASSWORD=$(op item get "Joplin DB Creds" --vault "HomeLab K8S" --format json | jq '.fields[1].value' | tr -d '"')
 
-python3 ../../../scripts/helpers/set_postgrescluster_pw.py "$DB_USERNAME" "$DB_PASSWORD" joplin joplin-db-pguser-joplin
+python3 ../../../tools/helpers/set_postgrescluster_pw.py "$DB_USERNAME" "$DB_PASSWORD" joplin joplin-db-pguser-joplin
