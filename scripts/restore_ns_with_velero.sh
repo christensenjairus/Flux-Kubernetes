@@ -43,4 +43,4 @@ fi
 echo "Creating restore of '$NAMESPACE' namespace with Velero set to restore volumes"
 echo ""
 
-velero create restore "$RESTORE_NAME" --from-backup="$BACKUP_NAME" --include-namespaces="$NAMESPACE" --restore-volumes=true  --wait
+velero create restore "$RESTORE_NAME" --from-backup="$BACKUP_NAME" --include-namespaces="$NAMESPACE" --restore-volumes=true --wait

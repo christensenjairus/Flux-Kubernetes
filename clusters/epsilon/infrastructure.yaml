@@ -205,6 +205,7 @@ spec:
   dependsOn:
     - name: infra-crds
     - name: infra-arp
+    - name: infra-ceph
   interval: 1h
   retryInterval: 1m
   timeout: 5m

@@ -189,7 +189,7 @@ spec:
         # -- Enable homarr-config persistent storage
         enabled: true
         # -- homarr-config storage class name
-        storageClassName: "ceph-filesystem-3"
+        storageClassName: "ceph-block-3"
         # -- homarr-config access mode
         accessMode: "ReadWriteOnce"
         # -- homarr-config storage size
@@ -211,7 +211,7 @@ spec:
         # -- Enable homarr-icons persistent storage
         enabled: true
         # -- homarr-icons storage class name
-        storageClassName: "ceph-filesystem-3"
+        storageClassName: "ceph-block-3"
         # -- homarr-icons access mode
         accessMode: "ReadWriteOnce"
         # -- homarr-icons storage size
