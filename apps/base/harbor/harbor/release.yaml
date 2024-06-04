@@ -62,9 +62,10 @@ spec:
           # for Envoy, use ingress.kubernetes.io/force-ssl-redirect: "true" and remove the nginx lines below
           cert-manager.io/cluster-issuer: letsencrypt
           nginx.ingress.kubernetes.io/custom-http-errors: "400,401,403,404,405,407,408,409,410,411,412,413,418,429,500,502,503,504,505"
-#          nginx.ingress.kubernetes.io/auth-realm: Authentication Required
-#          nginx.ingress.kubernetes.io/auth-secret: basic-auth
-#          nginx.ingress.kubernetes.io/auth-type: basic
+          nginx.ingress.kubernetes.io/auth-method: 'GET'
+          nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
+          nginx.ingress.kubernetes.io/auth-signin: 'https://auth.christensencloud.us?rm=$request_method'
+          nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
           nginx.ingress.kubernetes.io/ssl-redirect: "true"
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
           ingress.kubernetes.io/ssl-redirect: "true"

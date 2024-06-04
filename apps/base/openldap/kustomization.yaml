@@ -3,6 +3,5 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - repository.yaml
-  - basic-auth-secret.yaml
   - openldap-config.yaml
   - release.yaml
