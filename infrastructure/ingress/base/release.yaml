@@ -63,7 +63,9 @@ spec:
         http: 80
         https: 443
       # -- Will add custom configuration options to Nginx https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
-      config: #{ }
+      config:
+        # use these per ingress instead of globally
+        # custom-http-errors: "400,401,403,404,405,407,408,409,410,411,412,413,418,429,500,502,503,504,505"
         # I stole this from this medium article https://medium.com/@vdboor/using-nginx-ingress-as-a-static-cache-91bc27be04a1
         http-snippet: |
           proxy_cache_path /cache/disk_cache levels=1:2 keys_zone=disk_cache:500m max_size=5g inactive=7d use_temp_path=off;
@@ -960,23 +962,24 @@ spec:
     # -- Rollback limit
     ##
     revisionHistoryLimit: 10
-    ## Default 404 backend
+    ## Default error backend
     ##
     defaultBackend:
       ##
-      enabled: false
-      name: defaultbackend
+      enabled: true
+      name: error-pages
       image:
         registry: registry.k8s.io
-        image: defaultbackend-amd64
+        image: ingress-nginx/nginx-errors
         ## for backwards compatibility consider setting the full image url via the repository value below
         ## use *either* current default registry/image or repository format or installing chart by providing the values.yaml will fail
         ## repository:
-        tag: "1.5"
+        tag: "v20230505@sha256:3600dcd1bbd0d05959bb01af4b272714e94d22d24a64e91838e7183c80e53f7f"
         pullPolicy: IfNotPresent
         runAsNonRoot: true
         # nobody user -> uid 65534
-        runAsUser: 65534
+#        runAsUser: 65534
+        runAsUser: 101
         allowPrivilegeEscalation: false
         seccompProfile:
           type: RuntimeDefault
@@ -990,6 +993,8 @@ spec:
         automountServiceAccountToken: true
       # -- Additional environment variables to set for defaultBackend pods
       extraEnvs: [ ]
+#        - name: DEBUG
+#          value: "true"
       port: 8080
       ## Readiness and liveness probes for default backend
       ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
@@ -1039,10 +1044,11 @@ spec:
       ##
       nodeSelector:
         kubernetes.io/os: linux
+        nodeclass: general
       # -- Annotations to be added to default backend pods
       ##
       podAnnotations: { }
-      replicaCount: 1
+      replicaCount: 2
       minAvailable: 1
       resources: { }
       # limits:
@@ -1052,15 +1058,61 @@ spec:
       #   cpu: 10m
       #   memory: 20Mi
 
-      extraVolumeMounts: [ ]
+      extraVolumeMounts: #[ ]
       ## Additional volumeMounts to the default backend container.
       #  - name: copy-portal-skins
       #   mountPath: /var/lib/lemonldap-ng/portal/skins
+        - name: custom-error-pages
+          mountPath: /www
 
-      extraVolumes: [ ]
+      extraVolumes: #[ ]
       ## Additional volumes to the default backend pod.
       #  - name: copy-portal-skins
       #    emptyDir: {}
+        - name: custom-error-pages
+          configMap:
+            name: custom-error-pages
+            items:
+              - key: "403"
+                path: "403.html"
+              - key: "418"
+                path: "418.html"
+              - key: "409"
+                path: "409.html"
+              - key: "429"
+                path: "429.html"
+              - key: "405"
+                path: "405.html"
+              - key: "413"
+                path: "413.html"
+              - key: "500"
+                path: "500.html"
+              - key: "412"
+                path: "412.html"
+              - key: "404"
+                path: "404.html"
+              - key: "408"
+                path: "408.html"
+              - key: "503"
+                path: "503.html"
+              - key: "411"
+                path: "411.html"
+              - key: "407"
+                path: "407.html"
+              - key: "410"
+                path: "410.html"
+              - key: "502"
+                path: "502.html"
+              - key: "505"
+                path: "505.html"
+              - key: "401"
+                path: "401.html"
+              - key: "400"
+                path: "400.html"
+              - key: "416"
+                path: "416.html"
+              - key: "504"
+                path: "504.html"
 
       extraConfigMaps: [ ]
       ## Additional configmaps to the default backend pod.

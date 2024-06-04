@@ -25,6 +25,8 @@ spec:
     ingress:
       enabled: true
       className: nginx-private
+      annotations:
+        nginx.ingress.kubernetes.io/custom-http-errors: "400,401,403,404,405,407,408,409,410,411,412,413,418,429,500,502,503,504,505"
       hosts:
         - host: podinfo.christensencloud.us
           paths:

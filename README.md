@@ -51,7 +51,7 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
   * HA Redis
   * HA Postgres
   * Stores gitlab & database backups in S3
-  * Distributed gitaly instances
+  * Distributed Gitaly instances
   * Minio-backed object storage
   * LDAP Authentication via OpenLDAP
 * Splunk
