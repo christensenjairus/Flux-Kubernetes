@@ -134,10 +134,14 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: "route"
     nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
     nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+    nginx.ingress.kubernetes.io/auth-method: 'GET'
+    nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
+    nginx.ingress.kubernetes.io/auth-signin: 'https://auth.christensencloud.us?rm=$request_method'
+    nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
   name: splunk-web
   namespace: splunk
 spec:
-  ingressClassName: nginx-private
+  ingressClassName: nginx-public
   rules:
     - host: splunk.christensencloud.us
       http:
