@@ -29,7 +29,7 @@ spec:
       # -- Image pull policy
       pullPolicy: IfNotPresent
       # -- Overrides the image tag whose default is the chart appVersion
-      tag: "0.15.3"
+      tag: "0.15.3" # latest
 
     env:
       # -- Your local time zone
@@ -133,7 +133,7 @@ spec:
     # -- Ingress configuration
     ingress:
       # -- Enable ingress
-      enabled: true
+      enabled: false
       # -- Ingress class name
       ingressClassName: "nginx-public"
       # -- Ingress annotations

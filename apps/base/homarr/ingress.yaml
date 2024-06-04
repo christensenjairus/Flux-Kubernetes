@@ -1,0 +1,54 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/auth-method: 'GET'
+    nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
+    nginx.ingress.kubernetes.io/auth-signin: 'https://auth.christensencloud.us?rm=$request_method'
+    nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
+  name: homarr-ui
+  namespace: homarr
+spec:
+  ingressClassName: nginx-public
+  rules:
+  - host: homarr.christensencloud.us
+    http:
+      paths:
+      - backend:
+          service:
+            name: homarr
+            port:
+              number: 7575
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - homarr.christensencloud.us
+    secretName: homarr-christensencloud.us-tls
+--- # needed because authelia messes with the API calls to ping the various endpoints
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: homarr-api
+  namespace: homarr
+spec:
+  ingressClassName: nginx-public
+  rules:
+  - host: homarr.christensencloud.us
+    http:
+      paths:
+      - backend:
+          service:
+            name: homarr
+            port:
+              number: 7575
+        path: /api/trpc
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - homarr.christensencloud.us
+    secretName: homarr-christensencloud.us-tls
+
