@@ -4,11 +4,11 @@ metadata:
   name: postgres
 spec:
   users:
-    - name: joplin
+    - name: vaultwarden
       password:
         type: "AlphaNumeric"
       databases:
-        - joplin
+        - vaultwarden
       options: 'SUPERUSER' # can't be a superuser through pgbouncer btw
   instances:
     - name: postgres
@@ -41,7 +41,7 @@ spec:
                   - key: postgres-operator.crunchydata.com/cluster
                     operator: In
                     values:
-                      - joplin-db
+                      - vaultwarden-db
                   - key: postgres-operator.crunchydata.com/data
                     operator: In
                     values:
@@ -65,6 +65,6 @@ spec:
         schedules:
           full: "30 0 * * *" # daily at 12:30am
         s3:
-          bucket: "joplin"
+          bucket: "vaultwarden"
           endpoint: "nas3.christensencloud.us"
           region: "default"

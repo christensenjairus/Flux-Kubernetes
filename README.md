@@ -95,3 +95,5 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
   * 3 instances with different URLs
   * MariaDB
 [//]: # (  * Memcached)
+* Vaultwarden
+  * HA Postgres

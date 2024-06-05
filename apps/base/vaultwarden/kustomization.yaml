@@ -1,10 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: joplin
+namespace: vaultwarden
 resources:
   - namespace.yaml
   - ../postgres
-  - ./joplin
+  - ./vaultwarden
 patches:
   - path: postgres-patch.yaml
     target:
@@ -16,11 +16,11 @@ patches:
     patch: |-
       - op: replace
         path: /metadata/name
-        value: joplin-db
+        value: vaultwarden-db
   - target:
       kind: PodMonitor
       name: postgres-database-exporter
     patch: |-
       - op: replace
         path: /spec/namespaceSelector/matchNames/0
-        value: joplin
+        value: vaultwarden

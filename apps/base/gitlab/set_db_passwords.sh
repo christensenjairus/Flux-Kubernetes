@@ -21,5 +21,9 @@ DB_PASSWORD=$(op item get "GitLab DB Creds" --vault "HomeLab K8S" --format json 
 
 PRAEFECT_PASSWORD=$(kubectl get secret -n gitlab gitlab-praefect-dbsecret -o jsonpath="{.data.secret}" | base64 --decode)
 
+echo "DB_USERNAME is $DB_USERNAME"
+echo "DB_PASSWORD is $DB_PASSWORD"
+echo "PRAEFECT_PASSWORD is $PRAEFECT_PASSWORD"
+
 python3 ../../../tools/helpers/set_postgrescluster_pw.py "$DB_USERNAME" "$DB_PASSWORD" gitlab gitlab-db-pguser-gitlab
 python3 ../../../tools/helpers/set_postgrescluster_pw.py "praefect" "$PRAEFECT_PASSWORD" gitlab gitlab-db-pguser-praefect
