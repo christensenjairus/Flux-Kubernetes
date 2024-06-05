@@ -13,11 +13,11 @@
 * Set icons for repos
 * Log out
 * Log in as root
-* Set jchristensen as admin and 'validate user account'
 * Sign-Up Restrictions:
   * Sign-up enabled: off
   * Require admin approval for new sign-ups: off
   * Email confirmation settings: Hard
   * Save changes
+* Set jchristensen as admin and 'validate user account'
 * Change root's email to jairus@cyber-engine.com (one that's different from my ldap account)
 * Confirm new email address
