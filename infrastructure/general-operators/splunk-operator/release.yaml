@@ -135,9 +135,9 @@ spec:
 
       # Set resource requests and limits for manager container
       resources:
-        limits: {}
-#          cpu: 1000m
-#          memory: 2000Mi
+        limits:
+          cpu: 1500m
+          memory: 2000Mi
         requests:
           cpu: 1000m
           memory: 2000Mi

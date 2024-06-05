@@ -310,8 +310,8 @@ items:
         memory: "3Gi"
         cpu: "3"
       limits:
-        memory: "9Gi"
-        cpu: "9"
+        memory: "12Gi"
+        cpu: "12"
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
