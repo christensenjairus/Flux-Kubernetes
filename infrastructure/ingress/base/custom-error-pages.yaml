@@ -757,7 +757,7 @@ data:
     <!DOCTYPE html>
     <!--
         Error 503: Service Unavailable
-        Description: The server is temporarily overloading or down
+        Description: The server is temporarily overloaded or down
     -->
     <html lang="en">
     <head>
@@ -803,7 +803,7 @@ data:
               </svg>
             </p>
             <h3><span data-l10n>Error</span> 503</h3>
-            <p class="description" data-l10n>The server is temporarily overloading or down</p>
+            <p class="description" data-l10n>The server is temporarily overloaded or down</p>
             
         </div>
     </div>
@@ -825,7 +825,7 @@ data:
     </body>
     <!--
         Error 503: Service Unavailable
-        Description: The server is temporarily overloading or down
+        Description: The server is temporarily overloaded or down
     -->
     </html>
   "411": |

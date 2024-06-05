@@ -97,3 +97,4 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 [//]: # (  * Memcached)
 * Vaultwarden
   * HA Postgres
+* Portainer
