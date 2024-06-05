@@ -3,20 +3,11 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-#    nginx.ingress.kubernetes.io/affinity: "cookie"
-#    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
-#    nginx.ingress.kubernetes.io/client-body-buffer-size: 100M
-#    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-#    nginx.ingress.kubernetes.io/session-cookie-samesite: "true"
-#    nginx.ingress.kubernetes.io/session-cookie-path: "/en-US"
-#    nginx.ingress.kubernetes.io/session-cookie-name: "route"
-#    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
-#    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
   name: splunk-collector
   namespace: splunk
 spec:
@@ -46,7 +37,6 @@ metadata:
     nginx.ingress.kubernetes.io/affinity: "cookie"
     nginx.ingress.kubernetes.io/affinity-mode: "persistent"
     nginx.ingress.kubernetes.io/client-body-buffer-size: 100M
-    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
@@ -86,16 +76,6 @@ spec:
                   number: 8000
             path: /
             pathType: Prefix
-#    - host: splunk-indexer-christensencloud.us
-#      http:
-#        paths:
-#          - backend:
-#              service:
-#                name: splunk-idx-indexer-service
-#                port:
-#                  number: 8000
-#            path: /
-#            pathType: Prefix
     - host: splunk-license.christensencloud.us
       http:
         paths:
@@ -113,9 +93,6 @@ spec:
     - hosts:
         - splunk-deployer.christensencloud.us
       secretName: splunk-deployer-christensencloud.us-tls
-#    - hosts:
-#        - splunk-indexer-christensencloud.us
-#      secretName: splunk-indexer-christensencloud.us-tls
     - hosts:
         - splunk-license.christensencloud.us
       secretName: splunk-license-christensencloud.us-tls
@@ -128,7 +105,6 @@ metadata:
     nginx.ingress.kubernetes.io/affinity: "cookie"
     nginx.ingress.kubernetes.io/affinity-mode: "persistent"
     nginx.ingress.kubernetes.io/client-body-buffer-size: 100M
-    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
