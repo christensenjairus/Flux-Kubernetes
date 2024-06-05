@@ -11,7 +11,7 @@ metadata:
   name: tautulli
   namespace: media
 spec:
-  ingressClassName: nginx-private
+  ingressClassName: nginx-public
   rules:
     - host: tautulli.christensencloud.us
       http:

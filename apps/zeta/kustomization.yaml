@@ -15,8 +15,3 @@ resources:
   - ../base/joplin
   - ../base/media
   - ../base/wordpress/overlays
-patches:
-  - path: podinfo-values.yaml
-    target:
-      kind: HelmRelease
-      name: podinfo

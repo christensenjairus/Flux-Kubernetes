@@ -11,7 +11,7 @@ metadata:
   name: prowlarr
   namespace: media
 spec:
-  ingressClassName: nginx-private
+  ingressClassName: nginx-public
   rules:
     - host: prowlarr.christensencloud.us
       http:

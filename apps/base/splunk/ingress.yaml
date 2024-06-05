@@ -64,7 +64,7 @@ metadata:
   name: splunk-services
   namespace: splunk
 spec:
-  ingressClassName: nginx-private
+  ingressClassName: nginx-public
   rules:
     - host: splunk-manager.christensencloud.us
       http:
