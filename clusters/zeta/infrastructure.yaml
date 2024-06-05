@@ -69,6 +69,66 @@ spec:
   path: ./infrastructure/monitoring
   prune: true
   wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/vmsingle/ingress/annotations
+          value: |
+            cert-manager.io/cluster-issuer: letsencrypt
+            nginx.ingress.kubernetes.io/auth-method: 'GET'
+            nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
+            nginx.ingress.kubernetes.io/auth-signin: 'https://auth.christensencloud.us?rm=$request_method'
+            nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
+        - op: replace
+          path: /spec/values/vmsingle/ingress/ingressClassName
+          value: nginx-public
+        - op: replace
+          path: /spec/values/alertmanager/ingress/annotations
+          value: |
+            cert-manager.io/cluster-issuer: letsencrypt
+            nginx.ingress.kubernetes.io/auth-method: 'GET'
+            nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
+            nginx.ingress.kubernetes.io/auth-signin: 'https://auth.christensencloud.us?rm=$request_method'
+            nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
+        - op: replace
+          path: /spec/values/alertmanager/ingress/ingressClassName
+          value: nginx-public
+        - op: replace
+          path: /spec/values/vmalert/ingress/annotations
+          value: |
+            cert-manager.io/cluster-issuer: letsencrypt
+            nginx.ingress.kubernetes.io/auth-method: 'GET'
+            nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
+            nginx.ingress.kubernetes.io/auth-signin: 'https://auth.christensencloud.us?rm=$request_method'
+            nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
+        - op: replace
+          path: /spec/values/vmalert/ingress/ingressClassName
+          value: nginx-public
+        - op: replace
+          path: /spec/values/vmagent/ingress/annotations
+          value: |
+            cert-manager.io/cluster-issuer: letsencrypt
+            nginx.ingress.kubernetes.io/auth-method: 'GET'
+            nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
+            nginx.ingress.kubernetes.io/auth-signin: 'https://auth.christensencloud.us?rm=$request_method'
+            nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
+        - op: replace
+          path: /spec/values/vmagent/ingress/ingressClassName
+          value: nginx-public
+        - op: replace
+          path: /spec/values/grafana/ingress/annotations
+          value: |
+            cert-manager.io/cluster-issuer: letsencrypt
+            nginx.ingress.kubernetes.io/auth-method: 'GET'
+            nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
+            nginx.ingress.kubernetes.io/auth-signin: 'https://auth.christensencloud.us?rm=$request_method'
+            nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
+        - op: replace
+          path: /spec/values/grafana/ingress/ingressClassName
+          value: nginx-public
+      target:
+        kind: HelmRelease
+        name: victoria-metrics-k8s-stack
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -216,6 +276,24 @@ spec:
   path: ./infrastructure/ceph
   prune: true
   wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/ingress/dashboard/annotations
+          value: |
+            cert-manager.io/cluster-issuer: letsencrypt
+            nginx.ingress.kubernetes.io/auth-method: 'GET'
+            nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
+            nginx.ingress.kubernetes.io/auth-signin: 'https://auth.christensencloud.us?rm=$request_method'
+            nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
+            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+            nginx.ingress.kubernetes.io/secure-backends: "true"
+        - op: replace
+            path: /spec/values/ingress/dashboard/ingressClassName
+            value: nginx-public
+      target:
+        kind: HelmRelease
+        name: rook-ceph-cluster
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
