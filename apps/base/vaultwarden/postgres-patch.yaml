@@ -4,17 +4,11 @@ metadata:
   name: postgres
 spec:
   users:
-    - name: gitlab
+    - name: joplin
       password:
         type: "AlphaNumeric"
       databases:
-        - gitlab
-      options: 'SUPERUSER' # can't be a superuser through pgbouncer btw
-    - name: praefect
-      password:
-        type: "AlphaNumeric"
-      databases:
-        - praefect
+        - joplin
       options: 'SUPERUSER' # can't be a superuser through pgbouncer btw
   instances:
     - name: postgres
@@ -26,7 +20,7 @@ spec:
         - "ReadWriteOnce"
         resources:
           requests:
-            storage: 3Gi
+            storage: 10Gi
       resources:
         requests:
           cpu: 250m
@@ -47,7 +41,7 @@ spec:
                   - key: postgres-operator.crunchydata.com/cluster
                     operator: In
                     values:
-                      - gitlab-db
+                      - joplin-db
                   - key: postgres-operator.crunchydata.com/data
                     operator: In
                     values:
@@ -66,11 +60,11 @@ spec:
             - "ReadWriteOnce"
             resources:
               requests:
-                storage: 3Gi
+                storage: 10Gi
       - name: repo2
         schedules:
           full: "30 0 * * *" # daily at 12:30am
         s3:
-          bucket: "gitlab"
+          bucket: "joplin"
           endpoint: "nas3.christensencloud.us"
           region: "default"

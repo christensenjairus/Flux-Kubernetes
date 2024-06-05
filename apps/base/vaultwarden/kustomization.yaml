@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: joplin
+resources:
+  - namespace.yaml
+  - ../postgres
+  - ./joplin
+patches:
+  - path: postgres-patch.yaml
+    target:
+      kind: PostgresCluster
+      name: postgres
+  - target:
+      kind: PostgresCluster
+      name: postgres
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: joplin-db
+  - target:
+      kind: PodMonitor
+      name: postgres-database-exporter
+    patch: |-
+      - op: replace
+        path: /spec/namespaceSelector/matchNames/0
+        value: joplin
