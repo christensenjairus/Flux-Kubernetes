@@ -326,5 +326,14 @@ spec:
 
     tolerations: [ ]
 
-    affinity: { }
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - vaultwarden
+            topologyKey: topology.kubernetes.io/hostname
 
