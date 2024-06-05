@@ -5,5 +5,6 @@ resources:
   - encryption-secret-key.yaml
   - admin-credentials.yaml
   - minio-credentials.yaml
+  - database-credentials.yaml
   - release.yaml
   - overview-dashboard.yaml
