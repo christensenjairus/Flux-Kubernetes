@@ -1,7 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - release-redis.yaml
-  - release-sentinel.yaml
-  - redis-dashboard.yaml
-  - redis-rts-dashboard.yaml

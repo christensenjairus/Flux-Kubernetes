@@ -1,0 +1,24 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: sentinel
+spec:
+  releaseName: harbor-sentinel
+  values:
+    redisSentinel:
+      name: "harbor-redis"
+
+    redisSentinelConfig:
+      redisReplicationName: "harbor-redis"
+      masterGroupName: "harbor-redis"
+
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: "app.kubernetes.io/instance"
+                  operator: "In"
+                  values:
+                    - "harbor-sentinel"
+            topologyKey: "kubernetes.io/hostname"

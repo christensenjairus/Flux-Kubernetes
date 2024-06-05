@@ -1,0 +1,24 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: sentinel
+spec:
+  releaseName: gitlab-sentinel
+  values:
+    redisSentinel:
+      name: "gitlab-redis"
+
+    redisSentinelConfig:
+      redisReplicationName: "gitlab-redis"
+      masterGroupName: "gitlab-redis"
+
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: "app.kubernetes.io/instance"
+                  operator: "In"
+                  values:
+                    - "gitlab-sentinel"
+            topologyKey: "kubernetes.io/hostname"

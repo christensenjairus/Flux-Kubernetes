@@ -1,12 +1,11 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: authelia-database-exporter
-  namespace: authelia
+  name: postgres-database-exporter
 spec:
   namespaceSelector:
     matchNames:
-      - authelia
+      - example
   selector:
     matchLabels:
       postgres-operator.crunchydata.com/crunchy-postgres-exporter: "true"

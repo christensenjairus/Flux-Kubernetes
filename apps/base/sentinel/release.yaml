@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: authelia-sentinel
-  namespace: authelia
+  name: sentinel
+  namespace: example
 spec:
   interval: 30m
   chart:
@@ -17,7 +17,7 @@ spec:
   values:
 
     redisSentinel:
-      name: "authelia-redis"
+      name: "example-redis"
       clusterSize: 3
       image: quay.io/opstree/redis-sentinel
       tag: v7.0.12
@@ -25,7 +25,7 @@ spec:
       imagePullSecrets: [ ]
       # - name:  Secret with Registry credentials
       redisSecret:
-        secretName: "" #"authelia-redis-credentials"
+        secretName: "" #"example-redis-credentials"
         secretKey: "" #"REDIS_PASSWORD"
       serviceType: ClusterIP
       resources:
@@ -46,8 +46,8 @@ spec:
     #   test: echo
 
     redisSentinelConfig:
-      redisReplicationName: "authelia-redis"
-      masterGroupName: "authelia-redis"
+      redisReplicationName: "example-redis"
+      masterGroupName: "example-redis"
       redisPort: "6379"
       quorum: "2" # minimum number of sentinels required to agree on master promotion?
       parallelSyncs: "1" # Number of replicas that can be reconfigured at the same time?
@@ -72,7 +72,7 @@ spec:
       enabled: true
       interval: 30s
       scrapeTimeout: 10s
-      namespace: authelia
+      # namespace: example
 
     redisExporter:
       enabled: true
@@ -139,7 +139,7 @@ spec:
                 - key: "app.kubernetes.io/instance"
                   operator: "In"
                   values:
-                    - "authelia-sentinel"
+                    - "example-sentinel"
             topologyKey: "kubernetes.io/hostname"
 
     tolerations: [ ]

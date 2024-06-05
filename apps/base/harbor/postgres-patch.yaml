@@ -1,0 +1,70 @@
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: postgres
+spec:
+  users:
+    - name: harbor
+      password:
+        type: "AlphaNumeric"
+      databases:
+        - registry
+      options: 'SUPERUSER' # can't be a superuser through pgbouncer btw
+  instances:
+    - name: postgres
+      replicas: 3
+      minAvailable: 1 # pod disruption budget used here
+      dataVolumeClaimSpec:
+        storageClassName: ceph-block-2
+        accessModes:
+        - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 3Gi
+      resources:
+        requests:
+          cpu: 250m
+          memory: 250M
+      affinity:
+        nodeAffinity: # try to only schedule on database nodes. (operator still takes this as a suggestion)
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: "nodeclass"
+                    operator: "In"
+                    values:
+                      - "database"
+        podAntiAffinity: # don't schedule on the same node as another replica
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: postgres-operator.crunchydata.com/cluster
+                    operator: In
+                    values:
+                      - harbor-db
+                  - key: postgres-operator.crunchydata.com/data
+                    operator: In
+                    values:
+                      - postgres
+              topologyKey: topology.kubernetes.io/hostname
+  backups:
+    pgbackrest:
+      repos: # If you have issues getting the first backup to run, I've found that removing repo2 and restoring it after the first backup runs helps.
+      - name: repo1
+        schedules:
+          differential: "0 * * * *" # every hour at :00
+        volume:
+          volumeClaimSpec:
+            storageClassName: ceph-filesystem-2
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: 3Gi
+      - name: repo2
+        schedules:
+          full: "30 0 * * *" # daily at 12:30am
+        s3:
+          bucket: "harbor"
+          endpoint: "nas3.christensencloud.us"
+          region: "default"
