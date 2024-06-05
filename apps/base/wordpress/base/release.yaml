@@ -1047,7 +1047,7 @@ spec:
     metrics:
       ## @param metrics.enabled Start a sidecar prometheus exporter to expose metrics
       ##
-      enabled: true
+      enabled: false # I haven't found how to use this yet
       ## Bitnami Apache exporter image
       ## ref: https://hub.docker.com/r/bitnami/apache-exporter/tags/
       ## @param metrics.image.registry [default: REGISTRY_NAME] Apache exporter image registry
@@ -1293,7 +1293,7 @@ spec:
       ##
       architecture: standalone #replication
       metrics:
-        enabled: true
+        enabled: false # I haven't found how to use this yet
         serviceMonitor:
           enabled: true
         prometheusRule:
@@ -1432,7 +1432,7 @@ spec:
         nodeclass: general # they have the most RAM and it keeps it close to the wordpress pods
       podAntiAffinityPreset: hard
       metrics:
-        enabled: true
+        enabled: false # I haven't found how to use this yet
         serviceMonitor:
           enabled: true
       ## @param memcached.enabled Deploy a Memcached server for caching database queries
