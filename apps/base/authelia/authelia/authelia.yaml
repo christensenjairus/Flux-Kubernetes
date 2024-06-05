@@ -90,8 +90,19 @@ spec:
                 number: 9091
           path: /
           pathType: Prefix
+  - host: auth.siteclouds.net
+    http:
+      paths:
+        - backend:
+            service:
+              name: authelia
+              port:
+                number: 9091
+          path: /
+          pathType: Prefix
   tls:
   - hosts:
     - auth.christensencloud.us
     - auth.cyber-engine.com
+    - auth.siteclouds.net
     secretName: auth-christensencloud.us-tls

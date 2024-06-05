@@ -10,6 +10,8 @@ spec:
       hostname: cyber-engine.com
     secondaryIngress:
       hostname: cyber-engine.com
+      annotations:
+        nginx.ingress.kubernetes.io/auth-signin: 'https://auth.cyber-engine.com?rm=$request_method'
     extraEnvVars:
       - name: WEBSITE_URL
         value: "cyber-engine.com"
