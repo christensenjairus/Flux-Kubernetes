@@ -2,14 +2,19 @@ apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
   name: postgres
-  namespace: harbor
+  namespace: nextcloud
 spec:
+  patroni:
+    dynamicConfiguration:
+      postgresql:
+        pg_hba:
+          - "hostnossl all all all md5" # bypass TLS
   users:
-    - name: harbor
+    - name: nextcloud
       password:
         type: "AlphaNumeric"
       databases:
-        - registry
+        - nextcloud
       options: 'SUPERUSER' # can't be a superuser through pgbouncer btw
   instances:
     - name: postgres
@@ -21,7 +26,7 @@ spec:
         - "ReadWriteOnce"
         resources:
           requests:
-            storage: 3Gi
+            storage: 10Gi
       resources:
         requests:
           cpu: 250m
@@ -42,7 +47,7 @@ spec:
                   - key: postgres-operator.crunchydata.com/cluster
                     operator: In
                     values:
-                      - harbor-db
+                      - nextcloud-db
                   - key: postgres-operator.crunchydata.com/data
                     operator: In
                     values:
@@ -61,11 +66,11 @@ spec:
             - "ReadWriteOnce"
             resources:
               requests:
-                storage: 3Gi
+                storage: 10Gi
       - name: repo2
         schedules:
           full: "30 0 * * *" # daily at 12:30am
         s3:
-          bucket: "harbor"
+          bucket: "nextcloud"
           endpoint: "nas3.christensencloud.us"
           region: "default"

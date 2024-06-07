@@ -1,0 +1,164 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: kasm
+    app.kubernetes.io/name: kasm
+  name: kasm
+  namespace: kasm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: kasm
+      app.kubernetes.io/name: kasm
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: kasm
+        app.kubernetes.io/name: kasm
+    spec:
+      automountServiceAccountToken: false
+      nodeSelector:
+        nodeclass: general
+      containers:
+        - env:
+            - name: TZ
+              value: UTC
+            - name: UMASK
+              value: "0022"
+            - name: UMASK_SET
+              value: "0022"
+            - name: PUID
+              value: "568"
+            - name: USER_ID
+              value: "568"
+            - name: UID
+              value: "568"
+            - name: PGID
+              value: "568"
+            - name: GROUP_ID
+              value: "568"
+            - name: GID
+              value: "568"
+            - name: KASM_PORT
+              value: "443"
+          image: lscr.io/linuxserver/kasm:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: 3000
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          name: kasm
+          ports:
+            - containerPort: 3000
+              name: admin
+              protocol: TCP
+            - containerPort: 443
+              name: main
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: 3000
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 2
+            timeoutSeconds: 5
+          resources:
+            limits:
+              cpu: 8000m
+              memory: 8Gi
+            requests:
+              cpu: 4000m
+              memory: 4Gi
+          securityContext:
+            allowPrivilegeEscalation: true
+            capabilities:
+              add:
+                - NET_BIND_SERVICE
+                - CHOWN
+                - SETUID
+                - SETGID
+                - FOWNER
+                - DAC_OVERRIDE
+              drop:
+                - ALL
+            privileged: true
+            readOnlyRootFilesystem: false
+            runAsGroup: 0
+            runAsNonRoot: false
+            runAsUser: 0
+            seccompProfile:
+              type: RuntimeDefault
+          startupProbe:
+            failureThreshold: 60
+            httpGet:
+              path: /
+              port: 3000
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /opt
+              name: data
+            - mountPath: /dev/shm
+              name: devshm
+            - mountPath: /shared
+              name: shared
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /var/logs
+              name: varlogs
+            - mountPath: /var/run
+              name: varrun
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups:
+          - 568
+        sysctls:
+          - name: net.ipv4.ip_unprivileged_port_start
+            value: "443"
+      serviceAccount: default
+      serviceAccountName: default
+      shareProcessNamespace: false
+      terminationGracePeriodSeconds: 60
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: kasm-data
+        - emptyDir:
+            medium: Memory
+          name: devshm
+        - emptyDir: {}
+          name: shared
+        - emptyDir: {}
+          name: tmp
+        - emptyDir: {}
+          name: varlogs
+        - emptyDir:
+            medium: Memory
+          name: varrun

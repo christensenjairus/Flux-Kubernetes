@@ -1,0 +1,49 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: redis
+  namespace: nextcloud
+spec:
+  releaseName: nextcloud-redis
+  values:
+    redisCluster:
+      name: "nextcloud-redis"
+
+      leader:
+        replicas: 5 # overkill
+        affinity:
+          podAntiAffinity:
+            # use a weighted and preferred rule because this has more pods than general nodes
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  labelSelector:
+                    matchExpressions:
+                      - key: "app"
+                        operator: "In"
+                        values:
+                          - "nextcloud-redis-leader"
+                  topologyKey: "kubernetes.io/hostname"
+
+      follower:
+        replicas: 10 # way overkill
+        affinity:
+          podAntiAffinity:
+            # use a weighted and preferred rule because this has more pods than general nodes
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  labelSelector:
+                    matchExpressions:
+                      - key: "app"
+                        operator: "In"
+                        values:
+                          - "nextcloud-redis-follower"
+                  topologyKey: "kubernetes.io/hostname"
+
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 3Gi

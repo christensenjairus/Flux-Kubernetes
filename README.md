@@ -48,7 +48,7 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 
 ### List of Flux-Managed Apps
 * GitLab
-  * HA Redis
+  * HA Replicated Redis w/ Sentinel
   * HA Postgres
   * Stores gitlab & database backups in S3
   * Distributed Gitaly instances
@@ -65,7 +65,7 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
   * Collects logs and metrics and sends to Splunk
   * Tokens and configs are loaded from 1Password
 * Harbor Registry
-  * HA Redis
+  * HA Replicated Redis w/ Sentinel
   * HA Postgres
   * Stores docker images & database backups to S3
 * OpenLDAP
@@ -73,7 +73,7 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
   * PHP LDAP Admin
   * LDAP Self-Service Password Reset
 * Authelia
-  * HA Redis
+  * HA Replicated Redis w/ Sentinel
   * HA Postgres
   * LDAP Authentication via OpenLDAP
 * Uptime-Kuma
@@ -98,3 +98,6 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 * Vaultwarden
   * HA Postgres
 * Portainer
+* Nextcloud
+  * HA Postgres
+  * HA Clustered Redis

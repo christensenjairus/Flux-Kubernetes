@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: redis-replication
-      version: "0.15.x"
+      version: "0.16.x"
       sourceRef:
         kind: HelmRepository
         name: ot-helm
@@ -63,7 +63,7 @@ spec:
       enabled: true
       interval: 30s
       scrapeTimeout: 10s
-      # namespace: authelia
+      # namespace: monitoring
 
     redisExporter:
       enabled: true

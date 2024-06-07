@@ -1,6 +1,56 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: nextcloud
 resources:
   - namespace.yaml
-  - shared-volumes
+  #- ./shared-volumes
+  - ../postgres
+  - ../redis-cluster
+  - ./nextcloud
+  - ./redis-dashboard.yaml
+  - ./redis-rts-dashboard.yaml
+patches:
+  - path: postgres-patch.yaml
+    target:
+      kind: PostgresCluster
+      name: postgres
+  - target:
+      kind: PostgresCluster
+      name: postgres
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: nextcloud-db
+      - op: replace
+        path: /metadata/namespace
+        value: nextcloud
+  - target:
+      kind: PodMonitor
+      name: postgres-database-exporter
+    patch: |-
+      - op: replace
+        path: /spec/namespaceSelector/matchNames/0
+        value: nextcloud
+      - op: replace
+        path: /metadata/namespace
+        value: nextcloud
+  - target:
+      kind: OnePasswordItem
+      name: database-minio-credentials
+    patch: |-
+      - op: replace
+        path: /metadata/namespace
+        value: nextcloud
+  - path: redis-patch.yaml
+    target:
+      kind: HelmRelease
+      name: redis
+  - target:
+      kind: HelmRelease
+      name: redis
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: nextcloud-redis
+      - op: replace
+        path: /metadata/namespace
+        value: nextcloud

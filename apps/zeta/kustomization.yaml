@@ -16,3 +16,5 @@ resources:
   - ../base/wordpress/overlays
   - ../base/vaultwarden
   - ../base/portainer
+  - ../base/kasm
+  - ../base/nextcloud

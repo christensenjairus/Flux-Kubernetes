@@ -1,9 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: authelia
 resources:
   - namespace.yaml
-  - ../redis
+  - ../redis-replication
   - ../sentinel
   - ../postgres
   - ./authelia
@@ -21,12 +20,25 @@ patches:
       - op: replace
         path: /metadata/name
         value: authelia-db
+      - op: replace
+        path: /metadata/namespace
+        value: authelia
   - target:
       kind: PodMonitor
       name: postgres-database-exporter
     patch: |-
       - op: replace
         path: /spec/namespaceSelector/matchNames/0
+        value: authelia
+      - op: replace
+        path: /metadata/namespace
+        value: authelia
+  - target:
+      kind: OnePasswordItem
+      name: database-minio-credentials
+    patch: |-
+      - op: replace
+        path: /metadata/namespace
         value: authelia
   - path: redis-patch.yaml
     target:
@@ -39,6 +51,9 @@ patches:
       - op: replace
         path: /metadata/name
         value: authelia-redis
+      - op: replace
+        path: /metadata/namespace
+        value: authelia
   - path: sentinel-patch.yaml
     target:
       kind: HelmRelease
@@ -50,3 +65,6 @@ patches:
       - op: replace
         path: /metadata/name
         value: authelia-sentinel
+      - op: replace
+        path: /metadata/namespace
+        value: authelia
