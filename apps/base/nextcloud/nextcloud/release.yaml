@@ -212,6 +212,13 @@ spec:
           ];
           ?>
 
+        no-default-files.config.php: |-
+          <?php 
+          $CONFIG = [
+            'skeletondirectory' => ''
+          ];
+          ?>
+
       # For example, to use S3 as primary storage
       # ref: https://docs.nextcloud.com/server/13/admin_manual/configuration_files/primary_storage.html#simple-storage-service-s3
       #
