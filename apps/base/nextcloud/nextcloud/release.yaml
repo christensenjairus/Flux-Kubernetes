@@ -7,6 +7,8 @@ spec:
   interval: 30m
   install:
     timeout: 20m # takes a while to initialize when it has the RWX volume
+  upgrade:
+    timeout: 20m # takes a while to because each pod rolls individually
   chart:
     spec:
       chart: nextcloud
