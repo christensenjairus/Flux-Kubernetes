@@ -5,10 +5,10 @@ resources:
   - namespace.yaml
   - ./home-assistant
   - ./proxmox
-  - ./plex
+#  - ./plex
   - ./truenas
   - ./unifi
   - ./ups
   - ./minio
   - ./nas3
-  - ./nextcloud
+#  - ./nextcloud
