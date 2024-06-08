@@ -30,7 +30,6 @@ data:
       "fiscalYearStartMonth": 0,
       "gnetId": 20716,
       "graphTooltip": 2,
-      "id": 51,
       "links": [],
       "liveNow": false,
       "panels": [
@@ -114,7 +113,7 @@ data:
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "nextcloud_up{namespace=~\"$namespace\"}",
+              "expr": "max(nextcloud_up{namespace=~\"nextcloud\"})",
               "format": "time_series",
               "instant": true,
               "intervalFactor": 1,
@@ -202,7 +201,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (nextcloud_active_users_daily_total{namespace=~\"$namespace\"})",
+              "expr": "max(nextcloud_active_users_daily_total{namespace=~\"$namespace\"})",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -269,7 +268,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "nextcloud_active_users_total{namespace=~\"$namespace\"}",
+              "expr": "max(nextcloud_active_users_total{namespace=~\"$namespace\"})",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -345,7 +344,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "nextcloud_files_total{namespace=~\"$namespace\"}",
+              "expr": "max(nextcloud_files_total{namespace=~\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -539,7 +538,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (nextcloud_users_total{namespace=~\"$namespace\"})",
+              "expr": "max (nextcloud_users_total{namespace=~\"$namespace\"})",
               "intervalFactor": 1,
               "legendFormat": "total ({{instance}})",
               "metric": "",
@@ -553,7 +552,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (nextcloud_active_users_total{namespace=~\"$namespace\"})",
+              "expr": "max (nextcloud_active_users_total{namespace=~\"$namespace\"})",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "active ({{instance}})",
@@ -653,7 +652,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (nextcloud_files_total{namespace=~\"$namespace\"})",
+              "expr": "max (nextcloud_files_total{namespace=~\"$namespace\"})",
               "intervalFactor": 1,
               "legendFormat": "__auto",
               "metric": "",
@@ -731,7 +730,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "nextcloud_auth_errors_total{namespace=~\"$namespace\"}",
+              "expr": "max(nextcloud_auth_errors_total{namespace=~\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -834,7 +833,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "(5*1099511627776) - nextcloud_free_space_bytes{namespace=~\"$namespace\"}",
+              "expr": "max((5*1099511627776) - nextcloud_free_space_bytes{namespace=~\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -908,7 +907,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "nextcloud_database_size_bytes{namespace=~\"$namespace\"}",
+              "expr": "max(nextcloud_database_size_bytes{namespace=~\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -1005,7 +1004,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (nextcloud_free_space_bytes{namespace=~\"$namespace\"})",
+              "expr": "max(nextcloud_free_space_bytes{namespace=~\"$namespace\"})",
               "interval": "",
               "intervalFactor": 1,
               "legendFormat": "",
@@ -1095,7 +1094,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "nextcloud_shares_total{type=\"authlink\",namespace=\"$namespace\"}",
+              "expr": "max(nextcloud_shares_total{type=\"authlink\",namespace=\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "authlink",
@@ -1108,7 +1107,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "nextcloud_shares_total{type=\"link\",namespace=\"$namespace\"}",
+              "expr": "max(nextcloud_shares_total{type=\"link\",namespace=\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "link",
@@ -1121,7 +1120,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "nextcloud_shares_total{type=\"group\",namespace=\"$namespace\"}",
+              "expr": "max(nextcloud_shares_total{type=\"group\",namespace=\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "group",
@@ -1134,7 +1133,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "nextcloud_shares_total{type=\"user\",namespace=\"$namespace\"}",
+              "expr": "max(nextcloud_shares_total{type=\"user\",namespace=\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "user",
@@ -1301,7 +1300,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "nextcloud_shares_federated_total{direction=\"received\",namespace=\"$namespace\"}",
+              "expr": "max(nextcloud_shares_federated_total{direction=\"received\",namespace=\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "recieved",
@@ -1314,7 +1313,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "nextcloud_shares_federated_total{direction=\"sent\",namespace=\"$namespace\"}",
+              "expr": "max(nextcloud_shares_federated_total{direction=\"sent\",namespace=\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "sent",
@@ -1521,7 +1520,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (nextcloud_apps_installed_total{namespace=\"$namespace\"})",
+              "expr": "max(nextcloud_apps_installed_total{namespace=\"$namespace\"})",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -1592,7 +1591,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (nextcloud_apps_updates_available_total{namespace=\"$namespace\"})",
+              "expr": "max(nextcloud_apps_updates_available_total{namespace=\"$namespace\"})",
               "instant": false,
               "legendFormat": "__auto",
               "range": true,
@@ -1958,7 +1957,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "nextcloud_php_upload_max_size_bytes{namespace=~\"$namespace\"}",
+              "expr": "max(nextcloud_php_upload_max_size_bytes{namespace=~\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -2044,7 +2043,7 @@ data:
                 "uid": "P4169E866C3094E38"
               },
               "editorMode": "code",
-              "expr": "nextcloud_php_memory_limit_bytes{namespace=~\"$namespace\"}",
+              "expr": "max(nextcloud_php_memory_limit_bytes{namespace=~\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
