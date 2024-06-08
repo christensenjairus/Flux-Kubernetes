@@ -987,7 +987,8 @@ data:
       "refresh": "",
       "schemaVersion": 39,
       "tags": [
-          "redis"
+          "redis",
+          "authelia"
       ],
       "templating": {
         "list": []
@@ -1011,7 +1012,7 @@ data:
         ]
       },
       "timezone": "browser",
-      "title": "Authelia / Redis (Real-time streaming)",
+      "title": "Authelia / Redis (RTS)",
       "uid": "_SGxCBNGx",
       "version": 1,
       "weekStart": ""

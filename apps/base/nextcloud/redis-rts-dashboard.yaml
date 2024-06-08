@@ -34,7 +34,7 @@ data:
           "dashes": false,
           "datasource": {
             "type": "redis-datasource",
-            "uid": "P013154F8CA11F6FD"
+            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
           },
           "fieldConfig": {
             "defaults": {
@@ -82,7 +82,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "P013154F8CA11F6FD"
+                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
               },
               "query": "",
               "refId": "A",
@@ -143,7 +143,7 @@ data:
           "dashes": false,
           "datasource": {
             "type": "redis-datasource",
-            "uid": "P013154F8CA11F6FD"
+            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
           },
           "fieldConfig": {
             "defaults": {
@@ -194,7 +194,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "P013154F8CA11F6FD"
+                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
               },
               "query": "",
               "refId": "A",
@@ -256,7 +256,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "P013154F8CA11F6FD"
+            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
           },
           "fieldConfig": {
             "defaults": {
@@ -305,7 +305,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "P013154F8CA11F6FD"
+                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
               },
               "query": "",
               "refId": "A",
@@ -333,7 +333,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "P013154F8CA11F6FD"
+            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
           },
           "fieldConfig": {
             "defaults": {
@@ -380,7 +380,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "P013154F8CA11F6FD"
+                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
               },
               "query": "",
               "refId": "A",
@@ -408,7 +408,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "P013154F8CA11F6FD"
+            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
           },
           "fieldConfig": {
             "defaults": {
@@ -456,7 +456,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "P013154F8CA11F6FD"
+                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
               },
               "query": "",
               "refId": "A",
@@ -485,7 +485,7 @@ data:
           "collapsed": false,
           "datasource": {
             "type": "redis-datasource",
-            "uid": "P013154F8CA11F6FD"
+            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
           },
           "gridPos": {
             "h": 1,
@@ -499,7 +499,7 @@ data:
             {
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "P013154F8CA11F6FD"
+                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
               },
               "refId": "A"
             }
@@ -514,7 +514,7 @@ data:
           "dashes": false,
           "datasource": {
             "type": "redis-datasource",
-            "uid": "P013154F8CA11F6FD"
+            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
           },
           "fieldConfig": {
             "defaults": {
@@ -566,7 +566,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "P013154F8CA11F6FD"
+                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
               },
               "query": "",
               "refId": "A",
@@ -647,7 +647,7 @@ data:
           "dashes": false,
           "datasource": {
             "type": "redis-datasource",
-            "uid": "P013154F8CA11F6FD"
+            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
           },
           "fieldConfig": {
             "defaults": {
@@ -698,7 +698,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "P013154F8CA11F6FD"
+                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
               },
               "query": "",
               "refId": "A",
@@ -771,7 +771,7 @@ data:
           "dashes": false,
           "datasource": {
             "type": "redis-datasource",
-            "uid": "P013154F8CA11F6FD"
+            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
           },
           "fieldConfig": {
             "defaults": {
@@ -819,7 +819,7 @@ data:
               "command": "",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "P013154F8CA11F6FD"
+                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
               },
               "query": "dbsize",
               "refId": "A",
@@ -867,7 +867,7 @@ data:
           "dashes": false,
           "datasource": {
             "type": "redis-datasource",
-            "uid": "P013154F8CA11F6FD"
+            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
           },
           "fieldConfig": {
             "defaults": {
@@ -917,7 +917,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "P013154F8CA11F6FD"
+                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
               },
               "query": "",
               "refId": "A",
@@ -987,7 +987,8 @@ data:
       "refresh": "",
       "schemaVersion": 39,
       "tags": [
-          "redis"
+          "redis",
+          "nextcloud"
       ],
       "templating": {
         "list": []
@@ -1011,8 +1012,8 @@ data:
         ]
       },
       "timezone": "browser",
-      "title": "Nextcloud / Redis (Real-time streaming)",
-      "uid": "_SGxCBNGy",
+      "title": "Nextcloud / Redis (RTS)",
+      "uid": "_SGxCBNGw",
       "version": 1,
       "weekStart": ""
     }

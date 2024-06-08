@@ -862,6 +862,21 @@ spec:
             pingInterval: 0
             pipelineWindow: 0
           editable: false
+        - name: "Nextcloud Redis"
+          type: redis-datasource # datasource UID seems to be f904fde6-f067-4779-9841-bb1ad1f87038
+          access: proxy # access through grafana, not direct from browser
+          orgId: 1 # 1 is default
+          isDefault: false # only one default data source per organization
+          version: 1
+          url: redis://nextcloud-redis-leader.nextcloud.svc:6379
+          jsonData:
+            client: standalone # it's actually cluster, but I couldn't get it to work correctly
+            sentinelName: gitlab-redis
+            poolSize: 15
+            timeout: 10
+            pingInterval: 0
+            pipelineWindow: 0
+          editable: false
 
       # - name: prometheus-sample
       #   access: proxy

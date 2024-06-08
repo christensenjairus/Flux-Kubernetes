@@ -1425,7 +1425,8 @@ data:
       "refresh": "10s",
       "schemaVersion": 39,
       "tags": [
-        "redis"
+        "redis",
+        "authelia"
       ],
       "templating": {
         "list": []

@@ -987,7 +987,8 @@ data:
       "refresh": "",
       "schemaVersion": 39,
       "tags": [
-          "redis"
+          "redis",
+          "gitlab"
       ],
       "templating": {
         "list": []
@@ -1011,7 +1012,7 @@ data:
         ]
       },
       "timezone": "browser",
-      "title": "GitLab / Redis (Real-time streaming)",
+      "title": "GitLab / Redis (RTS)",
       "uid": "_SGxCBNGy",
       "version": 1,
       "weekStart": ""

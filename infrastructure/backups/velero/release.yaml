@@ -648,7 +648,7 @@ spec:
           # myenv: foo
         # annotations:
           # myenv: foo
-        schedule: "0 0 * * *" # once a day, at midnight
+        schedule: "30 8 * * *" # once a day, at 2:30am local time, 8:30am UTC. The volume snapshot can cause things to temporarily freeze, so do it at night.
         # useOwnerReferencesInBackup: false
         template:
           ttl: "720h" # one month
@@ -687,7 +687,7 @@ spec:
           # myenv: foo
         # annotations:
           # myenv: foo
-        schedule: "0 * * * *" # every hour
+        schedule: "0 * * * *" # every hour, at :30
         # useOwnerReferencesInBackup: false
         template:
           ttl: "24h" # 1 day

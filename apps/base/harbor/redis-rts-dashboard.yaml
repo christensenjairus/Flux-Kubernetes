@@ -987,7 +987,8 @@ data:
       "refresh": "",
       "schemaVersion": 39,
       "tags": [
-          "redis"
+          "redis",
+          "harbor"
       ],
       "templating": {
         "list": []
@@ -1011,7 +1012,7 @@ data:
         ]
       },
       "timezone": "browser",
-      "title": "Harbor / Redis (Real-time streaming)",
+      "title": "Harbor / Redis (RTS)",
       "uid": "_SGxCBNGk",
       "version": 1,
       "weekStart": ""

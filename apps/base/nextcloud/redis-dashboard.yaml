@@ -1425,7 +1425,8 @@ data:
       "refresh": "10s",
       "schemaVersion": 39,
       "tags": [
-        "redis"
+        "redis",
+        "nextcloud"
       ],
       "templating": {
         "list": []
@@ -1449,7 +1450,7 @@ data:
       },
       "timezone": "browser",
       "title": "Nextcloud / Redis",
-      "uid": "RpSjVqWMy",
+      "uid": "RpSjVqWMw",
       "version": 2,
       "weekStart": ""
     }

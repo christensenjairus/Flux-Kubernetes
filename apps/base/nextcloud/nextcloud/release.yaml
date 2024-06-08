@@ -75,9 +75,9 @@ spec:
             deny all;
           }
       tls:
-        - secretName: nextcloud-christensencloud.us-tls
+        - secretName: christensencloud.us-tls
           hosts:
-            - nextcloud.christensencloud.us
+            - christensencloud.us
       labels: {}
       path: /
       pathType: Prefix
@@ -94,7 +94,7 @@ spec:
       protocol: https
 
     nextcloud:
-      host: nextcloud.christensencloud.us
+      host: christensencloud.us
       username: ""
       password: ""
       ## Use an existing secret
@@ -116,7 +116,7 @@ spec:
       mail:
         enabled: true
         fromAddress: noreply
-        domain: nextcloud.christensencloud.us
+        domain: christensencloud.us
         smtp:
           host: ""
           secure: ssl
@@ -194,6 +194,19 @@ spec:
               'read_timeout' => 0.0,
               'failover_mode' => \RedisCluster::FAILOVER_DISTRIBUTE
             ],
+          ];
+          ?>
+
+        # I've taken the standard trusted domains and added one that's necessary for the exporter to work
+        trusted-domains.config.php: |-
+          <?php 
+          $CONFIG = [
+            'trusted_domains' =>
+            array (
+              0 => 'localhost',
+              1 => 'christensencloud.us',
+              2 => 'nextcloud.nextcloud.svc.cluster.local'
+            ),
           ];
           ?>
 
@@ -501,7 +514,7 @@ spec:
       # existingClaim:
 
       accessMode: ReadWriteMany
-      size: 8Gi
+      size: 1Gi # This is just the /var/www/html folder
 
       ## Use an additional pvc for the data directory rather than a subpath of the default PVC
       ## Useful to store data on a different storageClass (e.g. on slower disks)
@@ -509,11 +522,10 @@ spec:
         enabled: true
         subPath:
         annotations: { }
-        storageClass: "ceph-filesystem-3"
-        #existingClaim: nextcloud-data
+        existingClaim: nextcloud-data
         accessMode: ReadWriteMany
+        #storageClass: "ceph-filesystem-3"
         #size: 5000Gi
-        size: 8Gi
 
     resources: #{ }
       # We usually recommend not to specify default resources and to leave this as a conscious
@@ -588,7 +600,7 @@ spec:
     metrics:
       enabled: true
 
-      replicaCount: 1
+      replicaCount: 2
       # The metrics exporter needs to know how you serve Nextcloud either http or https
       https: false
       # Use API token if set, otherwise fall back to password authentication

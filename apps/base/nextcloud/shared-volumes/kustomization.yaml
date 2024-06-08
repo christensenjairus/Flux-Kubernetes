@@ -4,5 +4,5 @@ namespace: nextcloud
 resources:
   - pv.yaml
   - pvc.yaml
-  - system-pv.yaml
-  - system-pvc.yaml
+#  - system-pv.yaml
+#  - system-pvc.yaml

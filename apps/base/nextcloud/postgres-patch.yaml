@@ -21,12 +21,12 @@ spec:
       replicas: 3
       minAvailable: 1 # pod disruption budget used here
       dataVolumeClaimSpec:
-        storageClassName: ceph-block-2
+        storageClassName: ceph-block-3
         accessModes:
         - "ReadWriteOnce"
         resources:
           requests:
-            storage: 10Gi
+            storage: 8Gi
       resources:
         requests:
           cpu: 250m
@@ -61,12 +61,12 @@ spec:
           differential: "0 * * * *" # every hour at :00
         volume:
           volumeClaimSpec:
-            storageClassName: ceph-filesystem-2
+            storageClassName: ceph-block-3
             accessModes:
             - "ReadWriteOnce"
             resources:
               requests:
-                storage: 10Gi
+                storage: 8Gi
       - name: repo2
         schedules:
           full: "30 0 * * *" # daily at 12:30am
