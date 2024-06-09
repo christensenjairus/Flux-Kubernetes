@@ -64,6 +64,7 @@ spec:
         https: 443
       # -- Will add custom configuration options to Nginx https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
       config:
+        hsts: false # allow http communication without redirecting to https, unless specified. Need to disable this for Plex at port 32400 to work.
         # use these per ingress instead of globally
         # custom-http-errors: "400,401,403,404,405,407,408,409,410,411,412,413,418,429,500,502,503,504,505"
         # I stole this from this medium article https://medium.com/@vdboor/using-nginx-ingress-as-a-static-cache-91bc27be04a1
