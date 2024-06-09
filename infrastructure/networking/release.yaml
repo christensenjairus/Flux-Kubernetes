@@ -121,11 +121,14 @@ spec:
       enabled: true
     l2announcements:
       enabled: true
-      # Raising these values decreases the number of API calls needed to keep the lease
-      # See this bug: https://github.com/cilium/cilium/issues/26586#issuecomment-1620641960
-      leaseDuration: 300s # 6s
-      leaseRenewDeadline: 60s # 10s
-      leaseRetryPeriod: 10s # 200ms
+      # Raising the lease and qps values decreases the number of API calls needed to keep the lease
+      # See this (now fixed) bug: https://github.com/cilium/cilium/issues/26586#issuecomment-1620641960
+      leaseDuration: 300s # 15s is default
+      leaseRenewDeadline: 60s # 5s is default
+      leaseRetryPeriod: 10s # 2s is default
+    k8sClientRateLimit:
+      qps: 20 # 10 is default
+      burst: 40 # 20 is default
     k8sServiceHost: "10.0.6.100"
     k8sServicePort: 6443
     kubeProxyReplacement: strict
