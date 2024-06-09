@@ -123,9 +123,14 @@ spec:
       enabled: true
       # Raising the lease and qps values decreases the number of API calls needed to keep the lease
       # See this (now fixed) bug: https://github.com/cilium/cilium/issues/26586#issuecomment-1620641960
-      leaseDuration: 300s # 15s is default
-      leaseRenewDeadline: 60s # 5s is default
-      leaseRetryPeriod: 10s # 2s is default
+      leaseDuration: 45s # 15s is default
+      leaseRenewDeadline: 15s # 5s is default
+      leaseRetryPeriod: 6s # 2s is default
+      # These ^ values ensure a maximum of 60s to failover after failure. (minimum of 30s)
+      # "The theoretical shortest time between failure and failover is leaseDuration - leaseRenewDeadline and the longest leaseDuration + leaseRenewDeadline.
+      # So with the default values, failover occurs between 10s and 20s.
+      # Each service incurs a CPU and network overhead, so clusters with smaller amounts of services can more easily afford faster failover times.
+      # Larger clusters might need to increase parameters if the overhead is too high." - Docs (https://docs.cilium.io/en/stable/network/l2-announcements/)
     k8sClientRateLimit:
       qps: 20 # 10 is default
       burst: 40 # 20 is default
