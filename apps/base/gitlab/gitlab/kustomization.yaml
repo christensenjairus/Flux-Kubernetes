@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - ldap-password.yaml
   - smtp-password.yaml
+  - gitlab-database-credentials.yaml
   - repository.yaml
   - release.yaml
