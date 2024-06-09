@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/custom-http-errors: "401,404,405,407,408,409,410,411,412,413,418,429,500,502,503,504,505" # removed 401,403
     nginx.ingress.kubernetes.io/auth-method: 'GET'
     nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'

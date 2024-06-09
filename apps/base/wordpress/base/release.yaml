@@ -677,6 +677,7 @@ spec:
       ##
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
         nginx.ingress.kubernetes.io/custom-http-errors: "400,401,403,404,405,407,408,409,410,411,412,413,418,429,500,502,503,504,505"
         # stole a lot of this from this medium article: https://medium.com/@vdboor/using-nginx-ingress-as-a-static-cache-91bc27be04a1
         nginx.ingress.kubernetes.io/proxy-buffering: "on" # Important!
@@ -812,6 +813,7 @@ spec:
       ##
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
         nginx.ingress.kubernetes.io/custom-http-errors: "400,401,403,405,407,408,409,410,411,412,413,418,429,505" # removed 404,500,502,503,504
         nginx.ingress.kubernetes.io/auth-method: 'GET'
         nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
