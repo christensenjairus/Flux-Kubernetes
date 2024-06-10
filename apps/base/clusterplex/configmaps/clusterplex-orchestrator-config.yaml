@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: clusterplex-orchestrator-config
+  labels:
+    app.kubernetes.io/instance: clusterplex
+    app.kubernetes.io/name: orchestrator
+data:
+  LISTENING_PORT: "3500"
+  TZ: America/Denver
+  WORKER_SELECTION_STRATEGY: LOAD_RANK

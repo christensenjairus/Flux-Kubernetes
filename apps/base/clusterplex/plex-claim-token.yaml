@@ -1,0 +1,8 @@
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: plex-claim-token
+  namespace: clusterplex
+spec:
+  itemPath: vaults/HomeLab K8S/items/Plex Claim Token

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  finalizers:
+    - kubernetes.io/pv-protection
+  name: clusterplex-db-backup
+spec:
+  accessModes:
+    - ReadWriteMany
+    - ReadOnlyMany
+    - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  nfs:
+    path: /mnt/HDD_POOL/plex/clusterplex-db-backup
+    server: 10.0.6.2
+  persistentVolumeReclaimPolicy: Delete
+  volumeMode: Filesystem
+  mountOptions:
+    - sync
+    - nfsvers=4.2
+    - noatime

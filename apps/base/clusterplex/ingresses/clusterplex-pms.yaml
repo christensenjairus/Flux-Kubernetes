@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/custom-http-errors: "400,403,404,405,407,408,409,410,411,412,413,418,429,500,502,503,504,505" # removed 401
+  name: clusterplex-pms
+  labels:
+    app.kubernetes.io/instance: clusterplex
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pms
+    app.kubernetes.io/version: 1.4.11
+    helm.sh/chart: clusterplex-1.1.6
+spec:
+  ingressClassName: nginx-public
+  tls:
+    - hosts:
+        - "clusterplex.christensencloud.us"
+      secretName: "clusterplex-christensencloud.us-tls"
+  rules:
+    - host: "clusterplex.christensencloud.us"
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: clusterplex-pms
+                port:
+                  number: 32400

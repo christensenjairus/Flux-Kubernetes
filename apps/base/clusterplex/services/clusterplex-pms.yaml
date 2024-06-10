@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: clusterplex-pms
+  labels:
+    app.kubernetes.io/service: clusterplex-pms
+    app.kubernetes.io/instance: clusterplex
+    app.kubernetes.io/name: pms
+  annotations:
+    io.cilium/lb-ipam-ips: 10.0.6.211
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  ports:
+    - port: 32400
+      targetPort: plex
+      protocol: TCP
+      name: plex
+    - port: 32499
+      targetPort: relay
+      protocol: TCP
+      name: relay
+  selector:
+    app.kubernetes.io/instance: clusterplex
+    app.kubernetes.io/name: pms

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: clusterplex-worker-config
+  labels:
+    app.kubernetes.io/instance: clusterplex
+    app.kubernetes.io/name: worker
+data:
+  DOCKER_MODS: ghcr.io/pabloromeo/clusterplex_worker_dockermod:1.4.11
+  EAE_SUPPORT: "1"
+  LISTENING_PORT: "3501"
+  ORCHESTRATOR_URL: http://clusterplex-orchestrator:3500
+  PGID: "1000"
+  PUID: "1000"
+  STAT_CPU_INTERVAL: "10000"
+  TZ: America/Denver
+  VERSION: docker

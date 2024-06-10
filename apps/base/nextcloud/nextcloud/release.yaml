@@ -48,10 +48,9 @@ spec:
       enabled: true
       className: nginx-public
       annotations: #{ }
-        nginx.ingress.kubernetes.io/proxy-body-size: 4G
-        kubernetes.io/tls-acme: "true"
         cert-manager.io/cluster-issuer: letsencrypt
         nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/custom-http-errors: "400,401,403,404,405,407,408,409,410,411,412,413,418,429,500,502,503,504,505"
         # Keep this in sync with the README.md:
         nginx.ingress.kubernetes.io/server-snippet: |-
           server_tokens off;
@@ -77,6 +76,10 @@ spec:
           location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
             deny all;
           }
+        nginx.ingress.kubernetes.io/proxy-body-size: 4G
+        kubernetes.io/tls-acme: "true"
+        nginx.ingress.kubernetes.io/cors-allow-headers: "X-Forwarded-For"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
       tls:
         - secretName: christensencloud.us-tls
           hosts:

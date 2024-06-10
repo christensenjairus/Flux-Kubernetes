@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: clusterplex-orchestrator
+  labels:
+    app.kubernetes.io/instance: clusterplex
+    app.kubernetes.io/name: orchestrator
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/service: clusterplex-orchestrator
+      app.kubernetes.io/name: orchestrator
+      app.kubernetes.io/instance: clusterplex
+  endpoints:
+    - interval: 30s
+      path: /metrics
+      port: http
+      scheme: http
+      scrapeTimeout: 10s

@@ -1,0 +1,15 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: clusterplex-pms-config
+  labels:
+    app.kubernetes.io/instance: clusterplex
+    app.kubernetes.io/name: pms
+  annotations: {}
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "25Gi"
+  storageClassName: "ceph-block-3"

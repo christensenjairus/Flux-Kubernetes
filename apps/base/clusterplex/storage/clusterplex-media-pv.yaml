@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  finalizers:
+    - kubernetes.io/pv-protection
+  name: clusterplex-media
+spec:
+  accessModes:
+    - ReadWriteMany
+    - ReadOnlyMany
+    - ReadWriteOnce
+  capacity:
+    storage: 75Ti
+  nfs:
+    path: /mnt/HDD_POOL/media
+    server: 10.0.6.2
+  persistentVolumeReclaimPolicy: Delete
+  volumeMode: Filesystem
+  mountOptions:
+    - async
+    - nfsvers=4.2
+    - noatime

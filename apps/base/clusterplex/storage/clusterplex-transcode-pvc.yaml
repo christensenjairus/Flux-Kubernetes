@@ -1,0 +1,15 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: clusterplex-transcode
+  labels:
+    app.kubernetes.io/instance: clusterplex
+    app.kubernetes.io/name: clusterplex
+  annotations: {}
+spec:
+  accessModes:
+    - "ReadWriteMany"
+  resources:
+    requests:
+      storage: "25Gi"
+  storageClassName: "truenas-nfs"

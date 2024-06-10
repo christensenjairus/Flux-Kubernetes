@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: clusterplex-orchestrator
+  labels:
+    app.kubernetes.io/service: clusterplex-orchestrator
+    app.kubernetes.io/instance: clusterplex
+    app.kubernetes.io/name: orchestrator
+  annotations: {}
+spec:
+  type: ClusterIP
+  externalTrafficPolicy: Local
+  ports:
+    - port: 3500
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/instance: clusterplex
+    app.kubernetes.io/name: orchestrator
