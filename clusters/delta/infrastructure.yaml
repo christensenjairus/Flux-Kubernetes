@@ -33,17 +33,17 @@ spec:
     - patch: |
         - op: replace
           path: /spec/blocks/0/start
-          value: "10.0.5.200"
+          value: "10.0.4.200"
         - op: replace
           path: /spec/blocks/0/stop
-          value: "10.0.5.254"
+          value: "10.0.4.254"
       target:
         kind: CiliumLoadBalancerIPPool
         name: cilium-loadbalancer-ip-pool
     - patch: |
         - op: replace
           path: /spec/blocks/0/start
-          value: "10.0.5.200-254"
+          value: "10.0.4.200-254"
       target:
         kind: IPAddressPool
         name: metallb-ipaddresspool
