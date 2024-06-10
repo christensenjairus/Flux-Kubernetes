@@ -120,7 +120,7 @@ spec:
     hostPort:
       enabled: true
     l2announcements:
-      enabled: true
+      enabled: false #true
       # Raising the lease and qps values decreases the number of API calls needed to keep the lease
       # See this (now fixed) bug: https://github.com/cilium/cilium/issues/26586#issuecomment-1620641960
       leaseDuration: 150s # 15s is default

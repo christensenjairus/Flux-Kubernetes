@@ -3,3 +3,6 @@ kind: Kustomization
 resources:
   - ciliumL2AnnouncementPolicy.yaml
   - ciliumLoadBalancerIPPool.yaml
+  - metallb-native-v0.13.12.yaml
+  - metallb-ipaddresspool.yaml
+  - metallb-l2advertisement.yaml
