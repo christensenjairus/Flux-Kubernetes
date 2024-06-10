@@ -33,23 +33,32 @@ spec:
     - patch: |
         - op: replace
           path: /spec/blocks/0/start
-          value: "10.0.4.200"
+          value: "10.0.5.200"
+        - op: replace
+          path: /spec/blocks/0/stop
+          value: "10.0.5.254"
       target:
         kind: CiliumLoadBalancerIPPool
         name: cilium-loadbalancer-ip-pool
     - patch: |
         - op: replace
-          path: /spec/blocks/0/stop
-          value: "10.0.4.254"
+          path: /spec/blocks/0/start
+          value: "10.0.5.200-254"
       target:
-        kind: CiliumLoadBalancerIPPool
-        name: cilium-loadbalancer-ip-pool
+        kind: IPAddressPool
+        name: metallb-ipaddresspool
     - patch: |
         - op: remove
           path: /spec/nodeSelector
       target:
         kind: CiliumL2AnnouncementPolicy
         name: cilium-l2-announcement-policy
+    - patch: |
+        - op: remove
+          path: /spec/nodeSelectors
+      target:
+        kind: L2Advertisement
+        name: metallb-l2advertisement
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

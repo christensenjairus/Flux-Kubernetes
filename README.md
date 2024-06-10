@@ -20,7 +20,8 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 
 ### List of Flux-Managed Infrastructure
 * Cert-Manager w/ DNS ClusterIssuer
-* Cilium with clustermesh, l2announcements, externalIPs, and full eBPF
+* MetalLB L2 Load Balancer
+* Cilium with clustermesh, externalIPs, and full eBPF
 * Democratic-CSI for NFS & iSCSI
 * Postgres Operator
 * Redis Operator
