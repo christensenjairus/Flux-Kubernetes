@@ -132,7 +132,7 @@ spec:
     affinity: {}
 
     livenessProbe:
-      enabled: true
+      enabled: false # Disabled because I do not restart this pod. Heavy sqlite operations like deleting a monitor can take longer than this probe allows. And raising the failureThreshold isn't an option in this chart.
       timeoutSeconds: 2
       initialDelaySeconds: 15
 
