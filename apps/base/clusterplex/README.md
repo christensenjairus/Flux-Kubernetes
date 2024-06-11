@@ -7,7 +7,7 @@
   * Add custom server access URL `https://clusterplex.christensencloud.us`
 * Transcode Settings
   * Set as `/transcode`
-  * Raise 'Transcoder default throttle buffer' to `180`
+  * Raise 'Transcoder default throttle buffer' to `600`
   * Disable all hardware acceleration
 * Remote Access:
   * Enable

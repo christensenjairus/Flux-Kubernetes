@@ -100,8 +100,8 @@ spec:
               cpu: 8000m
               memory: 8Gi
             requests:
-              cpu: 4000m
-              memory: 4Gi
+              cpu: 2000m
+              memory: 2Gi
       volumes:
         - name: config
           persistentVolumeClaim:
