@@ -103,3 +103,8 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
   * HA Postgres
   * HA Clustered Redis
   * Helper Scripts
+* ClusterPlex (for distributed transcoding)
+  * 3 Transcode Workers
+  * Orchestrator with ServiceMonitor and Grafana Dashboard
+* Wazuh
+  * 3 indexers, 2 workers, 1 master, 1 dashboard

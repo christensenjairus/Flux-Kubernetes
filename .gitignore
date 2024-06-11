@@ -2,3 +2,8 @@
 bin/
 .idea/
 .vscode/
+*.pem
+*.key
+*.crt
+*.csr
+*.srl
