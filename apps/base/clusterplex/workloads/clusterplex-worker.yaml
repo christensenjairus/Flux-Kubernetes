@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/name: worker
 spec:
   revisionHistoryLimit: 3
-  replicas: 2
+  replicas: 3
   podManagementPolicy: OrderedReady
   updateStrategy:
     type: RollingUpdate
@@ -89,8 +89,8 @@ spec:
             timeoutSeconds: 5
           resources:
             limits:
-              cpu: 4000m
-              memory: 6Gi
+              cpu: 8000m
+              memory: 8Gi
             requests:
               cpu: 2000m
               memory: 3Gi
@@ -110,12 +110,12 @@ spec:
                   name: clusterplex-worker
               topologyKey: kubernetes.io/hostname
             weight: 100
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  name: clusterplex-pms
-              topologyKey: kubernetes.io/hostname
-            weight: 50
+#          - podAffinityTerm:
+#              labelSelector:
+#                matchLabels:
+#                  name: clusterplex-pms
+#              topologyKey: kubernetes.io/hostname
+#            weight: 50
   volumeClaimTemplates:
     - metadata:
         name: codecs
