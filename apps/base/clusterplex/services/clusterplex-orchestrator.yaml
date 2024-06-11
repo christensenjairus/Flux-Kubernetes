@@ -9,7 +9,7 @@ metadata:
   annotations: {}
 spec:
   type: ClusterIP
-  externalTrafficPolicy: Local
+#  externalTrafficPolicy: Local
   ports:
     - port: 3500
       targetPort: http
