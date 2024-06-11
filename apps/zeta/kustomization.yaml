@@ -18,4 +18,3 @@ resources:
   - ../base/portainer
   - ../base/kasm
   - ../base/nextcloud
-  - ../base/clusterplex
