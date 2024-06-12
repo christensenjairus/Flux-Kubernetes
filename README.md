@@ -69,6 +69,7 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
   * HA Replicated Redis w/ Sentinel
   * HA Postgres
   * Stores docker images & database backups to S3
+  * Kyverno policy to automatically use harbor proxy registries for all new pods.
 * OpenLDAP
   * HA Setup (3 replicas)
   * PHP LDAP Admin

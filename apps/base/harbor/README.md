@@ -14,8 +14,8 @@ kubectl rollout restart -n harbor deployment harbor-jobservice
 * Add registries (named the same as their urls, with no quotas)
   * `docker.io` (Docker Hub) - docker creds
   * `ghcr.io` (GHCR) - no creds
-  * `gcr.io` (GCR) - no creds
   * `quay.io` (Quay) - no creds
+  * `gcr.io` (docker registry)
   * `lscr.io` (docker registry)
   * `registry.developers.crunchydata.com` (docker registry)
   * `registry.gitlab.com` (docker registry)
@@ -26,9 +26,11 @@ kubectl rollout restart -n harbor deployment harbor-jobservice
   * Access Level: Private
   * Proxy Cache: false
 * Create proxy cache projects for all registries (named the same as their URLS)
+  * Enter each proxy cache project and set the policy action for retention to be `retain always`
 * Verify that you can docker login to the harbor registry
 * Verify that you can pull an image
 * Interrogation Services: 
   * Vulnerability
     * Schedule to scan all: weekly
     * 'Scan now' to scan the nginx image, verify that it works
+* Once everything is set up, you can force a cutover to using harbor's proxy registries for every new pod by running `/tools/harbor/create-harbor-pull-secret.sh`, then applying the kustomization in `/tools/harbor/policies`.

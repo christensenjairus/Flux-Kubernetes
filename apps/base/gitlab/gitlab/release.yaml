@@ -1349,7 +1349,7 @@ spec:
     gitlab:
       ## https://docs.gitlab.com/charts/charts/gitlab/toolbox
       toolbox:
-    #    enabled: false
+        enabled: false
         replicas: 1
         backups:
           cron:
@@ -1369,7 +1369,7 @@ spec:
           objectStorage:
             backend: s3
             config:
-              key: config
+              key: config # does not exist yet
               secret: minio-credentials
         antiAffinityLabels:
           matchLabels:
