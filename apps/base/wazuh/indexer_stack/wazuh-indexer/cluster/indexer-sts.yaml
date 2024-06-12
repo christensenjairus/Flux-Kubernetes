@@ -67,7 +67,7 @@ spec:
               cpu: 500m
               memory: 500Mi
             limits:
-              cpu: 2
+              cpu: 3
               memory: 2Gi
           env:
             - name: OPENSEARCH_JAVA_OPTS

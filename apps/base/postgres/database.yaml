@@ -127,3 +127,6 @@ spec:
     pgmonitor:
       exporter:
         image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-exporter:ubi8-5.5.1-0
+
+# If you're having issues getting a backup to work because it can't lock /tmp/pgbackrest/db-backup.lock, but there are no other backups running, it could be because of a past failed backup
+# Find the leader, and exec this command into the database container to clear the lock: `rm -r /tmp/pgbackrest && pgbackrest --stanza=db stanza-create`
