@@ -7,4 +7,5 @@ resources:
   - minio-credentials.yaml
   - database-credentials.yaml
   - release.yaml
+  - ingress.yaml
   - overview-dashboard.yaml

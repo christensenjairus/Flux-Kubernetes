@@ -13,7 +13,7 @@ spec:
   instances:
     - name: postgres
       replicas: 3
-      minAvailable: 1 # pod disruption budget used here
+      minAvailable: 2 # pod disruption budget used here
       dataVolumeClaimSpec:
         storageClassName: ceph-block-2
         accessModes:

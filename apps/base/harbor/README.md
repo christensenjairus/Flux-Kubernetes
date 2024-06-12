@@ -11,29 +11,23 @@ kubectl rollout restart -n harbor deployment harbor-jobservice
 * Login as admin
 * Create line6 user
 * Set line6 user as admin
-* Create Docker Hub Registry using my Docker Hub credentials
-* Project Quotas: 
-  * library should be set to 250 GiB
+* Add registries (named the same as their urls, with no quotas)
+  * `docker.io` (Docker Hub) - docker creds
+  * `ghcr.io` (GHCR) - no creds
+  * `gcr.io` (GCR) - no creds
+  * `quay.io` (Quay) - no creds
+  * `lscr.io` (docker registry)
+  * `registry.developers.crunchydata.com` (docker registry)
+  * `registry.gitlab.com` (docker registry)
+  * `registry.k8s.io` (docker registry)
+  * `us-docker.pkg.dev` (docker registry)
 * Create new project
   * Project Name: line6
   * Access Level: Private
-  * Project Quota Limits: 20 GiB
   * Proxy Cache: false
-* Create replication rule
-  * Nginx
-  * Pull-Based
-  * Source Registry: Docker Hub
-  * Name: library/nginx
-  * Tag: latest (matching)
-  * Destination NS: library
-  * Flattening: Flatten All Levels
-  * Trigger Mode: Scheduled
-  * Cron: 0 0 * * * *
-  * Bandwidth: -1
-  * Override: true
-* Replicate the rule manually, verify that the image shows up in the project and in minio
+* Create proxy cache projects for all registries (named the same as their URLS)
 * Verify that you can docker login to the harbor registry
-* Verify that you can pull the nginx image
+* Verify that you can pull an image
 * Interrogation Services: 
   * Vulnerability
     * Schedule to scan all: weekly
