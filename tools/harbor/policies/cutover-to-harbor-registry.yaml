@@ -30,7 +30,6 @@ spec:
         spec:
           imagePullSecrets:
             - name: harbor-pull-secret
-          imagePullPolicy: Always
   - name: prepend-registry-containers
     match:
       any:
@@ -38,10 +37,17 @@ spec:
           kinds:
           - Pod
     exclude:
-      any:
+      # The only thing necessary to be running to get harbor to pull images from itself is one harbor-core pod, one harbor-registry pod, and the harbor-db postgres pod(s).
+      # If harbor is already running, telling harbor-core and harbor-registry to rollout restart should work. But we can't do that for postgres because the operator rolls them all at once.
+      # Plus, we don't need to store the specific harbor postgres images because we'll have the same image from another postgres instance.
+      all:
       - resources:
           namespaces:
             - harbor
+      - resources:
+          selector:
+            matchLabels:
+              postgres-operator.crunchydata.com/cluster: harbor-db
     preconditions:
       all:
       - key: "{{request.operation || 'BACKGROUND'}}"
@@ -69,10 +75,14 @@ spec:
           kinds:
           - Pod
     exclude:
-      any:
+      all:
       - resources:
           namespaces:
             - harbor
+      - resources:
+          selector:
+            matchLabels:
+              postgres-operator.crunchydata.com/cluster: harbor-db
     preconditions:
       all:
       - key: "{{request.operation || 'BACKGROUND'}}"
