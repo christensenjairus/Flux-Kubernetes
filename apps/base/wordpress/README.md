@@ -35,6 +35,8 @@
     * Files Backup Schedule: Daily - 14 days
     * Database Backup Schedule: Daily - 14 days
     * Send emails after backups: Enabled
+    * Show Expert Settings:
+      * Delete local backup (keep only in s3)
 * Set up 'Easy Updates Manager' plugin to 'Auto Update Everything'
 * Set up Akismet account with API Key (in 1password)
 * Set up Jetpack
