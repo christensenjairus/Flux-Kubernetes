@@ -132,6 +132,8 @@ spec:
       # So with the default values, failover occurs between 10s and 20s.
       # Each service incurs a CPU and network overhead, so clusters with smaller amounts of services can more easily afford faster failover times.
       # Larger clusters might need to increase parameters if the overhead is too high." - Docs (https://docs.cilium.io/en/stable/network/l2-announcements/)
+    bpf:
+      masquerade: true
     k8sClientRateLimit:
       qps: 30 # 10 is default
       burst: 60 # 20 is default
