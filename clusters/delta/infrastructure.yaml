@@ -43,7 +43,7 @@ spec:
     - patch: |
         - op: replace
           path: /spec/addresses/0
-          value: "10.0.4.200-254"
+          value: "10.0.4.200-10.0.4.254"
       target:
         kind: IPAddressPool
         name: metallb-ipaddresspool
