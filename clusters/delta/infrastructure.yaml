@@ -414,25 +414,31 @@ spec:
         - op: replace
           path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
           value: "10.0.4.200"
+        - op: replace
+          patch: /spec/values/controller/service/loadBalancerIP
+          value: "10.0.4.200"
       target:
         kind: HelmRelease
-        name: ingress-nginx
-#    - patch: |
-#        - op: replace
-#          path: /spec/values/controller/autoscaling/minReplicas
-#          value: 1
-#        - op: remove
-#          path: /spec/values/controller/nodeSelector/nodeclass
-#        - op: remove
-#          path: /spec/values/defaultBackend/nodeSelector/nodeclass
-#        - op: remove
-#          path: /spec/values/controller/admissionWebhooks/patch/nodeSelector/nodeclass
-#        - op: replace
-#          path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
-#          value: "10.0.4.201"
-#      target:
-#        kind: HelmRelease
-#        name: ingress-nginx-private
+        name: ingress-nginx-public
+    - patch: |
+        - op: replace
+          path: /spec/values/controller/autoscaling/minReplicas
+          value: 1
+        - op: remove
+          path: /spec/values/controller/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/defaultBackend/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/controller/admissionWebhooks/patch/nodeSelector/nodeclass
+        - op: replace
+          path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
+          value: "10.0.4.201"
+        - op: replace
+          patch: /spec/values/controller/service/loadBalancerIP
+          value: "10.0.4.201"
+      target:
+        kind: HelmRelease
+        name: ingress-nginx-private
     # reduce the severity of NGINXTooMany400s alert
     - patch: |
         - op: replace
