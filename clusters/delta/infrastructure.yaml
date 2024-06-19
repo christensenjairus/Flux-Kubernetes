@@ -409,6 +409,8 @@ spec:
           path: /spec/values/controller/nodeSelector/nodeclass
         - op: remove
           path: /spec/values/defaultBackend/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/controller/admissionWebhooks/patch/nodeSelector/nodeclass
         - op: replace
           path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
           value: "10.0.4.200"
@@ -423,6 +425,8 @@ spec:
           path: /spec/values/controller/nodeSelector/nodeclass
         - op: remove
           path: /spec/values/defaultBackend/nodeSelector/nodeclass
+        - op: remove
+          path: /spec/values/controller/admissionWebhooks/patch/nodeSelector/nodeclass
         - op: replace
           path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
           value: "10.0.4.201"
