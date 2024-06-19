@@ -845,6 +845,7 @@ spec:
             enabled: false
           nodeSelector:
             kubernetes.io/os: linux
+            nodeclass: general
           tolerations: [ ]
           # -- Labels to be added to patch job resources
           labels: { }
