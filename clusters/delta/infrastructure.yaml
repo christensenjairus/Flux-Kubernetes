@@ -419,7 +419,8 @@ spec:
           value: "10.0.4.200"
       target:
         kind: HelmRelease
-        name: ingress-nginx-public
+        name: ingress-nginx
+        namespace: ingress-nginx-private
     - patch: |
         - op: replace
           path: /spec/values/controller/autoscaling/minReplicas
@@ -438,7 +439,8 @@ spec:
           value: "10.0.4.201"
       target:
         kind: HelmRelease
-        name: ingress-nginx-private
+        name: ingress-nginx
+        namespace: ingress-nginx-public
     # reduce the severity of NGINXTooMany400s alert
     - patch: |
         - op: replace
