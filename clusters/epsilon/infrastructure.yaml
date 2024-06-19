@@ -42,7 +42,7 @@ spec:
 #        name: cilium-loadbalancer-ip-pool
     - patch: |
         - op: replace
-          path: /spec/addresses/0/
+          path: /spec/addresses/0
           value: "10.0.5.200-254"
       target:
         kind: IPAddressPool
