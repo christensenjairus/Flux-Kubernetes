@@ -478,9 +478,9 @@ spec:
         - op: remove
           path: /spec/values/policyReportsCleanup/nodeSelector/nodeclass
         - op: remove
-          path: /spec/values/admissionReports/nodeSelector/nodeclass
+          path: /spec/values/cleanupJobs/admissionReports/nodeSelector/nodeclass
         - op: remove
-          path: /spec/values/clusterAdmissionReports/nodeSelector/nodeclass
+          path: /spec/values/cleanupJobs/clusterAdmissionReports/nodeSelector/nodeclass
         - op: remove
           path: /spec/values/admissionController/nodeSelector/nodeclass
         - op: remove
