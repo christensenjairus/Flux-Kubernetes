@@ -9,3 +9,5 @@ spec:
   nodeSelectors:
     - matchLabels:
         nodeclass: general
+  interfaces:
+  - eth0
