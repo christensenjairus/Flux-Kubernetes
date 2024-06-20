@@ -112,7 +112,7 @@ spec:
         service:
           type: LoadBalancer
           annotations:
-            io.cilium/lb-ipam-ips: "10.0.6.254"
+            io.cilium/lb-ipam-ips: 10.0.6.254
           loadBalancerIP: 10.0.6.254
     externalIPs:
       enabled: true

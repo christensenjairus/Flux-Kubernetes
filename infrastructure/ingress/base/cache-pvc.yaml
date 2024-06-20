@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-    - ReadWriteMany
+    - ReadWriteMany # index 1 is removed in a delta cluster patch
   resources:
     requests:
       storage: 5Gi

@@ -81,6 +81,9 @@ spec:
         - op: replace
           path: /spec/values/clustermesh/apiserver/service/annotations/io.cilium~1lb-ipam-ips
           value: "10.0.5.254"
+        - op: replace
+          path: /spec/values/clustermesh/apiserver/service/loadBalancerIP
+          value: "10.0.5.254"
         - op: remove
           path: /spec/values/clustermesh/apiserver/nodeSelector
         - op: remove
@@ -223,16 +226,24 @@ spec:
         - op: replace
           path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
           value: "10.0.5.201"
+        - op: replace
+          path: /spec/values/controller/service/loadBalancerIP
+          value: "10.0.5.201"
       target:
         kind: HelmRelease
-        name: ingress-nginx-private
+        name: ingress-nginx
+        namespace: ingress-nginx-private
     - patch: |
         - op: replace
           path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
           value: "10.0.5.200"
+        - op: replace
+          path: /spec/values/controller/service/loadBalancerIP
+          value: "10.0.5.200"
       target:
         kind: HelmRelease
-        name: ingress-nginx-public
+        name: ingress-nginx
+        namespace: ingress-nginx-public
     # reduce the severity of NGINXTooMany400s alert
     - patch: |
         - op: replace
