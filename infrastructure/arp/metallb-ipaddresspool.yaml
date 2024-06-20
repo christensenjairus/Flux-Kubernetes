@@ -8,3 +8,4 @@ spec:
   addresses:
   - 10.0.6.200-10.0.6.254
   autoAssign: true
+  avoidBuggyIPs: true
