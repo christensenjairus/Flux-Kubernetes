@@ -59,6 +59,13 @@ spec:
       target:
         kind: L2Advertisement
         name: metallb-l2advertisement
+    - patch: |
+        - op: add
+          path: /spec/template/spec/containers/0/args
+          value: "--ignore-exclude-lb"
+      target:
+        kind: DaemonSet
+        name: speaker
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
