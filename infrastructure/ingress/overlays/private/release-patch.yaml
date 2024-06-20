@@ -8,8 +8,9 @@ spec:
     controller:
       service:
         annotations:
-          io.cilium/lb-ipam-ips: "10.0.6.201"
-        loadBalancerIP: 10.0.6.201
+          io.cilium/lb-ipam-ips: 10.0.6.201
+          metallb.universe.tf/loadBalancerIPs: 10.0.6.201
+        #loadBalancerIP: 10.0.6.201
       ingressClassResource:
         name: nginx-private
         controllerValue: k8s.io/nginx-private

@@ -100,8 +100,11 @@ spec:
           path: /spec/values/clustermesh/apiserver/service/annotations/io.cilium~1lb-ipam-ips
           value: "10.0.4.254"
         - op: replace
-          path: /spec/values/clustermesh/apiserver/service/loadBalancerIP
+          path: /spec/values/clustermesh/apiserver/service/annotations/metallb.universe.tf~1loadBalancerIPs
           value: "10.0.4.254"
+        #- op: replace
+        #  path: /spec/values/clustermesh/apiserver/service/loadBalancerIP
+        #  value: "10.0.4.254"
         - op: remove
           path: /spec/values/hubble/relay/nodeSelector
         - op: remove
@@ -424,8 +427,11 @@ spec:
           path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
           value: 10.0.4.200
         - op: replace
-          path: /spec/values/controller/service/loadBalancerIP
+          path: /spec/values/controller/service/annotations/metallb.universe.tf~1loadBalancerIPs
           value: 10.0.4.200
+        #- op: replace
+        #  path: /spec/values/controller/service/loadBalancerIP
+        #  value: 10.0.4.200
       target:
         kind: HelmRelease
         name: ingress-nginx
@@ -450,8 +456,11 @@ spec:
           path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
           value: 10.0.4.201
         - op: replace
-          path: /spec/values/controller/service/loadBalancerIP
+          path: /spec/values/controller/service/annotations/metallb.universe.tf~1loadBalancerIPs
           value: 10.0.4.201
+        #- op: replace
+        #  path: /spec/values/controller/service/loadBalancerIP
+        #  value: 10.0.4.201
       target:
         kind: HelmRelease
         name: ingress-nginx
