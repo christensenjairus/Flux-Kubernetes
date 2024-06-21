@@ -46,7 +46,7 @@ spec:
           value: "10.0.4.200-10.0.4.254"
       target:
         kind: IPAddressPool
-        name: metallb-ipaddresspool-ipv4
+        name: metallb-ipaddresspool
 #    - patch: |
 #        - op: remove
 #          path: /spec/nodeSelector
