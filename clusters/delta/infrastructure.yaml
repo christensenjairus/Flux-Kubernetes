@@ -46,7 +46,7 @@ spec:
           value: "10.0.4.200-10.0.4.254"
       target:
         kind: IPAddressPool
-        name: metallb-ipaddresspool
+        name: metallb-ipaddresspool-ipv4
 #    - patch: |
 #        - op: remove
 #          path: /spec/nodeSelector
@@ -58,7 +58,13 @@ spec:
           path: /spec/nodeSelectors
       target:
         kind: L2Advertisement
-        name: metallb-l2advertisement
+        name: metallb-l2advertisement-ipv4
+    - patch: |
+        - op: remove
+          path: /spec/nodeSelectors
+      target:
+        kind: L2Advertisement
+        name: metallb-l2advertisement-ipv6
     - patch: |
         - op: add
           path: /spec/template/spec/containers/0/args/-

@@ -46,7 +46,7 @@ spec:
           value: "10.0.5.200-10.0.5.254"
       target:
         kind: IPAddressPool
-        name: metallb-ipaddresspool
+        name: metallb-ipaddresspool-ipv4
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

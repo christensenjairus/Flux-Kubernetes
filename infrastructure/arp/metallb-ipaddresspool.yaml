@@ -2,10 +2,21 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: metallb-ipaddresspool
+  name: metallb-ipaddresspool-ipv4
   namespace: metallb-system
 spec:
   addresses:
   - 10.0.6.200-10.0.6.254
+  autoAssign: true
+  avoidBuggyIPs: true
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: metallb-ipaddresspool-ipv6
+  namespace: metallb-system
+spec:
+  addresses:
+  - 2607:fa18:47ff:2:34::/108
   autoAssign: true
   avoidBuggyIPs: true
