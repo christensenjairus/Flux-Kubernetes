@@ -16,7 +16,7 @@ fi
 
 echo "Continuing with context $current_context..."
 
-kubectl rollout restart deploy,sts,ds,job,cronjob -n democratic-csi-nfs
-kubectl rollout restart deploy,sts,ds,job,cronjob -n democratic-csi-iscsi
-kubectl rollout restart deploy,sts,ds,job,cronjob -n media
-kubectl rollout restart deploy,sts,ds,job,cronjob -n nextcloud
+kubectl rollout restart deploy,sts,ds -n democratic-csi-nfs
+kubectl rollout restart deploy,sts,ds -n democratic-csi-iscsi
+kubectl rollout restart deploy,sts,ds -n media
+kubectl rollout restart deploy,sts,ds -n nextcloud
