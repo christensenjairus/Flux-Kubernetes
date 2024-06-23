@@ -58,13 +58,7 @@ spec:
           path: /spec/nodeSelectors
       target:
         kind: L2Advertisement
-        name: metallb-l2advertisement-ipv4
-    - patch: |
-        - op: remove
-          path: /spec/nodeSelectors
-      target:
-        kind: L2Advertisement
-        name: metallb-l2advertisement-ipv6
+        name: metallb-l2advertisement
     - patch: |
         - op: add
           path: /spec/template/spec/containers/0/args/-
