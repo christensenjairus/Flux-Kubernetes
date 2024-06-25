@@ -166,6 +166,7 @@ spec:
     ##
     wordpressExtraConfigContent: |
       @ini_set( 'post_max_size', '1024M');
+      @ini_set( 'upload_max_filesize', '4096M');
 
     ## @param wordpressConfiguration The content for your custom wp-config.php file (advanced feature)
     ## NOTE: This will override configuring WordPress based on environment variables (including those set by the chart)
