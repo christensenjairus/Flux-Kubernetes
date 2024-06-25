@@ -4,3 +4,5 @@ resources:
   - namespace.yaml
   - repository.yaml
   - release.yaml
+  - cluster-role-delete-pods.yaml
+  - ./policies
