@@ -49,7 +49,6 @@ fi
 
 echo USERNAME=$USERNAME
 echo POD_NAME=$POD_NAME
-echo FOLDER=$FOLDER
 
 # Run the specified command in the found Nextcloud pod
 echo -e "\n${GREEN}Temporarily disabling file locking...${ENDCOLOR}"
