@@ -17,9 +17,11 @@ metadata:
     # dns: route53
   annotations:
     # domainName: 'changeme'
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+    #service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+    io.cilium/lb-ipam-ips: 10.0.6.221
+    metallb.universe.tf/loadBalancerIPs: 10.0.6.221
 spec:
-  type: ClusterIP #LoadBalancer
+  type: LoadBalancer #ClusterIP
   selector:
     app: wazuh-manager
     node-type: master

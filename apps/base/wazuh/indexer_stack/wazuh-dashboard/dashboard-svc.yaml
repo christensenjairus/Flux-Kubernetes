@@ -15,7 +15,8 @@ metadata:
   labels:
     app: wazuh-dashboard
   annotations:
-    io.cilium/lb-ipam-ips: 10.0.6.203
+    io.cilium/lb-ipam-ips: 10.0.6.220
+    metallb.universe.tf/loadBalancerIPs: 10.0.6.220
 spec:
   type: LoadBalancer
   selector:
@@ -24,4 +25,3 @@ spec:
     - name: dashboard
       port: 443
       targetPort: 5601
-  loadBalancerIP: 10.0.6.203
