@@ -1690,8 +1690,8 @@ spec:
 
       resources:
         # -- Pod resource limits
-        limits: {}
-#          memory: 128Mi
+        limits:
+          memory: 256Mi # default was 128Mi
         # -- Pod resource requests
         requests:
           cpu: 100m
