@@ -7,11 +7,11 @@ metadata:
     app.kubernetes.io/instance: clusterplex
     app.kubernetes.io/name: pms
   annotations:
-    io.cilium/lb-ipam-ips: 10.0.6.211
+    io.cilium/lb-ipam-ips: 10.0.6.210
+    metallb.universe.tf/loadBalancerIPs: 10.0.6.210
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
-  loadBalancerIP: 10.0.6.211
   ports:
     - port: 32400
       targetPort: plex

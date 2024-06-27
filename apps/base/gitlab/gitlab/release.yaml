@@ -1436,9 +1436,10 @@ spec:
         service:
           annotations:
             io.cilium/lb-ipam-ips: 10.0.6.204
+            metallb.universe.tf/loadBalancerIPs: 10.0.6.204
           type: LoadBalancer
           externalTrafficPolicy: Local
-          loadBalancerIP: 10.0.6.204
+          #loadBalancerIP: 10.0.6.204
           # nodePort: 32022
         hpa:
           cpu:
