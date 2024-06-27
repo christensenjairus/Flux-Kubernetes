@@ -43,5 +43,3 @@ echo POD_NAME=$POD_NAME
 # Run the specified command in the found Nextcloud pod
 echo -e "\n${GREEN}Listing users...${ENDCOLOR}"
 kubectl exec -it $POD_NAME -n nextcloud -- runuser -u www-data -- /var/www/html/occ user:list
-
-
