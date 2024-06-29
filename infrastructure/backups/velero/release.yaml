@@ -655,7 +655,7 @@ spec:
           storageLocation: default # use the same name you defined above in backupStorageLocation
           snapshotMoveData: true
           snapshotVolumes: true # apparently only applies to PVs in AWS, GCP, and Azure?
-          csiSnapshotTimeout: "30m" # default is 10m
+          csiSnapshotTimeout: "60m" # default is 10m
           itemOperationTimeout: "8h" # default is 1h
           includeClusterResources: true # pvs are cluster-scoped!
           excludedNamespaces:
