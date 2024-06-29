@@ -615,10 +615,16 @@ spec:
           path: /spec/values/configuration/backupStorageLocation/0/bucket
           value: delta-cluster
         - op: remove
-          path: /spec/values/nodeSelector
+          path: /spec/values/nodeSelector/nodeclass
       target:
         kind: HelmRelease
         name: velero
+    - patch: |
+        - op: remove
+          path: /spec/values/nodeSelector/nodeclass
+      target:
+        kind: HelmRelease
+        name: velero-notifications
     - patch: |
         - op: replace
           path: /spec/template/spec/containers/0/env/0/valueFrom/secretKeyRef/key
