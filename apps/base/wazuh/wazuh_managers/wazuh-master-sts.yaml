@@ -161,4 +161,4 @@ spec:
         storageClassName: ceph-block-3
         resources:
           requests:
-            storage: 500Mi
+            storage: 1500Mi
