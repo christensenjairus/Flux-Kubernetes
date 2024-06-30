@@ -148,7 +148,7 @@ spec:
         - --kubelet-use-node-status-port
         - --metric-resolution=15s
         - --kubelet-insecure-tls=true # workaround for self-signed certificates
-        image: registry.k8s.io/metrics-server/metrics-server:v0.7.0
+        image: registry.k8s.io/metrics-server/metrics-server:v0.7.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
