@@ -620,6 +620,9 @@ spec:
         kind: HelmRelease
         name: velero
     - patch: |
+        - op: replace
+          path: /spec/values/configuration/notificationPrefix
+          value: "[Epsilon]"
         - op: remove
           path: /spec/values/nodeSelector/nodeclass
       target:

@@ -43,7 +43,7 @@ spec:
       veleroInstallNamespace: velero
 
       # -- Prefix to insert before notification message
-      notificationPrefix: "[Velero]"
+      notificationPrefix: "[Zeta]"
 
       slack:
         # -- Enable Slack notifications

@@ -404,6 +404,13 @@ spec:
         name: velero
     - patch: |
         - op: replace
+          path: /spec/values/configuration/notificationPrefix
+          value: "[Epsilon]"
+      target:
+        kind: HelmRelease
+        name: velero-notifications
+    - patch: |
+        - op: replace
           path: /spec/template/spec/containers/0/env/0/valueFrom/secretKeyRef/key
           value: epsilon
       target:
