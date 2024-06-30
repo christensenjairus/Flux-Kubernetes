@@ -14,11 +14,11 @@ metadata:
   namespace: wazuh
   labels:
     app: wazuh-dashboard
-  annotations:
-    io.cilium/lb-ipam-ips: 10.0.6.220
-    metallb.universe.tf/loadBalancerIPs: 10.0.6.220
+  annotations: {}
+#    io.cilium/lb-ipam-ips: 10.0.6.220
+#    metallb.universe.tf/loadBalancerIPs: 10.0.6.220
 spec:
-  type: LoadBalancer
+  type: ClusterIP #LoadBalancer
   selector:
     app: wazuh-dashboard
   ports:
