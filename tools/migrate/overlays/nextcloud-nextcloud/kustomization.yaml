@@ -1,0 +1,31 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+patches:
+  - path: pvc-patch.yaml
+    target:
+      kind: PersistentVolumeClaim
+      name: my-new-pvc
+  - path: job-patch.yaml
+    target:
+      kind: Job
+      name: volume-migration
+
+# ------------ Edit below --------------------
+  - target:
+      kind: PersistentVolumeClaim
+      name: my-new-pvc
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: nextcloud-nextcloud-newer # edit pvc name
+  - target:
+      kind: Job
+      name: volume-migration
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: volume-migration-nextcloud-nextcloud # edit job name
+
+namespace: nextcloud          # edit namespace

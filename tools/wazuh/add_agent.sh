@@ -29,8 +29,8 @@ exit_if_empty() {
   VAR_NAME=\$1
   VAR_VALUE=\$2
 
-  if [ -z "\$VAR_VALUE" ]; then
-    echo "Error: \$VAR_NAME is empty or not set."
+  if [ -z "\$VAR_VALUE" ] || [ "\$VAR_VALUE" == "null" ]; then
+    echo "Error: \$VAR_NAME is empty, not set, or 'null'."
     exit 1
   fi
 }
@@ -120,9 +120,9 @@ else
   sudo sed -i.bak "s|<address>.*</address>|<address>\$MANAGER_AGENT_EVENTS_IP</address>|" /var/ossec/etc/ossec.conf
 
   echo "Reloading Wazuh Agent..."
-  systemctl daemon-reload
-  systemctl enable wazuh-agent
-  systemctl restart wazuh-agent
+  sudo systemctl daemon-reload
+  sudo systemctl enable wazuh-agent
+  sudo systemctl restart wazuh-agent
 fi
 EOF
 
