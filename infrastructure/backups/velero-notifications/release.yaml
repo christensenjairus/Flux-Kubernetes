@@ -51,7 +51,7 @@ spec:
         # -- Send notifications on failure or partial failures only
         onFailureOnly: false
         # -- Hook URL for slack notifications
-        webhook: ""
+        #webhook: ""
         # -- Channel for slack notifications
         channel: "velero"
         # -- Username for slack notifications
@@ -86,7 +86,7 @@ spec:
 
     # -- Specify extra environments variables to use
     extraEnvVars: #[ ]
-      - name: slackHookUrl
+      - name: SLACK_WEBHOOK
         valueFrom:
           secretKeyRef:
             name: velero-slack-webhook
