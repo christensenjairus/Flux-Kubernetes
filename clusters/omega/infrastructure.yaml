@@ -1,0 +1,385 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-crds
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/crds
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-arp
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/arp
+  prune: true
+  wait: true
+  patches:
+#    - patch: |
+#        - op: replace
+#          path: /spec/blocks/0/start
+#          value: "10.0.5.200"
+#        - op: replace
+#          path: /spec/blocks/0/stop
+#          value: "10.0.5.254"
+#      target:
+#        kind: CiliumLoadBalancerIPPool
+#        name: cilium-loadbalancer-ip-pool
+    - patch: |
+        - op: replace
+          path: /spec/addresses/0
+          value: "10.0.5.200-10.0.5.254"
+      target:
+        kind: IPAddressPool
+        name: metallb-ipaddresspool
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-networking
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    - name: infra-arp
+    - name: infra-ingress
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/networking
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/cluster/id
+          value: 7
+        - op: replace
+          path: /spec/values/cluster/name
+          value: omega
+        - op: replace
+          path: /spec/values/k8sServiceHost
+          value: "10.0.7.100"
+        - op: replace
+          path: /spec/values/clustermesh/apiserver/service/annotations/io.cilium~1lb-ipam-ips
+          value: "10.0.7.254"
+        - op: replace
+          path: /spec/values/clustermesh/apiserver/service/annotations/metallb.universe.tf~1loadBalancerIPs
+          value: "10.0.7.254"
+        #- op: replace
+        #  path: /spec/values/clustermesh/apiserver/service/loadBalancerIP
+        #  value: "10.0.7.254"
+      target:
+        kind: HelmRelease
+        name: cilium
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-monitoring
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    - name: infra-networking
+    - name: infra-ceph
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/monitoring
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/vmagent/spec/externalLabels/cluster
+          value: omega
+      target:
+        kind: HelmRelease
+        name: victoria-metrics-k8s-stack
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-certificates
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    - name: infra-networking
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/certificates
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-ingress
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    - name: infra-arp
+    - name: infra-ceph
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/ingress/overlays
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
+          value: "10.0.7.201"
+        - op: replace
+          path: /spec/values/controller/service/annotations/metallb.universe.tf~1loadBalancerIPs
+          value: "10.0.7.201"
+        #- op: replace
+        #  path: /spec/values/controller/service/loadBalancerIP
+        #  value: "10.0.7.201"
+      target:
+        kind: HelmRelease
+        name: ingress-nginx
+        namespace: ingress-nginx-private
+    - patch: |
+        - op: replace
+          path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
+          value: "10.0.7.200"
+        - op: replace
+          path: /spec/values/controller/service/annotations/metallb.universe.tf~1loadBalancerIPs
+          value: "10.0.7.200"
+        #- op: replace
+        #  path: /spec/values/controller/service/loadBalancerIP
+        #  value: "10.0.7.200"
+      target:
+        kind: HelmRelease
+        name: ingress-nginx
+        namespace: ingress-nginx-public
+    # reduce the severity of NGINXTooMany400s alert
+    - patch: |
+        - op: replace
+          path: /spec/groups/0/rules/0/labels/severity
+          value: "none"
+      target:
+        kind: PrometheusRule
+        name: prometheus-ingress-rules-private
+    - patch: |
+        - op: replace
+          path: /spec/groups/0/rules/0/labels/severity
+          value: "none"
+      target:
+        kind: PrometheusRule
+        name: prometheus-ingress-rules-public
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-policies
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/policies
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-scaling
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    - name: infra-ingress
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/scaling
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-ceph
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/ceph
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-backups
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/backups
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/values/configuration/backupStorageLocation/0/bucket
+          value: omega-cluster
+      target:
+        kind: HelmRelease
+        name: velero
+    - patch: |
+        - op: replace
+          path: /spec/values/configuration/notificationPrefix
+          value: "[Omega]"
+      target:
+        kind: HelmRelease
+        name: velero-notifications
+    - patch: |
+        - op: replace
+          path: /spec/template/spec/containers/0/env/0/valueFrom/secretKeyRef/key
+          value: omega
+      target:
+        kind: deployment
+        name: cloudcasa-kubeagent-manager
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-external-storage
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/external-storage
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/itemPath
+          value: "vaults/HomeLab K8S/items/Omega Democratic CSI Driver iSCSI Config"
+      target:
+        kind: OnePasswordItem
+        name: democratic-csi-driver-iscsi-config
+    - patch: |
+        - op: replace
+          path: /spec/itemPath
+          value: "vaults/HomeLab K8S/items/Omega Democratic CSI Driver NFS Config"
+      target:
+        kind: OnePasswordItem
+        name: democratic-csi-driver-nfs-config
+---
+#apiVersion: kustomize.toolkit.fluxcd.io/v1
+#kind: Kustomization
+#metadata:
+#  name: infra-virt
+#  namespace: flux-system
+#spec:
+#  dependsOn:
+#    - name: infra-crds
+#  interval: 1h
+#  retryInterval: 1m
+#  timeout: 5m
+#  sourceRef:
+#    kind: GitRepository
+#    name: flux-system
+#  path: ./infrastructure/virt
+#  prune: true
+#  wait: true
+#---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-general-operators
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/general-operators
+  prune: true
+  wait: true
+#---
+#apiVersion: kustomize.toolkit.fluxcd.io/v1
+#kind: Kustomization
+#metadata:
+#  name: infra-scheduling
+#  namespace: flux-system
+#spec:
+#  dependsOn:
+#    - name: infra-crds
+#  interval: 1h
+#  retryInterval: 1m
+#  timeout: 5m
+#  sourceRef:
+#    kind: GitRepository
+#    name: flux-system
+#  path: ./infrastructure/scheduling
+#  prune: true
+#  wait: true
