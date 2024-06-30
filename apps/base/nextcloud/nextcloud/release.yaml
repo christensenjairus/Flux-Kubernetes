@@ -575,7 +575,7 @@ spec:
       # existingClaim:
 
       accessMode: ReadWriteMany
-      size: 3Gi # This is just the /var/www/html folder
+      size: 1200Mi # This is just the /var/www/html folder
 
       ## Use an additional pvc for the data directory rather than a subpath of the default PVC
       ## Useful to store data on a different storageClass (e.g. on slower disks)
