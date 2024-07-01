@@ -399,6 +399,12 @@ spec:
         - op: replace
           path: /spec/values/configuration/backupStorageLocation/0/bucket
           value: epsilon-cluster
+        - op: replace
+          path: /spec/values/schedules/daily-cluster-backup/labels/source_cluster
+          value: epsilon
+        - op: replace
+          path: /spec/values/schedules/hourly-cluster-snapshot/labels/source_cluster
+          value: epsilon
       target:
         kind: HelmRelease
         name: velero

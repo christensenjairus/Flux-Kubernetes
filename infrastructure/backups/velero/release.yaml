@@ -763,10 +763,10 @@ spec:
     # Backup schedules to create.
     # Eg:
     schedules:
-      daily-cluster-backup-no-system-or-infra-namespaces:
+      daily-cluster-backup:
         disabled: false
-        # labels:
-          # myenv: foo
+        labels:
+          source_cluster: zeta
         # annotations:
           # myenv: foo
         schedule: "30 8 * * *" # once a day, at 2:30am local time, 8:30am UTC. The volume snapshot can cause things to temporarily freeze, so do it at night.
@@ -804,10 +804,10 @@ spec:
             - rook-ceph
             - splunk # not a system namespace, but we shouldn't need to back it up
             - velero
-      hourly-cluster-snapshot-no-system-or-infra-namespaces:
+      hourly-cluster-snapshot:
         disabled: true # temporarily disable keeping local snapshots to see if ceph fills up less slowly
-        # labels:
-          # myenv: foo
+        labels:
+          source_cluster: zeta
         # annotations:
           # myenv: foo
         schedule: "0 * * * *" # every hour, at :30

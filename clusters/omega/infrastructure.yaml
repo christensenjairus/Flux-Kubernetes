@@ -279,6 +279,12 @@ spec:
         - op: replace
           path: /spec/values/configuration/backupStorageLocation/0/bucket
           value: omega-cluster
+        - op: replace
+          path: /spec/values/schedules/daily-cluster-backup/labels/source_cluster
+          value: omega
+        - op: replace
+          path: /spec/values/schedules/hourly-cluster-snapshot/labels/source_cluster
+          value: omega
       target:
         kind: HelmRelease
         name: velero
