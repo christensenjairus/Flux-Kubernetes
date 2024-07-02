@@ -3,14 +3,14 @@ kind: Kustomization
 resources:
 #  - ../base/harbor
 #  - ../base/splunk
-#  - ../base/collectord
+  - ../base/collectord
 #  - ../base/openldap
 #  - ../base/authelia
 #  - ../base/gitlab
-#  - ../base/echo
+  - ../base/echo
 #  - ../base/uptime-kuma
   - ../base/homarr
-#  - ../base/redirects
+  - ../base/redirects
 #  - ../base/joplin
 #  - ../base/media
 #  - ../base/wordpress/overlays

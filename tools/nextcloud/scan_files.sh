@@ -50,14 +50,16 @@ fi
 echo USERNAME=$USERNAME
 echo POD_NAME=$POD_NAME
 
+# User is usually www-data, but can be different when mv-ing files like I've done.
+
 # Run the specified command in the found Nextcloud pod
 echo -e "\n${GREEN}Temporarily disabling file locking...${ENDCOLOR}"
-kubectl exec -it $POD_NAME -n nextcloud -- runuser -u www-data -- /var/www/html/occ config:system:set filelocking.enabled --value=false
+kubectl exec -it $POD_NAME -n nextcloud -- runuser -u root -- /var/www/html/occ config:system:set filelocking.enabled --value=false
 
 # Run the specified command in the found Nextcloud pod
 echo -e "\n${GREEN}Scanning files for user ${USERNAME}...${ENDCOLOR}"
-kubectl exec -it $POD_NAME -n nextcloud -- runuser -u www-data -- /var/www/html/occ files:scan "$USERNAME"
+kubectl exec -it $POD_NAME -n nextcloud -- runuser -u root -- /var/www/html/occ files:scan "$USERNAME"
 
 # Run the specified command in the found Nextcloud pod
 echo -e "\n${GREEN}Re enabling file locking...${ENDCOLOR}"
-kubectl exec -it $POD_NAME -n nextcloud -- runuser -u www-data -- /var/www/html/occ config:system:set filelocking.enabled --value=true
+kubectl exec -it $POD_NAME -n nextcloud -- runuser -u root -- /var/www/html/occ config:system:set filelocking.enabled --value=true
