@@ -1,17 +1,17 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-#  - ../base/harbor
+  - ../base/harbor
   - ../base/splunk
   - ../base/collectord
   - ../base/openldap
   - ../base/authelia
-#  - ../base/gitlab
+  - ../base/gitlab
   - ../base/echo
   - ../base/uptime-kuma
   - ../base/homarr
   - ../base/redirects
-#  - ../base/joplin
+  - ../base/joplin
   - ../base/media
 #  - ../base/wordpress/overlays
 #  - ../base/vaultwarden
