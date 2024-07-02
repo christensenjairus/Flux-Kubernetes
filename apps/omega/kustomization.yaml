@@ -14,7 +14,7 @@ resources:
   - ../base/joplin
   - ../base/media
   - ../base/wordpress/overlays
-#  - ../base/vaultwarden
+  - ../base/vaultwarden
   - ../base/portainer
   - ../base/kasm
   - ../base/nextcloud
