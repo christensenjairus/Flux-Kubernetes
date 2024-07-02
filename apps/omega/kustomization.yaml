@@ -8,14 +8,14 @@ resources:
 #  - ../base/authelia
 #  - ../base/gitlab
   - ../base/echo
-#  - ../base/uptime-kuma
+  - ../base/uptime-kuma
   - ../base/homarr
   - ../base/redirects
 #  - ../base/joplin
-#  - ../base/media
+  - ../base/media
 #  - ../base/wordpress/overlays
 #  - ../base/vaultwarden
 #  - ../base/portainer
 #  - ../base/kasm
-#  - ../base/nextcloud
+  - ../base/nextcloud
 #  - ../base/wazuh

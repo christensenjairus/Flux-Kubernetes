@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    velero.io/exclude-from-backup: true
+    velero.io/exclude-from-backup: "true"
   name: nextcloud-system
   namespace: nextcloud
 spec:
