@@ -13,7 +13,7 @@ resources:
   - ../base/redirects
   - ../base/joplin
   - ../base/media
-#  - ../base/wordpress/overlays
+  - ../base/wordpress/overlays
 #  - ../base/vaultwarden
 #  - ../base/portainer
 #  - ../base/kasm
