@@ -85,8 +85,8 @@ spec:
 
     service:
       annotations:
-        io.cilium/lb-ipam-ips: 10.0.6.205
-        metallb.universe.tf/loadBalancerIPs: 10.0.6.205
+        io.cilium/lb-ipam-ips: 10.0.7.205
+        metallb.universe.tf/loadBalancerIPs: 10.0.7.205
       ## If service type NodePort, define the value here
       #ldapPortNodePort:
       #sslLdapPortNodePort:
@@ -95,7 +95,7 @@ spec:
       ##
       externalIPs: []
 
-      #loadBalancerIP: 10.0.6.205
+      #loadBalancerIP: 10.0.7.205
       #loadBalancerSourceRanges: []
       type: LoadBalancer
       sessionAffinity: None

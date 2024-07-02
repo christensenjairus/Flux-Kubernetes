@@ -13,7 +13,7 @@ spec:
     storage: 5000Gi
   nfs:
     path: /mnt/HDD_POOL/nextcloud/nextcloud-data
-    server: 10.0.6.2
+    server: 10.0.7.2
   persistentVolumeReclaimPolicy: Retain
   volumeMode: Filesystem
   mountOptions:

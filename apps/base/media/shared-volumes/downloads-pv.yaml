@@ -19,4 +19,4 @@ spec:
   volumeMode: Filesystem
   nfs:
     path: /mnt/HDD_POOL/downloads
-    server: 10.0.6.2
+    server: 10.0.7.2

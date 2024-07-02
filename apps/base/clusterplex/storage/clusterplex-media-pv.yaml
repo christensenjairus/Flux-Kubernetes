@@ -13,7 +13,7 @@ spec:
     storage: 75Ti
   nfs:
     path: /mnt/HDD_POOL/media
-    server: 10.0.6.2
+    server: 10.0.7.2
   persistentVolumeReclaimPolicy: Delete
   volumeMode: Filesystem
   mountOptions:

@@ -180,7 +180,7 @@ spec:
             'trusted_proxies' => array(
               0 => '127.0.0.1',
               1 => '10.0.0.0/24',
-              2 => '10.0.6.0/24',
+              2 => '10.0.7.0/24',
             ),
             'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
             'overwriteprotocol' => 'https'

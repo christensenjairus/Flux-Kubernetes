@@ -38,7 +38,7 @@ spec:
           - name: VPN_CLIENT
             value: "openvpn"
           - name: LAN_NETWORK
-            value: "10.0.6.0/24"
+            value: "10.0.7.0/24"
           image: binhex/arch-delugevpn:latest
           name: deluge
           ports:
