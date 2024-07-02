@@ -49,14 +49,15 @@ fi
 
 echo POD_NAME=$POD_NAME
 echo MODE=$MODE
+USER=root #www-data
 
 # Check for 'on' or 'off' parameter
 if [[ "$MODE" == "on" ]]; then
   # on maintenance mode
-  kubectl exec -it $POD_NAME -n nextcloud -- runuser -u www-data -- /var/www/html/occ maintenance:mode --on
+  kubectl exec -it $POD_NAME -n nextcloud -- runuser -u $USER -- /var/www/html/occ maintenance:mode --on
 elif [[ "$MODE" == "off" ]]; then
   # off maintenance mode
-  kubectl exec -it $POD_NAME -n nextcloud -- runuser -u www-data -- /var/www/html/occ maintenance:mode --off
+  kubectl exec -it $POD_NAME -n nextcloud -- runuser -u $USER -- /var/www/html/occ maintenance:mode --off
 else
   echo "Usage: $0 [on|off]"
   exit 1

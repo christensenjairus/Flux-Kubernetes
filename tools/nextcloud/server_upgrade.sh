@@ -38,12 +38,14 @@ if [ -z "$POD_NAME" ]; then
   exit 1
 fi
 
+USER=root #www-data
+
 # Run the specified command in the found Nextcloud pod
 echo -e "\n${GREEN}Server upgrade...${ENDCOLOR}"
-kubectl exec -it $POD_NAME -n nextcloud -- runuser -u www-data -- /var/www/html/occ upgrade
+kubectl exec -it $POD_NAME -n nextcloud -- runuser -u $USER -- /var/www/html/occ upgrade
 
 echo -e "\n${GREEN}Apps upgrade...${ENDCOLOR}"
-kubectl exec -it $POD_NAME -n nextcloud -- runuser -u www-data -- /var/www/html/occ app:update --all
+kubectl exec -it $POD_NAME -n nextcloud -- runuser -u $USER -- /var/www/html/occ app:update --all
 
 echo -e "\n${GREEN}Add missing indexes...${ENDCOLOR}"
-kubectl exec -it $POD_NAME -n nextcloud -- runuser -u www-data -- /var/www/html/occ db:add-missing-indices
+kubectl exec -it $POD_NAME -n nextcloud -- runuser -u $USER -- /var/www/html/occ db:add-missing-indices

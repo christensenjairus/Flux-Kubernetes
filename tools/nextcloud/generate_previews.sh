@@ -58,7 +58,8 @@ fi
 echo USERNAME=$USERNAME
 echo POD_NAME=$POD_NAME
 echo FOLDER=$FOLDER
+USER=root #www-data
 
 # Run the specified command in the found Nextcloud pod
 echo -e "\n${GREEN}Generating previews for user ${USERNAME}${FOLDER:+ in folder ${FOLDER}}...${ENDCOLOR}"
-kubectl exec -it $POD_NAME -n nextcloud -- runuser -u www-data -- /var/www/html/occ preview:generate-all "$FOLDER_PATH" $USERNAME
+kubectl exec -it $POD_NAME -n nextcloud -- runuser -u $USER -- /var/www/html/occ preview:generate-all "$FOLDER_PATH" $USERNAME

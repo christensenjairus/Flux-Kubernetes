@@ -39,7 +39,8 @@ if [ -z "$POD_NAME" ]; then
 fi
 
 echo POD_NAME=$POD_NAME
+USER=root #www-data
 
 # Run the specified command in the found Nextcloud pod
 echo -e "\n${GREEN}Listing users...${ENDCOLOR}"
-kubectl exec -it $POD_NAME -n nextcloud -- runuser -u www-data -- /var/www/html/occ user:list
+kubectl exec -it $POD_NAME -n nextcloud -- runuser -u $USER -- /var/www/html/occ user:list
