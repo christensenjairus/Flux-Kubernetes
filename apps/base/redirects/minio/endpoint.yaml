@@ -5,7 +5,7 @@ metadata:
   namespace: redirects
 subsets:
   - addresses:
-      - ip: 10.0.6.2
+      - ip: 10.0.7.2
     ports:
       - port: 9002
         protocol: TCP
