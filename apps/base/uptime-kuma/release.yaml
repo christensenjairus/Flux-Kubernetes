@@ -45,8 +45,8 @@ spec:
 
     podAnnotations: {}
     podLabels:
-      {}
       # app: uptime-kuma
+      ipv4-only: "true"
     podEnv:
       # a default port must be set. required by container
       - name: "UPTIME_KUMA_PORT"
@@ -206,8 +206,4 @@ spec:
     dnsPolicy: ""
 
     # -- Use this option to set custom DNS configurations to the created deployment
-    dnsConfig: #{}
-      options: # prefer ipv4 requests
-      - name: single-request-reopen
-      - name: single-request
-
+    dnsConfig: {}
