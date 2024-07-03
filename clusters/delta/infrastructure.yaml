@@ -108,10 +108,10 @@ spec:
           value: 1
         - op: replace
           path: /spec/values/clustermesh/apiserver/service/annotations/io.cilium~1lb-ipam-ips
-          value: "10.0.4.254,2607:fa18:47ff:400:34::204"
+          value: "10.0.4.254,2607:fa18:47ff:400:34::254"
         - op: replace
           path: /spec/values/clustermesh/apiserver/service/annotations/metallb.universe.tf~1loadBalancerIPs
-          value: "10.0.4.254,2607:fa18:47ff:400:34::204"
+          value: "10.0.4.254,2607:fa18:47ff:400:34::254"
         - op: remove
           path: /spec/values/hubble/relay/nodeSelector
         - op: remove
