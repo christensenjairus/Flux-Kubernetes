@@ -49,7 +49,7 @@ spec:
         # -- Enable Slack notifications
         enabled: true
         # -- Send notifications on failure or partial failures only
-        onFailureOnly: false
+        onFailureOnly: true
         # -- Hook URL for slack notifications
         #webhook: ""
         # -- Channel for slack notifications

@@ -805,7 +805,7 @@ spec:
             - splunk # not a system namespace, but we shouldn't need to back it up
             - velero
       hourly-cluster-snapshot:
-        disabled: true # temporarily disable keeping local snapshots to see if ceph fills up less slowly
+        disabled: false # temporarily disable keeping local snapshots to see if ceph fills up less slowly
         labels:
           source_cluster: zeta
         # annotations:
@@ -813,7 +813,7 @@ spec:
         schedule: "0 * * * *" # every hour, at :30
         # useOwnerReferencesInBackup: false
         template:
-          ttl: "24h" # 1 day
+          ttl: "3h" # Only 3 copies
           storageLocation: default # use the same name you defined above in backupStorageLocation
           snapshotMoveData: false
           snapshotVolumes: true # apparently only applies to PVs in AWS, GCP, and Azure?
