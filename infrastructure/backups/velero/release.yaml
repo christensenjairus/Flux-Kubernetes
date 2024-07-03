@@ -763,7 +763,7 @@ spec:
     # Backup schedules to create.
     # Eg:
     schedules:
-      1d-cluster-backup-30d-ttl:
+      1d-cluster-backup-30d:
         disabled: false
         labels:
           source_cluster: zeta
@@ -804,7 +804,7 @@ spec:
             - rook-ceph
             - splunk # not a system namespace, but we shouldn't need to back it up
             - velero
-      3h-cluster-snapshot-24h-ttl:
+      3h-cluster-snapshot-24h:
         disabled: false # temporarily disable keeping local snapshots to see if ceph fills up less slowly
         labels:
           source_cluster: zeta

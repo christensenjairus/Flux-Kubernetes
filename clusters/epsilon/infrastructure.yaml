@@ -394,10 +394,10 @@ spec:
           path: /spec/values/configuration/backupStorageLocation/0/bucket
           value: epsilon-cluster
         - op: replace
-          path: /spec/values/schedules/1d-cluster-backup-30d-ttl/labels/source_cluster
+          path: /spec/values/schedules/1d-cluster-backup-30d/labels/source_cluster
           value: epsilon
         - op: replace
-          path: /spec/values/schedules/3h-cluster-snapshot-24h-ttl/labels/source_cluster
+          path: /spec/values/schedules/3h-cluster-snapshot-24h/labels/source_cluster
           value: epsilon
       target:
         kind: HelmRelease
