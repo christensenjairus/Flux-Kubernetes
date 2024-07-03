@@ -1,0 +1,26 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: enforce-dualstack-loadbalancer
+spec:
+  rules:
+    - name: mutate-loadbalancer-ipFamilyPolicy
+      match:
+        resources:
+          kinds:
+            - Service
+      preconditions:
+        all:
+          - key: "{{ request.operation }}"
+            operator: In
+            value: ["CREATE", "UPDATE"]
+          - key: "{{ request.object.spec.type }}"
+            operator: Equals
+            value: "LoadBalancer"
+      mutate:
+        patchStrategicMerge:
+          spec:
+            ipFamilyPolicy: "RequireDualStack"
+            ipFamilies:
+              - "IPv4"
+              - "IPv6"

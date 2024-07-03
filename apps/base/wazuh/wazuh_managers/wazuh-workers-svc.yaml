@@ -18,8 +18,8 @@ metadata:
   annotations:
     # domainName: 'wazuh-manager.some-domain.com'  # TODO: Change this for a Hosted Zone you configured in AWS Route 53
     #service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
-    io.cilium/lb-ipam-ips: 10.0.7.206
-    metallb.universe.tf/loadBalancerIPs: 10.0.7.206
+    io.cilium/lb-ipam-ips: 10.0.7.206,2607:fa18:47ff:700:34::206
+    metallb.universe.tf/loadBalancerIPs: 10.0.7.206,2607:fa18:47ff:700:34::206
     metallb.universe.tf/allow-shared-ip: "wazuh-agent-connectivity-endpoint"
 spec:
   type: LoadBalancer #ClusterIP

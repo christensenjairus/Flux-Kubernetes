@@ -6,8 +6,10 @@ spec:
 
 # ------------ Edit below --------------------
   accessModes:
-    - ReadWriteMany
+#    - ReadWriteMany
+    - ReadWriteOnce
+#    - ReadOnlyMany
   resources:
     requests:
-      storage: 3Gi
-  storageClassName: ceph-filesystem-2
+      storage: 1200Mi
+  storageClassName: ceph-block-3

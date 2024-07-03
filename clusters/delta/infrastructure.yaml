@@ -44,6 +44,9 @@ spec:
         - op: replace
           path: /spec/addresses/0
           value: "10.0.4.200-10.0.4.254"
+        - op: replace
+          path: /spec/addresses/1
+          value: "2607:fa18:47ff:400:34::/112"
       target:
         kind: IPAddressPool
         name: metallb-ipaddresspool
@@ -105,13 +108,10 @@ spec:
           value: 1
         - op: replace
           path: /spec/values/clustermesh/apiserver/service/annotations/io.cilium~1lb-ipam-ips
-          value: "10.0.4.254"
+          value: "10.0.4.254,2607:fa18:47ff:400:34::204"
         - op: replace
           path: /spec/values/clustermesh/apiserver/service/annotations/metallb.universe.tf~1loadBalancerIPs
-          value: "10.0.4.254"
-        #- op: replace
-        #  path: /spec/values/clustermesh/apiserver/service/loadBalancerIP
-        #  value: "10.0.4.254"
+          value: "10.0.4.254,2607:fa18:47ff:400:34::204"
         - op: remove
           path: /spec/values/hubble/relay/nodeSelector
         - op: remove
@@ -432,13 +432,10 @@ spec:
           path: /spec/values/controller/admissionWebhooks/patch/nodeSelector/nodeclass
         - op: replace
           path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
-          value: 10.0.4.200
+          value: 10.0.4.200,2607:fa18:47ff:400:34::200
         - op: replace
           path: /spec/values/controller/service/annotations/metallb.universe.tf~1loadBalancerIPs
-          value: 10.0.4.200
-        #- op: replace
-        #  path: /spec/values/controller/service/loadBalancerIP
-        #  value: 10.0.4.200
+          value: 10.0.4.200,2607:fa18:47ff:400:34::200
       target:
         kind: HelmRelease
         name: ingress-nginx
@@ -461,13 +458,10 @@ spec:
           path: /spec/values/controller/admissionWebhooks/patch/nodeSelector/nodeclass
         - op: replace
           path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
-          value: 10.0.4.201
+          value: 10.0.4.201,2607:fa18:47ff:400:34::201
         - op: replace
           path: /spec/values/controller/service/annotations/metallb.universe.tf~1loadBalancerIPs
-          value: 10.0.4.201
-        #- op: replace
-        #  path: /spec/values/controller/service/loadBalancerIP
-        #  value: 10.0.4.201
+          value: 10.0.4.201,2607:fa18:47ff:400:34::201
       target:
         kind: HelmRelease
         name: ingress-nginx

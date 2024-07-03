@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - cleanup-failed-pgbackrest-pods.yaml
   - disable-ipv6-in-pod.yaml
+  - enforce-dualstack-lbs.yaml
