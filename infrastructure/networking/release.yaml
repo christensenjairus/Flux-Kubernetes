@@ -112,8 +112,8 @@ spec:
         service:
           type: LoadBalancer
           annotations:
-            io.cilium/lb-ipam-ips: 10.0.6.254,2607:fa18:47ff:600:34::254
-            metallb.universe.tf/loadBalancerIPs: 10.0.6.254,2607:fa18:47ff:600:34::254
+            io.cilium/lb-ipam-ips: 10.0.6.254
+            metallb.universe.tf/loadBalancerIPs: 10.0.6.254
           #loadBalancerIP: 10.0.6.254
     externalIPs: # I don't think this is needed without l2announcements
       enabled: true

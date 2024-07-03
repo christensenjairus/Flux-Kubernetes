@@ -100,10 +100,10 @@ spec:
           value: "10.0.7.100"
         - op: replace
           path: /spec/values/clustermesh/apiserver/service/annotations/io.cilium~1lb-ipam-ips
-          value: "10.0.7.254,2607:fa18:47ff:700:34::254"
+          value: "10.0.7.254"
         - op: replace
           path: /spec/values/clustermesh/apiserver/service/annotations/metallb.universe.tf~1loadBalancerIPs
-          value: "10.0.7.254,2607:fa18:47ff:700:34::254"
+          value: "10.0.7.254"
       target:
         kind: HelmRelease
         name: cilium
