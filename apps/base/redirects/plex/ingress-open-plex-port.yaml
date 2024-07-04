@@ -1,7 +1,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: add-plex-port-to-ingress-nginx-svc
+  name: ingress-open-plex-port
 spec:
   background: true
   rules:

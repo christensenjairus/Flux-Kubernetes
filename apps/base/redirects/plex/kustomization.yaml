@@ -4,4 +4,4 @@ resources:
   - endpoint.yaml
   - service.yaml
   - ingress.yaml
-#  - add-plex-port-to-ingress-controller.yaml
+  - ingress-open-plex-port.yaml
