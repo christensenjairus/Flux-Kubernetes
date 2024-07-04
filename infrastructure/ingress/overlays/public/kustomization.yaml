@@ -28,14 +28,14 @@ patches:
     patch: |-
       - op: add
         path: /spec/ports/-
-        value:
+        value: |-
           name: plex-tcp
           port: 32400
           targetPort: 32400
           protocol: TCP
       - op: add
         path: /spec/ports/-
-        value:
+        value: |-
           name: plex-udp
           port: 32400
           targetPort: 32400
