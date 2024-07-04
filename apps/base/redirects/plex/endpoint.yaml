@@ -7,5 +7,9 @@ subsets:
   - addresses:
       - ip: 10.0.7.2
     ports:
-      - port: 32400
+      - name: plex-tcp
+        port: 32400
         protocol: TCP
+      - name: plex-udp
+        port: 32400
+        protocol: UDP

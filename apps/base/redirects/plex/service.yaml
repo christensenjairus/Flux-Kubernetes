@@ -6,8 +6,13 @@ metadata:
 spec:
   internalTrafficPolicy: Cluster
   ports:
-    - port: 32400
+    - name: plex-tcp
+      port: 32400
       protocol: TCP
+      targetPort: 32400
+    - name: plex-udp
+      port: 32400
+      protocol: UDP
       targetPort: 32400
   sessionAffinity: None
   type: ClusterIP

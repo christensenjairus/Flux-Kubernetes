@@ -210,7 +210,9 @@ spec:
       maxmindLicenseKey: ""
       # -- Additional command line arguments to pass to Ingress-Nginx Controller
       # E.g. to specify the default SSL certificate you can use
-      extraArgs: { }
+      extraArgs: #{ }
+        tcp-services-configmap: ingress-nginx/tcp-services
+        udp-services-configmap: ingress-nginx/udp-services
       ## extraArgs:
       ##   default-ssl-certificate: "<namespace>/<secret_name>"
       ##   time-buckets: "0.005,0.01,0.025,0.05,0.1,0.25,0.5,1,2.5,5,10"

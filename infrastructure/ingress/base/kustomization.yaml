@@ -7,3 +7,4 @@ resources:
   - repository.yaml
   - release.yaml
   - prometheus-rules.yaml
+  - ./tcp-udp-forwards

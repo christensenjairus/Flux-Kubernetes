@@ -17,7 +17,7 @@ spec:
               service:
                 name: plex
                 port:
-                  number: 32400
+                  name: plex-tcp
             path: /
             pathType: Prefix
   tls:
