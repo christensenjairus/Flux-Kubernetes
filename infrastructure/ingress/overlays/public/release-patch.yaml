@@ -6,6 +6,9 @@ spec:
   releaseName: ingress-nginx-public
   values:
     controller:
+      extraArgs:
+        tcp-services-configmap: ingress-nginx-public/tcp-services
+        udp-services-configmap: ingress-nginx-public/udp-services
       service:
         annotations:
           io.cilium/lb-ipam-ips: 10.0.6.200
