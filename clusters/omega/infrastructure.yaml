@@ -297,6 +297,25 @@ spec:
         - op: add
           path: /data/32400
           value: "redirects/plex:32400"
+    - target:
+        kind: Service
+        name: ingress-nginx-public-controller
+        namespace: ingress-nginx-public
+      patch: |- 
+        - op: add
+          path: /spec/ports/-
+          value:
+            name: plex-tcp
+            port: 32400
+            targetPort: 32400
+            protocol: TCP
+        - op: add
+          path: /spec/ports/-
+          value:
+            name: plex-udp
+            port: 32400
+            targetPort: 32400
+            protocol: UDP
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
