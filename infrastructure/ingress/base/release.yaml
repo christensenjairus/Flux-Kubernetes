@@ -566,12 +566,14 @@ spec:
           # Example:
           # tcp:
           #   8080: 30080
-          tcp: { }
+          tcp: #{ }
+            32400: 32400
           # -- Node port mapping for external UDP listeners. If left empty, the service controller allocates them from the configured node port range.
           # Example:
           # udp:
           #   53: 30053
-          udp: { }
+          udp: #{ }
+            32400: 32400
         internal:
           # -- Enable the internal controller service or not. Remember to configure `controller.service.internal.annotations` when enabling this.
           enabled: false
