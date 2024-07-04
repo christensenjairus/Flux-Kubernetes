@@ -4,3 +4,21 @@ resources:
   - endpoint.yaml
   - service.yaml
   - ingress.yaml
+  - add-plex-port-to-ingress-controller.yaml
+patches:
+  - target:
+      kind: ConfigMap
+      name: tcp-services
+      namespace: ingress-nginx-public
+    patch: |-
+      - op: add
+        path: /data/32400
+        value: "redirects/plex:32400"
+  - target:
+      kind: ConfigMap
+      name: udp-services
+      namespace: ingress-nginx-public
+    patch: |-
+      - op: add
+        path: /data/32400
+        value: "redirects/plex:32400"

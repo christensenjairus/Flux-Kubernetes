@@ -62,7 +62,6 @@ spec:
       containerPort:
         http: 80
         https: 443
-        plex: 32400
       # -- Will add custom configuration options to Nginx https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
       config:
         # use these per ingress instead of globally
@@ -129,7 +128,6 @@ spec:
           http: 80
           # -- 'hostPort' https port
           https: 443
-          plex: 32400
       # NetworkPolicy for controller component.
       networkPolicy:
         # -- Enable 'networkPolicy' or not
@@ -547,13 +545,11 @@ spec:
           http: 80
           # -- Port the external HTTPS listener is published with.
           https: 443
-          plex: 32400
         targetPorts:
           # -- Port of the ingress controller the external HTTP listener is mapped to.
           http: http
           # -- Port of the ingress controller the external HTTPS listener is mapped to.
           https: https
-          plex: plex
         # -- Declare the app protocol of the external HTTP and HTTPS listeners or not. Supersedes provider-specific annotations for declaring the backend protocol.
         # Ref: https://kubernetes.io/docs/concepts/services-networking/service/#application-protocol
         appProtocol: true
@@ -566,14 +562,12 @@ spec:
           # Example:
           # tcp:
           #   8080: 30080
-          tcp: #{ }
-            32400: 32400
+          tcp: { }
           # -- Node port mapping for external UDP listeners. If left empty, the service controller allocates them from the configured node port range.
           # Example:
           # udp:
           #   53: 30053
-          udp: #{ }
-            32400: 32400
+          udp: { }
         internal:
           # -- Enable the internal controller service or not. Remember to configure `controller.service.internal.annotations` when enabling this.
           enabled: false

@@ -1,0 +1,28 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-plex-port-to-ingress-controller
+spec:
+  background: true
+  rules:
+    - name: add-plex-port
+      match:
+        resources:
+          kinds:
+            - Service
+          names:
+            - ingress-nginx-public-controller
+          namespaces:
+            - ingress-nginx-public
+      mutate:
+        patchStrategicMerge:
+          spec:
+            ports:
+              - name: plex-tcp
+                port: 32400
+                targetPort: 32400
+                protocol: TCP
+              - name: plex-udp
+                port: 32400
+                targetPort: 32400
+                protocol: UDP
