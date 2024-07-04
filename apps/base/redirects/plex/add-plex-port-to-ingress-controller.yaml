@@ -48,10 +48,12 @@ spec:
           spec:
             template:
               spec:
-                ports:
-                  - containerPort: 32400
-                    name: plex-udp
-                    protocol: UDP
-                  - containerPort: 32400
-                    name: plex-tcp
-                    protocol: TCP
+                containers:
+                  - name: controller
+                    ports:
+                      - containerPort: 32400
+                        name: plex-udp
+                        protocol: UDP
+                      - containerPort: 32400
+                        name: plex-tcp
+                        protocol: TCP
