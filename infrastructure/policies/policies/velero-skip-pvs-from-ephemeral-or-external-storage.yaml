@@ -1,0 +1,29 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: velero-skip-pvs-from-ephemeral-or-external-storage
+spec:
+  rules:
+  - name: add-label-to-ephemeral-pvs
+    match:
+      any:
+      - resources:
+          kinds:
+          - PersistentVolume
+          - PersistentVolumeClaim
+          selector:
+            matchExpressions:
+            - key: spec.storageClassName
+              operator: In
+              values:
+              - ceph-filesystem-2
+              - ceph-block-2
+              - truenas-iscsi-retain
+              - truenas-iscsi
+              - truenas-nfs-retain
+              - truenas-nfs
+    mutate:
+      patchStrategicMerge:
+        metadata:
+          labels:
+            "velero.io/exclude-from-backup": "true"

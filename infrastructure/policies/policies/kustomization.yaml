@@ -4,3 +4,4 @@ resources:
   - cleanup-failed-pgbackrest-pods.yaml
   - disable-ipv6-in-pod.yaml
   - enforce-dualstack-lbs.yaml
+  - velero-skip-pvs-from-ephemeral-or-external-storage.yaml
