@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-editor
+  namespace: wpcyberengine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: file-editor
+  template:
+    metadata:
+      labels:
+        app: file-editor
+    spec:
+      containers:
+      - name: file-editor
+        image: ubuntu:latest
+        command: ["/bin/sh", "-c", "apt-get update && apt-get install -y vim && tail -f /dev/null"]
+        volumeMounts:
+        - name: edit-volume
+          mountPath: /mnt/edit
+      volumes:
+      - name: edit-volume
+        persistentVolumeClaim:
+          claimName: wpcyberengine-wordpress
