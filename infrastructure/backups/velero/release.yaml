@@ -97,7 +97,7 @@ spec:
         memory: 512Mi
       limits:
         cpu: 3000m
-        memory: 2048Mi
+        memory: 4096Mi
 
     # Resource requests/limits to specify for the upgradeCRDs job pod. Need to be adjusted by user accordingly.
     upgradeJobResources: {}
