@@ -10,13 +10,20 @@ spec:
     privateKeySecretRef:
       name: acme-issuer-account-key
     solvers: # https://cert-manager.io/docs/configuration/acme/
-      # DNS Solvers are great if you have individual records.
-#      - dns01:
-#          cloudflare:
-#            email: christensenjairus@gmail.com
-#            apiKeySecretRef:
-#              name: cloudflare-api-key-secret
-#              key: credential
-      - http01:
-          ingress:
-            ingressClassName: nginx-public
+      # Use DNS for Staging/Testing
+      - dns01:
+          cloudflare:
+            email: christensenjairus@gmail.com
+            apiKeySecretRef:
+              name: cloudflare-api-key-secret
+              key: credential
+#        selector:
+#          dnsNames:
+#            - "*-omega.christensencloud.us"
+#            - "*-zeta.christensencloud.us"
+#            - "*-epsilon.christensencloud.us"
+#            - "*-delta.christensencloud.us"
+#      # Can use HTTP if desired
+#      - http01:
+#          ingress:
+#            ingressClassName: nginx-public
