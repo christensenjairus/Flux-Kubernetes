@@ -29,8 +29,8 @@ spec:
 #      volumeName: volume_smartstore
     indexes:
     - hotlistRecencySecs: 259206 # 3 days
-      maxGlobalDataSizeMB: 40000
-      maxGlobalRawDataSizeMB: 45000
+      maxGlobalDataSizeMB: 10000 # increase if needed
+      maxGlobalRawDataSizeMB: 12000 # increase if needed
       name: main
       volumeName: volume_smartstore
     volumes:
@@ -179,11 +179,11 @@ items:
           enable: true
           ssl: false
         idxc:
-          replication_factor: 3 # replicate to three indexers
-          search_factor: 3 # allow for one indexer to be down
+          replication_factor: 3
+          search_factor: 3
         ignore_license: true
         shc:
-          replication_factor: 2 # allow for one search head to be down
+          replication_factor: 2
     livenessInitialDelaySeconds: 300
     readinessInitialDelaySeconds: 300
     startupProbe:
@@ -201,7 +201,7 @@ items:
       storageClassName: ceph-block-2
     varVolumeStorageConfig:
       ephemeralStorage: false
-      storageCapacity: 100Gi
+      storageCapacity: 50Gi
       storageClassName: ceph-block-2
     volumes:
       - name: configs
