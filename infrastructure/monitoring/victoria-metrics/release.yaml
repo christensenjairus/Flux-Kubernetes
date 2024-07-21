@@ -1063,7 +1063,7 @@ spec:
       #  - "https://storage.googleapis.com/plugins-community/isovalent-hubble-datasource/release/1.0.0/isovalent-hubble-datasource-1.0.0.zip;isovalent-hubble-datasource"
       #  - "https://storage.googleapis.com/plugins-community/isovalent-hubbleprocessancestry-panel/release/1.0.3/isovalent-hubbleprocessancestry-panel-1.0.3.zip;isovalent-hubbleprocessancestry-panel"
       #  - "https://github.com/grafana/singlestat-panel/releases/download/v2.0.0/grafana-singlestat-panel-2.0.0.any.zip;grafana-singlestat-panel"
-      #  - "https://github.com/grafana/singlestat-panel/releases/download/v2.0.0/grafana-singlestat-panel-2.0.0.any.zip;grafana-singlestat-panel" # used for Nodes dashboard. Replaced by 'Stat' panel
+        - "https://github.com/grafana/singlestat-panel/releases/download/v2.0.0/grafana-singlestat-panel-2.0.0.any.zip;grafana-singlestat-panel" # used for Nodes dashboard. Replaced by 'Stat' panel
         - "https://storage.googleapis.com/integration-artifacts/vonage-status-panel/release/2.0.0/any/vonage-status-panel-2.0.0.any.zip;vonage-status-panel" # used for some Ceph dashboards
         - "https://storage.googleapis.com/plugins-community/redis-datasource/release/2.2.0/redis-datasource-2.2.0.zip;redis-datasource"
         - "https://storage.googleapis.com/plugins-community/redis-app/release/2.2.1/redis-app-2.2.1.zip;redis-app"
