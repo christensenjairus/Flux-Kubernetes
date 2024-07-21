@@ -622,7 +622,7 @@ spec:
     - patch: |
         - op: replace
           path: /spec/values/configuration/notificationPrefix
-          value: "[Epsilon]"
+          value: "[Delta]"
         - op: remove
           path: /spec/values/nodeSelector/nodeclass
       target:
