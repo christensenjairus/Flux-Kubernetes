@@ -32,7 +32,7 @@ spec:
     victoria-metrics-operator:
       enabled: true
       # -- Tells helm to clean up vm cr resources when uninstalling
-      cleanupCRD: true
+      cleanupCRD: false
       nodeSelector:
         nodeclass: general
       cleanupImage:
@@ -1417,7 +1417,7 @@ spec:
 
     ## install prometheus operator crds
     prometheus-operator-crds:
-      enabled: true
+      enabled: false # true # These are installed in 'infra-crds'
 
     # -- Add extra objects dynamically to this chart
     extraObjects: []
