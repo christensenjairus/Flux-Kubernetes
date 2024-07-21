@@ -753,10 +753,7 @@ spec:
         extraArgs:
           memory.allowedPercent: "95"
           loggerTimezone: "America/Denver"
-
-          # We want VM UI search interface to be the service we direct to if we follow the alert's source link
-          external.url: "https://vm.christensencloud.us"
-          external.alert.source: "vmui/#/?g0.expr=\{\{.Expr|queryEscape\}\}"
+          external.url: "https://vmalert.christensencloud.us"
         resources:
           limits: {}
 #            cpu: 1000m # default is 200m
