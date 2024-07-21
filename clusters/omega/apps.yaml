@@ -15,9 +15,10 @@ spec:
     - name: infra-external-storage
     - name: infra-general-operators
     - name: infra-ingress
+    - name: infra-kyverno
     - name: infra-monitoring
     - name: infra-networking
-    - name: infra-kyverno
+    - name: infra-policies
     - name: infra-scaling
 #    - name: infra-scheduling
 #    - name: infra-virt
