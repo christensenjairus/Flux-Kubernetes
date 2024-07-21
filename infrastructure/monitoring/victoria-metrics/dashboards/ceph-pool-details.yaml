@@ -24,7 +24,7 @@ data:
       "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 0,
-      "id": 25,
+      "id": 45,
       "links": [],
       "panels": [
         {
@@ -118,7 +118,7 @@ data:
                   }
                 ]
               },
-              "unit": "dateTimeFromNow"
+              "unit": "dtdhms"
             },
             "overrides": []
           },
@@ -872,10 +872,9 @@ data:
           },
           {
             "current": {
-              "isNone": true,
-              "selected": false,
-              "text": "None",
-              "value": ""
+              "selected": true,
+              "text": "ceph-blockpool-2",
+              "value": "ceph-blockpool-2"
             },
             "datasource": {
               "type": "prometheus",
@@ -901,7 +900,7 @@ data:
         ]
       },
       "time": {
-        "from": "now-6h",
+        "from": "now-15m",
         "to": "now"
       },
       "timepicker": {
