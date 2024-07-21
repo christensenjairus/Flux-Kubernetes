@@ -30,7 +30,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+            "uid": "P556E1CB39D350619"
           },
           "fieldConfig": {
             "defaults": {
@@ -112,7 +112,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+                "uid": "P556E1CB39D350619"
               },
               "query": "",
               "refId": "A",
@@ -142,7 +142,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+            "uid": "P556E1CB39D350619"
           },
           "fieldConfig": {
             "defaults": {
@@ -227,7 +227,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+                "uid": "P556E1CB39D350619"
               },
               "query": "",
               "refId": "A",
@@ -262,7 +262,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+            "uid": "P556E1CB39D350619"
           },
           "fieldConfig": {
             "defaults": {
@@ -310,7 +310,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+                "uid": "P556E1CB39D350619"
               },
               "query": "",
               "refId": "A",
@@ -338,7 +338,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+            "uid": "P556E1CB39D350619"
           },
           "fieldConfig": {
             "defaults": {
@@ -384,7 +384,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+                "uid": "P556E1CB39D350619"
               },
               "query": "",
               "refId": "A",
@@ -412,7 +412,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+            "uid": "P556E1CB39D350619"
           },
           "fieldConfig": {
             "defaults": {
@@ -459,7 +459,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+                "uid": "P556E1CB39D350619"
               },
               "query": "",
               "refId": "A",
@@ -488,7 +488,7 @@ data:
           "collapsed": false,
           "datasource": {
             "type": "redis-datasource",
-            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+            "uid": "P556E1CB39D350619"
           },
           "gridPos": {
             "h": 1,
@@ -502,7 +502,7 @@ data:
             {
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+                "uid": "P556E1CB39D350619"
               },
               "refId": "A"
             }
@@ -513,7 +513,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+            "uid": "P556E1CB39D350619"
           },
           "fieldConfig": {
             "defaults": {
@@ -598,7 +598,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+                "uid": "P556E1CB39D350619"
               },
               "query": "",
               "refId": "A",
@@ -648,7 +648,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+            "uid": "P556E1CB39D350619"
           },
           "fieldConfig": {
             "defaults": {
@@ -733,7 +733,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+                "uid": "P556E1CB39D350619"
               },
               "query": "",
               "refId": "A",
@@ -775,7 +775,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+            "uid": "P556E1CB39D350619"
           },
           "fieldConfig": {
             "defaults": {
@@ -858,7 +858,7 @@ data:
               "command": "",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+                "uid": "P556E1CB39D350619"
               },
               "query": "dbsize",
               "refId": "A",
@@ -874,7 +874,7 @@ data:
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+            "uid": "P556E1CB39D350619"
           },
           "fieldConfig": {
             "defaults": {
@@ -959,7 +959,7 @@ data:
               "command": "info",
               "datasource": {
                 "type": "redis-datasource",
-                "uid": "f904fde6-f067-4779-9841-bb1ad1f87038"
+                "uid": "P556E1CB39D350619"
               },
               "query": "",
               "refId": "A",

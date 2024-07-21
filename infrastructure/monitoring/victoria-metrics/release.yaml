@@ -973,7 +973,7 @@ spec:
             pipelineWindow: 0
           editable: false
         - name: "Nextcloud Redis"
-          type: redis-datasource # datasource UID seems to be f904fde6-f067-4779-9841-bb1ad1f87038
+          type: redis-datasource # datasource UID seems to be P556E1CB39D350619
           access: proxy # access through grafana, not direct from browser
           orgId: 1 # 1 is default
           isDefault: false # only one default data source per organization
