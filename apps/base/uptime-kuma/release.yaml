@@ -172,7 +172,7 @@ spec:
 
     # Prometheus ServiceMonitor configuration
     serviceMonitor:
-      enabled: true
+      enabled: false # enabled manually to put basicAuth secret in 1Password
       # -- Scrape interval. If not set, the Prometheus default scrape interval is used.
       interval: 60s
       # -- Timeout if metrics can't be retrieved in given time interval
