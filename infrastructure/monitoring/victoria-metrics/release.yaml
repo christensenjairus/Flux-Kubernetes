@@ -250,7 +250,6 @@ spec:
         replicaCount: 1
         extraArgs:
           search.logSlowQueryDuration: "15s" # default is 5s
-          enableTCP6: "false"
           loggerTimezone: "America/Denver"
           memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
           maxLabelsPerTimeseries: "250" # default is 30. KubeVirt has a ton of labels. If you can find a way to reduce the number of labels, you can reduce this.
@@ -326,7 +325,6 @@ spec:
           replicaCount: 2
           storageDataPath: "/vm-data"
           extraArgs:
-            enableTCP6: "false"
             loggerTimezone: "America/Denver"
             memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
 #            loggerLevel: "WARN" # default is INFO
@@ -367,7 +365,6 @@ spec:
           replicaCount: 2 # scale to raise query rate
           cacheMountPath: "/select-cache"
           extraArgs:
-            enableTCP6: "false"
             loggerTimezone: "America/Denver"
             memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
 #            loggerWarnsPerSecondLimit: "5"
@@ -408,7 +405,6 @@ spec:
             tag: v1.101.0-cluster
           replicaCount: 2 # scale to raise ingestion rate
           extraArgs:
-            enableTCP6: "false"
             loggerTimezone: "America/Denver"
             memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
 #            loggerLevel: "WARN" # default is INFO
@@ -756,7 +752,6 @@ spec:
         evaluationInterval: 15s
         extraArgs:
           memory.allowedPercent: "95"
-          enableTCP6: "false"
           loggerTimezone: "America/Denver"
         resources:
           limits: {}
