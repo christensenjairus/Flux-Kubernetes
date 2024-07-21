@@ -1,8 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - namespace.yaml
-  - repository.yaml
-  - release.yaml
-  - cluster-role-delete-pods.yaml
-  - ./policies
+  - cleanup-failed-pgbackrest-pods.yaml
+  - disable-ipv6-in-pod.yaml
+  - enforce-dualstack-lbs.yaml
+  - velero-skip-pvs-from-ephemeral-or-external-storage.yaml

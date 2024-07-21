@@ -494,7 +494,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-policies
+  name: infra-kyverno
   namespace: flux-system
 spec:
   dependsOn:
@@ -505,7 +505,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/policies
+  path: ./infrastructure/kyverno
   prune: true
   wait: true
   patches:
@@ -531,6 +531,25 @@ spec:
       target:
         kind: HelmRelease
         name: kyverno
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-policies
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    - name: infra-kyverno
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/policies
+  prune: true
+  wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

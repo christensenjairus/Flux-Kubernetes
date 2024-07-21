@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: victoria-metrics-k8s-stack
-      version: "0.19.x"
+      version: "0.24.x"
       sourceRef:
         kind: HelmRepository
         name: vm
@@ -36,8 +36,9 @@ spec:
       nodeSelector:
         nodeclass: general
       cleanupImage:
-        repository: gcr.io/google_containers/hyperkube
-        tag: v1.18.0
+        repository: bitnami/kubectl
+        # use image tag that matches k8s API version by default
+        # tag: 1.29.6
         pullPolicy: IfNotPresent
 
       createCRD: false # we disable crd creation by operator chart as we create them in this chart
@@ -57,51 +58,146 @@ spec:
     ## -- Create default rules for monitoring the cluster
     defaultRules:
       create: true
-      rules:
-        etcd: false # etcd metrics does not work without k8s certificate
-        general: true
-        k8s: true
-        kubeApiserver: true
-        kubeApiserverAvailability: true
-        kubeApiserverBurnrate: true
-        kubeApiserverHistogram: true
-        kubeApiserverSlos: true
-        kubelet: true
-        kubePrometheusGeneral: true
-        kubePrometheusNodeRecording: true
-        kubernetesApps: true
-        kubernetesResources: true
-        kubernetesStorage: true
-        kubernetesSystem: true
-        kubeScheduler: false # isn't querying it correctly yet
-        kubeStateMetrics: true
-        network: true
-        node: true
-        vmagent: true
-        vmsingle: true
-        vmcluster: false
-        vmhealth: true
-        alertmanager: true
+
+      # -- Common properties for VMRule groups
+      group:
+        spec:
+          # -- Optional HTTP URL parameters added to each rule request
+          params: {}
+
+      # -- Common properties for VMRules
+      rule:
+        spec:
+          # -- Additional labels for VMRule alerts
+          labels: {}
+          # -- Additional annotations for VMRule alerts
+          annotations: {}
+
+      # -- Per rule properties
+      rules: {}
+        # CPUThrottlingHigh:
+        #   create: true
+        #   spec:
+        #     for: 15m
+        #     labels:
+        #       severity: critical
+      groups:
+        etcd:
+          create: false
+          # -- Common properties for all rules in a group
+          rules: {}
+          # spec:
+          #   annotations:
+          #     dashboard: https://example.com/dashboard/1
+        general:
+          create: true
+          rules: {}
+        k8sContainerMemoryRss:
+          create: true
+          rules: {}
+        k8sContainerMemoryCache:
+          create: true
+          rules: {}
+        k8sContainerCpuUsageSecondsTotal:
+          create: true
+          rules: {}
+        k8sPodOwner:
+          create: true
+          rules: {}
+        k8sContainerResource:
+          create: true
+          rules: {}
+        k8sContainerMemoryWorkingSetBytes:
+          create: true
+          rules: {}
+        k8sContainerMemorySwap:
+          create: true
+          rules: {}
+        kubeApiserver:
+          create: true
+          rules: {}
+        kubeApiserverAvailability:
+          create: true
+          rules: {}
+        kubeApiserverBurnrate:
+          create: true
+          rules: {}
+        kubeApiserverHistogram:
+          create: true
+          rules: {}
+        kubeApiserverSlos:
+          create: true
+          rules: {}
+        kubelet:
+          create: true
+          rules: {}
+        kubePrometheusGeneral:
+          create: true
+          rules: {}
+        kubePrometheusNodeRecording:
+          create: true
+          rules: {}
+        kubernetesApps:
+          create: true
+          rules: {}
+          targetNamespace: ".*"
+        kubernetesResources:
+          create: true
+          rules: {}
+        kubernetesStorage:
+          create: true
+          rules: {}
+          targetNamespace: ".*"
+        kubernetesSystem:
+          create: true
+          rules: {}
+        kubernetesSystemKubelet:
+          create: true
+          rules: {}
+        kubernetesSystemApiserver:
+          create: true
+          rules: {}
+        kubernetesSystemControllerManager:
+          create: true
+          rules: {}
+        kubeScheduler:
+          create: false
+          rules: {}
+        kubernetesSystemScheduler:
+          create: true
+          rules: {}
+        kubeStateMetrics:
+          create: true
+          rules: {}
+        nodeNetwork:
+          create: true
+          rules: {}
+        node:
+          create: true
+          rules: {}
+        vmagent:
+          create: true
+          rules: {}
+        vmsingle:
+          create: true
+          rules: {}
+        vmcluster:
+          create: false
+          rules: {}
+        vmHealth:
+          create: true
+          rules: {}
+        alertmanager:
+          create: true
+          rules: {}
 
       # -- Runbook url prefix for default rules
       runbookUrl: https://runbooks.prometheus-operator.dev/runbooks
-
-      # Disabled VMRules
-      disabled: {}
-
-      ## Reduce app namespace alert scope
-      appNamespacesTarget: ".*"
 
       # -- Labels for default rules
       labels: {}
       # -- Annotations for default rules
       annotations: {}
-
-      # -- Additional labels for PrometheusRule alerts
-      additionalRuleLabels: {}
-
-      # -- Optional HTTP URL parameters added to each rule request
-      params: {}
 
     ## -- Create default dashboards
     defaultDashboardsEnabled: false
@@ -111,7 +207,7 @@ spec:
 
     ## -- Create dashboards as CRDs (reuqires grafana-operator to be installed)
     grafanaOperatorDashboardsFormat:
-      enabled: false # this doesn't seem to work fully...
+      enabled: false # requires CRDs for grafana operator
       instanceSelector:
         matchLabels:
           dashboards: "grafana"
@@ -148,8 +244,9 @@ spec:
       # https://docs.victoriametrics.com/operator/api.html#vmsinglespec
       spec:
         image:
-          tag: v1.100.1
-        retentionPeriod: "14"
+          tag: v1.101.0
+        # -- Data retention period. Possible units character: h(ours), d(ays), w(eeks), y(ears), if no unit character specified - month. The minimum retention period is 24h. See these [docs](https://docs.victoriametrics.com/single-server-victoriametrics/#retention)
+        retentionPeriod: "30d"
         replicaCount: 1
         extraArgs:
           search.logSlowQueryDuration: "15s" # default is 5s
@@ -172,7 +269,7 @@ spec:
             requests:
               storage: 50Gi
         nodeSelector:
-            nodeclass: general
+          nodeclass: general
       ingress:
         enabled: true
         # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
@@ -220,13 +317,13 @@ spec:
       # spec for VMCluster crd
       # https://docs.victoriametrics.com/operator/api.html#vmclusterspec
       spec:
-        retentionPeriod: "14"
-        replicationFactor: 1 # have more copies to be able to withstand some vmstorages being busy during a select query
+        # -- Data retention period. Possible units character: h(ours), d(ays), w(eeks), y(ears), if no unit character specified - month. The minimum retention period is 24h. See these [docs](https://docs.victoriametrics.com/single-server-victoriametrics/#retention)
+        retentionPeriod: "30d"
+        replicationFactor: 2
         vmstorage:
           image:
-            tag: v1.100.1-cluster
-          replicaCount: 1 # scale to raise storage capacity as well as resilience. Lower values have issues handling many inserts & selects.
-          # "The cluster must contain at least 2*N-1 vmstorage nodes, where N is replication factor, in order to maintain the given replication factor for newly ingested data when N-1 of storage nodes are unavailable."
+            tag: v1.101.0-cluster
+          replicaCount: 2
           storageDataPath: "/vm-data"
           extraArgs:
             enableTCP6: "false"
@@ -266,8 +363,8 @@ spec:
                   topologyKey: "kubernetes.io/hostname"
         vmselect:
           image:
-            tag: v1.100.1-cluster
-          replicaCount: 1 # scale to raise query rate
+            tag: v1.101.0-cluster
+          replicaCount: 2 # scale to raise query rate
           cacheMountPath: "/select-cache"
           extraArgs:
             enableTCP6: "false"
@@ -308,8 +405,8 @@ spec:
             nodeclass: general
         vminsert:
           image:
-            tag: v1.100.1-cluster
-          replicaCount: 1 # scale to raise ingestion rate
+            tag: v1.101.0-cluster
+          replicaCount: 2 # scale to raise ingestion rate
           extraArgs:
             enableTCP6: "false"
             loggerTimezone: "America/Denver"
@@ -655,7 +752,7 @@ spec:
           nodeclass: general
         selectAllByDefault: true
         image:
-          tag: v1.100.1
+          tag: v1.101.0
         evaluationInterval: 15s
         extraArgs:
           memory.allowedPercent: "95"
@@ -680,6 +777,16 @@ spec:
         #   hello, Victoria!
         #   {{- end }}
         # template_2.tmpl: ""
+
+      ## additionalNotifierConfigs allows to configure static notifiers, discover notifiers via Consul and DNS,
+      ## see specification in https://docs.victoriametrics.com/vmalert/#notifier-configuration-file.
+      ## This configuration will be created as separate secret and mounted to vmalert pod.
+      additionalNotifierConfigs: {}
+        # dns_sd_configs:
+        #   - names:
+        #       - my.domain.com
+        #     type: 'A'
+        #     port: 9093
 
       ingress:
         enabled: true
@@ -737,7 +844,7 @@ spec:
           nodeclass: general
         selectAllByDefault: true
         image:
-          tag: v1.100.1
+          tag: v1.101.0
         scrapeInterval: 20s
         externalLabels:
           cluster: zeta
@@ -1017,7 +1124,7 @@ spec:
             -  grafana.christensencloud.us
 
       vmServiceScrape:
-        # wheter we should create a service scrape resource for grafana
+        # whether we should create a service scrape resource for grafana
         enabled: true
 
         # spec for VMServiceScrape crd
@@ -1038,7 +1145,7 @@ spec:
         - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
 
       vmServiceScrape:
-        # wheter we should create a service scrape resource for node-exporter
+        # whether we should create a service scrape resource for node-exporter
         enabled: true
 
         # spec for VMServiceScrape crd
@@ -1307,3 +1414,11 @@ spec:
     ## install vm operator crds
     crds:
       enabled: true
+
+    ## install prometheus operator crds
+    prometheus-operator-crds:
+      enabled: true
+
+    # -- Add extra objects dynamically to this chart
+    extraObjects: []
+

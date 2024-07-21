@@ -16,7 +16,7 @@ spec:
     - name: infra-ingress
     - name: infra-monitoring
     - name: infra-networking
-    - name: infra-policies
+    - name: infra-kyverno
     - name: infra-scaling
 #    - name: infra-virt
   sourceRef:
