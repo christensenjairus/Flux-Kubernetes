@@ -49,7 +49,7 @@ data:
         ]
       },
       "description": "Overview for single-node VictoriaMetrics v1.83.0 or higher",
-      "editable": false,
+      "editable": true,
       "fiscalYearStartMonth": 0,
       "gnetId": 10229,
       "graphTooltip": 1,

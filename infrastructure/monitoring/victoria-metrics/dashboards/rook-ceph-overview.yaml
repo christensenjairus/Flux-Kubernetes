@@ -18,7 +18,7 @@ data:
         ]
       },
       "description": "Overview of your Ceph cluster.",
-      "editable": false,
+      "editable": true,
       "fiscalYearStartMonth": 0,
       "gnetId": 2842,
       "graphTooltip": 0,

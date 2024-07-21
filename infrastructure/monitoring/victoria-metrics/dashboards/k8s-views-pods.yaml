@@ -25,7 +25,7 @@ data:
         ]
       },
       "description": "This is a modern 'Pods View' dashboard for your Kubernetes cluster(s). Made for kube-prometheus-stack and take advantage of the latest Grafana features. GitHub repository: https://github.com/dotdc/grafana-dashboards-kubernetes",
-      "editable": false,
+      "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 1,
       "id": 11,

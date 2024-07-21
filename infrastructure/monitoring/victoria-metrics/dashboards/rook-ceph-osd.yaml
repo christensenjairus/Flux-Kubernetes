@@ -25,7 +25,7 @@ data:
         ]
       },
       "description": "CEPH OSD Status.",
-      "editable": false,
+      "editable": true,
       "fiscalYearStartMonth": 0,
       "gnetId": 5336,
       "graphTooltip": 0,

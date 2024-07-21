@@ -50,7 +50,7 @@ data:
         ]
       },
       "description": "Overview for VictoriaMetrics vmalert v1.96.0 or higher",
-      "editable": false,
+      "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 1,
       "id": 15,

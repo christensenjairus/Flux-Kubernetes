@@ -33,7 +33,7 @@ data:
           ]
       },
       "description": "Detailed Performance of RBD Images (IOPS/Throughput/Latency)",
-      "editable": false,
+      "editable": true,
       "gnetId": null,
       "graphTooltip": 0,
       "hideControls": false,

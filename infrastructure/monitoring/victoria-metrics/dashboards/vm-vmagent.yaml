@@ -50,7 +50,7 @@ data:
         ]
       },
       "description": "Overview for VictoriaMetrics vmagent v1.80.0 or higher",
-      "editable": false,
+      "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 1,
       "id": 14,
