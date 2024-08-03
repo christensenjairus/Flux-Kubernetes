@@ -8,7 +8,7 @@ metadata:
     policies.kyverno.io/subject: Pod
     policies.kyverno.io/minversion: 3.1.5
     kyverno.io/kyverno-version: 3.1.5
-    kyverno.io/kubernetes-version: "1.28"
+    kyverno.io/kubernetes-version: "1.30"
     policies.kyverno.io/description: >-
       Pulling images from outside registries may be undesirable due to untrustworthiness
       or simply because the traffic results in an excess of bandwidth usage.
@@ -25,6 +25,14 @@ spec:
         - resources:
             kinds:
               - Pod
+            namespaceSelector:
+              matchLabels:
+                toolkit.fluxcd.io/tenant: dev-team
+    exclude:
+      any:
+        - resources:
+            namespaces:
+              - harbor
     mutate:
       patchStrategicMerge:
         spec:
@@ -33,21 +41,17 @@ spec:
   - name: prepend-registry-containers
     match:
       any:
-      - resources:
-          kinds:
-          - Pod
+        - resources:
+            kinds:
+              - Pod
+            namespaceSelector:
+              matchLabels:
+                toolkit.fluxcd.io/tenant: dev-team
     exclude:
-      # The only thing necessary to be running to get harbor to pull images from itself is one harbor-core pod, one harbor-registry pod, and the harbor-db postgres pod(s).
-      # If harbor is already running, telling harbor-core and harbor-registry to rollout restart should work. But we can't do that for postgres because the operator rolls them all at once.
-      # Plus, we don't need to store the specific harbor postgres images because we'll have the same image from another postgres instance.
-      all:
-      - resources:
-          namespaces:
-            - harbor
-      - resources:
-          selector:
-            matchLabels:
-              postgres-operator.crunchydata.com/cluster: harbor-db
+      any:
+        - resources:
+            namespaces:
+              - harbor
     preconditions:
       all:
       - key: "{{request.operation || 'BACKGROUND'}}"
@@ -71,18 +75,17 @@ spec:
   - name: prepend-registry-initcontainers
     match:
       any:
-      - resources:
-          kinds:
-          - Pod
+        - resources:
+            kinds:
+              - Pod
+            namespaceSelector:
+              matchLabels:
+                toolkit.fluxcd.io/tenant: dev-team
     exclude:
-      all:
-      - resources:
-          namespaces:
-            - harbor
-      - resources:
-          selector:
-            matchLabels:
-              postgres-operator.crunchydata.com/cluster: harbor-db
+      any:
+        - resources:
+            namespaces:
+              - harbor
     preconditions:
       all:
       - key: "{{request.operation || 'BACKGROUND'}}"

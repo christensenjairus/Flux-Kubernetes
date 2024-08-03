@@ -296,7 +296,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/policies
+  path: ./infrastructure/policies/overlays/harbor-registry-all-pods
   prune: true
   wait: true
 ---

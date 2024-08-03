@@ -201,7 +201,7 @@ items:
       storageClassName: ceph-block-2
     varVolumeStorageConfig:
       ephemeralStorage: false
-      storageCapacity: 50Gi
+      storageCapacity: 65Gi
       storageClassName: ceph-block-2
     volumes:
       - name: configs

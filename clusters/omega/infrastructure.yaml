@@ -331,7 +331,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/policies
+  path: ./infrastructure/policies/overlays/harbor-registry-app-pods
   prune: true
   wait: true
 ---

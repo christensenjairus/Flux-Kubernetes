@@ -26,16 +26,15 @@ echo HARBOR_PASSWORD=$HARBOR_PASSWORD
 echo HARBOR_URL=$HARBOR_URL
 echo HARBOR_EMAIL=$HARBOR_EMAIL
 
-# Loop through all namespaces
-for ns in $(kubectl get ns --no-headers | cut -d " " -f1); do
-  if [ "$ns" != "kube-system" ] && [ "$ns" != "kube-public" ]; then
+# Loop through all namespaces with the specified label
+for ns in $(kubectl get ns -l toolkit.fluxcd.io/tenant=dev-team -o jsonpath="{.items[*].metadata.name}"); do
 
-    kubectl delete secret -n $ns docker-registry harbor-pull-secret 2>/dev/null
-    kubectl create secret -n $ns docker-registry harbor-pull-secret \
-      --docker-username=$HARBOR_USERNAME \
-      --docker-password=$HARBOR_PASSWORD \
-      --docker-server=$HARBOR_URL \
-      --docker-email=$HARBOR_URL
+  kubectl delete secret -n $ns harbor-pull-secret 2>/dev/null
+  kubectl create secret docker-registry harbor-pull-secret \
+    --namespace=$ns \
+    --docker-username=$HARBOR_USERNAME \
+    --docker-password=$HARBOR_PASSWORD \
+    --docker-server=$HARBOR_URL \
+    --docker-email=$HARBOR_EMAIL
 
-  fi
 done

@@ -1,0 +1,102 @@
+apiVersion : kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: prepend-registry
+  annotations:
+    policies.kyverno.io/title: Prepend Image Registry
+    policies.kyverno.io/category: Other
+    policies.kyverno.io/subject: Pod
+    policies.kyverno.io/minversion: 3.1.5
+    kyverno.io/kyverno-version: 3.1.5
+    kyverno.io/kubernetes-version: "1.30"
+    policies.kyverno.io/description: >-
+      Pulling images from outside registries may be undesirable due to untrustworthiness
+      or simply because the traffic results in an excess of bandwidth usage.
+      Instead of blocking them, they can be mutated to divert to an internal
+      registry which may already contain them or function as a pull-through proxy.
+      This policy prepends all images in both containers and initContainers to come
+      from `registry.io`.
+spec:
+  background: false
+  rules:
+  - name: add-image-pull-secret-and-policy
+    match:
+      any:
+        - resources:
+            kinds:
+              - Pod
+    exclude:
+      any:
+        - resources:
+            namespaces:
+              - harbor
+    mutate:
+      patchStrategicMerge:
+        spec:
+          imagePullSecrets:
+            - name: harbor-pull-secret
+  - name: prepend-registry-containers
+    match:
+      any:
+        - resources:
+            kinds:
+              - Pod
+    exclude:
+      any:
+        - resources:
+            namespaces:
+              - harbor
+    preconditions:
+      all:
+      - key: "{{request.operation || 'BACKGROUND'}}"
+        operator: AnyIn
+        value:
+        - CREATE
+        - UPDATE
+    mutate:
+      foreach:
+      - list: "request.object.spec.containers"
+        preconditions:
+          all:
+            - key: "{{ element.image }}"
+              operator: NotEquals
+              value: "harbor.christensencloud.us/*"
+        patchStrategicMerge:
+          spec:
+            containers:
+            - name: "{{ element.name }}"
+              image: "harbor.christensencloud.us/{{ image_normalize('{{ element.image }}') }}"
+  - name: prepend-registry-initcontainers
+    match:
+      any:
+        - resources:
+            kinds:
+              - Pod
+    exclude:
+      any:
+        - resources:
+            namespaces:
+              - harbor
+    preconditions:
+      all:
+      - key: "{{request.operation || 'BACKGROUND'}}"
+        operator: AnyIn
+        value:
+        - CREATE
+        - UPDATE
+      - key: "{{ request.object.spec.initContainers[] || '' | length(@) }}"
+        operator: GreaterThanOrEquals
+        value: 1
+    mutate:
+      foreach:
+      - list: "request.object.spec.initContainers"
+        preconditions:
+          all:
+            - key: "{{ element.image }}"
+              operator: NotEquals
+              value: "harbor.christensencloud.us/*"
+        patchStrategicMerge:
+          spec:
+            initContainers:
+            - name: "{{ element.name }}"
+              image: "harbor.christensencloud.us/{{ image_normalize('{{ element.image }}') }}"
