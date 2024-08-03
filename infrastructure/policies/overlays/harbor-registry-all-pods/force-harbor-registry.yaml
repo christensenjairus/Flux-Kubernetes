@@ -30,6 +30,7 @@ spec:
         - resources:
             namespaces:
               - harbor
+              - splunk # splunk-operator is picky
     mutate:
       patchStrategicMerge:
         spec:
@@ -46,6 +47,7 @@ spec:
         - resources:
             namespaces:
               - harbor
+              - splunk # splunk-operator is picky
     preconditions:
       all:
       - key: "{{request.operation || 'BACKGROUND'}}"
@@ -77,6 +79,7 @@ spec:
         - resources:
             namespaces:
               - harbor
+              - splunk # splunk-operator is picky
     preconditions:
       all:
       - key: "{{request.operation || 'BACKGROUND'}}"

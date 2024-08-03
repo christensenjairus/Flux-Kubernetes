@@ -21,7 +21,7 @@ spec:
 
     # splunk image
     image:
-      repository: harbor.christensencloud.us/docker.io/splunk/splunk:9.3 # splunk-operator is picky about if the image name matches the crd's image
+      repository: docker.io/splunk/splunk:9.3 # Set your version here
 
     # The kube-rbac-proxy is a small HTTP proxy for a single upstream, that can perform RBAC
     # authorization against the Kubernetes API.
