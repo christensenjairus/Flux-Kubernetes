@@ -21,7 +21,7 @@ spec:
       imageName: quay.io/opstree/redis-operator
       # Overrides the image tag whose default is the chart appVersion.
       imageTag: "v0.15.1" # this is the latest image at the time of writing and hasn't changed for 8 months
-      imagePullPolicy: Always
+      imagePullPolicy: IfNotPresent
 
       # Additional pod annotations
       podAnnotations: { }
