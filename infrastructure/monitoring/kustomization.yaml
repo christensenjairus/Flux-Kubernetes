@@ -4,3 +4,4 @@ resources:
   - ./node-problem-detector
   - ./metrics-server
   - ./victoria-metrics
+  - ./blackbox-exporter

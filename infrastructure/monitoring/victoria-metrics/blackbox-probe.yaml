@@ -1,0 +1,26 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMProbe
+metadata:
+  name: blackbox-victoria-metrics
+  namespace: monitoring
+spec:
+  jobName: blackbox-victoria-metrics
+  vmProberSpec:
+     # by default scheme http, and path is /probe
+     url: prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
+  module: http_2xx
+  targets:
+   staticConfig:
+      targets:
+      # Kube-System NS
+      - "victoria-metrics-k8s-stack-coredns.kube-system.svc.cluster.local:9153/metrics"
+      # Monitoring NS
+      - "victoria-metrics-k8s-stack-grafana.monitoring.svc.cluster.local:80/metrics"
+      - "victoria-metrics-k8s-stack-kube-state-metrics.monitoring.svc.cluster.local:8080/metrics"
+      - "victoria-metrics-k8s-stack-prometheus-node-exporter.monitoring.svc.cluster.local:9100/metrics"
+      - "victoria-metrics-k8s-stack-victoria-metrics-operator.monitoring.svc.cluster.local:8080/metrics"
+      - "vmagent-victoria-metrics-k8s-stack.monitoring.svc:8429/metrics"
+      - "vmalert-victoria-metrics-k8s-stack.monitoring.svc:8080/metrics"
+      - "vmalertmanager-victoria-metrics-k8s-stack.monitoring.svc:9093/metrics"
+      - "vmsingle-victoria-metrics-k8s-stack.monitoring.svc:8429/metrics"
+  interval: 5s

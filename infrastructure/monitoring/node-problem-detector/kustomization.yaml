@@ -5,3 +5,4 @@ resources:
   - repository.yaml
   - release.yaml
   - prometheus-node-rules.yaml
+  - blackbox-probe.yaml

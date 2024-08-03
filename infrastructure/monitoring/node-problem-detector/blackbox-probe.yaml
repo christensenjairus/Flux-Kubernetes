@@ -1,0 +1,16 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMProbe
+metadata:
+  name: blackbox-node-problem-detector
+  namespace: node-problem-detector
+spec:
+  jobName: blackbox-node-problem-detector
+  vmProberSpec:
+     # by default scheme http, and path is /probe
+     url: prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
+  module: http_2xx
+  targets:
+   staticConfig:
+      targets:
+      - "node-problem-detector.node-problem-detector.svc.cluster.local:20257/metrics"
+  interval: 5s
