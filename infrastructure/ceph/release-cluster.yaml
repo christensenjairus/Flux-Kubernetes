@@ -172,7 +172,7 @@ spec:
         # Serve the dashboard using SSL (if using ingress to expose the dashboard and `ssl: true` you need to set
         # the corresponding "backend protocol" annotation(s) for your ingress controller of choice)
         ssl: true
-        prometheusEndpoint: http://vmsingle-victoria-metrics-k8s-stack.monitoring.svc:8429/ # do not include trailing slash
+        prometheusEndpoint: http://vmsingle-victoria-metrics-k8s-stack.monitoring.svc:8429 # do not include trailing slash
         prometheusEndpointSSLVerify: false
 
       # Network configuration, see: https://github.com/rook/rook/blob/v1.13.7/Documentation/CRDs/ceph-cluster-crd.md#network-configuration-settings
