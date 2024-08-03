@@ -63,3 +63,7 @@ resources:
   - k8s-apiserver.yaml
   - k8s-system-pressure.yaml
   - k8s-pvs.yaml
+
+  # blackbox-exporter dashboards
+  - blackbox-exporter.yaml
+  - blackbox-exporter-simplified.yaml
