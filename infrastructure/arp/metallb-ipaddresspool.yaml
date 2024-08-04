@@ -7,6 +7,6 @@ metadata:
 spec:
   addresses:
   - 10.0.6.200-10.0.6.254
-  - 2607:fa18:47ff:600:34::/112
+  - 2607:fa18:47fd:600:34::/112
   autoAssign: true
   avoidBuggyIPs: true

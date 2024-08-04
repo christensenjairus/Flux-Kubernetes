@@ -1,10 +1,10 @@
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMProbe
 metadata:
-  name: blackbox-blackbox-exporter
+  name: blackbox-self
   namespace: monitoring
 spec:
-  jobName: blackbox-blackbox-exporter
+  jobName: blackbox-self
   vmProberSpec:
      # by default scheme http, and path is /probe
      url: prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
