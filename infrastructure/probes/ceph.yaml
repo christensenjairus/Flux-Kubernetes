@@ -1,0 +1,16 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMProbe
+metadata:
+  name: blackbox-ceph
+  namespace: rook-ceph
+spec:
+  jobName: blackbox-ceph
+  vmProberSpec:
+     # by default scheme http, and path is /probe
+     url: prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
+  module: http_2xx
+  targets:
+   staticConfig:
+      targets:
+      - "rook-ceph-mgr-dashboard.rook-ceph.svc.cluster.local:8555"
+  interval: 5s

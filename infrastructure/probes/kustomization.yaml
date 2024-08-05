@@ -4,3 +4,4 @@ resources:
   - monitoring.yaml
   - networking.yaml
   - scaling.yaml
+  - ceph.yaml
