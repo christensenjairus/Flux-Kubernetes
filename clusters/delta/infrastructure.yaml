@@ -240,6 +240,12 @@ spec:
       target:
         kind: Deployment
         name: metrics-server
+    - patch: |
+        - op: remove
+          path: /spec/template/spec/nodeSelector/nodeclass
+      target:
+        kind: Deployment
+        name: prometheus-blackbox-exporter
     # hide non-applicable dashboards from grafana
     - patch: |
         - op: remove
