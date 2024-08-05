@@ -6,4 +6,3 @@ resources:
   - basic-auth-secret.yaml
   - release.yaml
   - ingresses.yaml
-  - blackbox-probe.yaml

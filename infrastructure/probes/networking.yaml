@@ -1,10 +1,10 @@
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMProbe
 metadata:
-  name: blackbox-cilium
+  name: blackbox-networking
   namespace: kube-system
 spec:
-  jobName: blackbox-cilium
+  jobName: blackbox-networking
   vmProberSpec:
      # by default scheme http, and path is /probe
      url: prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115

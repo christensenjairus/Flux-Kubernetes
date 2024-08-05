@@ -8,5 +8,4 @@ resources:
   - basic-auth-secret.yaml
   - slack-bot-token.yaml
   - release.yaml
-  - blackbox-probe.yaml
   - ./dashboards
