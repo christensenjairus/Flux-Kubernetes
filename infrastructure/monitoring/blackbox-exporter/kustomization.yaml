@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - release.yaml
   - prometheus-blackbox-rules.yaml
-  - blackbox-probe.yaml
