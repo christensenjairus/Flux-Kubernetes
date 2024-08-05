@@ -18,7 +18,7 @@ spec:
       - "clustermesh-apiserver-metrics.kube-system.svc.cluster.local:9962/metrics"
       - "hubble-metrics.kube-system.svc.cluster.local:9965/metrics"
       - "hubble-peer.kube-system.svc.cluster.local:4244"
-      - "hubble-relay.kube-system.svc.cluster.local:80"
-      - "hubble-ui.kube-system.svc.cluster.local:80"
+      - "hubble-relay.kube-system.svc.cluster.local:4245"
+      - "hubble-ui.kube-system.svc.cluster.local:8081"
       - "kube-dns.kube-system.svc.cluster.local:9153/metrics"
   interval: 5s
