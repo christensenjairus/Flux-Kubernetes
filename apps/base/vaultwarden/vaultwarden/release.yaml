@@ -336,5 +336,5 @@ spec:
                   operator: In
                   values:
                     - vaultwarden
-            topologyKey: topology.kubernetes.io/hostname
+            topologyKey: kubernetes.io/hostname
 

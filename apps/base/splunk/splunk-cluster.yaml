@@ -236,7 +236,7 @@ items:
                   operator: In
                   values:
                     - indexer
-            topologyKey: topology.kubernetes.io/hostname
+            topologyKey: kubernetes.io/hostname
 ---
 # Source: splunk-enterprise/templates/enterprise_v4_searchheadcluster.yaml
 apiVersion: v1
@@ -333,4 +333,4 @@ items:
                   operator: In
                   values:
                     - search-head
-            topologyKey: topology.kubernetes.io/hostname
+            topologyKey: kubernetes.io/hostname

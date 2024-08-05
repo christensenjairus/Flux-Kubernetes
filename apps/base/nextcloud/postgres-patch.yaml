@@ -52,7 +52,7 @@ spec:
                     operator: In
                     values:
                       - postgres
-              topologyKey: topology.kubernetes.io/hostname
+              topologyKey: kubernetes.io/hostname
   backups:
     pgbackrest:
       repos: # If you have issues getting the first backup to run, I've found that removing repo2 and restoring it after the first backup runs helps.
