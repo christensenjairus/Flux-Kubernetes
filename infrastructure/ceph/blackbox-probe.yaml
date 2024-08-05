@@ -10,9 +10,10 @@ spec:
      url: prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
   module: http_2xx
   targets:
-   staticConfig:
-      targets:
-      - "https://rook-ceph-mgr-dashboard.rook-ceph.svc.cluster.local:8555"
-  tlsConfig:
-    insecureSkipVerify: true
+   ingress:
+     namespaceSelector:
+       matchNames:
+         - rook-ceph
+     # relabelingConfigs:
+     # selector: {}
   interval: 5s
