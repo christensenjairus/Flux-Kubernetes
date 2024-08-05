@@ -5,3 +5,4 @@ resources:
   - ./metrics-server
   - ./victoria-metrics
   - ./blackbox-exporter
+  - blackbox-probe.yaml

@@ -12,6 +12,9 @@ resources:
   - crd-scrapeconfigs.yaml
   - crd-servicemonitors.yaml
   - crd-thanosrulers.yaml
+
+  # victoria-metrics vmprobe (needed so that infra services can install their vmprobes before vm installs the crds)
+  - crd-vmprobes.yaml
   
   # external snappshotter v0.7
   - snapshot.storage.k8s.io_volumesnapshotclasses.yaml
