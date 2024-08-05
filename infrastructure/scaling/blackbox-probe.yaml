@@ -12,5 +12,5 @@ spec:
   targets:
    staticConfig:
       targets:
-      - "goldilocks-dashboard.goldilocks.svc.cluster.local:8080"
+      - "goldilocks-dashboard.goldilocks.svc.cluster.local:80"
   interval: 5s

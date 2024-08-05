@@ -12,7 +12,7 @@ spec:
   targets:
    staticConfig:
       targets:
-      - "victoria-metrics-k8s-stack-grafana.monitoring.svc.cluster.local:3000"
+      - "victoria-metrics-k8s-stack-grafana.monitoring.svc.cluster.local:80"
       - "vmagent-victoria-metrics-k8s-stack.monitoring.svc:8429"
       - "vmalert-victoria-metrics-k8s-stack.monitoring.svc:8080"
       - "vmalertmanager-victoria-metrics-k8s-stack.monitoring.svc:9093"

@@ -12,5 +12,5 @@ spec:
   targets:
    staticConfig:
       targets:
-      - "hubble-ui.kube-system.svc.cluster.local:8081"
+      - "hubble-ui.kube-system.svc.cluster.local:80"
   interval: 5s
