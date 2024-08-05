@@ -2,6 +2,7 @@
 
 # Get the current kubectl context
 current_context=$(kubectl config current-context)
+label="-l toolkit.fluxcd.io/tenant=dev-team"
 
 # Prompt the user for confirmation
 echo "You are currently using the kubectl context: $current_context"
@@ -26,8 +27,15 @@ echo HARBOR_PASSWORD=$HARBOR_PASSWORD
 echo HARBOR_URL=$HARBOR_URL
 echo HARBOR_EMAIL=$HARBOR_EMAIL
 
+if [[ $current_context == "omega" ]] || [[ $current_context == "zeta" ]]; then
+  echo "This script will create the secret in only the dev-team namespaces on this cluster..."
+else
+  echo "This script will create the secret in all namespaces on this cluster..."
+  label=""
+fi
+
 # Loop through all namespaces with the specified label
-for ns in $(kubectl get ns -l toolkit.fluxcd.io/tenant=dev-team -o jsonpath="{.items[*].metadata.name}"); do
+for ns in $(kubectl get ns $label -o jsonpath="{.items[*].metadata.name}"); do
 
   kubectl delete secret -n $ns harbor-pull-secret 2>/dev/null
   kubectl create secret docker-registry harbor-pull-secret \

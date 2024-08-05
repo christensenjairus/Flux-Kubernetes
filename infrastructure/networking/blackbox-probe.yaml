@@ -1,10 +1,10 @@
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMProbe
 metadata:
-  name: blackbox-node-problem-detector
-  namespace: node-problem-detector
+  name: blackbox-cilium
+  namespace: kube-system
 spec:
-  jobName: blackbox-node-problem-detector
+  jobName: blackbox-cilium
   vmProberSpec:
      # by default scheme http, and path is /probe
      url: prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
@@ -12,5 +12,14 @@ spec:
   targets:
    staticConfig:
       targets:
-      - "node-problem-detector.node-problem-detector.svc.cluster.local:20257/metrics"
+      - "cilium-envoy.kube-system.svc.cluster.local:9964/metrics"
+      - "cilium-operator.kube-system.svc.cluster.local:9963/metrics"
+      - "clustermesh-apiserver.kube-system.svc.cluster.local:2379"
+      - "clustermesh-apiserver-metrics.kube-system.svc.cluster.local:9962/metrics"
+      - "hubble-metrics.kube-system.svc.cluster.local:9965/metrics"
+      - "hubble-peer.kube-system.svc.cluster.local:443"
+      - "hubble-relay.kube-system.svc.cluster.local:80"
+      - "hubble-ui.kube-system.svc.cluster.local:80"
+      - "kube-dns.kube-system.svc.cluster.local:9153/metrics"
+      - "metrics-server.kube-system.svc.cluster.local:443/metrics"
   interval: 5s

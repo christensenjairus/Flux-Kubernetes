@@ -1,10 +1,10 @@
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMProbe
 metadata:
-  name: blackbox-blackbox-exporter
-  namespace: monitoring
+  name: blackbox-metrics-server
+  namespace: kube-system
 spec:
-  jobName: blackbox-blackbox-exporter
+  jobName: blackbox-metrics-server
   vmProberSpec:
      # by default scheme http, and path is /probe
      url: prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
@@ -12,5 +12,5 @@ spec:
   targets:
    staticConfig:
       targets:
-      - "prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115/metrics"
+      - "metrics-server.kube-system.svc.cluster.local:10250/metrics"
   interval: 5s
