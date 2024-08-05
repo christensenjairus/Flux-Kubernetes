@@ -14,12 +14,11 @@ spec:
       targets:
       - "cilium-envoy.kube-system.svc.cluster.local:9964/metrics"
       - "cilium-operator.kube-system.svc.cluster.local:9963/metrics"
-      - "clustermesh-apiserver.kube-system.svc.cluster.local:2379"
+      - "clustermesh-apiserver.kube-system.svc.cluster.local:9962"
       - "clustermesh-apiserver-metrics.kube-system.svc.cluster.local:9962/metrics"
       - "hubble-metrics.kube-system.svc.cluster.local:9965/metrics"
-      - "hubble-peer.kube-system.svc.cluster.local:443"
+      - "hubble-peer.kube-system.svc.cluster.local:4244"
       - "hubble-relay.kube-system.svc.cluster.local:80"
       - "hubble-ui.kube-system.svc.cluster.local:80"
       - "kube-dns.kube-system.svc.cluster.local:9153/metrics"
-      - "metrics-server.kube-system.svc.cluster.local:443/metrics"
   interval: 5s
