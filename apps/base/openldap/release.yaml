@@ -305,7 +305,8 @@ spec:
     ## @param nodeSelector Node labels for OPENLDAP  pods assignment
     ## ref: https://kubernetes.io/docs/user-guide/node-selection/
     ##
-    nodeSelector: {}
+    nodeSelector:
+      nodeclass: general
     ## @param tolerations Tolerations for OPENLDAP  pods assignment
     ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
     ##
@@ -507,6 +508,8 @@ spec:
     # For more parameters check following file: ./charts/ltb-passwd/values.yaml
     ltb-passwd:
       enabled : true
+      nodeSelector:
+        nodeclass: general
       image:
         tag: 5.2.3
       ingress:
@@ -634,6 +637,8 @@ spec:
     ## For more parameters check following file: ./charts/phpldapadmin/values.yaml
     phpldapadmin:
       enabled: true
+      nodeSelector:
+        nodeclass: general
       image:
         tag: 0.9.0
       env:
