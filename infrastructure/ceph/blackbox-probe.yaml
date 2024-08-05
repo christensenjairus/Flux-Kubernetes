@@ -12,5 +12,7 @@ spec:
   targets:
    staticConfig:
       targets:
-      - "rook-ceph-mgr-dashboard.rook-ceph.svc.cluster.local:8555"
+      - "https://rook-ceph-mgr-dashboard.rook-ceph.svc.cluster.local:8555"
+  tlsConfig:
+    insecureSkipVerify: true
   interval: 5s
