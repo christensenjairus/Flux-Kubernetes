@@ -19,7 +19,6 @@ spec:
     - name: infra-monitoring
     - name: infra-networking
     - name: infra-policies
-    - name: infra-probes
     - name: infra-scaling
 #    - name: infra-scheduling
 #    - name: infra-virt
