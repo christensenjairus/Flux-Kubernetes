@@ -6,4 +6,4 @@ resources:
   - release-operator.yaml
   - release-cluster.yaml
   - prometheus-ceph-rules.yaml
-  - blackbox-probe.yaml
+  # - blackbox-probe.yaml
