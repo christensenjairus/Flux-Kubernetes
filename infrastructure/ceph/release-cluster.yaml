@@ -281,7 +281,7 @@ spec:
                   - key: nodeclass
                     operator: In
                     values:
-                    - storage
+                    - general
       #     podAffinity:
       #     podAntiAffinity:
       #     topologySpreadConstraints:
