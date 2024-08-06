@@ -272,7 +272,16 @@ spec:
                   - key: nodeclass
                     operator: In
                     values:
-                    - general   
+                    - general
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - rook-ceph-mgr
+                topologyKey: kubernetes.io/hostname
         mon:
           nodeAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
@@ -282,6 +291,15 @@ spec:
                     operator: In
                     values:
                     - general
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - rook-ceph-mon
+                topologyKey: kubernetes.io/hostname
       #     podAffinity:
       #     podAntiAffinity:
       #     topologySpreadConstraints:
