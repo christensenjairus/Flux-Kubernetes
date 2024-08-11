@@ -195,7 +195,7 @@ spec:
           # Requires a kernel that supports msgr v2 (kernel 5.11 or CentOS 8.4 or newer).
           requireMsgr2: false
       #   # enable host networking
-        provider: host
+      #   provider: host
       #   # EXPERIMENTAL: enable the Multus network provider
       #   provider: multus
       #   selectors:
@@ -211,7 +211,7 @@ spec:
       #   # Provide internet protocol version. IPv6, IPv4 or empty string are valid options. Empty string would mean IPv4
       #   ipFamily: "IPv6"
       #   # Ceph daemons to listen on both IPv4 and Ipv6 networks
-        dualStack: true
+      #   dualStack: false
 
       # enable the crash collector for ceph daemon crash collection
       crashCollector:
@@ -255,11 +255,6 @@ spec:
       # The example under 'all' would have all services scheduled on kubernetes nodes labeled with 'role=storage-node' and
       # tolerate taints with a key of 'storage-node'.
       placement:
-#        all:
-#          tolerations:
-#            - key: storage-node
-#              operator: Exists
-#              effect: NoSchedule
         osd:
           nodeAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
