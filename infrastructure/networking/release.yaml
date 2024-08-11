@@ -149,3 +149,7 @@ spec:
     enableIPv4Masquerade: true
     enableIPv6Masquerade: true
     autoDirectNodeRoutes: true
+
+    # Use big packets
+    enableIPv4BIGTCP: true
+    enableIPv6BIGTCP: true
