@@ -141,3 +141,10 @@ spec:
     k8sServiceHost: "10.0.6.100"
     k8sServicePort: 6443
     kubeProxyReplacement: strict
+
+    # Use Cilium Direct Routing for Speed
+    routingMode: native
+    ipv4NativeRoutingCIDR: "10.0.7.0/24"
+    ipv6NativeRoutingCIDR: "2607:fa18:47fd:700::/64"
+    enableIPv4Masquerade: true
+    autoDirectNodeRoutes: true
