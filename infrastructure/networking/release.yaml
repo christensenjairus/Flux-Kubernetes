@@ -143,12 +143,12 @@ spec:
     kubeProxyReplacement: strict
 
     # Use Cilium Direct Routing for Speed
-    routingMode: native
-    ipv4NativeRoutingCIDR: "10.0.7.0/24"
-    ipv6NativeRoutingCIDR: "2607:fa18:47fd:700::/64"
-    enableIPv4Masquerade: true
-    enableIPv6Masquerade: true
-    autoDirectNodeRoutes: true
+    #routingMode: native
+    #ipv4NativeRoutingCIDR: "10.0.7.0/24"
+    #ipv6NativeRoutingCIDR: "2607:fa18:47fd:700::/64"
+    #enableIPv4Masquerade: true
+    #ennableIPv6Masquerade: true
+    #autoDirectNodeRoutes: true
 
     # Use big packets
     enableIPv4BIGTCP: true
