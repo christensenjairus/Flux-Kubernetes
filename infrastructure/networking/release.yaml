@@ -147,4 +147,5 @@ spec:
     ipv4NativeRoutingCIDR: "10.0.7.0/24"
     ipv6NativeRoutingCIDR: "2607:fa18:47fd:700::/64"
     enableIPv4Masquerade: true
+    enableIPv6Masquerade: true
     autoDirectNodeRoutes: true
