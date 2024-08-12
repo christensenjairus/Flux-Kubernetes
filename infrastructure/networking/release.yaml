@@ -150,6 +150,6 @@ spec:
     #ennableIPv6Masquerade: true
     #autoDirectNodeRoutes: true
 
-    # Use big packets
-    enableIPv4BIGTCP: true
-    enableIPv6BIGTCP: true
+    # Use big packets # not supported in tunneling mode
+    #enableIPv4BIGTCP: true
+    #enableIPv6BIGTCP: true
