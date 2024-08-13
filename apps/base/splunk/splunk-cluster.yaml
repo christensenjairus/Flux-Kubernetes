@@ -213,7 +213,7 @@ items:
         memory: "4Gi"
         cpu: "8"
       limits:
-        memory: "8Gi"
+        memory: "10Gi"
         cpu: "16" # these are cpu-heavy!
     affinity:
       nodeAffinity:
