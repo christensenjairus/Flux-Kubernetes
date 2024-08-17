@@ -422,9 +422,9 @@ spec:
 
       # -- Array of tolerations in YAML format which will be added to CSI provisioner deployment
       provisionerTolerations:
-      #    - key: key
-      #      operator: Exists
-      #      effect: NoSchedule
+        - key: storage-node
+          operator: Exists
+          effect: NoSchedule
 
       # -- The node labels for affinity of the CSI provisioner deployment [^1]
       provisionerNodeAffinity: "nodeclass=storage" #key1=value1,value2; key2=value3
@@ -433,9 +433,9 @@ spec:
 
       # -- Array of tolerations in YAML format which will be added to CephCSI plugin DaemonSet
       pluginTolerations:
-      #    - key: key
-      #      operator: Exists
-      #      effect: NoSchedule
+        - key: storage-node
+          operator: Exists
+          effect: NoSchedule
 
       # -- The node labels for affinity of the CephCSI RBD plugin DaemonSet [^1]
       pluginNodeAffinity: # key1=value1,value2; key2=value3
@@ -612,9 +612,9 @@ spec:
       tolerationKey:
       # -- Array of tolerations in YAML format which will be added to discover deployment
       tolerations:
-      #   - key: key
-      #     operator: Exists
-      #     effect: NoSchedule
+        - key: storage-node
+          operator: Exists
+          effect: NoSchedule
       # -- The node labels for affinity of `discover-agent` [^1]
       nodeAffinity: "nodeclass=storage"
       # -- Labels to add to the discover pods

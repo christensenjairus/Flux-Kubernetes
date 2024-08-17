@@ -264,6 +264,9 @@ spec:
                     operator: In
                     values:
                     - storage
+          tolerations:
+            - key: storage-node
+              operator: Exists
         mgr:
           nodeAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
