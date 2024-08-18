@@ -267,6 +267,18 @@ spec:
           tolerations:
             - key: storage-node
               operator: Exists
+        prepareosd:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                  - key: nodeclass
+                    operator: In
+                    values:
+                    - storage
+          tolerations:
+            - key: storage-node
+              operator: Exists
         mgr:
           nodeAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
