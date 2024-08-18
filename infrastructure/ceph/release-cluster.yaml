@@ -662,8 +662,8 @@ spec:
             activeCount: 2
             activeStandby: true
             resources:
-              limits: {}
-#                memory: "1Gi" # default is 4G
+              limits:
+                memory: "2Gi" # default is 4G
               requests:
                 cpu: "250m" # default is 1000m
                 memory: "300M" # default is 4G
