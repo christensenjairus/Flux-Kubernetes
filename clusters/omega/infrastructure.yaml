@@ -456,13 +456,18 @@ spec:
         kind: HelmRelease
         name: velero-notifications
     - patch: |
+        - op: remove
+          path: /spec/template/spec/containers/0/env/0/value
+      target:
+        kind: deployment
+        name: cloudcasa-kubeagent-manager
+    - patch: |
         - op: replace
           path: /spec/template/spec/containers/0/env/0/valueFrom/secretKeyRef/key
           value: omega
       target:
         kind: deployment
         name: cloudcasa-kubeagent-manager
-        namespace: cloudcasa-io
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
