@@ -460,9 +460,8 @@ spec:
           path: /spec/template/spec/containers/0/env/0/valueFrom/secretKeyRef/key
           value: omega
       target:
-        kind: deployment
+        kind: Deployment
         name: cloudcasa-kubeagent-manager
-        namespace: cloudcasa-io
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

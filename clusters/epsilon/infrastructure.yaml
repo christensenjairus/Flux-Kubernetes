@@ -433,7 +433,7 @@ spec:
           path: /spec/template/spec/containers/0/env/0/valueFrom/secretKeyRef/key
           value: epsilon
       target:
-        kind: deployment
+        kind: Deployment
         name: cloudcasa-kubeagent-manager
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1

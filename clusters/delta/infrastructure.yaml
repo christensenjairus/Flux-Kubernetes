@@ -658,7 +658,7 @@ spec:
           path: /spec/template/spec/containers/0/env/0/valueFrom/secretKeyRef/key
           value: delta
       target:
-        kind: deployment
+        kind: Deployment
         name: cloudcasa-kubeagent-manager
     - patch: |
         - op: remove
