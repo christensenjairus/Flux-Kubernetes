@@ -456,14 +456,8 @@ spec:
         kind: HelmRelease
         name: velero-notifications
     - patch: |
-        - op: remove
-          path: /spec/template/spec/containers/0/env/0/value
-      target:
-        kind: deployment
-        name: cloudcasa-kubeagent-manager
-    - patch: |
         - op: replace
-          path: /spec/template/spec/containers/0/env/0/valueFrom/secretKeyRef/key
+          path: /spec/template/spec/containers/0/env/1/valueFrom/secretKeyRef/key
           value: omega
       target:
         kind: deployment

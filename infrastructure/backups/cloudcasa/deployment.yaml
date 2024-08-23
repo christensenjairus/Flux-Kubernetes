@@ -27,15 +27,15 @@ spec:
         - --skip_tls_verification
         - 'false'
         env:
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         - name: AMDS_CLUSTER_ID
           valueFrom:
             secretKeyRef:
               name: cluster-ids
               key: zeta
-        - name: MY_POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
         - name: KUBEMOVER_IMAGE
           value: catalogicsoftware/amds-kagent:3.1.0-prod.311
         - name: DEPLOYMENT_PLATFORM
