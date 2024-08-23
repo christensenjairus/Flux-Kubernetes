@@ -462,6 +462,7 @@ spec:
       target:
         kind: deployment
         name: cloudcasa-kubeagent-manager
+        namespace: cloudcasa-io
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

@@ -30,8 +30,8 @@ spec:
         - name: AMDS_CLUSTER_ID
           valueFrom:
             secretKeyRef:
-              name: cluster-ids
-              key: zeta
+              name: "cluster-ids"
+              key: "zeta"
         - name: MY_POD_NAME
           valueFrom:
             fieldRef:
