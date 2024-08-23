@@ -769,15 +769,15 @@ spec:
           source_cluster: zeta
         # annotations:
           # myenv: foo
-        schedule: "30 8 * * *" # once a day, at 2:30am local time, 8:30am UTC. The volume snapshot can cause things to temporarily freeze, so do it at night.
+        schedule: "00 10 * * *" # once a day, at 4:00am local time, 10:00am UTC. The volume snapshot can cause things to temporarily freeze, so do it when nobody is using it.
         # useOwnerReferencesInBackup: false
         template:
           ttl: "720h" # one month
           storageLocation: default # use the same name you defined above in backupStorageLocation
           snapshotMoveData: true
           snapshotVolumes: true # apparently only applies to PVs in AWS, GCP, and Azure?
-          csiSnapshotTimeout: "60m" # default is 10m
-          itemOperationTimeout: "8h" # default is 1h
+          csiSnapshotTimeout: "120m" # default is 10m # ceph-filesystem pvs take forever to clone
+          itemOperationTimeout: "2h" # default is 1h
           includeClusterResources: true # pvs are cluster-scoped!
           excludedNamespaces:
             - cert-manager
@@ -817,7 +817,7 @@ spec:
           storageLocation: default # use the same name you defined above in backupStorageLocation
           snapshotMoveData: false
           snapshotVolumes: true # apparently only applies to PVs in AWS, GCP, and Azure?
-          csiSnapshotTimeout: "30m" # default is 10m
+          csiSnapshotTimeout: "60m" # default is 10m
           itemOperationTimeout: "1h" # default is 1h
           includeClusterResources: true # pvs are cluster-scoped!
           excludedNamespaces:
