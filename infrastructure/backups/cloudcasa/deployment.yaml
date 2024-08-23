@@ -37,10 +37,10 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: KUBEMOVER_IMAGE
-          value: catalogicsoftware/amds-kagent:3.1.0-prod.311
+          value: catalogicsoftware/amds-kagent:3.1.0-prod.329
         - name: DEPLOYMENT_PLATFORM
           value: yaml
-        image: catalogicsoftware/amds-kagent:3.1.0-prod.311
+        image: catalogicsoftware/amds-kagent:3.1.0-prod.329
         name: kubeagentmanager
         resources:
           limits: {}
