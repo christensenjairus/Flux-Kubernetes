@@ -708,11 +708,12 @@ spec:
             activeCount: 2
             activeStandby: true
             resources:
-              limits: { }
-              #                memory: "1Gi" # default is 4G
-              requests:
-                cpu: "250m" # default is 1000m
-                memory: "300M" # default is 4G
+              resources:
+                limits:
+                  memory: "3000M" # default is 4G
+                requests:
+                  cpu: "250m" # default is 1000m
+                  memory: "1500M" # default is 4G
             priorityClassName: system-cluster-critical
         storageClass:
           enabled: true
