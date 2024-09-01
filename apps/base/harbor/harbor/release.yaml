@@ -247,9 +247,9 @@ spec:
           annotations: {}
         trivy:
           existingClaim: ""
-          storageClass: "ceph-filesystem-2"
+          storageClass: "ceph-block-2"
           subPath: ""
-          accessMode: ReadWriteMany
+          accessMode: ReadWriteOnce
           size: 5Gi
           annotations: {}
       # Define which storage backend is used for registry to store

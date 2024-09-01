@@ -62,7 +62,7 @@ spec:
           differential: "0 * * * *" # every hour at :00
         volume:
           volumeClaimSpec:
-            storageClassName: ceph-filesystem-2
+            storageClassName: ceph-block-2
             accessModes:
             - "ReadWriteOnce"
             resources:
