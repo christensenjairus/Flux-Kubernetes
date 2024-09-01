@@ -66,7 +66,7 @@ spec:
             - "ReadWriteOnce"
             resources:
               requests:
-                storage: 8Gi
+                storage: 12Gi
       - name: repo2
         schedules:
           full: "30 0 * * *" # daily at 12:30am
