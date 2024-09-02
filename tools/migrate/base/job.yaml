@@ -18,7 +18,7 @@ spec:
           image: ubuntu:xenial
           tty: true
           command: [ "/bin/sh" ]
-          args: [ "-c", "apt update -y && apt install rsync -y && rsync -rtDzPu --delete /mnt/old/* /mnt/new/" ]
+          args: [ "-c", "apt update -y && apt install rsync -y && rsync -rtDzPuv --delete /mnt/old/* /mnt/new/" ]
           volumeMounts:
             - name: old-vol
               mountPath: /mnt/old

@@ -10,7 +10,7 @@ spec:
 # ------------ Edit below --------------------
         - name: old-vol
           persistentVolumeClaim:
-            claimName: nextcloud-nextcloud     # change to data source PVC
+            claimName: vaultwarden     # change to data source PVC
         - name: new-vol
           persistentVolumeClaim:
-            claimName: nextcloud-nextcloud-new     # change to data target PVC
+            claimName: vaultwarden-new     # change to data target PVC

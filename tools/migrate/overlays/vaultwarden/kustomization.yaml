@@ -19,13 +19,13 @@ patches:
     patch: |-
       - op: replace
         path: /metadata/name
-        value: nextcloud-nextcloud-new # edit pvc name
+        value: vaultwarden-new # edit pvc name
   - target:
       kind: Job
       name: volume-migration
     patch: |-
       - op: replace
         path: /metadata/name
-        value: volume-migration-nextcloud-nextcloud # edit job name
+        value: volume-migration-vaultwarden # edit job name
 
-namespace: nextcloud          # edit namespace
+namespace: vaultwarden          # edit namespace

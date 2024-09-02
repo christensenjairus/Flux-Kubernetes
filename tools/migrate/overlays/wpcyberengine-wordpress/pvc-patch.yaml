@@ -11,5 +11,5 @@ spec:
 #    - ReadOnlyMany
   resources:
     requests:
-      storage: 2Gi
+      storage: 3Gi
   storageClassName: ceph-block-3 # faster for the migration's sake

@@ -90,7 +90,7 @@ spec:
         valueFrom:
           secretKeyRef:
             name: velero-slack-webhook
-            key: webhook_url
+            key: slack_webhook
     #  - name: regularEnvVariable
     #    value: 123
 
