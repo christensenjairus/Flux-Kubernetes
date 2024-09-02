@@ -649,52 +649,52 @@ spec:
     # -- A list of CephFileSystem configurations to deploy
     # @default -- See [below](#ceph-file-systems)
     cephFileSystems:
-      - name: ceph-filesystem-3
-        # see https://github.com/rook/rook/blob/v1.13.7/Documentation/CRDs/Shared-Filesystem/ceph-filesystem-crd.md#filesystem-settings for available configuration
-        spec:
-          metadataPool:
-            replicated:
-              size: 3
-          dataPools:
-            - failureDomain: host
-              replicated:
-                size: 3
-              # Optional and highly recommended, 'data0' by default, see https://github.com/rook/rook/blob/v1.13.7/Documentation/CRDs/Shared-Filesystem/ceph-filesystem-crd.md#pools
-              name: data0
-          metadataServer:
-            activeCount: 2
-            activeStandby: true
-            resources:
-              limits:
-                memory: "3000M" # default is 4G
-              requests:
-                cpu: "250m" # default is 1000m
-                memory: "1500M" # default is 4G
-            priorityClassName: system-cluster-critical
-        storageClass:
-          enabled: true
-          isDefault: false
-          name: ceph-filesystem-3
-          # (Optional) specify a data pool to use, must be the name of one of the data pools above, 'data0' by default
-          pool: data0
-          reclaimPolicy: Delete
-          allowVolumeExpansion: true
-          volumeBindingMode: "Immediate"
-          mountOptions: []
-          # see https://github.com/rook/rook/blob/v1.13.7/Documentation/Storage-Configuration/Shared-Filesystem-CephFS/filesystem-storage.md#provision-storage for available configuration
-          parameters:
-            # The secrets contain Ceph admin credentials.
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
-            # Specify the filesystem type of the volume. If not specified, csi-provisioner
-            # will set default as `ext4`. Note that `xfs` is not recommended due to potential deadlock
-            # in hyperconverged settings where the volume is mounted on the same node as the osds.
-            csi.storage.k8s.io/fstype: xfs #ext4 # we can use xfs because we're not mounting any volumes on the storage nodes
-            mounter: kernel # supposedly faster than fuse
+#      - name: ceph-filesystem-3
+#        # see https://github.com/rook/rook/blob/v1.13.7/Documentation/CRDs/Shared-Filesystem/ceph-filesystem-crd.md#filesystem-settings for available configuration
+#        spec:
+#          metadataPool:
+#            replicated:
+#              size: 3
+#          dataPools:
+#            - failureDomain: host
+#              replicated:
+#                size: 3
+#              # Optional and highly recommended, 'data0' by default, see https://github.com/rook/rook/blob/v1.13.7/Documentation/CRDs/Shared-Filesystem/ceph-filesystem-crd.md#pools
+#              name: data0
+#          metadataServer:
+#            activeCount: 2
+#            activeStandby: true
+#            resources:
+#              limits:
+#                memory: "3000M" # default is 4G
+#              requests:
+#                cpu: "250m" # default is 1000m
+#                memory: "1500M" # default is 4G
+#            priorityClassName: system-cluster-critical
+#        storageClass:
+#          enabled: true
+#          isDefault: false
+#          name: ceph-filesystem-3
+#          # (Optional) specify a data pool to use, must be the name of one of the data pools above, 'data0' by default
+#          pool: data0
+#          reclaimPolicy: Delete
+#          allowVolumeExpansion: true
+#          volumeBindingMode: "Immediate"
+#          mountOptions: []
+#          # see https://github.com/rook/rook/blob/v1.13.7/Documentation/Storage-Configuration/Shared-Filesystem-CephFS/filesystem-storage.md#provision-storage for available configuration
+#          parameters:
+#            # The secrets contain Ceph admin credentials.
+#            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+#            csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
+#            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+#            csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
+#            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+#            csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
+#            # Specify the filesystem type of the volume. If not specified, csi-provisioner
+#            # will set default as `ext4`. Note that `xfs` is not recommended due to potential deadlock
+#            # in hyperconverged settings where the volume is mounted on the same node as the osds.
+#            csi.storage.k8s.io/fstype: xfs #ext4 # we can use xfs because we're not mounting any volumes on the storage nodes
+#            mounter: kernel # supposedly faster than fuse
 
       - name: ceph-filesystem-2
         # see https://github.com/rook/rook/blob/v1.13.7/Documentation/CRDs/Shared-Filesystem/ceph-filesystem-crd.md#filesystem-settings for available configuration
@@ -741,8 +741,9 @@ spec:
             # Specify the filesystem type of the volume. If not specified, csi-provisioner
             # will set default as `ext4`. Note that `xfs` is not recommended due to potential deadlock
             # in hyperconverged settings where the volume is mounted on the same node as the osds.
-            csi.storage.k8s.io/fstype: xfs #ext4 # we can use xfs because we're not mounting any volumes on the storage nodes
-            mounter: kernel # supposedly faster than fuse
+            csi.storage.k8s.io/fstype: ext4
+            #csi.storage.k8s.io/fstype: xfs #ext4 # we can use xfs because we're not mounting any volumes on the storage nodes
+            #mounter: kernel # supposedly faster than fuse
 
     # -- Settings for the filesystem snapshot class
     # @default -- See [CephFS Snapshots](../Storage-Configuration/Ceph-CSI/ceph-csi-snapshot.md#cephfs-snapshots)
