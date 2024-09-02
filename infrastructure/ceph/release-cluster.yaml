@@ -745,7 +745,7 @@ spec:
       enabled: true
       name: ceph-filesystem
       isDefault: false
-      deletionPolicy: Delete
+      deletionPolicy: Retain #Delete
       annotations: {}
       labels: #{}
         velero.io/csi-volumesnapshot-class: "true"
@@ -758,7 +758,7 @@ spec:
       enabled: true
       name: ceph-block
       isDefault: false
-      deletionPolicy: Delete
+      deletionPolicy: Retain #Delete
       annotations: {}
       labels: #{}
         velero.io/csi-volumesnapshot-class: "true"
