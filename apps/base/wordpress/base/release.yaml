@@ -921,10 +921,10 @@ spec:
       ##
       accessModes:
         - ReadWriteMany
-        - ReadWriteOnce
+        #- ReadWriteOnce
       ## @param persistence.accessMode Persistent Volume access mode (DEPRECATED: use `persistence.accessModes` instead)
       ##
-      accessMode: ReadWriteOnce
+      accessMode: ReadWriteMany
       ## @param persistence.size Persistent Volume size
       ##
       size: 3Gi
