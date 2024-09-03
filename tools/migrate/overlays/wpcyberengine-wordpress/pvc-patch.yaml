@@ -6,9 +6,7 @@ spec:
 
 # ------------ Edit below --------------------
   accessModes:
-#    - ReadWriteMany
-    - ReadWriteOnce # faster for the migration's sake
-#    - ReadOnlyMany
+    - ReadWriteOnce              # faster for the migration's sake
   resources:
     requests:
       storage: 3Gi

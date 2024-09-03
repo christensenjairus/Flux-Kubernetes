@@ -7,8 +7,7 @@ spec:
 # ------------ Edit below --------------------
   accessModes:
     - ReadWriteOnce
-    - ReadWriteMany
   resources:
     requests:
       storage: 3Gi
-  storageClassName: ceph-filesystem-3
+  storageClassName: ceph-block-3

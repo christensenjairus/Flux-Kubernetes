@@ -19,7 +19,7 @@ patches:
     patch: |-
       - op: replace
         path: /metadata/name
-        value: vaultwarden-new # edit pvc name
+        value: vaultwarden-new              # edit pvc name
   - target:
       kind: Job
       name: volume-migration
@@ -28,4 +28,4 @@ patches:
         path: /metadata/name
         value: volume-migration-vaultwarden # edit job name
 
-namespace: vaultwarden          # edit namespace
+namespace: vaultwarden                      # edit namespace

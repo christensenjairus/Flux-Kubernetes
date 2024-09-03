@@ -19,7 +19,7 @@ patches:
     patch: |-
       - op: replace
         path: /metadata/name
-        value: wpcyberengine-wordpress-new # edit pvc name
+        value: wpcyberengine-wordpress-new              # edit pvc name
   - target:
       kind: Job
       name: volume-migration
@@ -28,4 +28,4 @@ patches:
         path: /metadata/name
         value: volume-migration-wpcyberengine-wordpress # edit job name
 
-namespace: wpcyberengine          # edit namespace
+namespace: wpcyberengine                                # edit namespace

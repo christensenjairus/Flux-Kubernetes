@@ -19,7 +19,7 @@ patches:
     patch: |-
       - op: replace
         path: /metadata/name
-        value: nextcloud-nextcloud-new # edit pvc name
+        value: nextcloud-nextcloud-new              # edit pvc name
   - target:
       kind: Job
       name: volume-migration

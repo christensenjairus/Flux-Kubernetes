@@ -19,7 +19,7 @@ patches:
     patch: |-
       - op: replace
         path: /metadata/name
-        value: example-pvc-new # edit pvc name
+        value: example-pvc-new   # edit pvc name
   - target:
       kind: Job
       name: volume-migration
