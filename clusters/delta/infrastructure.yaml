@@ -492,7 +492,7 @@ spec:
           path: /spec/storageClassName
           value: "local-path"
         - op: remove
-          path: /spec/accessModes/1
+          path: /spec/accessModes/0
       target:
         kind: PersistentVolumeClaim
         name: ingress-nginx-cache

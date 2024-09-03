@@ -5,10 +5,9 @@ metadata:
   namespace: ingress-nginx
 spec:
   accessModes:
-    - ReadWriteOnce
-    - ReadWriteMany # index 1 is removed in a delta cluster patch
+    - ReadWriteMany
   resources:
     requests:
       storage: 5Gi
   volumeMode: Filesystem
-  storageClassName: 'ceph-filesystem-2'
+  storageClassName: 'ceph-filesystem-3'

@@ -222,7 +222,7 @@ spec:
         jobservice:
           jobLog:
             existingClaim: ""
-            storageClass: "ceph-filesystem-2"
+            storageClass: "ceph-filesystem-3"
             subPath: ""
             accessMode: ReadWriteMany
             size: 1Gi
