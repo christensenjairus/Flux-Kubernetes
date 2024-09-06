@@ -36,4 +36,4 @@ fi
 echo "Creating backup of '$NAMESPACE' namespace(s) with Velero set to backup volumes, move data, and have a ttl of 7d"
 echo ""
 
-velero create backup "$BACKUP_NAME" --include-namespaces="$NAMESPACE" --snapshot-volumes=true --snapshot-move-data=true --ttl=168h0m0s --csi-snapshot-timeout=1h0m0s --wait
+velero create backup "$BACKUP_NAME" --include-namespaces="$NAMESPACE" --snapshot-volumes=true --snapshot-move-data=true --ttl=168h0m0s --csi-snapshot-timeout=2h0m0s --wait
