@@ -17,3 +17,5 @@ kubectl rook-ceph ceph osd df
 
 echo -e '\nEnsuring Ceph Balancing Module is enabled...\n'
 kubectl rook-ceph ceph balancer on
+
+eche -e '\nDone!\n'
