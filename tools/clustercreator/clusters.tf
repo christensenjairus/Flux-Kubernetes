@@ -19,7 +19,8 @@ variable "clusters" {
     })
     networking                       : object({
       dns_search_domain              : string # search domain for DNS resolution
-      create_vlan                    : bool   # whether or not to create an IPv4 vlan.
+      assign_vlan                    : bool   # whether or not to assign a vlan to the network interfaces of the VMs.
+      create_vlan                    : bool   # whether or not to create an IPv4 vlan in Unifi.
       vlan_name                      : string # name of the IPv4 vlan for the cluster. Must always be set, even if create_vlan is false.
       vlan_id                        : number # vlan id for the cluster. Must always be set, even if create_vlan is false.
       ipv4                           : object({
@@ -150,6 +151,7 @@ variable "clusters" {
         dns_search_domain              = "lan"
         vlan_name                      = "DELTA"
         vlan_id                        = 400
+        assign_vlan                    = true
         create_vlan                    = true
         ipv4                           = {
           subnet_prefix                = "10.0.4"
@@ -168,21 +170,21 @@ variable "clusters" {
           dns2                         = "2607:fa18::2"
         }
         kube_vip = {
-          kube_vip_version             = "0.8.1"
+          kube_vip_version             = "0.8.3"
           vip                          = "10.0.4.100" #"2607:fa18:47fd:2::100"
           vip_hostname                 = "delta-api-server"
           vip_interface                = "eth0"
           use_ipv6                     = false
         }
         cilium = {
-          cilium_version               = "1.15.6"
+          cilium_version               = "1.16.1"
         }
       }
       local_path_provisioner = {
-        local_path_provisioner_version = "0.0.28"
+        local_path_provisioner_version = "0.0.29"
       }
       metrics_server = {
-        metrics_server_version         = "0.7.1"
+        metrics_server_version         = "0.7.2"
       }
       node_classes = {
         apiserver = {
@@ -241,7 +243,7 @@ variable "clusters" {
           count      = 0
           cores      = 4
           sockets    = 2
-          memory     = 4192
+          memory     = 4096
           disks      = [
             { index = 0, datastore = "nvmes", size = 20, backup = true }
           ]
@@ -266,6 +268,7 @@ variable "clusters" {
       }
       networking                       = {
         dns_search_domain              = "lan"
+        assign_vlan                    = true
         create_vlan                    = true
         vlan_name                      = "EPSILON"
         vlan_id                        = 500
@@ -286,21 +289,21 @@ variable "clusters" {
           dns2                         = "2607:fa18::2"
         }
         kube_vip = {
-          kube_vip_version             = "0.8.1"
+          kube_vip_version             = "0.8.3"
           vip                          = "10.0.5.100"
           vip_hostname                 = "epsilon-api-server"
           vip_interface                = "eth0"
           use_ipv6                     = false
         }
         cilium = {
-          cilium_version                 = "1.15.6"
+          cilium_version                 = "1.16.1"
         }
       }
       local_path_provisioner = {
-        local_path_provisioner_version = "0.0.28"
+        local_path_provisioner_version = "0.0.29"
       }
       metrics_server = {
-        metrics_server_version         = "0.7.1"
+        metrics_server_version         = "0.7.2"
       }
       node_classes = {
         apiserver = {
@@ -387,6 +390,7 @@ variable "clusters" {
       }
       networking                       = {
         dns_search_domain              = "lan"
+        assign_vlan                    = true
         create_vlan                    = true
         vlan_name                      = "ZETA"
         vlan_id                        = 600
@@ -407,21 +411,21 @@ variable "clusters" {
           dns2                         = "2607:fa18::2"
         }
         kube_vip = {
-          kube_vip_version             = "0.8.1"
+          kube_vip_version             = "0.8.3"
           vip                          = "10.0.6.100"
           vip_hostname                 = "zeta-api-server"
           vip_interface                = "eth0"
           use_ipv6                     = false
         }
         cilium = {
-          cilium_version               = "1.15.6"
+          cilium_version               = "1.16.1"
         }
       }
       local_path_provisioner = {
-        local_path_provisioner_version = "0.0.28"
+        local_path_provisioner_version = "0.0.29"
       }
       metrics_server = {
-        metrics_server_version         = "0.7.1"
+        metrics_server_version         = "0.7.2"
       }
       node_classes = {
         apiserver = {
@@ -509,6 +513,7 @@ variable "clusters" {
       }
       networking                       = {
         dns_search_domain              = "lan"
+        assign_vlan                    = true
         create_vlan                    = true
         vlan_name                      = "OMEGA"
         vlan_id                        = 700
@@ -529,21 +534,21 @@ variable "clusters" {
           dns2                         = "2607:fa18::2"
         }
         kube_vip = {
-          kube_vip_version             = "0.8.1"
+          kube_vip_version             = "0.8.3"
           vip                          = "10.0.7.100"
           vip_hostname                 = "omega-api-server"
           vip_interface                = "eth0"
           use_ipv6                     = false
         }
         cilium = {
-          cilium_version               = "1.15.6"
+          cilium_version               = "1.16.1"
         }
       }
       local_path_provisioner = {
-        local_path_provisioner_version = "0.0.28"
+        local_path_provisioner_version = "0.0.29"
       }
       metrics_server = {
-        metrics_server_version         = "0.7.1"
+        metrics_server_version         = "0.7.2"
       }
       node_classes = {
         apiserver = {
@@ -587,7 +592,7 @@ variable "clusters" {
             "nodeclass" = "storage"
           }
           taints   = {
-            "storage-node" = "NoSchedule"
+            "storage-node" = "true:NoSchedule"
           }
         }
         database = {
