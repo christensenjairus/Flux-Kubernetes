@@ -776,8 +776,8 @@ spec:
           storageLocation: default      # use the same name you defined above in backupStorageLocation
           snapshotMoveData: true
           snapshotVolumes: true         # apparently only applies to PVs in AWS, GCP, and Azure?
-          csiSnapshotTimeout: "2h"    # default is 10m. ceph-filesystem pvs take forever to clone
-          dataMoverPrepareTimeout: "2h" # default is 10m. ceph-filesystem pvs take forever to clone
+          csiSnapshotTimeout: "2h"      # default is 10m. ceph-filesystem pvs take forever to clone
+          #dataMoverPrepareTimeout: "2h" # default is 10m. ceph-filesystem pvs take forever to clone
           itemOperationTimeout: "2h"    # default is 1h
           includeClusterResources: true # pvs are cluster-scoped!
           excludedNamespaces:
