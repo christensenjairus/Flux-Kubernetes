@@ -109,3 +109,4 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
   * Orchestrator with ServiceMonitor and Grafana Dashboard
 * Wazuh
   * 3 indexers, 2 workers, 1 master, 1 dashboard
+* Kasm Workspaces
