@@ -1,0 +1,28 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: velero-add-args-to-node-agent
+spec:
+  rules:
+    - name: patch-node-agent-args
+      match:
+        resources:
+          kinds:
+            - DaemonSet
+          namespaces:
+            - velero
+          names:
+            - node-agent
+      mutate:
+        patchStrategicMerge:
+          spec:
+            template:
+              spec:
+                containers:
+                  - name: node-agent
+                    args:
+                      # Add all args here. Make sure you add the ones that are used by default.
+                      - "node-agent"
+                      - "server"
+                      - "--features=EnableCSI"
+                      - "--data-mover-prepare-timeout=120m"
