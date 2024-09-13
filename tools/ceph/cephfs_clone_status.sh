@@ -43,91 +43,116 @@ debug_echo() {
     fi
 }
 
-# Get all PVCs in the cluster where the storage class name starts with 'ceph-filesystem'
-PVC_LIST=$(kubectl get pvc --all-namespaces -o json | jq -r '.items[] | select(.spec.storageClassName | startswith("ceph-filesystem")) | select(.metadata.namespace != "velero") | [.metadata.namespace, .metadata.name, .spec.storageClassName] | @csv' | tr -d '"')
+# Function to continuously refresh the screen
+while true; do
+  # Clear the screen
+  clear
 
-if [ -z "$PVC_LIST" ]; then
-  verbose_echo_bad "No PVCs found with storage class starting with 'ceph-filesystem'"
-  exit 0
-fi
+  # Print table header with adjusted column width
+  printf "\n%-45s | %-20s\n" "Namespace/PVC" "Pending Clones"
+  printf "%-45s | %-20s\n" "---------------------------------------------" "--------------------"
 
-# Print table header
-printf "\n%-45s | %-20s\n" "Namespace/PVC" "Pending Snapshots"
-printf "%-45s | %-20s\n" "---------------------------------------------" "--------------------"
+  # Get all PVCs in the cluster where the storage class name starts with 'ceph-filesystem'
+  PVC_LIST=$(kubectl get pvc --all-namespaces -o json | jq -r '.items[] | select(.spec.storageClassName | startswith("ceph-filesystem")) | select(.metadata.namespace != "velero") | [.metadata.namespace, .metadata.name, .spec.storageClassName] | @csv' | tr -d '"')
 
-# Iterate over each PVC
-while IFS=',' read -r NAMESPACE PVC_NAME STORAGE_CLASS; do
-  verbose_echo "Namespace: $NAMESPACE"
-  verbose_echo "PVC Name: $PVC_NAME"
-  verbose_echo "StorageClass: $STORAGE_CLASS"
-
-  # Find the Persistent Volume associated with the PVC
-  PV_NAME=$(kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" --output=jsonpath='{.spec.volumeName}')
-  if [ -z "$PV_NAME" ]; then
-    verbose_echo_bad "Error: Could not find PV associated with PVC $PVC_NAME in namespace $NAMESPACE"
-    continue
+  if [ -z "$PVC_LIST" ]; then
+    verbose_echo_bad "No PVCs found with storage class starting with 'ceph-filesystem'"
+    exit 0
   fi
 
-  verbose_echo "Found PV name: $PV_NAME"
+  # Iterate over each PVC
+  while IFS=',' read -r NAMESPACE PVC_NAME STORAGE_CLASS; do
+    verbose_echo "Namespace: $NAMESPACE"
+    verbose_echo "PVC Name: $PVC_NAME"
+    verbose_echo "StorageClass: $STORAGE_CLASS"
 
-  # Extract the subvolume name from the PV spec
-  SUBVOL_NAME=$(kubectl get pv "$PV_NAME" --output=jsonpath='{.spec.csi.volumeAttributes.subvolumeName}')
-  if [ -z "$SUBVOL_NAME" ]; then
-    verbose_echo_bad "Error: Could not retrieve subvolume name from PV $PV_NAME"
-    continue
-  fi
-
-  verbose_echo "Found subvolume name: $SUBVOL_NAME"
-
-  # Get the list of snapshots for the subvolume
-  verbose_echo "Retrieving snapshots for subvolume: $SUBVOL_NAME"
-  SNAPSHOTS=$(kubectl rook-ceph ceph fs subvolume snapshot ls "$STORAGE_CLASS" "$SUBVOL_NAME" --group_name csi --format json 2>&1 | grep -v "Info:")
-
-  # Print the raw output of the Ceph snapshot command in debug mode
-  debug_echo "Ceph snapshot list output: $SNAPSHOTS"
-
-  # Parse the JSON part of the output
-  SNAPSHOTS=$(echo "$SNAPSHOTS" | jq -r '.[] | .name')
-
-  if [ -z "$SNAPSHOTS" ]; then
-    # Print PVCs with no snapshots in green
-    printf "${GREEN}%-45s | %-20s${NC}\n" "$NAMESPACE/$PVC_NAME" "No Volume Snapshots"
-    continue
-  fi
-
-  verbose_echo "Snapshots found: $SNAPSHOTS"
-
-  # Initialize counter for pending snapshots
-  PENDING_SNAPSHOTS=0
-
-  # Loop through each snapshot and check for pending clone statuses
-  for SNAP_NAME in $SNAPSHOTS; do
-    verbose_echo "Checking snapshot info for snapshot: $SNAP_NAME"
-
-    # Retrieve snapshot info, including pending clones
-    SNAP_INFO=$(kubectl rook-ceph ceph fs subvolume snapshot info "$STORAGE_CLASS" "$SUBVOL_NAME" "$SNAP_NAME" --group_name csi --format json 2>&1 | grep -v "Info:")
-
-    # Print the raw output of the Ceph snapshot info command in debug mode
-    debug_echo "Ceph snapshot info output for $SNAP_NAME: $SNAP_INFO"
-
-    # Check if there are pending clones
-    HAS_PENDING_CLONES=$(echo "$SNAP_INFO" | jq -r '.has_pending_clones')
-
-    if [ "$HAS_PENDING_CLONES" == "yes" ]; then
-      PENDING_SNAPSHOTS=$((PENDING_SNAPSHOTS + 1))
-      verbose_echo "Snapshot $SNAP_NAME has pending clones."
-    else
-      verbose_echo "No pending clones for snapshot: $SNAP_NAME"
+    # Find the Persistent Volume associated with the PVC
+    PV_NAME=$(kubectl get pvc "$PVC_NAME" -n "$NAMESPACE" --output=jsonpath='{.spec.volumeName}')
+    if [ -z "$PV_NAME" ]; then
+      verbose_echo_bad "Error: Could not find PV associated with PVC $PVC_NAME in namespace $NAMESPACE"
+      continue
     fi
+
+    verbose_echo "Found PV name: $PV_NAME"
+
+    # Extract the subvolume name from the PV spec
+    SUBVOL_NAME=$(kubectl get pv "$PV_NAME" --output=jsonpath='{.spec.csi.volumeAttributes.subvolumeName}')
+    if [ -z "$SUBVOL_NAME" ]; then
+      verbose_echo_bad "Error: Could not retrieve subvolume name from PV $PV_NAME"
+      continue
+    fi
+
+    verbose_echo "Found subvolume name: $SUBVOL_NAME"
+
+    # Get the list of snapshots for the subvolume
+    verbose_echo "Retrieving snapshots for subvolume: $SUBVOL_NAME"
+    SNAPSHOTS=$(kubectl rook-ceph ceph fs subvolume snapshot ls "$STORAGE_CLASS" "$SUBVOL_NAME" --group_name csi --format json 2>&1 | grep -v "Info:")
+
+    # Print the raw output of the Ceph snapshot command in debug mode
+    debug_echo "Ceph snapshot list output: $SNAPSHOTS"
+
+    # Parse the JSON part of the output
+    SNAPSHOTS=$(echo "$SNAPSHOTS" | jq -r '.[] | .name')
+
+    if [ -z "$SNAPSHOTS" ]; then
+      # Print PVCs with no snapshots in green
+      printf "${GREEN}%-45s | %-20s${NC}\n" "$NAMESPACE/$PVC_NAME" "No Volume Snapshots"
+      continue
+    fi
+
+    verbose_echo "Snapshots found: $SNAPSHOTS"
+
+    # Initialize counter for pending snapshots
+    PENDING_SNAPSHOTS=0
+
+    # Loop through each snapshot and check for pending clone statuses
+    for SNAP_NAME in $SNAPSHOTS; do
+      verbose_echo "Checking snapshot info for snapshot: $SNAP_NAME"
+
+      # Retrieve snapshot info, including pending clones
+      SNAP_INFO=$(kubectl rook-ceph ceph fs subvolume snapshot info "$STORAGE_CLASS" "$SUBVOL_NAME" "$SNAP_NAME" --group_name csi --format json 2>&1 | grep -v "Info:")
+
+      # Print the raw output of the Ceph snapshot info command in debug mode
+      debug_echo "Ceph snapshot info output for $SNAP_NAME: $SNAP_INFO"
+
+      # Check if there are pending clones
+      HAS_PENDING_CLONES=$(echo "$SNAP_INFO" | jq -r '.has_pending_clones')
+
+      if [ "$HAS_PENDING_CLONES" == "yes" ]; then
+        PENDING_SNAPSHOTS=$((PENDING_SNAPSHOTS + 1))
+        verbose_echo "Snapshot $SNAP_NAME has pending clones."
+      else
+        verbose_echo "No pending clones for snapshot: $SNAP_NAME"
+      fi
+    done
+
+    # After counting pending snapshots, print formatted table row
+    if [ "$PENDING_SNAPSHOTS" -gt 0 ]; then
+      printf "${RED}%-45s | %-20s${NC}\n" "$NAMESPACE/$PVC_NAME" "$PENDING_SNAPSHOTS Pending Clone(s)"
+    else
+      printf "${GREEN}%-45s | %-20s${NC}\n" "$NAMESPACE/$PVC_NAME" "No Pending Clones"
+    fi
+
+  done <<< "$PVC_LIST"
+
+  # Wait 30 seconds before the next update (change this value if needed)
+  # Countdown before the next refresh
+  countdown=30  # Set the countdown duration (in seconds)
+
+  echo -n "Refreshing in $countdown seconds..."
+
+  while [ $countdown -gt 0 ]; do
+    # Move the cursor to the beginning of the line and clear the line
+    echo -ne "\rRefreshing in $countdown seconds... "
+
+    # Sleep for 1 second
+    sleep 1
+
+    # Decrease the countdown
+    countdown=$((countdown - 1))
   done
 
-  # After counting pending snapshots, print formatted table row
-  if [ "$PENDING_SNAPSHOTS" -gt 0 ]; then
-    printf "${RED}%-45s | %-20s${NC}\n" "$NAMESPACE/$PVC_NAME" "$PENDING_SNAPSHOTS Pending Clone(s)"
-  else
-    printf "${GREEN}%-45s | %-20s${NC}\n" "$NAMESPACE/$PVC_NAME" "No Pending Clones"
-  fi
+  # Move to the next line after the countdown finishes
+  echo ""
 
-done <<< "$PVC_LIST"
-
-echo ""
+done
