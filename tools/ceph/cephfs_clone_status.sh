@@ -25,11 +25,13 @@ verbose_echo() {
         echo -e "${GREEN}[VERBOSE]${NC} $1"
     fi
 }
+
 verbose_echo_good() {
     if [ "$VERBOSE" == true ]; then
         echo -e "${GREEN}[VERBOSE] $1${NC}"
     fi
 }
+
 verbose_echo_bad() {
     if [ "$VERBOSE" == true ]; then
         echo -e "${RED}[VERBOSE] $1${NC}"
@@ -49,8 +51,8 @@ while true; do
   clear
 
   # Print table header with adjusted column width
-  printf "\n%-45s | %-20s\n" "Namespace/PVC" "Pending Clones"
-  printf "%-45s | %-20s\n" "---------------------------------------------" "--------------------"
+  printf "\n%-41s | %-12s | %-17s\n" "Namespace/PVC" "Snapshots" "Pending Clones"
+  printf "%-41s | %-12s | %-17s\n" "-----------------------------------------" "------------" "-----------------"
 
   # Get all PVCs in the cluster where the storage class name starts with 'ceph-filesystem'
   PVC_LIST=$(kubectl get pvc --all-namespaces -o json | jq -r '.items[] | select(.spec.storageClassName | startswith("ceph-filesystem")) | select(.metadata.namespace != "velero") | [.metadata.namespace, .metadata.name, .spec.storageClassName] | @csv' | tr -d '"')
@@ -94,9 +96,12 @@ while true; do
     # Parse the JSON part of the output
     SNAPSHOTS=$(echo "$SNAPSHOTS" | jq -r '.[] | .name')
 
-    if [ -z "$SNAPSHOTS" ]; then
+    # Count the number of snapshots and trim whitespace
+    SNAPSHOT_COUNT=$(echo "$SNAPSHOTS" | grep -v '^$' | wc -l | xargs)
+
+    if [ -z "$SNAPSHOTS" ] || [ "$SNAPSHOT_COUNT" -eq 0 ]; then
       # Print PVCs with no snapshots in green
-      printf "${GREEN}%-45s | %-20s${NC}\n" "$NAMESPACE/$PVC_NAME" "No Volume Snapshots"
+      printf "${GREEN}%-41s | %-12s | %-17s${NC}\n" "$NAMESPACE/$PVC_NAME" "No Snapshots" "No Pending Clones"
       continue
     fi
 
@@ -126,11 +131,11 @@ while true; do
       fi
     done
 
-    # After counting pending snapshots, print formatted table row
+    # After counting pending snapshots, print formatted table row with number of snapshots
     if [ "$PENDING_SNAPSHOTS" -gt 0 ]; then
-      printf "${RED}%-45s | %-20s${NC}\n" "$NAMESPACE/$PVC_NAME" "$PENDING_SNAPSHOTS Pending Clone(s)"
+      printf "${RED}%-41s | %-12s | %-17s${NC}\n" "$NAMESPACE/$PVC_NAME" "$SNAPSHOT_COUNT Snapshot(s)" "$PENDING_SNAPSHOTS Pending Clone(s)"
     else
-      printf "${GREEN}%-45s | %-20s${NC}\n" "$NAMESPACE/$PVC_NAME" "No Pending Clones"
+      printf "${GREEN}%-41s | %-12s | %-17s${NC}\n" "$NAMESPACE/$PVC_NAME" "$SNAPSHOT_COUNT Snapshot(s)" "No Pending Clones"
     fi
 
   done <<< "$PVC_LIST"
