@@ -15,6 +15,14 @@ spec:
             - PersistentVolumeClaim
           namespaces:
             - velero
+      preconditions:
+        all:
+          - key: "{{ request.object.spec.storageClassName }}"
+            operator: In
+            value:
+              - ceph-filesystem-2
+              - ceph-filesystem-3
+              # Add specific storage classes as needed
       mutate:
         patchStrategicMerge:
           spec:
