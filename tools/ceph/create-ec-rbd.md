@@ -1,6 +1,6 @@
 ```bash
 # Variables
-POOL_NAME="vm-rbd"
+POOL_NAME="k8s-rbd"
 APPLICATION="rbd"
 ERASURE_PROFILE="${POOL_NAME}-data"
 METADATA_CRUSH_RULE="${POOL_NAME}-metadata"
