@@ -1,3 +1,5 @@
+## Should probably just do this in the UI
+
 ```bash
 # Variables
 POOL_NAME="k8s-rbd"
@@ -22,10 +24,13 @@ pveceph pool create $POOL_NAME \
   --size=$SIZE \
   --pg_autoscale_mode=on \
   --pg_num=$PG_NUM \
-  --add_storages=1
+  --add_storages=0
+  
+# Step 6: Add the storage to Proxmox
+pvesm add rbd $POOL_NAME --pool $POOL_NAME --content images,rootdir --krbd=true
 ```
 
-# TO DESTROY
+### TO DESTROY
 ```bash
 pvesm remove $POOL_NAME
 pveceph pool destroy $POOL_NAME

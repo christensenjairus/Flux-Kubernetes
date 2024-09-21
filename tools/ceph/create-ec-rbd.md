@@ -1,6 +1,8 @@
+## Should probably just do this in the Ceph Dashboard
+
 ```bash
 # Variables
-POOL_NAME="k8s-rbd"
+POOL_NAME="vm-rbd"
 APPLICATION="rbd"
 ERASURE_PROFILE="${POOL_NAME}-data"
 METADATA_CRUSH_RULE="${POOL_NAME}-metadata"
@@ -33,10 +35,13 @@ pveceph pool create $POOL_NAME \
   --size=$SIZE \
   --pg_autoscale_mode=on \
   --pg_num=$PG_NUM \
-  --add_storages=1
+  --add_storages=0
+  
+# Step 6: Add the storage to Proxmox
+pvesm add rbd $POOL_NAME --content images,rootdir --krbd=true
 ```
 
-# TO DESTROY
+### TO DESTROY
 ```bash
 pvesm remove $POOL_NAME
 pveceph pool destroy "${POOL_NAME}-data"

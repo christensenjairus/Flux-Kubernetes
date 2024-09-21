@@ -1,8 +1,9 @@
 https://rook.io/docs/rook/latest-release/CRDs/Cluster/external-cluster/provider-export/# Run on a proxmox host
 ```bash
 VERSION="1.13"
-RBD_DATA_POOL_NAME="k8s-rbd-data"
-RBD_METADATA_POOL_NAME="k8s-rbd-metadata"
+RBD_DATA_POOL_NAME="k8s-rbd"
+#RBD_DATA_POOL_NAME="k8s-rbd-data"
+#RBD_METADATA_POOL_NAME="k8s-rbd-metadata"
 CEPHFS_FS_NAME="k8s-cephfs"
 CEPHFS_POOL_NAME="${CEPHFS_FS_NAME}-data"
 CEPHFS_METADATA_POOL_NAME="${CEPHFS_POOL_NAME}-metadata"

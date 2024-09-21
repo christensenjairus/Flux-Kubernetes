@@ -1,3 +1,5 @@
+## Should probably just do this in the Ceph Dashboard
+
 ```bash
 # Variables
 FS_NAME="k8s-cephfs"
@@ -44,13 +46,13 @@ ceph osd pool set vm-cephfs-data bulk true
 ceph fs new $FS_NAME "${POOL_NAME}-metadata" "${POOL_NAME}-data" --force
 
 # Step 6: Add the storage to Proxmox
-pvesm add rbd $FS_NAME --pool "${POOL_NAME}-metadata" --data-pool "${POOL_NAME}-data"
+pvesm add cephfs $FS_NAME --content vztmpl,iso,backup,snippets --pool "${POOL_NAME}-metadata" --data-pool "${POOL_NAME}-data"
 ```
 
-# TO DESTROY
+### TO DESTROY
 ```bash
-ceph fs fail $FS_NAME
 pvesm remove $FS_NAME
+ceph fs fail $FS_NAME
 pveceph fs destroy $FS_NAME --remove-storages --remove-pools
 ceph osd crush rule rm $METADATA_CRUSH_RULE
 ceph osd erasure-code-profile rm $ERASURE_PROFILE
