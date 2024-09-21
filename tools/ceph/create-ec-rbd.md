@@ -33,10 +33,7 @@ pveceph pool create $POOL_NAME \
   --size=$SIZE \
   --pg_autoscale_mode=on \
   --pg_num=$PG_NUM \
-  --add_storages=0
-
-# Step 4: Add the storage to Proxmox
-pvesm add rbd $POOL_NAME --pool "${POOL_NAME}"
+  --add_storages=1
 ```
 
 # TO DESTROY
