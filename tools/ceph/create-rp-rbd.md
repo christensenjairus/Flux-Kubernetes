@@ -32,7 +32,9 @@ pvesm add rbd $POOL_NAME --pool $POOL_NAME --content images,rootdir --krbd=true
 
 ### TO DESTROY
 ```bash
+umount -f /mnt/pve/$POOL_NAME # on every host
 pvesm remove $POOL_NAME
 pveceph pool destroy $POOL_NAME
 ceph osd crush rule rm $POOL_NAME
+rm -rf /mnt/pve/$POOL_NAME # on every host
 ```

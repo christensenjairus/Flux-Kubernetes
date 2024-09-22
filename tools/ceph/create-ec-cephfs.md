@@ -51,9 +51,11 @@ pvesm add cephfs $FS_NAME --content vztmpl,iso,backup,snippets --pool "${POOL_NA
 
 ### TO DESTROY
 ```bash
+umount -f /mnt/pve/$FS_NAME # on every host
 pvesm remove $FS_NAME
 ceph fs fail $FS_NAME
 pveceph fs destroy $FS_NAME --remove-storages --remove-pools
 ceph osd crush rule rm $METADATA_CRUSH_RULE
 ceph osd erasure-code-profile rm $ERASURE_PROFILE
+rm -rf /mnt/pve/$FS_NAME # on every host
 ```

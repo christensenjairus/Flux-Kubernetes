@@ -43,9 +43,11 @@ pvesm add rbd $POOL_NAME --content images,rootdir --krbd=true
 
 ### TO DESTROY
 ```bash
+umount -f /mnt/pve/$POOL_NAME # on every host
 pvesm remove $POOL_NAME
 pveceph pool destroy "${POOL_NAME}-data"
 pveceph pool destroy "${POOL_NAME}-metadata"
 ceph osd crush rule rm $METADATA_CRUSH_RULE
 ceph osd erasure-code-profile rm $ERASURE_PROFILE
+rm -rf /mnt/pve/$POOL_NAME # on every host
 ```

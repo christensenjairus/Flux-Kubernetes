@@ -18,6 +18,7 @@ variable "clusters" {
       ssh_key_type                   : string # type of key to scan and trust for remote hosts. the key of this type gets added to local ~/.ssh/known_hosts.
     })
     networking                       : object({
+      bridge                         : string # name of the proxmox bridge to use for VM's network interface
       dns_search_domain              : string # search domain for DNS resolution
       assign_vlan                    : bool   # whether or not to assign a vlan to the network interfaces of the VMs.
       create_vlan                    : bool   # whether or not to create an IPv4 vlan in Unifi.
@@ -148,6 +149,7 @@ variable "clusters" {
         ssh_key_type                   = "ssh-ed25519"
       }
       networking                       = {
+        bridge                         = "vmbr0"
         dns_search_domain              = "lan"
         vlan_name                      = "DELTA"
         vlan_id                        = 400
@@ -267,6 +269,7 @@ variable "clusters" {
         ssh_key_type                   = "ssh-ed25519"
       }
       networking                       = {
+        bridge                         = "vmbr0"
         dns_search_domain              = "lan"
         assign_vlan                    = true
         create_vlan                    = true
@@ -389,6 +392,7 @@ variable "clusters" {
         ssh_key_type                   = "ssh-ed25519"
       }
       networking                       = {
+        bridge                         = "vmbr0"
         dns_search_domain              = "lan"
         assign_vlan                    = true
         create_vlan                    = true
@@ -512,6 +516,7 @@ variable "clusters" {
         ssh_key_type                   = "ssh-ed25519"
       }
       networking                       = {
+        bridge                         = "vmbr0"
         dns_search_domain              = "lan"
         assign_vlan                    = true
         create_vlan                    = true
