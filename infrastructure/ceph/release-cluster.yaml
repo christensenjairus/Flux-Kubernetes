@@ -809,21 +809,21 @@ spec:
             # region: us-east-1
         ingress:
           # Enable an ingress for the ceph-objectstore
-          enabled: true
-          annotations: #{}
-            cert-manager.io/cluster-issuer: letsencrypt
-            nginx.ingress.kubernetes.io/ssl-redirect: "true"
-            # nginx.ingress.kubernetes.io/auth-type: basic
-            # nginx.ingress.kubernetes.io/auth-secret: basic-auth
-            # nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
-          host:
-            name: s3.christensencloud.us
-            path: /
-          tls:
-          - hosts:
-              - s3.christensencloud.us
-            secretName: s3-christensencloud.us-tls
-          ingressClassName: nginx-private
+          enabled: false
+#          annotations: #{}
+#            cert-manager.io/cluster-issuer: letsencrypt
+#            nginx.ingress.kubernetes.io/ssl-redirect: "true"
+#            # nginx.ingress.kubernetes.io/auth-type: basic
+#            # nginx.ingress.kubernetes.io/auth-secret: basic-auth
+#            # nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+#          host:
+#            name: s3.christensencloud.us
+#            path: /
+#          tls:
+#          - hosts:
+#              - s3.christensencloud.us
+#            secretName: s3-christensencloud.us-tls
+#          ingressClassName: nginx-private
     # cephECBlockPools are disabled by default, please remove the comments and set desired values to enable it
     #cephECBlockPools:
     #  # For erasure coded a replicated metadata pool is required.
