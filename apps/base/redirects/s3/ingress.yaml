@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 64m # raised because some backups got 413 errors
+  name: s3
+  namespace: redirects
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: s3.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: s3
+                port:
+                  number: 7480
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - s3.christensencloud.us
+      secretName: s3-christensencloud.us-tls

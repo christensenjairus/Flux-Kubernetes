@@ -11,3 +11,4 @@ resources:
   - ./ups
   - ./minio
   - ./nas3
+  - ./s3
