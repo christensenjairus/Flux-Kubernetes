@@ -6,11 +6,11 @@
         </Filter>
         <Status>Enabled</Status>
         <Transition>
-            <Days>1</Days>
+            <Days>7</Days>
             <StorageClass>COLD</StorageClass>
         </Transition>
         <Expiration>
-            <Days>3</Days>
+            <Days>30</Days>
         </Expiration>
     </Rule>
 </LifecycleConfiguration>

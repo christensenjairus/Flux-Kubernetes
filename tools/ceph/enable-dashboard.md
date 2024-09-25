@@ -23,14 +23,15 @@ prompt_password() {
 
 apt install ceph-mgr-dashboard -y # run on all nodes
 
-ceph config set mgr mgr/dashboard/Acropolis/server_addr 10.0.0.109
-ceph config set mgr mgr/dashboard/Citadel/server_addr 10.0.0.100
-ceph config set mgr mgr/dashboard/Parthenon/server_addr 10.0.0.108
+ceph config set mgr mgr/dashboard/Acropolis/server_addr 0.0.0.0
+ceph config set mgr mgr/dashboard/Citadel/server_addr 0.0.0.0
+ceph config set mgr mgr/dashboard/Parthenon/server_addr 0.0.0.0
 
-ceph config set mgr mgr/dashboard/Acropolis/server_port 8080
-ceph config set mgr mgr/dashboard/Citadel/server_port 8080
-ceph config set mgr mgr/dashboard/Parthenon/server_port 8080
+ceph config set mgr mgr/dashboard/Acropolis/server_port 8000
+ceph config set mgr mgr/dashboard/Citadel/server_port 8000
+ceph config set mgr mgr/dashboard/Parthenon/server_port 8000
 
+ceph mgr module disable dashboard
 ceph mgr module enable dashboard
 ceph config set mgr mgr/dashboard/ssl false
 
@@ -41,13 +42,7 @@ ceph dashboard ac-user-create $username -i ./password administrator
 rm ./password
 echo "User $username created successfully."
 
-systemctl restart ceph-mgr@Acropolis.service
-systemctl restart ceph-mgr@Citadel.service
-systemctl restart ceph-mgr@Parthenon.service
-
-systemctl status ceph-mgr@Acropolis.service
-systemctl status ceph-mgr@Citadel.service
-systemctl status ceph-mgr@Parthenon.service
-
-ceph orch set backend
+# run on every host
+systemctl restart ceph-mgr@`hostname -s`.service
+systemctl status ceph-mgr@`hostname -s`.service
 ```
