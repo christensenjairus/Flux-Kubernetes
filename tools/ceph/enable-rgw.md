@@ -111,6 +111,7 @@ radosgw-admin zone placement modify \
 --placement-id default-placement \
 --storage-class STANDARD \
 --data-pool us-west-1.rgw.buckets.standard.data \
+--data_extra_pool us-west-1.rgw.buckets.standard.non-ec \
 --index-pool us-west-1.rgw.buckets.standard.index \
 --compression none
 
@@ -120,6 +121,7 @@ radosgw-admin zone placement add \
 --placement-id default-ia-placement \
 --storage-class STANDARD_IA \
 --data-pool us-west-1.rgw.buckets.standard_ia.data \
+--data_extra_pool us-west-1.rgw.buckets.standard_ia.non-ec \
 --index-pool us-west-1.rgw.buckets.standard_ia.index \
 --compression lz4
 
@@ -134,13 +136,14 @@ Create your data pools
   ceph osd pool set us-west-1.rgw.buckets.standard.data size 3
   ceph osd pool set us-west-1.rgw.buckets.standard.data pg_autoscale_mode on
   ceph osd pool application enable us-west-1.rgw.buckets.standard.data rgw
-  ceph osd pool set us-west-1.rgw.buckets.standard.data compression_mode none
+  ceph osd pool set us-west-1.rgw.buckets.standard.data compression_mode passive
+  ceph osd pool set us-west-1.rgw.buckets.standard.data compression_algorithm lz4
   ```
 
 * `us-west-1.rgw.buckets.standard_ia.data`
   ```bash
   ceph osd erasure-code-profile set rgw-standard-ia-data \
-    k=3 m=2 \
+    k=2 m=1 \
     crush-failure-domain=host \
     crush-root=default \
     plugin=jerasure \
