@@ -4,11 +4,11 @@ https://danielpersson.dev/2022/01/03/how-to-setup-a-rados-gateway-for-an-s3-api-
 https://github.com/rook/rook/issues/11169
 
 ```bash
-sudo apt install radosgw -y
+apt install radosgw -y
 mkdir /etc/systemd/system/ceph-radosgw.target.wants
 ln -s /lib/systemd/system/ceph-radosgw@.service /etc/systemd/system/ceph-radosgw.target.wants/ceph-radosgw@radosgw.radosgw.`hostname -s`
-sudo mkdir -p /var/lib/ceph/radosgw/ceph-rgw.`hostname -s`
-sudo ceph auth get-or-create client.rgw.`hostname -s` osd 'allow rwx' mon 'allow rw' -o /var/lib/ceph/radosgw/ceph-rgw.`hostname -s`/keyring
+mkdir -p /var/lib/ceph/radosgw/ceph-rgw.`hostname -s`
+ceph auth get-or-create client.rgw.`hostname -s` osd 'allow rwx' mon 'allow rw' -o /var/lib/ceph/radosgw/ceph-rgw.`hostname -s`/keyring
 ```
 
 On one node, add the following lines to `/etc/pve/ceph.conf`
@@ -49,57 +49,57 @@ On one node, add the following lines to `/etc/pve/ceph.conf`
 
 On every host, run the following commands
 ```bash
-sudo systemctl restart ceph-radosgw@rgw.`hostname -s`
-sudo systemctl enable ceph-radosgw@rgw.`hostname -s`
+systemctl restart ceph-radosgw@rgw.`hostname -s`
+systemctl enable ceph-radosgw@rgw.`hostname -s`
 sleep 3
-sudo systemctl status ceph-radosgw@rgw.`hostname -s`
+systemctl status ceph-radosgw@rgw.`hostname -s`
 ```
 
 You should now be able to reach your Ceph Object Gateway at <ip>:8080
 
 Create a new zone, zonegroup, and realm
 ```bash
-sudo radosgw-admin realm create --rgw-realm=us-west --default
-sudo radosgw-admin zonegroup create --rgw-zonegroup=us --endpoints=http://10.0.0.100:8080,http://10.0.0.108:8080,http://10.0.0.109:8080 --rgw-realm=us-west --master --default
-sudo radosgw-admin zone create --rgw-zonegroup=us --endpoints=http://10.0.0.100:8080,http://10.0.0.108:8080,http://10.0.0.109:8080 --rgw-zone=us-west-1 --master --default
+radosgw-admin realm create --rgw-realm=us-west --default
+radosgw-admin zonegroup create --rgw-zonegroup=us --endpoints=http://10.0.0.100:8080,http://10.0.0.108:8080,http://10.0.0.109:8080 --rgw-realm=us-west --master --default
+radosgw-admin zone create --rgw-zonegroup=us --endpoints=http://10.0.0.100:8080,http://10.0.0.108:8080,http://10.0.0.109:8080 --rgw-zone=us-west-1 --master --default
 
-sudo radosgw-admin zonegroup remove --rgw-zonegroup=default --rgw-zone=default
-sudo radosgw-admin period update --commit
-sudo radosgw-admin zone delete --rgw-zone=default
-sudo radosgw-admin period update --commit
-sudo radosgw-admin zonegroup delete --rgw-zonegroup=default
-sudo radosgw-admin period update --commit
+radosgw-admin zonegroup remove --rgw-zonegroup=default --rgw-zone=default
+radosgw-admin period update --commit
+radosgw-admin zone delete --rgw-zone=default
+radosgw-admin period update --commit
+radosgw-admin zonegroup delete --rgw-zonegroup=default
+radosgw-admin period update --commit
 
 sed -i 's/rgw_zone = default/rgw_zone = us-west-1/' /etc/pve/ceph.conf
 ```
 
 On every host, restart the daemon
 ```bash
-sudo systemctl restart ceph-radosgw@rgw.`hostname -s`
-sudo systemctl enable ceph-radosgw@rgw.`hostname -s`
+systemctl restart ceph-radosgw@rgw.`hostname -s`
+systemctl enable ceph-radosgw@rgw.`hostname -s`
 sleep 3
-sudo systemctl status ceph-radosgw@rgw.`hostname -s`
+systemctl status ceph-radosgw@rgw.`hostname -s`
 ```
 
 Delete default pools and create a zone synchronization user
 ```bash
-sudo ceph osd pool delete default.rgw.control default.rgw.control --yes-i-really-really-mean-it
-sudo ceph osd pool delete default.rgw.log default.rgw.log --yes-i-really-really-mean-it
-sudo ceph osd pool delete default.rgw.meta default.rgw.meta --yes-i-really-really-mean-it
+ceph osd pool delete default.rgw.control default.rgw.control --yes-i-really-really-mean-it
+ceph osd pool delete default.rgw.log default.rgw.log --yes-i-really-really-mean-it
+ceph osd pool delete default.rgw.meta default.rgw.meta --yes-i-really-really-mean-it
 
 SYNC_USER_ID=zone-synchronization-user
-sudo radosgw-admin user create --uid="zone-synchronization-user" --display-name="Zone Synchronization User" --system
+radosgw-admin user create --uid="zone-synchronization-user" --display-name="Zone Synchronization User" --system
 
 access_key=$(radosgw-admin user info --uid=$SYNC_USER_ID | grep access_key | awk -F'"' '{print $4}')
 secret_key=$(radosgw-admin user info --uid=$SYNC_USER_ID | grep secret_key | awk -F'"' '{print $4}')
 
-sudo radosgw-admin zone modify --rgw-zone=us-west-1 --access-key=$access_key --secret=$secret_key
-sudo radosgw-admin period update --commit
+radosgw-admin zone modify --rgw-zone=us-west-1 --access-key=$access_key --secret=$secret_key
+radosgw-admin period update --commit
 ```
 
-Create your standard_ia storage placement group
+Create your standard-ia storage placement group
 ```bash
-# Add a placement group for STANDARD_IA
+# Add a placement group for standard-ia
 radosgw-admin zonegroup placement add \
 --rgw-zonegroup us \
 --placement-id default-ia-placement \
@@ -120,12 +120,12 @@ radosgw-admin zone placement add \
 --rgw-zone us-west-1 \
 --placement-id default-ia-placement \
 --storage-class STANDARD_IA \
---data-pool us-west-1.rgw.buckets.standard_ia.data \
---data_extra_pool us-west-1.rgw.buckets.standard_ia.non-ec \
---index-pool us-west-1.rgw.buckets.standard_ia.index \
+--data-pool us-west-1.rgw.buckets.standard-ia.data \
+--data_extra_pool us-west-1.rgw.buckets.standard-ia.non-ec \
+--index-pool us-west-1.rgw.buckets.standard-ia.index \
 --compression lz4
 
-sudo radosgw-admin period update --commit
+radosgw-admin period update --commit
 ```
 
 Create your data pools
@@ -140,7 +140,7 @@ Create your data pools
   ceph osd pool set us-west-1.rgw.buckets.standard.data compression_algorithm lz4
   ```
 
-* `us-west-1.rgw.buckets.standard_ia.data`
+* `us-west-1.rgw.buckets.standard-ia.data`
   ```bash
   ceph osd erasure-code-profile set rgw-standard-ia-data \
     k=2 m=1 \
@@ -149,12 +149,12 @@ Create your data pools
     plugin=jerasure \
     technique=reed_sol_van \
     stripe_unit=4096
-  ceph osd pool create us-west-1.rgw.buckets.standard_ia.data 0 0 erasure rgw-standard-ia-data
-  ceph osd pool set us-west-1.rgw.buckets.standard_ia.data pg_autoscale_mode on
-  ceph osd pool application enable us-west-1.rgw.buckets.standard_ia.data rgw
-  ceph osd pool set us-west-1.rgw.buckets.standard_ia.data compression_mode force
-  ceph osd pool set us-west-1.rgw.buckets.standard_ia.data compression_algorithm lz4
-  ceph osd pool set us-west-1.rgw.buckets.standard_ia.data allow_ec_overwrites true
+  ceph osd pool create us-west-1.rgw.buckets.standard-ia.data 0 0 erasure rgw-standard-ia-data
+  ceph osd pool set us-west-1.rgw.buckets.standard-ia.data pg_autoscale_mode on
+  ceph osd pool application enable us-west-1.rgw.buckets.standard-ia.data rgw
+  ceph osd pool set us-west-1.rgw.buckets.standard-ia.data compression_mode force
+  ceph osd pool set us-west-1.rgw.buckets.standard-ia.data compression_algorithm lz4
+  ceph osd pool set us-west-1.rgw.buckets.standard-ia.data allow_ec_overwrites true
   ```
 
 Create yourself a user
@@ -217,38 +217,38 @@ Place a load balancer in front of these nodes and you're good to go!
 # CLEANUP
 Run on each host
 ```bash
-sudo systemctl stop ceph-radosgw@rgw.`hostname -s`
-sudo systemctl disable ceph-radosgw@rgw.`hostname -s`
-sudo rm -rf /var/lib/ceph/radosgw/ceph-rgw.`hostname -s`
-sudo rm -rf /etc/systemd/system/ceph-radosgw.target.wants
-sudo apt purge radosgw -y
+systemctl stop ceph-radosgw@rgw.`hostname -s`
+systemctl disable ceph-radosgw@rgw.`hostname -s`
+rm -rf /var/lib/ceph/radosgw/ceph-rgw.`hostname -s`
+rm -rf /etc/systemd/system/ceph-radosgw.target.wants
+apt purge radosgw -y
 ```
 
 Run on one host
 ```bash
-sudo ceph mgr module disable rgw
-sudo ceph osd pool delete .rgw.root .rgw.root --yes-i-really-really-mean-it
-sudo ceph osd pool delete default.rgw.control default.rgw.control --yes-i-really-really-mean-it
-sudo ceph osd pool delete default.rgw.log default.rgw.log --yes-i-really-really-mean-it
-sudo ceph osd pool delete default.rgw.meta default.rgw.meta --yes-i-really-really-mean-it
-sudo ceph osd pool delete default.rgw.log default.rgw.log --yes-i-really-really-mean-it
-sudo ceph osd pool delete default.rgw.buckets.non-ec default.rgw.buckets.non-ec --yes-i-really-really-mean-it
-sudo ceph osd pool delete default.rgw.buckets.index default.rgw.buckets.index --yes-i-really-really-mean-it
-sudo ceph osd pool delete default.rgw.buckets.data default.rgw.buckets.data --yes-i-really-really-mean-it
+ceph mgr module disable rgw
+ceph osd pool delete .rgw.root .rgw.root --yes-i-really-really-mean-it
+ceph osd pool delete default.rgw.control default.rgw.control --yes-i-really-really-mean-it
+ceph osd pool delete default.rgw.log default.rgw.log --yes-i-really-really-mean-it
+ceph osd pool delete default.rgw.meta default.rgw.meta --yes-i-really-really-mean-it
+ceph osd pool delete default.rgw.log default.rgw.log --yes-i-really-really-mean-it
+ceph osd pool delete default.rgw.buckets.non-ec default.rgw.buckets.non-ec --yes-i-really-really-mean-it
+ceph osd pool delete default.rgw.buckets.index default.rgw.buckets.index --yes-i-really-really-mean-it
+ceph osd pool delete default.rgw.buckets.data default.rgw.buckets.data --yes-i-really-really-mean-it
 
 ceph osd erasure-code-profile rm rgw-standard-ia-data
 ceph osd crush rule rm rgw-standard-data
 
-sudo ceph osd pool delete us-west-1.rgw.control us-west-1.rgw.control --yes-i-really-really-mean-it
-sudo ceph osd pool delete us-west-1.rgw.log us-west-1.rgw.log --yes-i-really-really-mean-it
-sudo ceph osd pool delete us-west-1.rgw.meta us-west-1.rgw.meta --yes-i-really-really-mean-it
-sudo ceph osd pool delete us-west-1.rgw.buckets.non-ec us-west-1.rgw.buckets.non-ec --yes-i-really-really-mean-it
-sudo ceph osd pool delete us-west-1.rgw.buckets.index us-west-1.rgw.buckets.index --yes-i-really-really-mean-it
-sudo ceph osd pool delete us-west-1.rgw.buckets.data us-west-1.rgw.buckets.data --yes-i-really-really-mean-it
-sudo ceph osd pool delete us-west-1.rgw.buckets.standard.index us-west-1.rgw.buckets.standard.index --yes-i-really-really-mean-it
-sudo ceph osd pool delete us-west-1.rgw.buckets.standard.data us-west-1.rgw.buckets.standard.data --yes-i-really-really-mean-it
-sudo ceph osd pool delete us-west-1.rgw.buckets.standard_ia.index us-west-1.rgw.buckets.standard_ia.index --yes-i-really-really-mean-it
-sudo ceph osd pool delete us-west-1.rgw.buckets.standard_ia.data us-west-1.rgw.buckets.standard_ia.data --yes-i-really-really-mean-it
+ceph osd pool delete us-west-1.rgw.control us-west-1.rgw.control --yes-i-really-really-mean-it
+ceph osd pool delete us-west-1.rgw.log us-west-1.rgw.log --yes-i-really-really-mean-it
+ceph osd pool delete us-west-1.rgw.meta us-west-1.rgw.meta --yes-i-really-really-mean-it
+ceph osd pool delete us-west-1.rgw.buckets.non-ec us-west-1.rgw.buckets.non-ec --yes-i-really-really-mean-it
+ceph osd pool delete us-west-1.rgw.buckets.index us-west-1.rgw.buckets.index --yes-i-really-really-mean-it
+ceph osd pool delete us-west-1.rgw.buckets.data us-west-1.rgw.buckets.data --yes-i-really-really-mean-it
+ceph osd pool delete us-west-1.rgw.buckets.standard.index us-west-1.rgw.buckets.standard.index --yes-i-really-really-mean-it
+ceph osd pool delete us-west-1.rgw.buckets.standard.data us-west-1.rgw.buckets.standard.data --yes-i-really-really-mean-it
+ceph osd pool delete us-west-1.rgw.buckets.standard-ia.index us-west-1.rgw.buckets.standard-ia.index --yes-i-really-really-mean-it
+ceph osd pool delete us-west-1.rgw.buckets.standard-ia.data us-west-1.rgw.buckets.standard-ia.data --yes-i-really-really-mean-it
 
 sed -i 's/rgw_zone = us-west-1/rgw_zone = default/' /etc/pve/ceph.conf
 ```
