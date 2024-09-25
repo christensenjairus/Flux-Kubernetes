@@ -17,7 +17,7 @@ spec:
               service:
                 name: s3
                 port:
-                  number: 7480
+                  number: 8080
             path: /
             pathType: Prefix
   tls:

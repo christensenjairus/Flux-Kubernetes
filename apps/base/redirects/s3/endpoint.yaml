@@ -9,5 +9,5 @@ subsets:
       - ip: 10.0.0.108
       - ip: 10.0.0.109
     ports:
-      - port: 7480
+      - port: 8080
         protocol: TCP

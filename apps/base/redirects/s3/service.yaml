@@ -6,8 +6,8 @@ metadata:
 spec:
   internalTrafficPolicy: Cluster
   ports:
-    - port: 7480
+    - port: 8080
       protocol: TCP
-      targetPort: 7480
+      targetPort: 8080
   sessionAffinity: None
   type: ClusterIP

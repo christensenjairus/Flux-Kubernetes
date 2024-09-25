@@ -1,0 +1,16 @@
+<LifecycleConfiguration>
+    <Rule>
+        <ID>Transition then Expire Rule</ID>
+        <Filter>
+            <Prefix></Prefix>
+        </Filter>
+        <Status>Enabled</Status>
+        <Transition>
+            <Days>1</Days>
+            <StorageClass>COLD</StorageClass>
+        </Transition>
+        <Expiration>
+            <Days>3</Days>
+        </Expiration>
+    </Rule>
+</LifecycleConfiguration>
