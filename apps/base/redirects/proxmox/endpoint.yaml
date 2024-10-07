@@ -5,7 +5,8 @@ metadata:
   namespace: redirects
 subsets:
   - addresses:
-      - ip: 10.0.0.100
+      - ip: 10.0.0.109
+      - ip: 10.0.0.108
     ports:
       - port: 8006
         protocol: TCP
