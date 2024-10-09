@@ -392,8 +392,8 @@ spec:
   patches:
     - target:
         kind: HelmRelease
-        name:
-          rook-ceph-cluster
+        name: rook-ceph-cluster
+        namespace: rook-ceph
       patch: |
         [
           {
