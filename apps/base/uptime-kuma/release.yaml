@@ -143,7 +143,7 @@ spec:
     volume:
       enabled: true
       accessMode: ReadWriteOnce
-      size: 4Gi
+      size: 6Gi
       # If you want to use a storage class other than the default, uncomment this
       # line and define the storage class name
       storageClassName: ceph-block-3
