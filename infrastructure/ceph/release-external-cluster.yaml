@@ -19,6 +19,13 @@ spec:
 
     operatorNamespace: rook-ceph
 
+    csiConfig:
+      - clusterID: "2b0735b0-8687-4d44-bbf3-93bb00ce0b92"
+        monitors:
+          - "10.0.0.100"
+          - "10.0.0.108"
+          - "10.0.0.109"
+
     cephClusterSpec:
       external:
         enable: true
