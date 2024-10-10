@@ -8,4 +8,4 @@ resources:
   - prometheus-ceph-rules.yaml
   # - blackbox-probe.yaml
 
-  - ./external-ceph
+  #- ./external-ceph
