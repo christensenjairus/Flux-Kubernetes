@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # prometheus-operator
+  - crd-alertmanagerconfigs.yaml
+  - crd-alertmanagers.yaml
+  - crd-podmonitors.yaml
+  - crd-probes.yaml
+  - crd-prometheusagents.yaml
+  - crd-prometheuses.yaml
+  - crd-prometheusrules.yaml
+  - crd-scrapeconfigs.yaml
+  - crd-servicemonitors.yaml
+  - crd-thanosrulers.yaml
+
+  # victoria-metrics vmprobe (needed so that infra services can install their vmprobes before vm installs the crds)
+  - crd-vmprobes.yaml
+
+  # cert-manager (needed before it installs so that the cluster-issuer can pass the dry run check)
+  - crd-cluster-issuer.yaml

@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - secret-rook-csi-cephfs-provisioner.yaml
+  - secret-rook-csi-cephfs-node.yaml
+  - storageclass.yaml
+  - snapshotclass.yaml
+  - cephfilesystemsubvolumegroup.yaml

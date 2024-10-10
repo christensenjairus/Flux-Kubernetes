@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - secret-rook-csi-rbd-provisioner.yaml
+  - secret-rook-csi-rbd-node.yaml
+  - storageclass.yaml
+  - snapshotclass.yaml
+  - cephblockpoolradosnamespace.yaml

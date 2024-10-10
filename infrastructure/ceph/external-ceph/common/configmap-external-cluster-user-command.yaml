@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  args: ""
+kind: ConfigMap
+metadata:
+  name: external-cluster-user-command
+  namespace: rook-ceph-external

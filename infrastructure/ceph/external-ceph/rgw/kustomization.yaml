@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Standard Buckets
+  - cephobjectstore.yaml
+  - storageclass-k8s-rgw.yaml
+
+  # COSI Buckets
+  - cosi-controller
+  - cephcosidriver.yaml
+  - bucketclass.yaml
+  - bucketaccessclass.yaml

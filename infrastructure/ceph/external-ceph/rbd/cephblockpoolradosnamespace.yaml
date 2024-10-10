@@ -1,0 +1,7 @@
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPoolRadosNamespace
+metadata:
+  name: omega
+  namespace: rook-ceph-external
+spec:
+  blockPoolName: k8s-rbd

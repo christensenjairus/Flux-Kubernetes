@@ -22,6 +22,7 @@ On one node, add the following lines to `/etc/pve/ceph.conf`
     rgw_cache_enabled = true
     rgw_cache_lru_size = 1000000
     rgw_dns_name = s3.christensencloud.us
+    rgw_trust_forwarded_https = true
     rgw_zone = default
 
 [client.rgw.Citadel]
@@ -33,6 +34,7 @@ On one node, add the following lines to `/etc/pve/ceph.conf`
     rgw_cache_enabled = true
     rgw_cache_lru_size = 1000000
     rgw_dns_name = s3.christensencloud.us
+    rgw_trust_forwarded_https = true
     rgw_zone = default
     
 [client.rgw.Parthenon]
@@ -44,6 +46,7 @@ On one node, add the following lines to `/etc/pve/ceph.conf`
     rgw_cache_enabled = true
     rgw_cache_lru_size = 1000000
     rgw_dns_name = s3.christensencloud.us
+    rgw_trust_forwarded_https = true
     rgw_zone = default
 ```
 
@@ -172,7 +175,7 @@ s3cmd --configure # set up a connection to the Ceph cluster
 
 Create a bucket and apply a lifecycle policy
 ```bash
-BUCKET_NAME=testbucket
+BUCKET_NAME=backups
 s3cmd mb s3://$BUCKET_NAME # Add -P to make it publicly readable
 s3cmd setversioning s3://$BUCKET_NAME enable # Enable versioning
 
@@ -236,9 +239,6 @@ ceph osd pool delete default.rgw.buckets.non-ec default.rgw.buckets.non-ec --yes
 ceph osd pool delete default.rgw.buckets.index default.rgw.buckets.index --yes-i-really-really-mean-it
 ceph osd pool delete default.rgw.buckets.data default.rgw.buckets.data --yes-i-really-really-mean-it
 
-ceph osd erasure-code-profile rm rgw-standard-ia-data
-ceph osd crush rule rm rgw-standard-data
-
 ceph osd pool delete us-west-1.rgw.control us-west-1.rgw.control --yes-i-really-really-mean-it
 ceph osd pool delete us-west-1.rgw.log us-west-1.rgw.log --yes-i-really-really-mean-it
 ceph osd pool delete us-west-1.rgw.meta us-west-1.rgw.meta --yes-i-really-really-mean-it
@@ -249,6 +249,9 @@ ceph osd pool delete us-west-1.rgw.buckets.standard.index us-west-1.rgw.buckets.
 ceph osd pool delete us-west-1.rgw.buckets.standard.data us-west-1.rgw.buckets.standard.data --yes-i-really-really-mean-it
 ceph osd pool delete us-west-1.rgw.buckets.standard-ia.index us-west-1.rgw.buckets.standard-ia.index --yes-i-really-really-mean-it
 ceph osd pool delete us-west-1.rgw.buckets.standard-ia.data us-west-1.rgw.buckets.standard-ia.data --yes-i-really-really-mean-it
+
+ceph osd erasure-code-profile rm rgw-standard-ia-data
+ceph osd crush rule rm rgw-standard-data
 
 sed -i 's/rgw_zone = us-west-1/rgw_zone = default/' /etc/pve/ceph.conf
 ```

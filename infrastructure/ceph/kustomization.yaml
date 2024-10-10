@@ -4,7 +4,8 @@ resources:
   - namespace.yaml
   - repository.yaml
   - release-operator.yaml
-  - release-cluster.yaml
-  - release-external-cluster.yaml
+  - release-cluster.yaml # eventually comment me out
   - prometheus-ceph-rules.yaml
   # - blackbox-probe.yaml
+
+  - ./external-ceph

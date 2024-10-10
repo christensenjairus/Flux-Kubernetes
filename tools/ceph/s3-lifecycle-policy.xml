@@ -6,11 +6,11 @@
         </Filter>
         <Status>Enabled</Status>
         <Transition>
-            <Days>7</Days>
-            <StorageClass>COLD</StorageClass>
+            <Days>0</Days>
+            <StorageClass>STANDARD_IA</StorageClass>
         </Transition>
         <Expiration>
-            <Days>30</Days>
+            <Days>90</Days>
         </Expiration>
     </Rule>
 </LifecycleConfiguration>

@@ -1,0 +1,17 @@
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+metadata:
+  name: pve
+  namespace: rook-ceph-external
+spec:
+  gateway:
+    port: 8080
+    externalRgwEndpoints:
+      - ip: 10.0.0.100
+      - ip: 10.0.0.108
+      - ip: 10.0.0.109
+  sharedPools:
+    dataPoolName: us-west-1.rgw.buckets.standard.data
+    metadataPoolName: us-west-1.rgw.meta
+  allowUsersInNamespaces:
+    - default

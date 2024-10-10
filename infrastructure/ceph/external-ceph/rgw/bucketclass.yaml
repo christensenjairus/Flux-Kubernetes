@@ -1,0 +1,9 @@
+kind: BucketClass
+apiVersion: objectstorage.k8s.io/v1alpha1
+metadata:
+  name: k8s-rgw
+driverName: rook-ceph.ceph.objectstorage.k8s.io
+deletionPolicy: Delete
+parameters:
+  objectStoreUserSecretName: rook-ceph-object-user-pve-cosi
+  objectStoreUserSecretNamespace: rook-ceph-external
