@@ -14,7 +14,7 @@ RGW_REALM="us-west"
 RGW_ZONE="us-west-1"
 RGW_ZONEGROUP="us"
 
-rm -r ./create-external-cluster-resources.py ./variables.txt
+rm -r ./create-external-cluster-resources.py ./.external-ceph-secrets.env
 wget https://raw.githubusercontent.com/rook/rook/refs/heads/master/deploy/examples/create-external-cluster-resources.py
 chmod +x ./create-external-cluster-resources.py
 
@@ -34,7 +34,7 @@ python3 create-external-cluster-resources.py \
   --rgw-pool-prefix $RGW_ZONE \
   --rados-namespace $CLUSTER_NAME \
   --subvolume-group $CLUSTER_NAME \
-  --output ./variables.txt
+  --output ./.external-ceph-secrets.env
 
 #  --rbd-metadata-ec-pool-name $RBD_METADATA_POOL_NAME # not currently using erasure coding
 

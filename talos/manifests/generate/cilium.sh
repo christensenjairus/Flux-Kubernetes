@@ -2,36 +2,34 @@
 
 # Ensure that a version number is provided
 if [ -z "$1" ]; then
-  echo "Usage: $0 <version>"
+  echo "Usage: $0 <version> <ipv6 true|false> (leave the prepended 'v' off the version number)"
   exit 1
 fi
 
 set -e
 
 VERSION=$1
+IPV6_ENABLED=$2
 
 # Get the directory of the script to ensure the output path is relative to the script's location
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Set the output path for the manifest file
-OUTPUT_FILE="${SCRIPT_DIR}/../cilium-${VERSION}.yaml"
+OUTPUT_FILE="${SCRIPT_DIR}/../raw/cilium-v${VERSION}.yaml"
 rm -rf OUTPUT_FILE 2>/dev/null | true
-
-# Create the ../manifests directory if it doesn't exist
-mkdir -p "${SCRIPT_DIR}/../"
 
 helm repo add cilium https://helm.cilium.io/ 1>/dev/null
 helm repo update 1>/dev/null
 
 # Run the helm template command and output to the specified file
 helm template cilium cilium/cilium \
-  --version "$VERSION" \
+  --version "v${VERSION}" \
   --namespace kube-system \
   --set operator.replicas=2 \
   --set rolloutCiliumPods=true \
   --set operator.rollOutPods=true \
   --set ipv4.enabled=true \
-  --set ipv6.enabled=true \
+  --set ipv6.enabled="$IPV6_ENABLED" \
   --set ipam.mode=kubernetes \
   --set externalIPs.enabled=true \
   --set nodePort.enabled=true \
@@ -46,4 +44,4 @@ helm template cilium cilium/cilium \
   --set k8sServicePort=7445 > "$OUTPUT_FILE"
 
 # Notify the user of the output file location
-echo "Cilium manifest generated for version $VERSION at: $OUTPUT_FILE"
+echo "Cilium manifest generated for v$VERSION at: $OUTPUT_FILE"

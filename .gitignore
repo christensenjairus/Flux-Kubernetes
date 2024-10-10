@@ -7,3 +7,6 @@ bin/
 *.crt
 *.csr
 *.srl
+*/.terraform*
+talos/manifests/raw
+talos/manifests/presigned-urls
