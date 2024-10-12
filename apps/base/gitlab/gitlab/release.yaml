@@ -1420,7 +1420,7 @@ spec:
       gitaly:
         persistence:
           enabled: true
-          storageClass: ceph-block-2
+          storageClass: k8s-rbd
           accessMode: ReadWriteOnce
           size: 3Gi
         resources:
@@ -1500,7 +1500,7 @@ spec:
         enabled: false
       persistence:
         enabled: true
-        storageClass: ceph-block-3
+        storageClass: k8s-rbd
         accessMode: ReadWriteOnce
         size: 5Gi
       resources:

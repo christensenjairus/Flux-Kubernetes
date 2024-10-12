@@ -20,8 +20,8 @@ spec:
           - key: "{{ request.object.spec.storageClassName }}"
             operator: In
             value:
-              - ceph-filesystem-2
-              - ceph-filesystem-3
+              - k8s-cephfs
+              - k8s-cephfs
               # Add specific storage classes as needed
       mutate:
         patchStrategicMerge:

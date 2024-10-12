@@ -9,4 +9,4 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: ceph-block-3
+  storageClassName: k8s-rbd

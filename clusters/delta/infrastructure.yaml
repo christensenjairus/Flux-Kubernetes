@@ -146,6 +146,7 @@ spec:
   dependsOn:
     - name: infra-crds
     - name: infra-networking
+    - name: infra-ceph
   interval: 1h
   retryInterval: 1m
   timeout: 5m
@@ -157,9 +158,6 @@ spec:
   wait: true
   patches:
     - patch: |
-        - op: replace
-          path: /spec/values/vmsingle/spec/storage/storageClassName
-          value: "local-path"
         - op: replace
           path: /spec/values/vmsingle/ingress/hosts/0
           value: "vm-delta.christensencloud.us"
@@ -410,6 +408,7 @@ spec:
   dependsOn:
     - name: infra-crds
     - name: infra-arp
+    - name: infra-ceph
   interval: 1h
   retryInterval: 1m
   timeout: 5m
@@ -487,15 +486,6 @@ spec:
       target:
         kind: PrometheusRule
         name: prometheus-ingress-rules-public
-    - patch: |
-        - op: replace
-          path: /spec/storageClassName
-          value: "local-path"
-        - op: remove
-          path: /spec/accessModes/0
-      target:
-        kind: PersistentVolumeClaim
-        name: ingress-nginx-cache
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -610,6 +600,64 @@ spec:
       target:
         kind: HelmRelease
         name: vertical-pod-autoscaler
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-ceph
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/ceph
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        # forget about osd placement
+        - op: remove
+          path: /spec/values/discover/nodeAffinity
+      target:
+        kind: HelmRelease
+        name: rook-ceph
+    - patch: |
+        - op: replace
+          path: /spec/values/ingress/dashboard/host/name
+          value: ceph-delta.christensencloud.us
+        - op: replace
+          path: /spec/values/ingress/dashboard/tls/0/hosts/0
+          value: ceph-delta.christensencloud.us
+        - op: replace
+          path: /spec/values/ingress/dashboard/tls/0/secretName
+          value: ceph-delta-christensencloud.us-tls
+        - op: replace
+          path: /spec/values/cephObjectStores/0/ingress/host/name
+          value: s3-delta.christensencloud.us
+        - op: replace
+          path: /spec/values/cephObjectStores/0/ingress/tls/0/hosts/0
+          value: s3-delta.christensencloud.us
+        - op: replace
+          path: /spec/values/cephObjectStores/0/ingress/tls/0/secretName
+          value: s3-delta-christensencloud.us-tls
+        # allow multiple mons and mgrs per node and forget about placement
+        - op: replace
+          path: /spec/values/cephClusterSpec/mon/allowMultiplePerNode
+          value: true
+        - op: replace
+          path: /spec/values/cephClusterSpec/mgr/allowMultiplePerNode
+          value: true
+        - op: remove
+          path: /spec/values/cephClusterSpec/placement
+      target:
+        kind: HelmRelease
+        name: rook-ceph-cluster
+        namespace: rook-ceph
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -756,15 +804,6 @@ spec:
   prune: true
   wait: true
   patches:
-    - patch: |
-        - op: remove
-          path: /spec/values/splunkOperator/nodeSelector/nodeclass
-        - op: replace
-          path: /spec/values/splunkOperator/persistentVolumeClaim/storageClassName
-          value: "local-path"
-      target:
-        kind: HelmRelease
-        name: splunk-operator
     - patch: |
         - op: remove
           path: /spec/values/nodeSelector/nodeclass

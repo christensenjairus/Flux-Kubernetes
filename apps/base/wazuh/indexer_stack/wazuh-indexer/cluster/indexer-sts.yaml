@@ -134,7 +134,7 @@ spec:
       spec:
         accessModes:
           - ReadWriteOnce
-        storageClassName: ceph-block-3
+        storageClassName: k8s-rbd
         resources:
           requests:
             storage: 500Mi

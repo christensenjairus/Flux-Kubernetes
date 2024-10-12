@@ -237,7 +237,7 @@ spec:
       size: 2Gi
       accessMode: ReadWriteMany
       ## Persistent Volume storage class
-      storageClass: "ceph-filesystem-3"
+      storageClass: "k8s-cephfs"
       ## Use existing Persistent Volume Claim
       # existingClaim:
       ## Annotations to add to the Persistent Volume Claim

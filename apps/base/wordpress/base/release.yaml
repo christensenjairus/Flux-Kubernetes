@@ -916,7 +916,7 @@ spec:
       ## If set to "-", storageClassName: "", which disables dynamic provisioning
       ## If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner
       ##
-      storageClass: "ceph-filesystem-3"
+      storageClass: "k8s-cephfs"
       ## @param persistence.accessModes [array] Persistent Volume access modes
       ##
       accessModes:
@@ -1335,7 +1335,7 @@ spec:
         ##
         persistence:
           enabled: true
-          storageClass: "ceph-block-3"
+          storageClass: "k8s-rbd"
           accessModes:
             - ReadWriteOnce
           size: 3Gi
@@ -1374,7 +1374,7 @@ spec:
         ##
         persistence:
           enabled: true
-          storageClass: "ceph-block-3"
+          storageClass: "k8s-rbd"
           accessModes:
             - ReadWriteOnce
           size: 3Gi

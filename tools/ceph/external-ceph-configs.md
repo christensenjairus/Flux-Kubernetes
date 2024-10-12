@@ -14,6 +14,9 @@ RGW_REALM="us-west"
 RGW_ZONE="us-west-1"
 RGW_ZONEGROUP="us"
 
+ceph fs subvolumegroup create $CEPHFS_FS_NAME $CLUSTER_NAME
+rbd namespace create $RBD_DATA_POOL_NAME/$CLUSTER_NAME
+
 rm -r ./create-external-cluster-resources.py ./.external-ceph-secrets.env
 wget https://raw.githubusercontent.com/rook/rook/refs/heads/master/deploy/examples/create-external-cluster-resources.py
 chmod +x ./create-external-cluster-resources.py
@@ -50,3 +53,13 @@ helm upgrade --install --create-namespace --namespace rook-ceph rook-ceph rook-r
 ```
 
 Apply the `external-ceph` infrastructure configuration afterward
+
+## RadosNamespace and CephFS Subvolumes
+https://rook.io/docs/rook/latest/CRDs/Block-Storage/ceph-block-pool-rados-namespace-crd/#spec
+
+Once the radosnamespace is 'Ready', take the clusterID and place it in the `storageClass` and `volumeSnapshotClass` under .parameters.clusterID
+
+```bash
+echo "RBD ClusterID: $(kubectl -n $NAMESPACE get cephblockpoolradosnamespace/$CLUSTER_NAME -o jsonpath='{.status.info.clusterID}')"
+echo "CephFS ClusterID: $(kubectl -n $NAMESPACE get cephfilesystemsubvolumegroups/$CLUSTER_NAME -o jsonpath='{.status.info.clusterID}')"
+```

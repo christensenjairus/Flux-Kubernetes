@@ -125,4 +125,4 @@ spec:
         resources:
           requests:
             storage: "1Gi"
-        storageClassName: "ceph-block-2"
+        storageClassName: "k8s-rbd"

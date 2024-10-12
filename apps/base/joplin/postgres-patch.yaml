@@ -15,7 +15,7 @@ spec:
       replicas: 3
       minAvailable: 2 # pod disruption budget used here
       dataVolumeClaimSpec:
-        storageClassName: ceph-block-2
+        storageClassName: k8s-rbd
         accessModes:
         - "ReadWriteOnce"
         resources:
@@ -55,7 +55,7 @@ spec:
           differential: "0 * * * *" # every hour at :00
         volume:
           volumeClaimSpec:
-            storageClassName: ceph-block-2
+            storageClassName: k8s-rbd
             accessModes:
             - "ReadWriteOnce"
             resources:

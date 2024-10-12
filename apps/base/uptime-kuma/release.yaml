@@ -146,7 +146,7 @@ spec:
       size: 6Gi
       # If you want to use a storage class other than the default, uncomment this
       # line and define the storage class name
-      storageClassName: ceph-block-3
+      storageClassName: k8s-rbd
       # Reuse your own pre-existing PVC.
       existingClaim: "uptime-kuma-pvc" # volume name from prod-k3s cluster migration
 

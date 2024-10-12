@@ -102,7 +102,7 @@ spec:
       enabled: true
       size: "1Gi"
       annotations: { }
-      storageClass: ceph-block-3
+      storageClass: k8s-rbd
       accessMode: ReadWriteOnce
       existingClaim:
 

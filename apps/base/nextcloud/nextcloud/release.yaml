@@ -516,12 +516,12 @@ spec:
       master:
         persistence:
           size: 3Gi
-          storageClass: ceph-block-2
+          storageClass: k8s-rbd
       replica:
         replicaCount: 3
         persistence:
           size: 3Gi
-          storageClass: ceph-block-2
+          storageClass: k8s-rbd
 
 
     ## Cronjob to execute Nextcloud background tasks
@@ -567,7 +567,7 @@ spec:
       ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
       ##   GKE, AWS & OpenStack)
       ##
-      storageClass: "ceph-filesystem-3"
+      storageClass: "k8s-cephfs"
 
       ## A manually managed Persistent Volume and Claim
       ## Requires persistence.enabled: true
@@ -585,7 +585,7 @@ spec:
         annotations: { }
         existingClaim: nextcloud-data
         accessMode: ReadWriteMany
-        #storageClass: "ceph-filesystem-3"
+        #storageClass: "k8s-cephfs"
         #size: 5000Gi
 
     resources: #{ }

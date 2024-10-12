@@ -190,7 +190,7 @@ spec:
         # -- Enable homarr-config persistent storage
         enabled: true
         # -- homarr-config storage class name
-        storageClassName: "ceph-block-3"
+        storageClassName: "k8s-rbd"
         # -- homarr-config access mode
         accessMode: "ReadWriteOnce"
         # -- homarr-config storage size
@@ -201,7 +201,7 @@ spec:
         # -- Enable homarr-database persistent storage
         enabled: true
         # -- homarr-database storage class name
-        storageClassName: "ceph-block-3"
+        storageClassName: "k8s-rbd"
         # -- homarr-database access mode
         accessMode: "ReadWriteOnce"
         # -- homarr-database storage size
@@ -212,7 +212,7 @@ spec:
         # -- Enable homarr-icons persistent storage
         enabled: true
         # -- homarr-icons storage class name
-        storageClassName: "ceph-block-3"
+        storageClassName: "k8s-rbd"
         # -- homarr-icons access mode
         accessMode: "ReadWriteOnce"
         # -- homarr-icons storage size
