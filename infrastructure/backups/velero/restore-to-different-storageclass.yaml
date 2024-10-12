@@ -20,8 +20,12 @@ data:
   # add 1+ key-value pairs here, where the key is the old
   # storage class name and the value is the new storage
   # class name.
-  ceph-block: "ceph-block-3"
-  ceph-filesystem: "ceph-filesystem-3"
+  ceph-block: "k8s-rbd"
+  ceph-filesystem: "k8s-cephfs"
+  ceph-block-3: "k8s-rbd"
+  ceph-filesystem-3: "k8s-cephfs"
+  ceph-block-2: "k8s-rbd"
+  ceph-filesystem-2: "k8s-cephfs"
 #  longhorn: "ceph-block-3"
 #  longhorn-one-replica: "ceph-block-2"
 #  truenas-nfs: "ceph-filesystem-2"
