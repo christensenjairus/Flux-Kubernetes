@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: homarr
-      version: "1.x.x"
+      version: "1.2.6" # the maintainer made a mistake in 1.3.0 with the probes
       sourceRef:
         kind: HelmRepository
         name: homarr
@@ -194,7 +194,7 @@ spec:
         # -- homarr-config access mode
         accessMode: "ReadWriteOnce"
         # -- homarr-config storage size
-        size: "52Mi"
+        size: "50Mi"
         # -- homarr-config mount path inside the pod
         mountPath: "/app/data/configs"
       - name: homarr-database
@@ -216,7 +216,7 @@ spec:
         # -- homarr-icons access mode
         accessMode: "ReadWriteOnce"
         # -- homarr-icons storage size
-        size: "52Mi"
+        size: "50Mi"
         # -- homarr-icons mount path inside the pod
         mountPath: "/app/public/icons"
 
