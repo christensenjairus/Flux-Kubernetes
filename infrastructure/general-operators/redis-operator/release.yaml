@@ -34,7 +34,7 @@ spec:
       #  - -zap-log-level=error
       watch_namespace: ""
       env: [ ]
-      webhook: false
+      webhook: true
 
 
     resources:
@@ -65,10 +65,10 @@ spec:
       privateKeySecretName: letsencrypt-prod
       solver:
         enabled: true
-        ingressClass: nginx
+        ingressClass: nginx-public
 
     certmanager:
-      enabled: false
+      enabled: true
 
     priorityClassName: ""
     nodeSelector:
