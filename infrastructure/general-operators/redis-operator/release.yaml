@@ -51,7 +51,7 @@ spec:
 
     service:
       name: webhook-service
-      namespace: redis-operator
+      namespace: general-operators
 
     certificate:
       name: serving-cert
