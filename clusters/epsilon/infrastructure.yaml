@@ -358,38 +358,38 @@ spec:
       target:
         kind: HelmRelease
         name: rook-ceph
-    - patch: |
-        - op: replace
-          path: /spec/values/ingress/dashboard/host/name
-          value: ceph-epsilon.christensencloud.us
-        - op: replace
-          path: /spec/values/ingress/dashboard/tls/0/hosts/0
-          value: ceph-epsilon.christensencloud.us
-        - op: replace
-          path: /spec/values/ingress/dashboard/tls/0/secretName
-          value: ceph-epsilon-christensencloud.us-tls
-        - op: replace
-          path: /spec/values/cephObjectStores/0/ingress/host/name
-          value: s3-epsilon.christensencloud.us
-        - op: replace
-          path: /spec/values/cephObjectStores/0/ingress/tls/0/hosts/0
-          value: s3-epsilon.christensencloud.us
-        - op: replace
-          path: /spec/values/cephObjectStores/0/ingress/tls/0/secretName
-          value: s3-epsilon-christensencloud.us-tls
-        # allow multiple mons and mgrs per node and forget about placement
-        - op: replace
-          path: /spec/values/cephClusterSpec/mon/allowMultiplePerNode
-          value: true
-        - op: replace
-          path: /spec/values/cephClusterSpec/mgr/allowMultiplePerNode
-          value: true
-        - op: remove
-          path: /spec/values/cephClusterSpec/placement
-      target:
-        kind: HelmRelease
-        name: rook-ceph-cluster
-        namespace: rook-ceph
+#    - patch: |
+#        - op: replace
+#          path: /spec/values/ingress/dashboard/host/name
+#          value: ceph-epsilon.christensencloud.us
+#        - op: replace
+#          path: /spec/values/ingress/dashboard/tls/0/hosts/0
+#          value: ceph-epsilon.christensencloud.us
+#        - op: replace
+#          path: /spec/values/ingress/dashboard/tls/0/secretName
+#          value: ceph-epsilon-christensencloud.us-tls
+#        - op: replace
+#          path: /spec/values/cephObjectStores/0/ingress/host/name
+#          value: s3-epsilon.christensencloud.us
+#        - op: replace
+#          path: /spec/values/cephObjectStores/0/ingress/tls/0/hosts/0
+#          value: s3-epsilon.christensencloud.us
+#        - op: replace
+#          path: /spec/values/cephObjectStores/0/ingress/tls/0/secretName
+#          value: s3-epsilon-christensencloud.us-tls
+#        # allow multiple mons and mgrs per node and forget about placement
+#        - op: replace
+#          path: /spec/values/cephClusterSpec/mon/allowMultiplePerNode
+#          value: true
+#        - op: replace
+#          path: /spec/values/cephClusterSpec/mgr/allowMultiplePerNode
+#          value: true
+#        - op: remove
+#          path: /spec/values/cephClusterSpec/placement
+#      target:
+#        kind: HelmRelease
+#        name: rook-ceph-cluster
+#        namespace: rook-ceph
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
