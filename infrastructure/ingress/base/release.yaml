@@ -73,6 +73,42 @@ spec:
           proxy_cache_lock on;
           proxy_cache_use_stale updating;
 
+        # Enables Modsecurity
+        enable-modsecurity: "true"
+
+        # Update ModSecurity config and rules
+        modsecurity-snippet: |
+          # this enables the mod security nextcloud plugin
+          Include /etc/nginx/owasp-modsecurity-crs/plugins/nextcloud-rule-exclusions-before.conf
+    
+          # this enables the default OWASP Core Rule Set
+          Include /etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf
+    
+          # Enable prevention mode. Options: DetectionOnly,On,Off (default is DetectionOnly)
+          SecRuleEngine On
+    
+          # Enable scanning of the request body
+          SecRequestBodyAccess On
+    
+          # Enable XML and JSON parsing
+          SecRule REQUEST_HEADERS:Content-Type "(?:text|application(?:/soap\+|/)|application/xml)/" \
+            "id:200000,phase:1,t:none,t:lowercase,pass,nolog,ctl:requestBodyProcessor=XML"
+    
+          SecRule REQUEST_HEADERS:Content-Type "application/json" \
+            "id:200001,phase:1,t:none,t:lowercase,pass,nolog,ctl:requestBodyProcessor=JSON"
+    
+          # Reject if larger (we could also let it pass with ProcessPartial)
+          SecRequestBodyLimitAction Reject
+    
+          # Send ModSecurity audit logs to the stdout (only for rejected requests)
+          SecAuditLog /dev/stdout
+    
+          # format the logs in JSON
+          SecAuditLogFormat JSON
+    
+          # could be On/Off/RelevantOnly
+          SecAuditEngine RelevantOnly
+
       # -- Annotations to be added to the controller config configuration configmap.
       configAnnotations: { }
       # -- Will add custom headers before sending traffic to backends according to https://github.com/kubernetes/ingress-nginx/tree/main/docs/examples/customization/custom-headers
@@ -684,6 +720,10 @@ spec:
         - name: cache-volume
           mountPath: /cache
 
+        # override the /etc/nginx/enable-owasp-modsecurity-crs/plugins with your ConfigMap
+        - name: plugins
+          mountPath: /etc/nginx/owasp-modsecurity-crs/plugins
+
       # -- Additional volumes to the controller pod.
       extraVolumes: #[ ]
       #  - name: copy-portal-skins
@@ -691,6 +731,10 @@ spec:
         - name: cache-volume
           persistentVolumeClaim:
             claimName: ingress-nginx-cache
+
+        - name: plugins
+          configMap:
+            name: modsecurity-plugins
 
       # -- Containers, which are run before the app containers are started.
       extraInitContainers: #[ ]

@@ -4,6 +4,7 @@ resources:
   - namespace.yaml
   - custom-error-pages.yaml
   - cache-pvc.yaml
+  - modsecurity-plugins-cm.yaml
   - repository.yaml
   - release.yaml
   - prometheus-rules.yaml

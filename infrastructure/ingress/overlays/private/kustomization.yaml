@@ -22,4 +22,3 @@ patches:
       - op: replace
         path: /spec/groups/0/name
         value: ingress-nginx-private
-        
