@@ -3,6 +3,8 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: k8s-rbd
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
 parameters:
   clusterID: "0483875e7976b3730685634e07896d27"
   csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner

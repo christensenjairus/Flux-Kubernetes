@@ -25,7 +25,7 @@ spec:
       repository: louislam/uptime-kuma
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "1.23.13"
+      tag: "1.23.15-alpine"
 
     imagePullSecrets: []
     nameOverride: ""
@@ -143,12 +143,12 @@ spec:
     volume:
       enabled: true
       accessMode: ReadWriteOnce
-      size: 6Gi
+      size: 10Gi
       # If you want to use a storage class other than the default, uncomment this
       # line and define the storage class name
       storageClassName: k8s-rbd
       # Reuse your own pre-existing PVC.
-      existingClaim: "uptime-kuma-pvc" # volume name from prod-k3s cluster migration
+      #existingClaim: "uptime-kuma-pvc" # volume name from prod-k3s cluster migration
 
     # -- A list of additional volumes to be added to the pod
     additionalVolumes:
