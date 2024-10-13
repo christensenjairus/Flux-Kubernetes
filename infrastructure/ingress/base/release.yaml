@@ -101,13 +101,13 @@ spec:
           SecRequestBodyLimitAction Reject
     
           # Send ModSecurity audit logs to the stdout (only for rejected requests)
-          SecAuditLog /dev/stdout
+          SecAuditLog /var/log/nginx/audit
     
           # format the logs in JSON
           SecAuditLogFormat JSON
     
           # could be On/Off/RelevantOnly
-          SecAuditEngine RelevantOnly
+          SecAuditEngine On
 
       # -- Annotations to be added to the controller config configuration configmap.
       configAnnotations: { }
@@ -724,6 +724,10 @@ spec:
         - name: plugins
           mountPath: /etc/nginx/owasp-modsecurity-crs/plugins
 
+        # output modsecurity audit logs here
+        - name: audit-logs
+          mountPath: /var/log/nginx/audit
+
       # -- Additional volumes to the controller pod.
       extraVolumes: #[ ]
       #  - name: copy-portal-skins
@@ -735,6 +739,10 @@ spec:
         - name: plugins
           configMap:
             name: modsecurity-plugins
+
+        - name: audit-logs
+          persistentVolumeClaim:
+            claimName: ingress-nginx-audit-logs
 
       # -- Containers, which are run before the app containers are started.
       extraInitContainers: #[ ]

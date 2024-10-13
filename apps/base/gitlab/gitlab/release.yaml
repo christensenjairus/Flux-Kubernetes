@@ -12,7 +12,7 @@ spec:
   chart:
     spec:
       chart: gitlab
-      version: "7.11.x"
+      version: "8.3.5" #"8.4.2"
       sourceRef:
         kind: HelmRepository
         name: gitlab
@@ -47,7 +47,7 @@ spec:
     ## https://docs.gitlab.com/charts/charts/globals
     global:
       ## https://docs.gitlab.com/charts/charts/globals#gitlab-version
-      gitlabVersion: "16.11.2"
+      gitlabVersion: "17.3.5"
 
       nodeSelector:
         nodeclass: general

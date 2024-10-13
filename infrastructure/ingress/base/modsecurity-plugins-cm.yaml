@@ -10,7 +10,7 @@ data:
     # no data
   empty-config.conf: |
     # no data
-  nextcloud-rule-exclusions-before.conf: |
+  nextcloud-rule-exclusions-before.conf:
     # this is just a snippet
     # find the full file at https://github.com/coreruleset/nextcloud-rule-exclusions-plugin
     #
