@@ -4,3 +4,4 @@ resources:
   - ./prometheus-operator
   - ./external-snapshotter
   - ./cosi
+  - ./redis-operator

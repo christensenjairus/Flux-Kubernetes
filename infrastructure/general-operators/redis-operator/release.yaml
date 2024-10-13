@@ -34,8 +34,7 @@ spec:
       #  - -zap-log-level=error
       watch_namespace: ""
       env: [ ]
-      webhook: true
-
+      webhook: false
 
     resources:
       limits:
@@ -68,7 +67,7 @@ spec:
         ingressClass: nginx-public
 
     certmanager:
-      enabled: true
+      enabled: false
 
     priorityClassName: ""
     nodeSelector:
