@@ -187,6 +187,7 @@ spec:
       nodeConfVolume: true
       nodeConfVolumeClaimTemplate:
         spec:
+          storageClassName: k8s-rbd
           accessModes: [ "ReadWriteOnce" ]
           resources:
             requests:

@@ -195,7 +195,7 @@ variable "clusters" {
           sockets    = 2
           memory     = 24576 # need a ton for testing large apps like clustered Splunk
           disks      = [
-            { index = 0, datastore = "nvmes", size = 100, backup = true }
+            { index = 0, datastore = "pve-block", size = 100, backup = true }
           ]
           start_ip   = 110
           labels = {
@@ -209,7 +209,7 @@ variable "clusters" {
           sockets    = 2
           memory     = 2048
           disks      = [
-            { index = 0, datastore = "nvmes", size = 20, backup = true }
+            { index = 0, datastore = "pve-block", size = 20, backup = true }
           ]
           start_ip   = 120
         }
@@ -219,7 +219,7 @@ variable "clusters" {
           sockets    = 2
           memory     = 2048
           disks      = [
-            { index = 0, datastore = "nvmes", size = 20, backup = true }
+            { index = 0, datastore = "pve-block", size = 20, backup = true }
           ]
           start_ip   = 130
           labels = {
@@ -233,7 +233,7 @@ variable "clusters" {
           sockets    = 2
           memory     = 8192
           disks      = [
-            { index = 0, datastore = "nvmes", size = 20, backup = true }
+            { index = 0, datastore = "pve-block", size = 20, backup = true }
           ]
           start_ip   = 140
           labels = {
@@ -247,7 +247,7 @@ variable "clusters" {
           sockets    = 2
           memory     = 4096
           disks      = [
-            { index = 0, datastore = "nvmes", size = 20, backup = true }
+            { index = 0, datastore = "pve-block", size = 20, backup = true }
           ]
           start_ip   = 150
           labels = {
@@ -315,7 +315,7 @@ variable "clusters" {
           sockets    = 2
           memory     = 4096
           disks      = [
-            { index = 0, datastore = "nvmes", size = 20, backup = true }
+            { index = 0, datastore = "pve-block", size = 20, backup = true }
           ]
           start_ip   = 110
           labels = {
@@ -329,7 +329,7 @@ variable "clusters" {
           sockets    = 2
           memory     = 2048
           disks      = [
-            { index = 0, datastore = "nvmes", size = 20, backup = true }
+            { index = 0, datastore = "pve-block", size = 20, backup = true }
           ]
           start_ip   = 120
         }
@@ -339,8 +339,8 @@ variable "clusters" {
           sockets    = 2
           memory     = 8192
           disks      = [
-            { index = 0, datastore = "nvmes", size = 20, backup = true },
-            { index = 1, datastore = "nvmes", size = 100, backup = false }
+            { index = 0, datastore = "pve-block", size = 20, backup = true },
+            { index = 1, datastore = "pve-block", size = 100, backup = false }
           ]
           start_ip   = 130
           labels = {
@@ -354,8 +354,8 @@ variable "clusters" {
           sockets    = 2
           memory     = 8192
           disks      = [
-            { index = 0, datastore = "nvmes", size = 50, backup = true }, # big enough to hold vitess databases
-            { index = 1, datastore = "nvmes", size = 100, backup = false }
+            { index = 0, datastore = "pve-block", size = 50, backup = true }, # big enough to hold vitess databases
+            { index = 1, datastore = "pve-block", size = 100, backup = false }
           ]
           start_ip   = 140
           labels = {
@@ -369,8 +369,8 @@ variable "clusters" {
           sockets    = 2
           memory     = 18432
           disks      = [
-            { index = 0, datastore = "nvmes", size = 20, backup = true },
-            { index = 1, datastore = "nvmes", size = 100, backup = false }
+            { index = 0, datastore = "pve-block", size = 20, backup = true },
+            { index = 1, datastore = "pve-block", size = 100, backup = false }
           ]
           start_ip   = 150
           labels = {
@@ -438,7 +438,7 @@ variable "clusters" {
           sockets  = 2
           memory   = 8192
           disks    = [
-            { index = 0, datastore = "nvmes", size = 20, backup = true }
+            { index = 0, datastore = "pve-block", size = 20, backup = true }
           ]
           start_ip = 110
           labels   = {
@@ -452,7 +452,7 @@ variable "clusters" {
           sockets  = 2
           memory   = 3072
           disks    = [
-            { index = 0, datastore = "nvmes", size = 30, backup = true } # an extra 10 for extra space for etcd backups. 24+7 of them at 250MB each is 8GB.
+            { index = 0, datastore = "pve-block", size = 30, backup = true } # an extra 10 for extra space for etcd backups. 24+7 of them at 250MB each is 8GB.
           ]
           start_ip = 120
         }
@@ -462,11 +462,11 @@ variable "clusters" {
           sockets  = 2
           memory   = 12288
           disks    = [
-            { index = 0, datastore = "nvmes", size = 70, backup = true }, # an extra 50 for rook mon folder /rook/rook-ceph
-            { index = 1, datastore = "nvmes", size = 100, backup = false }, # 400GB could be full and still leave space for os disks on Proxmox
-            { index = 2, datastore = "nvmes", size = 100, backup = false }, # separating them out to help with rook performance
-            { index = 3, datastore = "nvmes", size = 100, backup = false },
-            { index = 4, datastore = "nvmes", size = 100, backup = false }
+            { index = 0, datastore = "pve-block", size = 70, backup = true }, # an extra 50 for rook mon folder /rook/rook-ceph
+            { index = 1, datastore = "pve-block", size = 100, backup = false }, # 400GB could be full and still leave space for os disks on Proxmox
+            { index = 2, datastore = "pve-block", size = 100, backup = false }, # separating them out to help with rook performance
+            { index = 3, datastore = "pve-block", size = 100, backup = false },
+            { index = 4, datastore = "pve-block", size = 100, backup = false }
           ]
           start_ip = 130
           labels   = {
@@ -480,7 +480,7 @@ variable "clusters" {
           sockets  = 2
           memory   = 12288
           disks    = [
-            { index = 0, datastore = "nvmes", size = 50, backup = true } # an extra 30 for vitess databases as local-path volumes.
+            { index = 0, datastore = "pve-block", size = 50, backup = true } # an extra 30 for vitess databases as local-path volumes.
           ]
           start_ip = 140
           labels   = {
@@ -494,7 +494,7 @@ variable "clusters" {
           sockets  = 2
           memory   = 32768
           disks    = [
-            { index = 0, datastore = "nvmes", size = 70, backup = true } # an extra 50 for emptyDir volumes for holding a ton of local copies of images. I got disk pressure taints with 30GB and low kubelet space warnings with 50GB.
+            { index = 0, datastore = "pve-block", size = 70, backup = true } # an extra 50 for emptyDir volumes for holding a ton of local copies of images. I got disk pressure taints with 30GB and low kubelet space warnings with 50GB.
           ]
           start_ip = 150
           labels   = {
@@ -558,11 +558,11 @@ variable "clusters" {
       node_classes = {
         apiserver = {
           count    = 3
-          cores    = 2
+          cores    = 5
           sockets  = 2
-          memory   = 8192
+          memory   = 10240
           disks    = [
-            { index = 0, datastore = "nvmes", size = 20, backup = true }
+            { index = 0, datastore = "pve-block", size = 20, backup = true }
           ]
           start_ip = 110
           labels   = {
@@ -572,33 +572,27 @@ variable "clusters" {
         }
         etcd = {
           count    = 3
-          cores    = 1
-          sockets  = 2
-          memory   = 3072
+          cores    = 3
+          sockets  = 1
+          memory   = 6144
           disks    = [
-            { index = 0, datastore = "nvmes", size = 30, backup = true } # an extra 10 for extra space for etcd backups. 24+7 of them at 250MB each is 8GB.
+            { index = 0, datastore = "pve-block", size = 30, backup = true } # an extra 10 for extra space for etcd backups. 24+7 of them at 250MB each is 8GB.
           ]
           start_ip = 120
         }
         storage = {
-          count    = 4 # need three minimum for my replication level, an extra to maintain HEALTH_OK when I take one down for maintenance
+          count    = 0
           cores    = 4
           sockets  = 2
           memory   = 12288
           disks    = [
-            { index = 0, datastore = "nvmes", size = 20, backup = true }, # an extra 50 for rook mon folder /rook/rook-ceph
-            { index = 1, datastore = "nvmes", size = 100, backup = false }, # 400GB could be full and still leave space for os disks on Proxmox
-            { index = 2, datastore = "nvmes", size = 100, backup = false }, # separating them out to help with rook performance
-            { index = 3, datastore = "nvmes", size = 100, backup = false },
-            { index = 4, datastore = "nvmes", size = 100, backup = false }
+            { index = 0, datastore = "pve-block", size = 20, backup = true }
           ]
           start_ip = 130
           labels   = {
             "nodeclass" = "storage"
           }
-          taints   = {
-            "storage-node" = "true:NoSchedule"
-          }
+          taints   = {}
         }
         database = {
           count    = 3 # should be three or more. Redis and postgres clusters are assigned to these nodes. They have three nodes w/ spread constraints.
@@ -606,7 +600,7 @@ variable "clusters" {
           sockets  = 2
           memory   = 12288
           disks    = [
-            { index = 0, datastore = "nvmes", size = 50, backup = true } # an extra 30 for vitess databases as local-path volumes.
+            { index = 0, datastore = "pve-block", size = 20, backup = true }
           ]
           start_ip = 140
           labels   = {
@@ -620,7 +614,7 @@ variable "clusters" {
           sockets  = 2
           memory   = 24576
           disks    = [
-            { index = 0, datastore = "nvmes", size = 120, backup = true } # an extra 50 for emptyDir volumes for holding a ton of local copies of images. I got disk pressure taints with 30GB and low kubelet space warnings with 50GB. An extra 50 for rook mon folder /rook/rook-ceph
+            { index = 0, datastore = "pve-block", size = 70, backup = true } # an extra 20 for emptyDir volumes for holding a ton of local copies of images. I got disk pressure taints with 30GB and low kubelet space warnings with 50GB.
           ]
           start_ip = 150
           labels   = {

@@ -16,8 +16,6 @@ spec:
             - key: spec.storageClassName
               operator: In
               values:
-              - ceph-filesystem-2
-              - ceph-block-2
               - truenas-iscsi-retain
               - truenas-iscsi
               - truenas-nfs-retain
