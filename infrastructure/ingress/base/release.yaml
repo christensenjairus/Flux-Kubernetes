@@ -101,7 +101,7 @@ spec:
           SecRequestBodyLimitAction Reject
           
           # Send ModSecurity audit logs to desired location
-          SecAuditLog /var/log/nginx/audit
+          SecAuditLogStorageDir /var/log/nginx/audit
           
           # format the logs in JSON
           SecAuditLogFormat JSON
