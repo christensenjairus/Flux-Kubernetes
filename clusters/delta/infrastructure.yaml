@@ -238,12 +238,12 @@ spec:
       target:
         kind: Deployment
         name: metrics-server
-    - patch: |
-        - op: remove
-          path: /spec/values/nodeSelector/nodeclass
-      target:
-        kind: HelmRelease
-        name: prometheus-blackbox-exporter
+#    - patch: |
+#        - op: remove
+#          path: /spec/values/nodeSelector/nodeclass
+#      target:
+#        kind: HelmRelease
+#        name: prometheus-blackbox-exporter
     # hide non-applicable dashboards from grafana
     - patch: |
         - op: remove

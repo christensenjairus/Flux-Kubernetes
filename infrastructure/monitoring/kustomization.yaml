@@ -4,5 +4,5 @@ resources:
   - ./node-problem-detector
   - ./metrics-server
   - ./victoria-metrics
-  - ./blackbox-exporter
-  - blackbox-probe.yaml
+  #- ./blackbox-exporter
+  #- blackbox-probe.yaml

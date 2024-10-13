@@ -10,4 +10,4 @@ resources:
   - release-goldilocks.yaml
   - release-keda.yaml
   - release-vpa.yaml
-  - blackbox-probe.yaml
+  #- blackbox-probe.yaml

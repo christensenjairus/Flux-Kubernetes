@@ -65,5 +65,5 @@ resources:
   - k8s-pvs.yaml
 
   # blackbox-exporter dashboards
-  - blackbox-exporter.yaml
-  - blackbox-exporter-simplified.yaml
+  #- blackbox-exporter.yaml
+  #- blackbox-exporter-simplified.yaml
