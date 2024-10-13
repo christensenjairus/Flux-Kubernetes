@@ -3,13 +3,13 @@ kind: ConfigMap
 metadata:
   name: modsecurity-plugins
   namespace: ingress-nginx
-data: []
-#  empty-after.conf: |
-#    # no data
-#  empty-before.conf: |
-#    # no data
-#  empty-config.conf: |
-#    # no data
+data:
+  empty-after.conf: |
+    # no data
+  empty-before.conf: |
+    # no data
+  empty-config.conf: |
+    # no data
 #  nextcloud-rule-exclusions-before.conf: |
 #    # this is just a snippet
 #    # find the full file at https://github.com/coreruleset/nextcloud-rule-exclusions-plugin
