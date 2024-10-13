@@ -583,7 +583,7 @@ spec:
       nfsAttachRequired: true
 
     # -- Enable discovery daemon
-    enableDiscoveryDaemon: true
+    enableDiscoveryDaemon: false # only needed if running internal ceph
     # -- Set the discovery daemon device discovery interval (default to 60m)
     discoveryDaemonInterval: 5m
 
