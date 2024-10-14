@@ -100,6 +100,10 @@ spec:
           # Whitelist all traffic from the local network by skipping rules
           SecRule REMOTE_ADDR "@ipMatch 10.0.0.0/8" \
             "id:1000,phase:1,nolog,pass,ctl:ruleEngine=Off"
+          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47fd::/48" \
+            "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off"
+          
+          # old ipv6
           SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47ff::/48" \
             "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off"
           
