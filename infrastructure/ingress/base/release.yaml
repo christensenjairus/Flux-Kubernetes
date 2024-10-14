@@ -107,7 +107,7 @@ spec:
           SecRequestBodyLimitAction ProcessPartial  # as opposed to Reject, which will reject request bodies for being too large
           SecAuditLogStorageDir /audit-logs         # put audit log files here
           SecAuditLogType Concurrent                # place logs in audit log dir concurrently, as opposed Serial
-          SecAuditLogFormat JSON                    # could be native or json
+          SecAuditLogFormat JSON                    # could be native or JSON
           SecAuditEngine RelevantOnly               # could be On/Off/RelevantOnly. Log only what is relevant.
           SecAuditLogParts ABIJDEFHZ                # log these parts of the transaction (https://www.feistyduck.com/library/modsecurity-handbook-2ed-free/online/ch04-logging.html)
 

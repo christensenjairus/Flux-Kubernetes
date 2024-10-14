@@ -16,4 +16,8 @@ resources:
 configMapGenerator:
   - name: wordpress-modsecurity-ruleset
     files:
-      - wordpress-modsecurity-ruleset/
+      - wordpress-modsecurity-ruleset/01-SETUP.conf
+      - wordpress-modsecurity-ruleset/02-INITIALIZATION.conf
+      - wordpress-modsecurity-ruleset/03-BRUTEFORCE.conf
+      - wordpress-modsecurity-ruleset/04-EVENTS.conf
+      - wordpress-modsecurity-ruleset/05-HARDENING.conf
