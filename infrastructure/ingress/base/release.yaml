@@ -725,7 +725,7 @@ spec:
           mountPath: /etc/nginx/owasp-modsecurity-crs/plugins
 
         # output modsecurity audit logs here
-        - name: audit-logs
+        - name: audit-log-volume
           mountPath: /audit-logs
 
       # -- Additional volumes to the controller pod.
@@ -740,7 +740,7 @@ spec:
           configMap:
             name: modsecurity-plugins
 
-        - name: audit-logs
+        - name: audit-log-volume
           persistentVolumeClaim:
             claimName: ingress-nginx-audit-logs
 
@@ -749,13 +749,21 @@ spec:
       # - name: init-myservice
       #   image: busybox
       #   command: ['sh', '-c', 'until nslookup myservice; do echo waiting for myservice; sleep 2; done;']
-        - name: volume-permissions
+        - name: volume-permissions-cache
           image: busybox
           command: [ "/bin/sh" ]
           args: [ "-c", "chmod -R 777 /cache && chown 1000:1000 /cache" ]
           volumeMounts:
             - name: cache-volume
               mountPath: /cache
+
+        - name: volume-permissions-audit-logs
+          image: busybox
+          command: [ "/bin/sh" ]
+          args: [ "-c", "chmod -R 777 /audit-logs && chown 1000:1000 /audit-logs" ]
+          volumeMounts:
+            - name: audit-logs-volume
+              mountPath: /audit-logs
 
       # -- Modules, which are mounted into the core nginx image. See values.yaml for a sample to add opentelemetry module
       extraModules: [ ]
