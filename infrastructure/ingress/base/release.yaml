@@ -100,11 +100,12 @@ spec:
           # Reject if larger (we could also let it pass with ProcessPartial)
           SecRequestBodyLimitAction Reject
           
-          # Send ModSecurity audit logs to desired location
-          SecAuditLogStorageDir /audit-logs
+          # Send ModSecurity audit logs to a mounted volume
+          #SecAuditLogStorageDir /audit-logs
+          #SecAuditLogType Concurrent
           
-          # Enable logging of the audit log
-          SecAuditLogType Concurrent
+          # Print the logs instead of storing them
+          SecAuditLog /dev/stdout
           
           # format the logs in JSON
           SecAuditLogFormat JSON
@@ -761,7 +762,7 @@ spec:
         - name: volume-permissions-cache
           image: busybox
           command: [ "/bin/sh" ]
-          args: [ "-c", "chmod -R 777 /cache && chown 1000:1000 /cache" ]
+          args: [ "-c", "chmod 777 /cache && chown 1000:1000 /cache" ]
           volumeMounts:
             - name: cache-volume
               mountPath: /cache
@@ -769,7 +770,7 @@ spec:
         - name: volume-permissions-audit-logs
           image: busybox
           command: [ "/bin/sh" ]
-          args: [ "-c", "chmod -R 777 /audit-logs && chown 1000:1000 /audit-logs" ]
+          args: [ "-c", "chmod 777 /audit-logs && chown 1000:1000 /audit-logs" ]
           volumeMounts:
             - name: audit-log-volume
               mountPath: /audit-logs
