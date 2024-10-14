@@ -78,13 +78,10 @@ spec:
 
         # Update ModSecurity config and rules
         modsecurity-snippet: |
-          ## this enables the mod security nextcloud plugin
-          #Include /etc/nginx/owasp-modsecurity-crs/plugins/nextcloud-rule-exclusions-before.conf
+          Include /modsecurity-plugins/*.conf
+          Include /modsecurity-rulesets/*.conf
           
-          # enable extra rule sets
-          Include /etc/nginx/wordpress-modsecurity-ruleset/*.conf
-          
-          # this enables the default OWASP Core Rule Set
+          # enable the default OWASP Core Rule Set
           Include /etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf
           
           SecRuleEngine DetectionOnly # Options: DetectionOnly,On,Off (default is DetectionOnly)
@@ -716,27 +713,21 @@ spec:
       #      mountPath: /srv/var/lib/lemonldap-ng/portal/skins
 
       # -- Additional volumeMounts to the controller main container.
-      extraVolumeMounts: #[ ]
-      #  - name: copy-portal-skins
-      #   mountPath: /var/lib/lemonldap-ng/portal/skins
+      extraVolumeMounts:
         - name: cache-volume
           mountPath: /cache
 
-        # output modsecurity audit logs here
         - name: audit-log-volume
           mountPath: /audit-logs
 
-        - name: wordpress-modsecurity-ruleset
-          mountPath: /etc/nginx/wordpress-modsecurity-ruleset
+        - name: modsecurity-rulesets
+          mountPath: /modsecurity-rulesets
 
-#        # override the /etc/nginx/enable-owasp-modsecurity-crs/plugins with your ConfigMap
-#        - name: plugins
-#          mountPath: /etc/nginx/owasp-modsecurity-crs/plugins
+        - name: modsecurity-plugins
+          mountPath: /modsecurity-plugins
 
       # -- Additional volumes to the controller pod.
-      extraVolumes: #[ ]
-      #  - name: copy-portal-skins
-      #    emptyDir: {}
+      extraVolumes:
         - name: cache-volume
           persistentVolumeClaim:
             claimName: ingress-nginx-cache
@@ -745,15 +736,13 @@ spec:
           persistentVolumeClaim:
             claimName: ingress-nginx-audit-logs
 
-        - name: wordpress-modsecurity-ruleset
+        - name: modsecurity-rulesets
           configMap:
-            name: wordpress-modsecurity-ruleset
+            name: modsecurity-rulesets
 
-#        - name: plugins
-#          configMap:
-#            name: modsecurity-plugins
-
-
+        - name: modsecurity-plugins
+          configMap:
+            name: modsecurity-plugins
 
       # -- Containers, which are run before the app containers are started.
       extraInitContainers: #[ ]
