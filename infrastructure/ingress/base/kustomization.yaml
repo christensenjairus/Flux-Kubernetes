@@ -11,9 +11,6 @@ resources:
   - prometheus-rules.yaml
   - ./tcp-udp-forwards
 
-generatorOptions:
-  disableNameSuffixHash: true
-
 configMapGenerator:
   - name: modsecurity-plugins
     files:
@@ -27,3 +24,6 @@ configMapGenerator:
       - ./modsecurity-rulesets/WP-BRUTEFORCE.conf
       - ./modsecurity-rulesets/WP-EVENTS.conf
       - ./modsecurity-rulesets/WP-HARDENING.conf
+
+configurations:
+  - kustomizeconfig.yaml
