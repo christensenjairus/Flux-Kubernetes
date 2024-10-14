@@ -103,11 +103,21 @@ spec:
           # Send ModSecurity audit logs to desired location
           SecAuditLogStorageDir /audit-logs
           
+          # Enable logging of the audit log
+          SecAuditLog /audit-logs/audit.log
+          SecAuditLogType Serial
+          
           # format the logs in JSON
           SecAuditLogFormat JSON
           
           # could be On/Off/RelevantOnly
           SecAuditEngine RelevantOnly
+          
+          # Log relevant parts of transactions
+          SecAuditLogParts ABIJDEFHZ
+        
+          # Define which requests should generate audit logs
+          SecAuditLogRelevantStatus "^(?:5|4)"
 
       # -- Annotations to be added to the controller config configuration configmap.
       configAnnotations: { }
