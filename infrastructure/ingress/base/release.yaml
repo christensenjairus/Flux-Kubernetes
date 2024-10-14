@@ -78,8 +78,8 @@ spec:
 
         # Update ModSecurity config and rules
         modsecurity-snippet: |
-          #Include /modsecurity-plugins/*.conf
-          #Include /modsecurity-rulesets/*.conf
+          Include /modsecurity-plugins/*.conf
+          Include /modsecurity-rulesets/*.conf
           
           # enable the default OWASP Core Rule Set
           Include /etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf
@@ -98,7 +98,7 @@ spec:
           SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47fd::/48" \
             "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off"          # current ipv6
           SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47ff::/48" \
-            "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off"          # old ipv6
+            "id:1002,phase:1,nolog,pass,ctl:ruleEngine=Off"          # old ipv6
           
           SecRequestBodyAccess On                   # scan request bodies
           SecRequestBodyLimitAction ProcessPartial  # as opposed to Reject, which will reject request bodies for being too large
