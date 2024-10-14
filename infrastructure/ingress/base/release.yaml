@@ -78,8 +78,8 @@ spec:
 
         # Update ModSecurity config and rules
         modsecurity-snippet: |
-          # this enables the mod security nextcloud plugin
-          Include /etc/nginx/owasp-modsecurity-crs/plugins/nextcloud-rule-exclusions-before.conf
+          ## this enables the mod security nextcloud plugin
+          #Include /etc/nginx/owasp-modsecurity-crs/plugins/nextcloud-rule-exclusions-before.conf
           
           # this enables the default OWASP Core Rule Set
           Include /etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf
