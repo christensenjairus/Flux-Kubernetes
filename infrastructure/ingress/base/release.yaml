@@ -101,7 +101,7 @@ spec:
           SecRequestBodyLimitAction Reject
           
           # Send ModSecurity audit logs to desired location
-          SecAuditLogStorageDir /var/log/nginx/audit
+          SecAuditLogStorageDir /audit-logs
           
           # format the logs in JSON
           SecAuditLogFormat JSON
@@ -726,7 +726,7 @@ spec:
 
         # output modsecurity audit logs here
         - name: audit-logs
-          mountPath: /var/log/nginx/audit
+          mountPath: /audit-logs
 
       # -- Additional volumes to the controller pod.
       extraVolumes: #[ ]
