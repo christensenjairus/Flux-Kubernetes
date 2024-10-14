@@ -97,9 +97,11 @@ spec:
           SecRule REQUEST_HEADERS:Content-Type "application/json" \
             "id:200001,phase:1,t:none,t:lowercase,pass,nolog,ctl:requestBodyProcessor=JSON"
           
-          # Whitelist all traffic from the 10.0.0.0/8 network by skipping rules
+          # Whitelist all traffic from the local network by skipping rules
           SecRule REMOTE_ADDR "@ipMatch 10.0.0.0/8" \
             "id:1000,phase:1,nolog,pass,ctl:ruleEngine=Off"
+          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47ff::/48" \
+            "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off"
           
           # Reject if larger (we could also let it pass with ProcessPartial)
           SecRequestBodyLimitAction Reject
@@ -107,9 +109,6 @@ spec:
           # Send ModSecurity audit logs to a mounted volume
           SecAuditLogStorageDir /audit-logs
           SecAuditLogType Concurrent
-          
-          # Print the logs instead of storing them
-          #SecAuditLog /dev/stdout
           
           # Format the logs in JSON
           SecAuditLogFormat JSON
