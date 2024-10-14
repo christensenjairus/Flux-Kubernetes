@@ -78,8 +78,8 @@ spec:
 
         # Update ModSecurity config and rules
         modsecurity-snippet: |
-          Include /modsecurity-plugins/*.conf
-          Include /modsecurity-rulesets/*.conf
+          #Include /modsecurity-plugins/*.conf
+          #Include /modsecurity-rulesets/*.conf
           
           # enable the default OWASP Core Rule Set
           Include /etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf

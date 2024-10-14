@@ -12,7 +12,7 @@ resources:
   - ./tcp-udp-forwards
 
 generatorOptions:
-  disableNameSuffixHash: true  # Disable the hash on generated ConfigMaps and Secrets
+  disableNameSuffixHash: true
 
 configMapGenerator:
   - name: modsecurity-plugins
