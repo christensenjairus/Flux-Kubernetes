@@ -63,7 +63,7 @@ spec:
         #   value: "value"
         #   effect: "NoSchedule"
         nodeSelector:
-          nodeclass: database
+          nodeclass: general
         securityContext: { }
         pdb:
           enabled: false #true
@@ -97,7 +97,7 @@ spec:
         #   value: "value"
         #   effect: "NoSchedule"
         nodeSelector:
-          nodeclass: database
+          nodeclass: general
         securityContext: { }
         pdb:
           enabled: false #true

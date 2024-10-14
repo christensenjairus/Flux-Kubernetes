@@ -53,7 +53,7 @@ spec:
                   - key: "nodeclass"
                     operator: "In"
                     values:
-                      - "database"
+                      - "general"
         podAntiAffinity: # don't schedule on the same node as another replica
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:

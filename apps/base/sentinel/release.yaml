@@ -123,7 +123,7 @@ spec:
     priorityClassName: ""
 
     nodeSelector:
-      nodeclass: database
+      nodeclass: general
 
     podSecurityContext:
       runAsUser: 1000

@@ -114,7 +114,7 @@ spec:
     priorityClassName: ""
 
     nodeSelector:
-     nodeclass: database
+     nodeclass: general
 
     storageSpec:
       volumeClaimTemplate:

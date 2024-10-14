@@ -1324,7 +1324,7 @@ spec:
       ##
       primary:
         nodeSelector:
-          nodeclass: database
+          nodeclass: general
         podAntiAffinityPreset: hard
         ## MariaDB Primary Persistence parameters
         ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
@@ -1363,7 +1363,7 @@ spec:
       secondary:
         replicaCount: 2
         nodeSelector:
-          nodeclass: database
+          nodeclass: general
         podAntiAffinityPreset: hard
         ## MariaDB Secondary Persistence parameters
         ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
