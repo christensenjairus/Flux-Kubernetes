@@ -84,47 +84,26 @@ spec:
           # this enables the default OWASP Core Rule Set
           Include /etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf
           
-          # Enable prevention mode. Options: DetectionOnly,On,Off (default is DetectionOnly)
-          SecRuleEngine DetectionOnly
-          
-          # Enable scanning of the request body
-          SecRequestBodyAccess On
+          SecRuleEngine DetectionOnly # Options: DetectionOnly,On,Off (default is DetectionOnly)
           
           # Enable XML and JSON parsing
           SecRule REQUEST_HEADERS:Content-Type "(?:text|application(?:/soap\+|/)|application/xml)/" \
             "id:200000,phase:1,t:none,t:lowercase,pass,nolog,ctl:requestBodyProcessor=XML"
-          
           SecRule REQUEST_HEADERS:Content-Type "application/json" \
             "id:200001,phase:1,t:none,t:lowercase,pass,nolog,ctl:requestBodyProcessor=JSON"
           
           # Whitelist all traffic from the local network by skipping rules
-          SecRule REMOTE_ADDR "@ipMatch 10.0.0.0/8" \
-            "id:1000,phase:1,nolog,pass,ctl:ruleEngine=Off"
-          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47fd::/48" \
-            "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off"
+          SecRule REMOTE_ADDR "@ipMatch 10.0.0.0/8" "id:1000,phase:1,nolog,pass,ctl:ruleEngine=Off"          # ipv4
+          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47fd::/48" "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off" # current ipv6
+          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47ff::/48" "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off" # old ipv6
           
-          # old ipv6
-          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47ff::/48" \
-            "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off"
-          
-          # Reject if larger (we could also let it pass with ProcessPartial)
-          SecRequestBodyLimitAction Reject
-          
-          # Send ModSecurity audit logs to a mounted volume
-          SecAuditLogStorageDir /audit-logs
-          SecAuditLogType Concurrent
-          
-          # Format the logs in JSON
-          SecAuditLogFormat JSON
-          
-          # Could be On/Off/RelevantOnly
-          SecAuditEngine RelevantOnly
-          
-          # Log relevant parts of transactions
-          SecAuditLogParts ABIJDEFHZ
-        
-          # Define which requests should generate audit logs
-          SecAuditLogRelevantStatus "^(?:5|4)"
+          SecRequestBodyAccess On                   # scan request bodies
+          SecRequestBodyLimitAction ProcessPartial  # as opposed to Reject, which will reject request bodies for being too large
+          SecAuditLogStorageDir /audit-logs         # put audit log files here
+          SecAuditLogType Concurrent                # place logs in audit log dir concurrently, as opposed Serial
+          SecAuditLogFormat JSON                    # could be 'native' or 'JSON'
+          SecAuditEngine RelevantOnly               # could be On/Off/RelevantOnly. Log only what is relevant.
+          SecAuditLogParts ABIJDEFHZ                # log these parts of the transaction (see docs)
 
       # -- Annotations to be added to the controller config configuration configmap.
       configAnnotations: { }
