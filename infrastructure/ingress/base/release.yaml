@@ -97,6 +97,10 @@ spec:
           SecRule REQUEST_HEADERS:Content-Type "application/json" \
             "id:200001,phase:1,t:none,t:lowercase,pass,nolog,ctl:requestBodyProcessor=JSON"
           
+          # Whitelist all traffic from the 10.0.0.0/8 network by skipping rules
+          SecRule REMOTE_ADDR "@ipMatch 10.0.0.0/8" \
+            "id:1000,phase:1,nolog,pass,ctl:ruleEngine=Off"
+          
           # Reject if larger (we could also let it pass with ProcessPartial)
           SecRequestBodyLimitAction Reject
           
