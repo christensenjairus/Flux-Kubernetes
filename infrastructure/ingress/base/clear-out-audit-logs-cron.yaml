@@ -4,7 +4,7 @@ metadata:
   name: clear-out-audit-logs
   namespace: ingress-nginx
 spec:
-  schedule: "0 * * * *"  # Runs every hour
+  schedule: "0 0 * * *"  # Runs once a day at midnight
   jobTemplate:
     spec:
       template:
@@ -16,10 +16,11 @@ spec:
                 - /bin/sh
                 - -c
                 - |
-                  HOURS=24
+                  DAYS=30
+                  HOURS=$((DAYS * 24))
                   MINUTES=$((HOURS * 60))
                   
-                  echo "Deleting folders older than $HOURS hours..."
+                  echo "Deleting folders older than $DAYS..."
                   find /audit-logs -mindepth 1 -maxdepth 2 -mmin +$MINUTES -exec rm -f {} \;
               volumeMounts:
                 - name: audit-log-volume
