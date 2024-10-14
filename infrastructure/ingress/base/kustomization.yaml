@@ -11,3 +11,9 @@ resources:
   - release.yaml
   - prometheus-rules.yaml
   - ./tcp-udp-forwards
+
+# Create a ConfigMap from the directory of config files
+configMapGenerator:
+  - name: wordpress-modsecurity-ruleset
+    files:
+      - wordpress-modsecurity-ruleset/
