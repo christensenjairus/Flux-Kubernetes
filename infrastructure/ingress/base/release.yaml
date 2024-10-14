@@ -104,8 +104,8 @@ spec:
           SecAuditLogStorageDir /audit-logs
           
           # Enable logging of the audit log
-          SecAuditLog /audit-logs/audit.log
-          SecAuditLogType Serial
+          SecAuditLog /audit-logs
+          SecAuditLogType Concurrent
           
           # format the logs in JSON
           SecAuditLogFormat JSON
