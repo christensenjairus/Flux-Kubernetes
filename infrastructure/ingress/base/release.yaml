@@ -762,7 +762,7 @@ spec:
           command: [ "/bin/sh" ]
           args: [ "-c", "chmod -R 777 /audit-logs && chown 1000:1000 /audit-logs" ]
           volumeMounts:
-            - name: audit-logs-volume
+            - name: audit-log-volume
               mountPath: /audit-logs
 
       # -- Modules, which are mounted into the core nginx image. See values.yaml for a sample to add opentelemetry module
