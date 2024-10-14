@@ -101,16 +101,16 @@ spec:
           SecRequestBodyLimitAction Reject
           
           # Send ModSecurity audit logs to a mounted volume
-          #SecAuditLogStorageDir /audit-logs
-          #SecAuditLogType Concurrent
+          SecAuditLogStorageDir /audit-logs
+          SecAuditLogType Concurrent
           
           # Print the logs instead of storing them
-          SecAuditLog /dev/stdout
+          #SecAuditLog /dev/stdout
           
-          # format the logs in JSON
+          # Format the logs in JSON
           SecAuditLogFormat JSON
           
-          # could be On/Off/RelevantOnly
+          # Could be On/Off/RelevantOnly
           SecAuditEngine RelevantOnly
           
           # Log relevant parts of transactions
