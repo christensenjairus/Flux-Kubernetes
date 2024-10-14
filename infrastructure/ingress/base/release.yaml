@@ -93,9 +93,12 @@ spec:
             "id:200001,phase:1,t:none,t:lowercase,pass,nolog,ctl:requestBodyProcessor=JSON"
           
           # Whitelist all traffic from the local network by skipping rules
-          SecRule REMOTE_ADDR "@ipMatch 10.0.0.0/8" "id:1000,phase:1,nolog,pass,ctl:ruleEngine=Off"          # ipv4
-          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47fd::/48" "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off" # current ipv6
-          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47ff::/48" "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off" # old ipv6
+          SecRule REMOTE_ADDR "@ipMatch 10.0.0.0/8" \
+            "id:1000,phase:1,nolog,pass,ctl:ruleEngine=Off"          # ipv4
+          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47fd::/48" \
+            "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off"          # current ipv6
+          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47ff::/48" \
+            "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off"          # old ipv6
           
           SecRequestBodyAccess On                   # scan request bodies
           SecRequestBodyLimitAction ProcessPartial  # as opposed to Reject, which will reject request bodies for being too large
@@ -103,7 +106,7 @@ spec:
           SecAuditLogType Concurrent                # place logs in audit log dir concurrently, as opposed Serial
           SecAuditLogFormat JSON                    # could be 'native' or 'JSON'
           SecAuditEngine RelevantOnly               # could be On/Off/RelevantOnly. Log only what is relevant.
-          SecAuditLogParts ABIJDEFHZ                # log these parts of the transaction (see docs)
+          SecAuditLogParts ABIJDEFHZ                # log these parts of the transaction (https://www.feistyduck.com/library/modsecurity-handbook-2ed-free/online/ch04-logging.html)
 
       # -- Annotations to be added to the controller config configuration configmap.
       configAnnotations: { }
