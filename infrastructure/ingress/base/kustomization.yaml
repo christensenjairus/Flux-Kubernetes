@@ -11,6 +11,9 @@ resources:
   - prometheus-rules.yaml
   - ./tcp-udp-forwards
 
+generatorOptions:
+  disableNameSuffixHash: true  # Disable the hash on generated ConfigMaps and Secrets
+
 configMapGenerator:
   - name: modsecurity-plugins
     files:
