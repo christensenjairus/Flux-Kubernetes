@@ -17,7 +17,7 @@ spec:
                 - -c
                 - |
                   HOURS=24
-                  MINUTES=$HOURS*60
+                  MINUTES=$((HOURS * 60))
                   
                   echo "Deleting folders older than $HOURS hours..."
                   find /audit-logs -mindepth 1 -maxdepth 2 -mmin +$MINUTES -exec rm -f {} \;
