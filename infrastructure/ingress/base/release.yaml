@@ -106,6 +106,13 @@ spec:
           SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47fd:700::/64" \
             "id:1005,phase:1,nolog,pass,ctl:ruleEngine=Off"        # OMEGA ipv6
           
+          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47ff::/64" \
+            "id:1006,phase:1,nolog,pass,ctl:ruleEngine=Off"        # Default ipv6 - old
+          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47ff:600::/64" \
+            "id:1007,phase:1,nolog,pass,ctl:ruleEngine=Off"        # ZETA ipv6 - old
+          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47ff:700::/64" \
+            "id:1008,phase:1,nolog,pass,ctl:ruleEngine=Off"        # OMEGA ipv6 - old
+          
           SecRequestBodyAccess On                   # scan request bodies
           SecRequestBodyLimitAction ProcessPartial  # as opposed to Reject, which will reject request bodies for being too large
           SecAuditLogStorageDir /audit-logs         # put audit log files here
