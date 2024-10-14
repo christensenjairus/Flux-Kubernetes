@@ -101,9 +101,9 @@ spec:
             "id:1002,phase:1,nolog,pass,ctl:ruleEngine=Off"        # OMEGA ipv4
           SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47fd::/64" \
             "id:1003,phase:1,nolog,pass,ctl:ruleEngine=Off"        # Default ipv6
-          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47fd:600:/64" \
+          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47fd:600::/64" \
             "id:1004,phase:1,nolog,pass,ctl:ruleEngine=Off"        # ZETA ipv6
-          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47fd:700:/64" \
+          SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47fd:700::/64" \
             "id:1005,phase:1,nolog,pass,ctl:ruleEngine=Off"        # OMEGA ipv6
           
           SecRequestBodyAccess On                   # scan request bodies
