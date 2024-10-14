@@ -6,7 +6,6 @@ resources:
   - cache-pvc.yaml
   - audit-logs-pvc.yaml
   - clear-out-audit-logs-cron.yaml
-  - modsecurity-plugins-cm.yaml
   - repository.yaml
   - release.yaml
   - prometheus-rules.yaml
