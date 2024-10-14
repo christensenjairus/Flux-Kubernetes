@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: remove-old-audit-logs
+  namespace: ingress-nginx
+spec:
+  schedule: "0 * * * *"  # Runs every hour
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: clear-files
+              image: alpine:latest  # Small, lightweight image
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  echo "Deleting files older than 6 hours..."
+                  find /audit-logs -type f -mmin +360 -exec rm -f {} \;
+              volumeMounts:
+                - name: audit-log-volume
+                  mountPath: /audit-logs
+          restartPolicy: OnFailure
+          volumes:
+            - name: audit-log-volume
+              persistentVolumeClaim:
+                claimName: ingress-nginx-audit-logs
