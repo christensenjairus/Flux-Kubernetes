@@ -13,16 +13,14 @@ resources:
 
 configMapGenerator:
   - name: modsecurity-plugins
-    behavior: merge  # Disable hashing by using 'merge'
     files:
-      - modsecurity-plugins/nextcloud-rule-exclusions-before.conf
-      - modsecurity-plugins/nextcloud-rule-exclusions-config.conf
+      - ./modsecurity-plugins/nextcloud-rule-exclusions-before.conf
+      - ./modsecurity-plugins/nextcloud-rule-exclusions-config.conf
 
   - name: modsecurity-rulesets
-    behavior: merge  # Disable hashing by using 'merge'
     files:
-      - modsecurity-rulesets/WP-SETUP.conf
-      - modsecurity-rulesets/WP-INITIALIZATION.conf
-      - modsecurity-rulesets/WP-BRUTEFORCE.conf
-      - modsecurity-rulesets/WP-EVENTS.conf
-      - modsecurity-rulesets/WP-HARDENING.conf
+      - ./modsecurity-rulesets/WP-SETUP.conf
+      - ./modsecurity-rulesets/WP-INITIALIZATION.conf
+      - ./modsecurity-rulesets/WP-BRUTEFORCE.conf
+      - ./modsecurity-rulesets/WP-EVENTS.conf
+      - ./modsecurity-rulesets/WP-HARDENING.conf
