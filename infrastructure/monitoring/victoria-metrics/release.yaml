@@ -259,7 +259,7 @@ spec:
 #            memory: 6000Mi # default is 1500Mi. I was getting OOMKilled with less than 3GB.
           requests:
             cpu: 2000m # default is 150m
-            memory: 2000Mi # default is 500Mi
+            memory: 4000Mi # default is 500Mi
         storage:
           storageClassName: "k8s-rbd"
           accessModes:
