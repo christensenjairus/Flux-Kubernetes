@@ -84,7 +84,7 @@ spec:
           # enable the default OWASP Core Rule Set
           Include /etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf
           
-          SecRuleEngine On #DetectionOnly # Options: DetectionOnly,On,Off (default is DetectionOnly)
+          SecRuleEngine DetectionOnly # Options: DetectionOnly,On,Off (default is DetectionOnly)
           
           # Enable XML and JSON parsing
           SecRule REQUEST_HEADERS:Content-Type "(?:text|application(?:/soap\+|/)|application/xml)/" \
@@ -113,6 +113,7 @@ spec:
           SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47ff:700::/64" \
             "id:1008,phase:1,nolog,pass,ctl:ruleEngine=Off"        # OMEGA ipv6 - old
           
+          # 920350 - blocks requests that use an IP address as the hostname
           SecRuleRemoveById 920350
           
           SecRequestBodyAccess On                   # scan request bodies
