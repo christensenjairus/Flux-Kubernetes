@@ -113,6 +113,8 @@ spec:
           SecRule REMOTE_ADDR "@ipMatch 2607:fa18:47ff:700::/64" \
             "id:1008,phase:1,nolog,pass,ctl:ruleEngine=Off"        # OMEGA ipv6 - old
           
+          SecRuleRemoveById 920350
+          
           SecRequestBodyAccess On                   # scan request bodies
           SecRequestBodyLimitAction ProcessPartial  # as opposed to Reject, which will reject request bodies for being too large
           SecAuditLogStorageDir /audit-logs         # put audit log files here
