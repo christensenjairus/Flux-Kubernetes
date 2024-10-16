@@ -114,7 +114,8 @@ spec:
             "id:1008,phase:1,nolog,pass,ctl:ruleEngine=Off"        # OMEGA ipv6 - old
           
           # 920350 - blocks requests that use an IP address as the hostname
-          SecRuleRemoveById 920350
+          # 911100 - blocks DELETE requests
+          SecRuleRemoveById 920350 911100
           
           SecRequestBodyAccess On                   # scan request bodies
           SecRequestBodyLimitAction ProcessPartial  # as opposed to Reject, which will reject request bodies for being too large
