@@ -1092,7 +1092,7 @@ spec:
           nginx.ingress.kubernetes.io/auth-secret: basic-auth
           nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
           nginx.ingress.kubernetes.io/modsecurity-snippet: |
-            SecRuleEngine DetectionOnly
+            SecRuleRemoveById 942100 949110
           # kubernetes.io/ingress.class: nginx
           # kubernetes.io/tls-acme: "true"
         labels: {}
