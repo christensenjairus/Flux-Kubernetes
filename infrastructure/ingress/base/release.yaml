@@ -84,7 +84,7 @@ spec:
           # enable the default OWASP Core Rule Set
           Include /etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf
           
-          SecRuleEngine DetectionOnly # Options: DetectionOnly,On,Off (default is DetectionOnly)
+          SecRuleEngine On #DetectionOnly # Options: DetectionOnly,On,Off (default is DetectionOnly)
           
           # Enable XML and JSON parsing
           SecRule REQUEST_HEADERS:Content-Type "(?:text|application(?:/soap\+|/)|application/xml)/" \
