@@ -116,7 +116,8 @@ spec:
           # 920350 - blocks requests that use an IP address as the hostname. Needed so joplin would work
           # 911100 - blocks DELETE requests. Needed so joplin would work
           # 920420 - blocks something with uptime-kuma websockets
-          SecRuleRemoveById 920350 911100 920420
+          # 942100 - blocks detected SQLi using libinjection. Needed so grafana would work.
+          SecRuleRemoveById 920350 911100 920420 942100
           
           SecRequestBodyAccess On                   # scan request bodies
           SecRequestBodyLimitAction ProcessPartial  # as opposed to Reject, which will reject request bodies for being too large
