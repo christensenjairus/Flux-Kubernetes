@@ -447,8 +447,8 @@ spec:
 #          cpu: 3000m
 #          memory: 4096Mi
         requests:
-          cpu: 1500m
-          memory: 2048Mi
+          cpu: 4000m
+          memory: 4096Mi
       # Mutually exclusive with keda autoscaling
       autoscaling:
         annotations: { }
