@@ -11,6 +11,6 @@ resources:
   - ./kubePrometheus-prometheusRule.yaml
 
   # put these in apps in case I want more for something else. And to only run once per cluster.
-  - ../../../apps/base/grafana
-  - ../../../apps/base/prometheus
-  - ../../../apps/base/alertmanager
+#  - ../../../apps/base/grafana
+#  - ../../../apps/base/prometheus
+#  - ../../../apps/base/alertmanager
