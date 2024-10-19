@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - ../base/harbor
   #- ../base/splunk
-  - ../base/collectord
+  #- ../base/collectord
   - ../base/openldap
   - ../base/authelia
   - ../base/gitlab
