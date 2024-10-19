@@ -1,14 +1,14 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: k8s-resources-namespace
+  name: k8s-resources-cluster
 spec:
   # https://grafana.github.io/grafana-operator/docs/dashboards/
   resyncPeriod: 30s
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  folder: Kubernetes
+  folder: Kubernetes-New
   json: >
     {
               "editable": false,
@@ -38,7 +38,7 @@ spec:
                       },
                       "gridPos": {
                           "h": 3,
-                          "w": 6,
+                          "w": 4,
                           "x": 0,
                           "y": 0
                       },
@@ -54,11 +54,11 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}) / sum(kube_pod_container_resource_requests{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"})",
+                              "expr": "cluster:node_cpu:ratio_rate5m{cluster=\"$cluster\"}",
                               "instant": true
                           }
                       ],
-                      "title": "CPU Utilisation (from requests)",
+                      "title": "CPU Utilisation",
                       "type": "stat"
                   },
                   {
@@ -73,8 +73,8 @@ spec:
                       },
                       "gridPos": {
                           "h": 3,
-                          "w": 6,
-                          "x": 6,
+                          "w": 4,
+                          "x": 4,
                           "y": 0
                       },
                       "id": 2,
@@ -89,11 +89,11 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}) / sum(kube_pod_container_resource_limits{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"})",
+                              "expr": "sum(namespace_cpu:kube_pod_container_resource_requests:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{job=\"kube-state-metrics\",resource=\"cpu\",cluster=\"$cluster\"})",
                               "instant": true
                           }
                       ],
-                      "title": "CPU Utilisation (from limits)",
+                      "title": "CPU Requests Commitment",
                       "type": "stat"
                   },
                   {
@@ -108,8 +108,8 @@ spec:
                       },
                       "gridPos": {
                           "h": 3,
-                          "w": 6,
-                          "x": 12,
+                          "w": 4,
+                          "x": 8,
                           "y": 0
                       },
                       "id": 3,
@@ -124,11 +124,11 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(container_memory_working_set_bytes{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\",container!=\"\", image!=\"\"}) / sum(kube_pod_container_resource_requests{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\"})",
+                              "expr": "sum(namespace_cpu:kube_pod_container_resource_limits:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{job=\"kube-state-metrics\",resource=\"cpu\",cluster=\"$cluster\"})",
                               "instant": true
                           }
                       ],
-                      "title": "Memory Utilisation (from requests)",
+                      "title": "CPU Limits Commitment",
                       "type": "stat"
                   },
                   {
@@ -143,8 +143,8 @@ spec:
                       },
                       "gridPos": {
                           "h": 3,
-                          "w": 6,
-                          "x": 18,
+                          "w": 4,
+                          "x": 12,
                           "y": 0
                       },
                       "id": 4,
@@ -159,11 +159,81 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(container_memory_working_set_bytes{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\",container!=\"\", image!=\"\"}) / sum(kube_pod_container_resource_limits{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\"})",
+                              "expr": "1 - sum(:node_memory_MemAvailable_bytes:sum{cluster=\"$cluster\"}) / sum(node_memory_MemTotal_bytes{job=\"node-exporter\",cluster=\"$cluster\"})",
                               "instant": true
                           }
                       ],
-                      "title": "Memory Utilisation (from limits)",
+                      "title": "Memory Utilisation",
+                      "type": "stat"
+                  },
+                  {
+                      "datasource": {
+                          "type": "datasource",
+                          "uid": "-- Mixed --"
+                      },
+                      "fieldConfig": {
+                          "defaults": {
+                              "unit": "percentunit"
+                          }
+                      },
+                      "gridPos": {
+                          "h": 3,
+                          "w": 4,
+                          "x": 16,
+                          "y": 0
+                      },
+                      "id": 5,
+                      "interval": "1m",
+                      "options": {
+                          "colorMode": "none"
+                      },
+                      "pluginVersion": "v11.1.0",
+                      "targets": [
+                          {
+                              "datasource": {
+                                  "type": "prometheus",
+                                  "uid": "${datasource}"
+                              },
+                              "expr": "sum(namespace_memory:kube_pod_container_resource_requests:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{job=\"kube-state-metrics\",resource=\"memory\",cluster=\"$cluster\"})",
+                              "instant": true
+                          }
+                      ],
+                      "title": "Memory Requests Commitment",
+                      "type": "stat"
+                  },
+                  {
+                      "datasource": {
+                          "type": "datasource",
+                          "uid": "-- Mixed --"
+                      },
+                      "fieldConfig": {
+                          "defaults": {
+                              "unit": "percentunit"
+                          }
+                      },
+                      "gridPos": {
+                          "h": 3,
+                          "w": 4,
+                          "x": 20,
+                          "y": 0
+                      },
+                      "id": 6,
+                      "interval": "1m",
+                      "options": {
+                          "colorMode": "none"
+                      },
+                      "pluginVersion": "v11.1.0",
+                      "targets": [
+                          {
+                              "datasource": {
+                                  "type": "prometheus",
+                                  "uid": "${datasource}"
+                              },
+                              "expr": "sum(namespace_memory:kube_pod_container_resource_limits:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{job=\"kube-state-metrics\",resource=\"memory\",cluster=\"$cluster\"})",
+                              "instant": true
+                          }
+                      ],
+                      "title": "Memory Limits Commitment",
                       "type": "stat"
                   },
                   {
@@ -178,67 +248,15 @@ spec:
                                   "showPoints": "never",
                                   "spanNulls": true
                               }
-                          },
-                          "overrides": [
-                              {
-                                  "matcher": {
-                                      "id": "byFrameRefID",
-                                      "options": "B"
-                                  },
-                                  "properties": [
-                                      {
-                                          "id": "custom.lineStyle",
-                                          "value": {
-                                              "fill": "dash"
-                                          }
-                                      },
-                                      {
-                                          "id": "custom.lineWidth",
-                                          "value": 2
-                                      },
-                                      {
-                                          "id": "color",
-                                          "value": {
-                                              "fixedColor": "red",
-                                              "mode": "fixed"
-                                          }
-                                      }
-                                  ]
-                              },
-                              {
-                                  "matcher": {
-                                      "id": "byFrameRefID",
-                                      "options": "C"
-                                  },
-                                  "properties": [
-                                      {
-                                          "id": "custom.lineStyle",
-                                          "value": {
-                                              "fill": "dash"
-                                          }
-                                      },
-                                      {
-                                          "id": "custom.lineWidth",
-                                          "value": 2
-                                      },
-                                      {
-                                          "id": "color",
-                                          "value": {
-                                              "fixedColor": "orange",
-                                              "mode": "fixed"
-                                          }
-                                      }
-                                  ]
-                              }
-                          ]
+                          }
                       },
                       "gridPos": {
-                          "h": 7,
+                          "h": 6,
                           "w": 24,
                           "x": 0,
-                          "y": 7
+                          "y": 6
                       },
-                      "id": 5,
+                      "id": 7,
                       "interval": "1m",
                       "options": {
                           "legend": {
@@ -261,24 +279,8 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}) by (pod)",
+                              "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\"}) by (namespace)",
                               "legendFormat": "__auto"
-                          },
-                          {
-                              "datasource": {
-                                  "type": "prometheus",
-                                  "uid": "${datasource}"
-                              },
-                              "expr": "scalar(kube_resourcequota{cluster=\"$cluster\", namespace=\"$namespace\", type=\"hard\",resource=\"requests.cpu\"})",
-                              "legendFormat": "quota - requests"
-                          },
-                          {
-                              "datasource": {
-                                  "type": "prometheus",
-                                  "uid": "${datasource}"
-                              },
-                              "expr": "scalar(kube_resourcequota{cluster=\"$cluster\", namespace=\"$namespace\", type=\"hard\",resource=\"limits.cpu\"})",
-                              "legendFormat": "quota - limits"
                           }
                       ],
                       "title": "CPU Usage",
@@ -306,7 +308,7 @@ spec:
                               {
                                   "matcher": {
                                       "id": "byName",
-                                      "options": "Pod"
+                                      "options": "Namespace"
                                   },
                                   "properties": [
                                       {
@@ -314,7 +316,7 @@ spec:
                                           "value": [
                                               {
                                                   "title": "Drill down to pods",
-                                                  "url": "/d/6581e46e4e5c7ba40a07646395ef7b23/k8s-resources-pod?${datasource:queryparam}&var-cluster=$cluster&var-namespace=$namespace&var-pod=${__data.fields.Pod}"
+                                                  "url": "/d/85a562078cdf77779eaa1add43ccec1e/k8s-resources-namespace?${datasource:queryparam}&var-cluster=$cluster&var-namespace=${__data.fields.Namespace}"
                                               }
                                           ]
                                       }
@@ -323,12 +325,12 @@ spec:
                           ]
                       },
                       "gridPos": {
-                          "h": 7,
+                          "h": 6,
                           "w": 24,
                           "x": 0,
-                          "y": 14
+                          "y": 12
                       },
-                      "id": 6,
+                      "id": 8,
                       "pluginVersion": "v11.1.0",
                       "targets": [
                           {
@@ -336,7 +338,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}) by (pod)",
+                              "expr": "sum(kube_pod_owner{job=\"kube-state-metrics\", cluster=\"$cluster\"}) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -345,7 +347,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_requests{cluster=\"$cluster\", namespace=\"$namespace\"}) by (pod)",
+                              "expr": "count(avg(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\"}) by (workload, namespace)) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -354,7 +356,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}) by (pod) / sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_requests{cluster=\"$cluster\", namespace=\"$namespace\"}) by (pod)",
+                              "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\"}) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -363,7 +365,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_limits{cluster=\"$cluster\", namespace=\"$namespace\"}) by (pod)",
+                              "expr": "sum(namespace_cpu:kube_pod_container_resource_requests:sum{cluster=\"$cluster\"}) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -372,7 +374,25 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\", namespace=\"$namespace\"}) by (pod) / sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_limits{cluster=\"$cluster\", namespace=\"$namespace\"}) by (pod)",
+                              "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\"}) by (namespace) / sum(namespace_cpu:kube_pod_container_resource_requests:sum{cluster=\"$cluster\"}) by (namespace)",
+                              "format": "table",
+                              "instant": true
+                          },
+                          {
+                              "datasource": {
+                                  "type": "prometheus",
+                                  "uid": "${datasource}"
+                              },
+                              "expr": "sum(namespace_cpu:kube_pod_container_resource_limits:sum{cluster=\"$cluster\"}) by (namespace)",
+                              "format": "table",
+                              "instant": true
+                          },
+                          {
+                              "datasource": {
+                                  "type": "prometheus",
+                                  "uid": "${datasource}"
+                              },
+                              "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster=\"$cluster\"}) by (namespace) / sum(namespace_cpu:kube_pod_container_resource_limits:sum{cluster=\"$cluster\"}) by (namespace)",
                               "format": "table",
                               "instant": true
                           }
@@ -382,7 +402,7 @@ spec:
                           {
                               "id": "joinByField",
                               "options": {
-                                  "byField": "pod",
+                                  "byField": "namespace",
                                   "mode": "outer"
                               }
                           },
@@ -395,7 +415,9 @@ spec:
                                       "Time 2": true,
                                       "Time 3": true,
                                       "Time 4": true,
-                                      "Time 5": true
+                                      "Time 5": true,
+                                      "Time 6": true,
+                                      "Time 7": true
                                   },
                                   "indexByName": {
                                       "Time 1": 0,
@@ -403,20 +425,26 @@ spec:
                                       "Time 3": 2,
                                       "Time 4": 3,
                                       "Time 5": 4,
-                                      "Value #A": 6,
-                                      "Value #B": 7,
-                                      "Value #C": 8,
-                                      "Value #D": 9,
-                                      "Value #E": 10,
-                                      "pod": 5
+                                      "Time 6": 5,
+                                      "Time 7": 6,
+                                      "Value #A": 8,
+                                      "Value #B": 9,
+                                      "Value #C": 10,
+                                      "Value #D": 11,
+                                      "Value #E": 12,
+                                      "Value #F": 13,
+                                      "Value #G": 14,
+                                      "namespace": 7
                                   },
                                   "renameByName": {
-                                      "Value #A": "CPU Usage",
-                                      "Value #B": "CPU Requests",
-                                      "Value #C": "CPU Requests %",
-                                      "Value #D": "CPU Limits",
-                                      "Value #E": "CPU Limits %",
-                                      "pod": "Pod"
+                                      "Value #A": "Pods",
+                                      "Value #B": "Workloads",
+                                      "Value #C": "CPU Usage",
+                                      "Value #D": "CPU Requests",
+                                      "Value #E": "CPU Requests %",
+                                      "Value #F": "CPU Limits",
+                                      "Value #G": "CPU Limits %",
+                                      "namespace": "Namespace"
                                   }
                               }
                           }
@@ -436,67 +464,15 @@ spec:
                                   "spanNulls": true
                               },
                               "unit": "bytes"
-                          },
-                          "overrides": [
-                              {
-                                  "matcher": {
-                                      "id": "byFrameRefID",
-                                      "options": "B"
-                                  },
-                                  "properties": [
-                                      {
-                                          "id": "custom.lineStyle",
-                                          "value": {
-                                              "fill": "dash"
-                                          }
-                                      },
-                                      {
-                                          "id": "custom.lineWidth",
-                                          "value": 2
-                                      },
-                                      {
-                                          "id": "color",
-                                          "value": {
-                                              "fixedColor": "red",
-                                              "mode": "fixed"
-                                          }
-                                      }
-                                  ]
-                              },
-                              {
-                                  "matcher": {
-                                      "id": "byFrameRefID",
-                                      "options": "C"
-                                  },
-                                  "properties": [
-                                      {
-                                          "id": "custom.lineStyle",
-                                          "value": {
-                                              "fill": "dash"
-                                          }
-                                      },
-                                      {
-                                          "id": "custom.lineWidth",
-                                          "value": 2
-                                      },
-                                      {
-                                          "id": "color",
-                                          "value": {
-                                              "fixedColor": "orange",
-                                              "mode": "fixed"
-                                          }
-                                      }
-                                  ]
-                              }
-                          ]
+                          }
                       },
                       "gridPos": {
-                          "h": 7,
+                          "h": 6,
                           "w": 24,
                           "x": 0,
-                          "y": 21
+                          "y": 18
                       },
-                      "id": 7,
+                      "id": 9,
                       "interval": "1m",
                       "options": {
                           "legend": {
@@ -519,27 +495,11 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(container_memory_working_set_bytes{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\", container!=\"\", image!=\"\"}) by (pod)",
+                              "expr": "sum(container_memory_rss{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", container!=\"\"}) by (namespace)",
                               "legendFormat": "__auto"
-                          },
-                          {
-                              "datasource": {
-                                  "type": "prometheus",
-                                  "uid": "${datasource}"
-                              },
-                              "expr": "scalar(kube_resourcequota{cluster=\"$cluster\", namespace=\"$namespace\", type=\"hard\",resource=\"requests.memory\"})",
-                              "legendFormat": "quota - requests"
-                          },
-                          {
-                              "datasource": {
-                                  "type": "prometheus",
-                                  "uid": "${datasource}"
-                              },
-                              "expr": "scalar(kube_resourcequota{cluster=\"$cluster\", namespace=\"$namespace\", type=\"hard\",resource=\"limits.memory\"})",
-                              "legendFormat": "quota - limits"
                           }
                       ],
-                      "title": "Memory Usage (w/o cache)",
+                      "title": "Memory",
                       "type": "timeseries"
                   },
                   {
@@ -548,9 +508,6 @@ spec:
                           "uid": "-- Mixed --"
                       },
                       "fieldConfig": {
-                          "defaults": {
-                              "unit": "bytes"
-                          },
                           "overrides": [
                               {
                                   "matcher": {
@@ -567,7 +524,43 @@ spec:
                               {
                                   "matcher": {
                                       "id": "byName",
-                                      "options": "Pod"
+                                      "options": "Memory Usage"
+                                  },
+                                  "properties": [
+                                      {
+                                          "id": "unit",
+                                          "value": "bytes"
+                                      }
+                                  ]
+                              },
+                              {
+                                  "matcher": {
+                                      "id": "byName",
+                                      "options": "Memory Requests"
+                                  },
+                                  "properties": [
+                                      {
+                                          "id": "unit",
+                                          "value": "bytes"
+                                      }
+                                  ]
+                              },
+                              {
+                                  "matcher": {
+                                      "id": "byName",
+                                      "options": "Memory Limits"
+                                  },
+                                  "properties": [
+                                      {
+                                          "id": "unit",
+                                          "value": "bytes"
+                                      }
+                                  ]
+                              },
+                              {
+                                  "matcher": {
+                                      "id": "byName",
+                                      "options": "Namespace"
                                   },
                                   "properties": [
                                       {
@@ -575,7 +568,7 @@ spec:
                                           "value": [
                                               {
                                                   "title": "Drill down to pods",
-                                                  "url": "/d/6581e46e4e5c7ba40a07646395ef7b23/k8s-resources-pod?${datasource:queryparam}&var-cluster=$cluster&var-namespace=$namespace&var-pod=${__data.fields.Pod}"
+                                                  "url": "/d/85a562078cdf77779eaa1add43ccec1e/k8s-resources-namespace?${datasource:queryparam}&var-cluster=$cluster&var-namespace=${__data.fields.Namespace}"
                                               }
                                           ]
                                       }
@@ -584,12 +577,12 @@ spec:
                           ]
                       },
                       "gridPos": {
-                          "h": 7,
+                          "h": 6,
                           "w": 24,
                           "x": 0,
-                          "y": 28
+                          "y": 24
                       },
-                      "id": 8,
+                      "id": 10,
                       "pluginVersion": "v11.1.0",
                       "targets": [
                           {
@@ -597,7 +590,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(container_memory_working_set_bytes{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\",container!=\"\", image!=\"\"}) by (pod)",
+                              "expr": "sum(kube_pod_owner{job=\"kube-state-metrics\", cluster=\"$cluster\"}) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -606,7 +599,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_requests{cluster=\"$cluster\", namespace=\"$namespace\"}) by (pod)",
+                              "expr": "count(avg(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\"}) by (workload, namespace)) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -615,7 +608,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(container_memory_working_set_bytes{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\",container!=\"\", image!=\"\"}) by (pod) / sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_requests{cluster=\"$cluster\", namespace=\"$namespace\"}) by (pod)",
+                              "expr": "sum(container_memory_rss{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", container!=\"\"}) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -624,7 +617,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_limits{cluster=\"$cluster\", namespace=\"$namespace\"}) by (pod)",
+                              "expr": "sum(namespace_memory:kube_pod_container_resource_requests:sum{cluster=\"$cluster\"}) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -633,7 +626,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(container_memory_working_set_bytes{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\",container!=\"\", image!=\"\"}) by (pod) / sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_limits{cluster=\"$cluster\", namespace=\"$namespace\"}) by (pod)",
+                              "expr": "sum(container_memory_rss{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", container!=\"\"}) by (namespace) / sum(namespace_memory:kube_pod_container_resource_requests:sum{cluster=\"$cluster\"}) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -642,7 +635,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(container_memory_rss{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\",container!=\"\"}) by (pod)",
+                              "expr": "sum(namespace_memory:kube_pod_container_resource_limits:sum{cluster=\"$cluster\"}) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -651,26 +644,17 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(container_memory_cache{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\",container!=\"\"}) by (pod)",
-                              "format": "table",
-                              "instant": true
-                          },
-                          {
-                              "datasource": {
-                                  "type": "prometheus",
-                                  "uid": "${datasource}"
-                              },
-                              "expr": "sum(container_memory_swap{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\",container!=\"\"}) by (pod)",
+                              "expr": "sum(container_memory_rss{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", container!=\"\"}) by (namespace) / sum(namespace_memory:kube_pod_container_resource_limits:sum{cluster=\"$cluster\"}) by (namespace)",
                               "format": "table",
                               "instant": true
                           }
                       ],
-                      "title": "Memory Quota",
+                      "title": "Memory Requests by Namespace",
                       "transformations": [
                           {
                               "id": "joinByField",
                               "options": {
-                                  "byField": "pod",
+                                  "byField": "namespace",
                                   "mode": "outer"
                               }
                           },
@@ -685,8 +669,7 @@ spec:
                                       "Time 4": true,
                                       "Time 5": true,
                                       "Time 6": true,
-                                      "Time 7": true,
-                                      "Time 8": true
+                                      "Time 7": true
                                   },
                                   "indexByName": {
                                       "Time 1": 0,
@@ -696,27 +679,24 @@ spec:
                                       "Time 5": 4,
                                       "Time 6": 5,
                                       "Time 7": 6,
-                                      "Time 8": 7,
-                                      "Value #A": 9,
-                                      "Value #B": 10,
-                                      "Value #C": 11,
-                                      "Value #D": 12,
-                                      "Value #E": 13,
-                                      "Value #F": 14,
-                                      "Value #G": 15,
-                                      "Value #H": 16,
-                                      "pod": 8
+                                      "Value #A": 8,
+                                      "Value #B": 9,
+                                      "Value #C": 10,
+                                      "Value #D": 11,
+                                      "Value #E": 12,
+                                      "Value #F": 13,
+                                      "Value #G": 14,
+                                      "namespace": 7
                                   },
                                   "renameByName": {
-                                      "Value #A": "Memory Usage",
-                                      "Value #B": "Memory Requests",
-                                      "Value #C": "Memory Requests %",
-                                      "Value #D": "Memory Limits",
-                                      "Value #E": "Memory Limits %",
-                                      "Value #F": "Memory Usage (RSS)",
-                                      "Value #G": "Memory Usage (Cache)",
-                                      "Value #H": "Memory Usage (Swap)",
-                                      "pod": "Pod"
+                                      "Value #A": "Pods",
+                                      "Value #B": "Workloads",
+                                      "Value #C": "Memory Usage",
+                                      "Value #D": "Memory Requests",
+                                      "Value #E": "Memory Requests %",
+                                      "Value #F": "Memory Limits",
+                                      "Value #G": "Memory Limits %",
+                                      "namespace": "Namespace"
                                   }
                               }
                           }
@@ -757,7 +737,7 @@ spec:
                               {
                                   "matcher": {
                                       "id": "byName",
-                                      "options": "Pod"
+                                      "options": "Namespace"
                                   },
                                   "properties": [
                                       {
@@ -765,7 +745,7 @@ spec:
                                           "value": [
                                               {
                                                   "title": "Drill down to pods",
-                                                  "url": "/d/6581e46e4e5c7ba40a07646395ef7b23/k8s-resources-pod?${datasource:queryparam}&var-cluster=$cluster&var-namespace=$namespace&var-pod=${__data.fields.Pod}"
+                                                  "url": "/d/85a562078cdf77779eaa1add43ccec1e/k8s-resources-namespace?${datasource:queryparam}&var-cluster=$cluster&var-namespace=${__data.fields.Namespace}"
                                               }
                                           ]
                                       }
@@ -774,12 +754,12 @@ spec:
                           ]
                       },
                       "gridPos": {
-                          "h": 7,
+                          "h": 6,
                           "w": 24,
                           "x": 0,
-                          "y": 35
+                          "y": 30
                       },
-                      "id": 9,
+                      "id": 11,
                       "pluginVersion": "v11.1.0",
                       "targets": [
                           {
@@ -787,7 +767,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(rate(container_network_receive_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])) by (pod)",
+                              "expr": "sum(rate(container_network_receive_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -796,7 +776,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(rate(container_network_transmit_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])) by (pod)",
+                              "expr": "sum(rate(container_network_transmit_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -805,7 +785,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(rate(container_network_receive_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])) by (pod)",
+                              "expr": "sum(rate(container_network_receive_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -814,7 +794,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(rate(container_network_transmit_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])) by (pod)",
+                              "expr": "sum(rate(container_network_transmit_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -823,7 +803,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(rate(container_network_receive_packets_dropped_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])) by (pod)",
+                              "expr": "sum(rate(container_network_receive_packets_dropped_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                               "format": "table",
                               "instant": true
                           },
@@ -832,7 +812,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(rate(container_network_transmit_packets_dropped_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])) by (pod)",
+                              "expr": "sum(rate(container_network_transmit_packets_dropped_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                               "format": "table",
                               "instant": true
                           }
@@ -842,7 +822,7 @@ spec:
                           {
                               "id": "joinByField",
                               "options": {
-                                  "byField": "pod",
+                                  "byField": "namespace",
                                   "mode": "outer"
                               }
                           },
@@ -871,7 +851,7 @@ spec:
                                       "Value #D": 10,
                                       "Value #E": 11,
                                       "Value #F": 12,
-                                      "pod": 6
+                                      "namespace": 6
                                   },
                                   "renameByName": {
                                       "Value #A": "Current Receive Bandwidth",
@@ -880,7 +860,7 @@ spec:
                                       "Value #D": "Rate of Transmitted Packets",
                                       "Value #E": "Rate of Received Packets Dropped",
                                       "Value #F": "Rate of Transmitted Packets Dropped",
-                                      "pod": "Pod"
+                                      "namespace": "Namespace"
                                   }
                               }
                           }
@@ -903,112 +883,10 @@ spec:
                           }
                       },
                       "gridPos": {
-                          "h": 7,
-                          "w": 12,
+                          "h": 6,
+                          "w": 24,
                           "x": 0,
-                          "y": 42
-                      },
-                      "id": 10,
-                      "interval": "1m",
-                      "options": {
-                          "legend": {
-                              "asTable": true,
-                              "calcs": [
-                                  "lastNotNull"
-                              ],
-                              "displayMode": "table",
-                              "placement": "right",
-                              "showLegend": true
-                          },
-                          "tooltip": {
-                              "mode": "single"
-                          }
-                      },
-                      "pluginVersion": "v11.1.0",
-                      "targets": [
-                          {
-                              "datasource": {
-                                  "type": "prometheus",
-                                  "uid": "${datasource}"
-                              },
-                              "expr": "sum(rate(container_network_receive_bytes_total{cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])) by (pod)",
-                              "legendFormat": "__auto"
-                          }
-                      ],
-                      "title": "Receive Bandwidth",
-                      "type": "timeseries"
-                  },
-                  {
-                      "datasource": {
-                          "type": "datasource",
-                          "uid": "-- Mixed --"
-                      },
-                      "fieldConfig": {
-                          "defaults": {
-                              "custom": {
-                                  "fillOpacity": 10,
-                                  "showPoints": "never",
-                                  "spanNulls": true
-                              },
-                              "unit": "Bps"
-                          }
-                      },
-                      "gridPos": {
-                          "h": 7,
-                          "w": 12,
-                          "x": 12,
-                          "y": 42
-                      },
-                      "id": 11,
-                      "interval": "1m",
-                      "options": {
-                          "legend": {
-                              "asTable": true,
-                              "calcs": [
-                                  "lastNotNull"
-                              ],
-                              "displayMode": "table",
-                              "placement": "right",
-                              "showLegend": true
-                          },
-                          "tooltip": {
-                              "mode": "single"
-                          }
-                      },
-                      "pluginVersion": "v11.1.0",
-                      "targets": [
-                          {
-                              "datasource": {
-                                  "type": "prometheus",
-                                  "uid": "${datasource}"
-                              },
-                              "expr": "sum(rate(container_network_transmit_bytes_total{cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])) by (pod)",
-                              "legendFormat": "__auto"
-                          }
-                      ],
-                      "title": "Transmit Bandwidth",
-                      "type": "timeseries"
-                  },
-                  {
-                      "datasource": {
-                          "type": "datasource",
-                          "uid": "-- Mixed --"
-                      },
-                      "fieldConfig": {
-                          "defaults": {
-                              "custom": {
-                                  "fillOpacity": 10,
-                                  "showPoints": "never",
-                                  "spanNulls": true
-                              },
-                              "unit": "pps"
-                          }
-                      },
-                      "gridPos": {
-                          "h": 7,
-                          "w": 12,
-                          "x": 0,
-                          "y": 49
+                          "y": 36
                       },
                       "id": 12,
                       "interval": "1m",
@@ -1033,11 +911,11 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(irate(container_network_receive_packets_total{cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])) by (pod)",
+                              "expr": "sum(rate(container_network_receive_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                               "legendFormat": "__auto"
                           }
                       ],
-                      "title": "Rate of Received Packets",
+                      "title": "Receive Bandwidth",
                       "type": "timeseries"
                   },
                   {
@@ -1052,14 +930,14 @@ spec:
                                   "showPoints": "never",
                                   "spanNulls": true
                               },
-                              "unit": "pps"
+                              "unit": "Bps"
                           }
                       },
                       "gridPos": {
-                          "h": 7,
-                          "w": 12,
-                          "x": 12,
-                          "y": 49
+                          "h": 6,
+                          "w": 24,
+                          "x": 0,
+                          "y": 42
                       },
                       "id": 13,
                       "interval": "1m",
@@ -1084,11 +962,11 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(irate(container_network_transmit_packets_total{cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])) by (pod)",
+                              "expr": "sum(rate(container_network_transmit_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                               "legendFormat": "__auto"
                           }
                       ],
-                      "title": "Rate of Transmitted Packets",
+                      "title": "Transmit Bandwidth",
                       "type": "timeseries"
                   },
                   {
@@ -1103,14 +981,14 @@ spec:
                                   "showPoints": "never",
                                   "spanNulls": true
                               },
-                              "unit": "pps"
+                              "unit": "Bps"
                           }
                       },
                       "gridPos": {
-                          "h": 7,
-                          "w": 12,
+                          "h": 6,
+                          "w": 24,
                           "x": 0,
-                          "y": 56
+                          "y": 48
                       },
                       "id": 14,
                       "interval": "1m",
@@ -1135,11 +1013,11 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(irate(container_network_receive_packets_dropped_total{cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])) by (pod)",
+                              "expr": "avg(irate(container_network_receive_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                               "legendFormat": "__auto"
                           }
                       ],
-                      "title": "Rate of Received Packets Dropped",
+                      "title": "Average Container Bandwidth by Namespace: Received",
                       "type": "timeseries"
                   },
                   {
@@ -1154,14 +1032,14 @@ spec:
                                   "showPoints": "never",
                                   "spanNulls": true
                               },
-                              "unit": "pps"
+                              "unit": "Bps"
                           }
                       },
                       "gridPos": {
-                          "h": 7,
-                          "w": 12,
-                          "x": 12,
-                          "y": 56
+                          "h": 6,
+                          "w": 24,
+                          "x": 0,
+                          "y": 54
                       },
                       "id": 15,
                       "interval": "1m",
@@ -1186,11 +1064,11 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(irate(container_network_transmit_packets_dropped_total{cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])) by (pod)",
+                              "expr": "avg(irate(container_network_transmit_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                               "legendFormat": "__auto"
                           }
                       ],
-                      "title": "Rate of Transmitted Packets Dropped",
+                      "title": "Average Container Bandwidth by Namespace: Transmitted",
                       "type": "timeseries"
                   },
                   {
@@ -1205,14 +1083,14 @@ spec:
                                   "showPoints": "never",
                                   "spanNulls": true
                               },
-                              "unit": "iops"
+                              "unit": "pps"
                           }
                       },
                       "gridPos": {
-                          "h": 7,
-                          "w": 12,
+                          "h": 6,
+                          "w": 24,
                           "x": 0,
-                          "y": 63
+                          "y": 60
                       },
                       "id": 16,
                       "interval": "1m",
@@ -1237,11 +1115,11 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "ceil(sum by(pod) (rate(container_fs_reads_total{container!=\"\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]) + rate(container_fs_writes_total{container!=\"\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])))",
+                              "expr": "sum(irate(container_network_receive_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                               "legendFormat": "__auto"
                           }
                       ],
-                      "title": "IOPS(Reads+Writes)",
+                      "title": "Rate of Received Packets",
                       "type": "timeseries"
                   },
                   {
@@ -1256,14 +1134,14 @@ spec:
                                   "showPoints": "never",
                                   "spanNulls": true
                               },
-                              "unit": "Bps"
+                              "unit": "pps"
                           }
                       },
                       "gridPos": {
-                          "h": 7,
-                          "w": 12,
-                          "x": 12,
-                          "y": 63
+                          "h": 6,
+                          "w": 24,
+                          "x": 0,
+                          "y": 66
                       },
                       "id": 17,
                       "interval": "1m",
@@ -1288,7 +1166,211 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum by(pod) (rate(container_fs_reads_bytes_total{container!=\"\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{container!=\"\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
+                              "expr": "sum(irate(container_network_transmit_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                              "legendFormat": "__auto"
+                          }
+                      ],
+                      "title": "Rate of Transmitted Packets",
+                      "type": "timeseries"
+                  },
+                  {
+                      "datasource": {
+                          "type": "datasource",
+                          "uid": "-- Mixed --"
+                      },
+                      "fieldConfig": {
+                          "defaults": {
+                              "custom": {
+                                  "fillOpacity": 10,
+                                  "showPoints": "never",
+                                  "spanNulls": true
+                              },
+                              "unit": "pps"
+                          }
+                      },
+                      "gridPos": {
+                          "h": 6,
+                          "w": 24,
+                          "x": 0,
+                          "y": 72
+                      },
+                      "id": 18,
+                      "interval": "1m",
+                      "options": {
+                          "legend": {
+                              "asTable": true,
+                              "calcs": [
+                                  "lastNotNull"
+                              ],
+                              "displayMode": "table",
+                              "placement": "right",
+                              "showLegend": true
+                          },
+                          "tooltip": {
+                              "mode": "single"
+                          }
+                      },
+                      "pluginVersion": "v11.1.0",
+                      "targets": [
+                          {
+                              "datasource": {
+                                  "type": "prometheus",
+                                  "uid": "${datasource}"
+                              },
+                              "expr": "sum(irate(container_network_receive_packets_dropped_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                              "legendFormat": "__auto"
+                          }
+                      ],
+                      "title": "Rate of Received Packets Dropped",
+                      "type": "timeseries"
+                  },
+                  {
+                      "datasource": {
+                          "type": "datasource",
+                          "uid": "-- Mixed --"
+                      },
+                      "fieldConfig": {
+                          "defaults": {
+                              "custom": {
+                                  "fillOpacity": 10,
+                                  "showPoints": "never",
+                                  "spanNulls": true
+                              },
+                              "unit": "pps"
+                          }
+                      },
+                      "gridPos": {
+                          "h": 6,
+                          "w": 24,
+                          "x": 0,
+                          "y": 78
+                      },
+                      "id": 19,
+                      "interval": "1m",
+                      "options": {
+                          "legend": {
+                              "asTable": true,
+                              "calcs": [
+                                  "lastNotNull"
+                              ],
+                              "displayMode": "table",
+                              "placement": "right",
+                              "showLegend": true
+                          },
+                          "tooltip": {
+                              "mode": "single"
+                          }
+                      },
+                      "pluginVersion": "v11.1.0",
+                      "targets": [
+                          {
+                              "datasource": {
+                                  "type": "prometheus",
+                                  "uid": "${datasource}"
+                              },
+                              "expr": "sum(irate(container_network_transmit_packets_dropped_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                              "legendFormat": "__auto"
+                          }
+                      ],
+                      "title": "Rate of Transmitted Packets Dropped",
+                      "type": "timeseries"
+                  },
+                  {
+                      "datasource": {
+                          "type": "datasource",
+                          "uid": "-- Mixed --"
+                      },
+                      "fieldConfig": {
+                          "defaults": {
+                              "custom": {
+                                  "fillOpacity": 10,
+                                  "showPoints": "never",
+                                  "spanNulls": true
+                              },
+                              "unit": "iops"
+                          }
+                      },
+                      "gridPos": {
+                          "h": 6,
+                          "w": 24,
+                          "x": 0,
+                          "y": 84
+                      },
+                      "id": 20,
+                      "interval": "1m",
+                      "options": {
+                          "legend": {
+                              "asTable": true,
+                              "calcs": [
+                                  "lastNotNull"
+                              ],
+                              "displayMode": "table",
+                              "placement": "right",
+                              "showLegend": true
+                          },
+                          "tooltip": {
+                              "mode": "single"
+                          }
+                      },
+                      "pluginVersion": "v11.1.0",
+                      "targets": [
+                          {
+                              "datasource": {
+                                  "type": "prometheus",
+                                  "uid": "${datasource}"
+                              },
+                              "expr": "ceil(sum by(namespace) (rate(container_fs_reads_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval])))",
+                              "legendFormat": "__auto"
+                          }
+                      ],
+                      "title": "IOPS(Reads+Writes)",
+                      "type": "timeseries"
+                  },
+                  {
+                      "datasource": {
+                          "type": "datasource",
+                          "uid": "-- Mixed --"
+                      },
+                      "fieldConfig": {
+                          "defaults": {
+                              "custom": {
+                                  "fillOpacity": 10,
+                                  "showPoints": "never",
+                                  "spanNulls": true
+                              },
+                              "unit": "Bps"
+                          }
+                      },
+                      "gridPos": {
+                          "h": 6,
+                          "w": 24,
+                          "x": 0,
+                          "y": 90
+                      },
+                      "id": 21,
+                      "interval": "1m",
+                      "options": {
+                          "legend": {
+                              "asTable": true,
+                              "calcs": [
+                                  "lastNotNull"
+                              ],
+                              "displayMode": "table",
+                              "placement": "right",
+                              "showLegend": true
+                          },
+                          "tooltip": {
+                              "mode": "single"
+                          }
+                      },
+                      "pluginVersion": "v11.1.0",
+                      "targets": [
+                          {
+                              "datasource": {
+                                  "type": "prometheus",
+                                  "uid": "${datasource}"
+                              },
+                              "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                               "legendFormat": "__auto"
                           }
                       ],
@@ -1329,7 +1411,7 @@ spec:
                               {
                                   "matcher": {
                                       "id": "byName",
-                                      "options": "Pod"
+                                      "options": "Namespace"
                                   },
                                   "properties": [
                                       {
@@ -1337,7 +1419,7 @@ spec:
                                           "value": [
                                               {
                                                   "title": "Drill down to pods",
-                                                  "url": "/d/6581e46e4e5c7ba40a07646395ef7b23/k8s-resources-pod?${datasource:queryparam}&var-cluster=$cluster&var-namespace=$namespace&var-pod=${__data.fields.Pod}"
+                                                  "url": "/d/85a562078cdf77779eaa1add43ccec1e/k8s-resources-namespace?${datasource:queryparam}&var-cluster=$cluster&var-namespace=${__data.fields.Namespace}"
                                               }
                                           ]
                                       }
@@ -1346,12 +1428,12 @@ spec:
                           ]
                       },
                       "gridPos": {
-                          "h": 7,
+                          "h": 6,
                           "w": 24,
                           "x": 0,
-                          "y": 70
+                          "y": 96
                       },
-                      "id": 18,
+                      "id": 22,
                       "pluginVersion": "v11.1.0",
                       "targets": [
                           {
@@ -1359,7 +1441,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum by(pod) (rate(container_fs_reads_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
+                              "expr": "sum by(namespace) (rate(container_fs_reads_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                               "format": "table",
                               "instant": true
                           },
@@ -1368,7 +1450,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum by(pod) (rate(container_fs_writes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
+                              "expr": "sum by(namespace) (rate(container_fs_writes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                               "format": "table",
                               "instant": true
                           },
@@ -1377,7 +1459,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum by(pod) (rate(container_fs_reads_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
+                              "expr": "sum by(namespace) (rate(container_fs_reads_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                               "format": "table",
                               "instant": true
                           },
@@ -1386,7 +1468,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum by(pod) (rate(container_fs_reads_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
+                              "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                               "format": "table",
                               "instant": true
                           },
@@ -1395,7 +1477,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum by(pod) (rate(container_fs_writes_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
+                              "expr": "sum by(namespace) (rate(container_fs_writes_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                               "format": "table",
                               "instant": true
                           },
@@ -1404,7 +1486,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum by(pod) (rate(container_fs_reads_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))",
+                              "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\", cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
                               "format": "table",
                               "instant": true
                           }
@@ -1414,7 +1496,7 @@ spec:
                           {
                               "id": "joinByField",
                               "options": {
-                                  "byField": "pod",
+                                  "byField": "namespace",
                                   "mode": "outer"
                               }
                           },
@@ -1443,7 +1525,7 @@ spec:
                                       "Value #D": 10,
                                       "Value #E": 11,
                                       "Value #F": 12,
-                                      "pod": 6
+                                      "namespace": 6
                                   },
                                   "renameByName": {
                                       "Value #A": "IOPS(Reads)",
@@ -1452,7 +1534,7 @@ spec:
                                       "Value #D": "Throughput(Read)",
                                       "Value #E": "Throughput(Write)",
                                       "Value #F": "Throughput(Read + Write)",
-                                      "pod": "Pod"
+                                      "namespace": "Namespace"
                                   }
                               }
                           }
@@ -1488,20 +1570,7 @@ spec:
                           "hide": 0,
                           "label": "cluster",
                           "name": "cluster",
-                          "query": "label_values(up{job=\"kube-state-metrics\"}, cluster)",
-                          "refresh": 2,
-                          "sort": 1,
-                          "type": "query"
-                      },
-                      {
-                          "datasource": {
-                              "type": "prometheus",
-                              "uid": "${datasource}"
-                          },
-                          "hide": 0,
-                          "label": "namespace",
-                          "name": "namespace",
-                          "query": "label_values(kube_namespace_status_phase{job=\"kube-state-metrics\", cluster=\"$cluster\"}, namespace)",
+                          "query": "label_values(up{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\"}, cluster)",
                           "refresh": 2,
                           "sort": 1,
                           "type": "query"
@@ -1513,6 +1582,6 @@ spec:
                   "to": "now"
               },
               "timezone": "UTC",
-              "title": "Kubernetes / Compute Resources / Namespace (Pods)",
-              "uid": "85a562078cdf77779eaa1add43ccec1e"
+              "title": "Kubernetes / Compute Resources / Cluster",
+              "uid": "efa86fd1d0c121a26444b636a3f509a8"
           }

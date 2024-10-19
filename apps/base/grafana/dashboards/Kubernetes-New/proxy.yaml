@@ -1,14 +1,14 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: controller-manager
+  name: proxy
 spec:
   # https://grafana.github.io/grafana-operator/docs/dashboards/
   resyncPeriod: 30s
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  folder: Kubernetes
+  folder: Kubernetes-New
   json: >
     {
               "editable": false,
@@ -54,7 +54,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(up{cluster=\"$cluster\", job=\"kube-controller-manager\"})",
+                              "expr": "sum(up{cluster=\"$cluster\", job=\"kube-proxy\"})",
                               "instant": true
                           }
                       ],
@@ -78,7 +78,7 @@ spec:
                       },
                       "gridPos": {
                           "h": 7,
-                          "w": 20,
+                          "w": 10,
                           "x": 4,
                           "y": 0
                       },
@@ -105,11 +105,11 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(rate(workqueue_adds_total{cluster=\"$cluster\", job=\"kube-controller-manager\", instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance, name)",
-                              "legendFormat": "{{cluster}} {{instance}} {{name}}"
+                              "expr": "sum(rate(kubeproxy_sync_proxy_rules_duration_seconds_count{cluster=\"$cluster\", job=\"kube-proxy\", instance=~\"$instance\"}[$__rate_interval]))",
+                              "legendFormat": "rate"
                           }
                       ],
-                      "title": "Work Queue Add Rate",
+                      "title": "Rules Sync Rate",
                       "type": "timeseries"
                   },
                   {
@@ -124,14 +124,14 @@ spec:
                                   "showPoints": "never",
                                   "spanNulls": true
                               },
-                              "unit": "short"
+                              "unit": "s"
                           }
                       },
                       "gridPos": {
                           "h": 7,
-                          "w": 24,
-                          "x": 0,
-                          "y": 7
+                          "w": 10,
+                          "x": 14,
+                          "y": 0
                       },
                       "id": 3,
                       "interval": "1m",
@@ -156,11 +156,11 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(rate(workqueue_depth{cluster=\"$cluster\", job=\"kube-controller-manager\", instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance, name)",
-                              "legendFormat": "{{cluster}} {{instance}} {{name}}"
+                              "expr": "histogram_quantile(0.99,rate(kubeproxy_sync_proxy_rules_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-proxy\", instance=~\"$instance\"}[$__rate_interval]))",
+                              "legendFormat": "{{instance}}"
                           }
                       ],
-                      "title": "Work Queue Depth",
+                      "title": "Rules Sync Latency 99th Quantile",
                       "type": "timeseries"
                   },
                   {
@@ -175,14 +175,14 @@ spec:
                                   "showPoints": "never",
                                   "spanNulls": true
                               },
-                              "unit": "s"
+                              "unit": "ops"
                           }
                       },
                       "gridPos": {
                           "h": 7,
-                          "w": 24,
+                          "w": 12,
                           "x": 0,
-                          "y": 14
+                          "y": 7
                       },
                       "id": 4,
                       "interval": "1m",
@@ -207,11 +207,11 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "histogram_quantile(0.99, sum(rate(workqueue_queue_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-controller-manager\", instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance, name, le))",
-                              "legendFormat": "{{cluster}} {{instance}} {{name}}"
+                              "expr": "sum(rate(kubeproxy_network_programming_duration_seconds_count{cluster=\"$cluster\", job=\"kube-proxy\", instance=~\"$instance\"}[$__rate_interval]))",
+                              "legendFormat": "rate"
                           }
                       ],
-                      "title": "Work Queue Latency",
+                      "title": "Network Programming Rate",
                       "type": "timeseries"
                   },
                   {
@@ -226,14 +226,14 @@ spec:
                                   "showPoints": "never",
                                   "spanNulls": true
                               },
-                              "unit": "ops"
+                              "unit": "s"
                           }
                       },
                       "gridPos": {
                           "h": 7,
-                          "w": 8,
-                          "x": 0,
-                          "y": 21
+                          "w": 12,
+                          "x": 12,
+                          "y": 7
                       },
                       "id": 5,
                       "interval": "1m",
@@ -258,35 +258,11 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "sum(rate(rest_client_requests_total{job=\"kube-controller-manager\", instance=~\"$instance\",code=~\"2..\"}[$__rate_interval]))",
-                              "legendFormat": "2xx"
-                          },
-                          {
-                              "datasource": {
-                                  "type": "prometheus",
-                                  "uid": "${datasource}"
-                              },
-                              "expr": "sum(rate(rest_client_requests_total{job=\"kube-controller-manager\", instance=~\"$instance\",code=~\"3..\"}[$__rate_interval]))",
-                              "legendFormat": "3xx"
-                          },
-                          {
-                              "datasource": {
-                                  "type": "prometheus",
-                                  "uid": "${datasource}"
-                              },
-                              "expr": "sum(rate(rest_client_requests_total{job=\"kube-controller-manager\", instance=~\"$instance\",code=~\"4..\"}[$__rate_interval]))",
-                              "legendFormat": "4xx"
-                          },
-                          {
-                              "datasource": {
-                                  "type": "prometheus",
-                                  "uid": "${datasource}"
-                              },
-                              "expr": "sum(rate(rest_client_requests_total{job=\"kube-controller-manager\", instance=~\"$instance\",code=~\"5..\"}[$__rate_interval]))",
-                              "legendFormat": "5xx"
+                              "expr": "histogram_quantile(0.99, sum(rate(kubeproxy_network_programming_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-proxy\", instance=~\"$instance\"}[$__rate_interval])) by (instance, le))",
+                              "legendFormat": "{{instance}}"
                           }
                       ],
-                      "title": "Kube API Request Rate",
+                      "title": "Network Programming Latency 99th Quantile",
                       "type": "timeseries"
                   },
                   {
@@ -301,14 +277,14 @@ spec:
                                   "showPoints": "never",
                                   "spanNulls": true
                               },
-                              "unit": "s"
+                              "unit": "ops"
                           }
                       },
                       "gridPos": {
                           "h": 7,
-                          "w": 16,
-                          "x": 8,
-                          "y": 21
+                          "w": 8,
+                          "x": 0,
+                          "y": 14
                       },
                       "id": 6,
                       "interval": "1m",
@@ -333,7 +309,82 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "histogram_quantile(0.99, sum(rate(rest_client_request_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-controller-manager\", instance=~\"$instance\", verb=\"POST\"}[$__rate_interval])) by (verb, url, le))",
+                              "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kube-proxy\", instance=~\"$instance\",code=~\"2..\"}[$__rate_interval]))",
+                              "legendFormat": "2xx"
+                          },
+                          {
+                              "datasource": {
+                                  "type": "prometheus",
+                                  "uid": "${datasource}"
+                              },
+                              "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kube-proxy\", instance=~\"$instance\",code=~\"3..\"}[$__rate_interval]))",
+                              "legendFormat": "3xx"
+                          },
+                          {
+                              "datasource": {
+                                  "type": "prometheus",
+                                  "uid": "${datasource}"
+                              },
+                              "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kube-proxy\", instance=~\"$instance\",code=~\"4..\"}[$__rate_interval]))",
+                              "legendFormat": "4xx"
+                          },
+                          {
+                              "datasource": {
+                                  "type": "prometheus",
+                                  "uid": "${datasource}"
+                              },
+                              "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kube-proxy\", instance=~\"$instance\",code=~\"5..\"}[$__rate_interval]))",
+                              "legendFormat": "5xx"
+                          }
+                      ],
+                      "title": "Kube API Request Rate",
+                      "type": "timeseries"
+                  },
+                  {
+                      "datasource": {
+                          "type": "datasource",
+                          "uid": "-- Mixed --"
+                      },
+                      "fieldConfig": {
+                          "defaults": {
+                              "custom": {
+                                  "fillOpacity": 10,
+                                  "showPoints": "never",
+                                  "spanNulls": true
+                              },
+                              "unit": "ops"
+                          }
+                      },
+                      "gridPos": {
+                          "h": 7,
+                          "w": 16,
+                          "x": 8,
+                          "y": 14
+                      },
+                      "id": 7,
+                      "interval": "1m",
+                      "options": {
+                          "legend": {
+                              "asTable": true,
+                              "calcs": [
+                                  "lastNotNull"
+                              ],
+                              "displayMode": "table",
+                              "placement": "right",
+                              "showLegend": true
+                          },
+                          "tooltip": {
+                              "mode": "single"
+                          }
+                      },
+                      "pluginVersion": "v11.1.0",
+                      "targets": [
+                          {
+                              "datasource": {
+                                  "type": "prometheus",
+                                  "uid": "${datasource}"
+                              },
+                              "expr": "histogram_quantile(0.99, sum(rate(rest_client_request_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-proxy\",instance=~\"$instance\",verb=\"POST\"}[$__rate_interval])) by (verb, url, le))",
                               "legendFormat": "{{verb}} {{url}}"
                           }
                       ],
@@ -359,9 +410,9 @@ spec:
                           "h": 7,
                           "w": 24,
                           "x": 0,
-                          "y": 28
+                          "y": 21
                       },
-                      "id": 7,
+                      "id": 8,
                       "interval": "1m",
                       "options": {
                           "legend": {
@@ -384,7 +435,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "histogram_quantile(0.99, sum(rate(rest_client_request_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-controller-manager\", instance=~\"$instance\", verb=\"GET\"}[$__rate_interval])) by (verb, url, le))",
+                              "expr": "histogram_quantile(0.99, sum(rate(rest_client_request_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-proxy\", instance=~\"$instance\", verb=\"GET\"}[$__rate_interval])) by (verb, url, le))",
                               "legendFormat": "{{verb}} {{url}}"
                           }
                       ],
@@ -410,9 +461,9 @@ spec:
                           "h": 7,
                           "w": 8,
                           "x": 0,
-                          "y": 35
+                          "y": 28
                       },
-                      "id": 8,
+                      "id": 9,
                       "interval": "1m",
                       "options": {
                           "legend": {
@@ -435,7 +486,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "process_resident_memory_bytes{cluster=\"$cluster\", job=\"kube-controller-manager\",instance=~\"$instance\"}",
+                              "expr": "process_resident_memory_bytes{cluster=\"$cluster\", job=\"kube-proxy\",instance=~\"$instance\"}",
                               "legendFormat": "{{instance}}"
                           }
                       ],
@@ -461,9 +512,9 @@ spec:
                           "h": 7,
                           "w": 8,
                           "x": 8,
-                          "y": 35
+                          "y": 28
                       },
-                      "id": 9,
+                      "id": 10,
                       "interval": "1m",
                       "options": {
                           "legend": {
@@ -486,7 +537,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "rate(process_cpu_seconds_total{cluster=\"$cluster\", job=\"kube-controller-manager\",instance=~\"$instance\"}[$__rate_interval])",
+                              "expr": "rate(process_cpu_seconds_total{cluster=\"$cluster\", job=\"kube-proxy\",instance=~\"$instance\"}[$__rate_interval])",
                               "legendFormat": "{{instance}}"
                           }
                       ],
@@ -512,9 +563,9 @@ spec:
                           "h": 7,
                           "w": 8,
                           "x": 16,
-                          "y": 35
+                          "y": 28
                       },
-                      "id": 10,
+                      "id": 11,
                       "interval": "1m",
                       "options": {
                           "legend": {
@@ -537,7 +588,7 @@ spec:
                                   "type": "prometheus",
                                   "uid": "${datasource}"
                               },
-                              "expr": "go_goroutines{cluster=\"$cluster\", job=\"kube-controller-manager\",instance=~\"$instance\"}",
+                              "expr": "go_goroutines{cluster=\"$cluster\", job=\"kube-proxy\",instance=~\"$instance\"}",
                               "legendFormat": "{{instance}}"
                           }
                       ],
@@ -573,12 +624,13 @@ spec:
                           "hide": 0,
                           "label": "cluster",
                           "name": "cluster",
-                          "query": "label_values(up{job=\"kube-controller-manager\"}, cluster)",
+                          "query": "label_values(up{job=\"kube-proxy\"}, cluster)",
                           "refresh": 2,
                           "sort": 1,
                           "type": "query"
                       },
                       {
+                          "allValue": ".+",
                           "datasource": {
                               "type": "prometheus",
                               "uid": "${datasource}"
@@ -587,9 +639,8 @@ spec:
                           "includeAll": true,
                           "label": "instance",
                           "name": "instance",
-                          "query": "label_values(up{cluster=\"$cluster\", job=\"kube-controller-manager\"}, instance)",
+                          "query": "label_values(up{job=\"kube-proxy\", cluster=\"$cluster\", job=\"kube-proxy\"}, instance)",
                           "refresh": 2,
-                          "sort": 1,
                           "type": "query"
                       }
                   ]
@@ -599,6 +650,6 @@ spec:
                   "to": "now"
               },
               "timezone": "UTC",
-              "title": "Kubernetes / Controller Manager",
-              "uid": "72e0e05bef5099e5f049b05fdc429ed4"
+              "title": "Kubernetes / Proxy",
+              "uid": "632e265de029684c40b21cb76bca4f94"
           }

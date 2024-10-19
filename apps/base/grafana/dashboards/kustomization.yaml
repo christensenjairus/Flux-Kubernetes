@@ -5,33 +5,37 @@ namespace: monitoring
 resources:
 
   # Kubernetes Folder
-  - Kubernetes/folder.yaml
-  - Kubernetes/alertmanager-overview.yaml
-  - Kubernetes/apiserver.yaml
-  - Kubernetes/cluster-total.yaml
-  - Kubernetes/controller-manager.yaml
-  - Kubernetes/k8s-resources-cluster.yaml
-  - Kubernetes/k8s-resources-multicluster.yaml
-  - Kubernetes/k8s-resources-namespace.yaml
-  - Kubernetes/k8s-resources-node.yaml
-  - Kubernetes/k8s-resources-pod.yaml
-  - Kubernetes/k8s-resources-workload.yaml
-  - Kubernetes/k8s-resources-workloads-namespace.yaml
-  - Kubernetes/kubelet.yaml
-  - Kubernetes/namespace-by-pod.yaml
-  - Kubernetes/namespace-by-workload.yaml
-  - Kubernetes/node-cluster-rsrc-use.yaml
-  - Kubernetes/node-rsrc-use.yaml
-  - Kubernetes/nodes.yaml
-  - Kubernetes/nodes-aix.yaml
-  - Kubernetes/nodes-darwin.yaml
-  - Kubernetes/persistentvolumesusage.yaml
-  - Kubernetes/pod-total.yaml
-  - Kubernetes/prometheus.yaml
-  - Kubernetes/prometheus-remote-write.yaml
-  - Kubernetes/proxy.yaml
-  - Kubernetes/scheduler.yaml
-  - Kubernetes/workload-total.yaml
+  - Kubernetes-New/folder.yaml
+  - Kubernetes-New/alertmanager-overview.yaml
+  - Kubernetes-New/apiserver.yaml
+  - Kubernetes-New/cluster-total.yaml
+  - Kubernetes-New/controller-manager.yaml
+  - Kubernetes-New/k8s-resources-cluster.yaml
+  - Kubernetes-New/k8s-resources-multicluster.yaml
+  - Kubernetes-New/k8s-resources-namespace.yaml
+  - Kubernetes-New/k8s-resources-node.yaml
+  - Kubernetes-New/k8s-resources-pod.yaml
+  - Kubernetes-New/k8s-resources-workload.yaml
+  - Kubernetes-New/k8s-resources-workloads-namespace.yaml
+  - Kubernetes-New/kubelet.yaml
+  - Kubernetes-New/namespace-by-pod.yaml
+  - Kubernetes-New/namespace-by-workload.yaml
+  - Kubernetes-New/node-cluster-rsrc-use.yaml
+  - Kubernetes-New/node-rsrc-use.yaml
+  - Kubernetes-New/nodes.yaml
+  - Kubernetes-New/nodes-aix.yaml
+  - Kubernetes-New/nodes-darwin.yaml
+  - Kubernetes-New/persistentvolumesusage.yaml
+  - Kubernetes-New/pod-total.yaml
+  - Kubernetes-New/prometheus.yaml
+  - Kubernetes-New/prometheus-remote-write.yaml
+  - Kubernetes-New/proxy.yaml
+  - Kubernetes-New/scheduler.yaml
+  - Kubernetes-New/workload-total.yaml
+
+  # Previous Dashboards
+  - Kubernetes-Old/folder.yaml
+  - Kubernetes-Old/k8s-pvs.yaml
 
   # Grafana Folder
   - Grafana/folder.yaml

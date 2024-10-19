@@ -8,7 +8,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  folder: Kubernetes
+  folder: Kubernetes-New
   json: >
       {
           "__inputs": [

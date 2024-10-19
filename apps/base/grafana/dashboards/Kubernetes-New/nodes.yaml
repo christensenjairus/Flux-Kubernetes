@@ -1,14 +1,14 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: nodes-darwin
+  name: nodes
 spec:
   # https://grafana.github.io/grafana-operator/docs/dashboards/
   resyncPeriod: 30s
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  folder: Kubernetes
+  folder: Kubernetes-New
   json: >
     {
               "__inputs": [
@@ -298,43 +298,36 @@ spec:
                               ],
                               "spaceLength": 10,
                               "span": 9,
-                              "stack": false,
+                              "stack": true,
                               "steppedLine": false,
                               "targets": [
                                   {
-                                      "expr": "node_memory_total_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}",
+                                      "expr": "(\n  node_memory_MemTotal_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}\n-\n  node_memory_MemFree_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}\n-\n  node_memory_Buffers_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}\n-\n  node_memory_Cached_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}\n)\n",
                                       "format": "time_series",
                                       "intervalFactor": 2,
-                                      "legendFormat": "Physical Memory",
+                                      "legendFormat": "memory used",
                                       "refId": "A"
                                   },
                                   {
-                                      "expr": "(\n    node_memory_internal_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"} -\n    node_memory_purgeable_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"} +\n    node_memory_wired_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"} +\n    node_memory_compressed_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}\n)\n",
+                                      "expr": "node_memory_Buffers_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}",
                                       "format": "time_series",
                                       "intervalFactor": 2,
-                                      "legendFormat": "Memory Used",
+                                      "legendFormat": "memory buffers",
                                       "refId": "B"
                                   },
                                   {
-                                      "expr": "(\n    node_memory_internal_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"} -\n    node_memory_purgeable_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}\n)\n",
+                                      "expr": "node_memory_Cached_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}",
                                       "format": "time_series",
                                       "intervalFactor": 2,
-                                      "legendFormat": "App Memory",
+                                      "legendFormat": "memory cached",
                                       "refId": "C"
                                   },
                                   {
-                                      "expr": "node_memory_wired_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}",
+                                      "expr": "node_memory_MemFree_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}",
                                       "format": "time_series",
                                       "intervalFactor": 2,
-                                      "legendFormat": "Wired Memory",
+                                      "legendFormat": "memory free",
                                       "refId": "D"
-                                  },
-                                  {
-                                      "expr": "node_memory_compressed_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}",
-                                      "format": "time_series",
-                                      "intervalFactor": 2,
-                                      "legendFormat": "Compressed",
-                                      "refId": "E"
                                   }
                               ],
                               "thresholds": [
@@ -409,7 +402,7 @@ spec:
                               "span": 3,
                               "targets": [
                                   {
-                                      "expr": "(\n    (\n      avg(node_memory_internal_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}) -\n      avg(node_memory_purgeable_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}) +\n      avg(node_memory_wired_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}) +\n      avg(node_memory_compressed_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"})\n    ) /\n    avg(node_memory_total_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"})\n)\n*\n100\n",
+                                      "expr": "100 -\n(\n  avg(node_memory_MemAvailable_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"}) /\n  avg(node_memory_MemTotal_bytes{job=\"node-exporter\", instance=\"$instance\", cluster=\"$cluster\"})\n* 100\n)\n",
                                       "format": "time_series",
                                       "intervalFactor": 2,
                                       "legendFormat": ""
@@ -1013,7 +1006,7 @@ spec:
                           "options": [
 
                           ],
-                          "query": "label_values(node_uname_info{job=\"node-exporter\", sysname=\"Darwin\"}, cluster)",
+                          "query": "label_values(node_uname_info{job=\"node-exporter\", sysname!=\"Darwin\"}, cluster)",
                           "refresh": 2,
                           "regex": "",
                           "sort": 0,
@@ -1039,7 +1032,7 @@ spec:
                           "options": [
 
                           ],
-                          "query": "label_values(node_uname_info{job=\"node-exporter\", cluster=\"$cluster\", sysname=\"Darwin\"}, instance)",
+                          "query": "label_values(node_uname_info{job=\"node-exporter\", cluster=\"$cluster\", sysname!=\"Darwin\"}, instance)",
                           "refresh": 2,
                           "regex": "",
                           "sort": 0,
@@ -1083,7 +1076,7 @@ spec:
                   ]
               },
               "timezone": "utc",
-              "title": "Node Exporter / MacOS",
-              "uid": "629701ea43bf69291922ea45f4a87d37",
+              "title": "Node Exporter / Nodes",
+              "uid": "7d57716318ee0dddbac5a7f451fb7753",
               "version": 0
           }
