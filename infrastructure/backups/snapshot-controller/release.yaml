@@ -76,7 +76,7 @@ spec:
 
       serviceMonitor:
         # Specifies whether a ServiceMonitor should be created
-        create: false
+        create: true
 
       volumeSnapshotClasses: [ ]
       #    - name: linstor-csi-delete

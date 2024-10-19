@@ -8,5 +8,5 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  folder: <folder>
+  folder: Nginx
   json: >

@@ -6,7 +6,6 @@ resources:
 
   # Kubernetes Folder
   - Kubernetes-New/folder.yaml
-  - Kubernetes-New/alertmanager-overview.yaml
   - Kubernetes-New/apiserver.yaml
   - Kubernetes-New/cluster-total.yaml
   - Kubernetes-New/controller-manager.yaml
@@ -36,6 +35,11 @@ resources:
   # Previous Dashboards
   - Kubernetes-Old/folder.yaml
   - Kubernetes-Old/k8s-pvs.yaml
+  - Kubernetes-Old/postgres-database.yaml
+  - Kubernetes-Old/alertmanager-overview.yaml
+  - Nginx/folder.yaml
+  - Nginx/nginx-overview.yaml
+  - Nginx/nginx-request-handling-performance.yaml
 
   # Grafana Folder
   - Grafana/folder.yaml

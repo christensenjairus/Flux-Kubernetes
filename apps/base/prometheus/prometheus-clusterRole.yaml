@@ -20,3 +20,31 @@ rules:
       - /metrics/slis
     verbs:
       - get
+
+# added the permissions from prometheus-roleSpecificNamespaces.yaml below so that it would work in every namespace
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - endpoints
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
