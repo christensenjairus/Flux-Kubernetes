@@ -970,8 +970,10 @@ spec:
           annotations: { }
           ## The label to use to retrieve the job name from.
           ## jobLabel: "app.kubernetes.io/name"
-          namespace: ""
-          namespaceSelector: { }
+          namespace: "monitoring"
+          namespaceSelector:
+            matchNames:
+              - ingress-nginx
           ## Default: scrape .Release.Namespace or namespaceOverride only
           ## To scrape all, use the following:
           ## namespaceSelector:

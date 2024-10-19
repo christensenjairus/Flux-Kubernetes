@@ -18,3 +18,7 @@ spec:
         name: nginx-private
         controllerValue: k8s.io/nginx-private
       ingressClass: nginx-private
+      metrics:
+        serviceMonitor:
+          matchNames:
+            - ingress-nginx-public

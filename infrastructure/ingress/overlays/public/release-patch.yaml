@@ -18,3 +18,7 @@ spec:
         name: nginx-public
         controllerValue: k8s.io/nginx-public
       ingressClass: nginx-public
+      metrics:
+        serviceMonitor:
+          matchNames:
+            - ingress-nginx-public
