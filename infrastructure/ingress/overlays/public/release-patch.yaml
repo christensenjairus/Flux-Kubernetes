@@ -20,5 +20,7 @@ spec:
       ingressClass: nginx-public
       metrics:
         serviceMonitor:
-          matchNames:
-            - ingress-nginx-public
+          namespace: ingress-nginx-private
+          namespaceSelector:
+            matchNames:
+              - ingress-nginx-private

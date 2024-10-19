@@ -109,7 +109,7 @@ spec:
     affinity: { }
     serviceMonitor:
       # -- Whether to create a ServiceMonitor
-      enabled: false
+      enabled: true
       # -- Set of labels to transfer from the Kubernetes Service onto the target
       additionalLabels: { }
       # -- Set how frequently Prometheus should scrape
