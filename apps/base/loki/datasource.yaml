@@ -1,0 +1,16 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: loki
+  namespace: monitoring
+spec:
+  instanceSelector: {}
+  allowCrossNamespaceImport: true
+  datasource:
+    access: proxy
+    jsonData:
+      timeInterval: 5s
+      tlsSkipVerify: true
+    name: Loki
+    type: loki
+    url: http://loki-gateway.loki.svc.cluster.local/  # change if you create another instance

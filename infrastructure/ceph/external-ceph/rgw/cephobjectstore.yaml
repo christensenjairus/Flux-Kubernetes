@@ -14,4 +14,4 @@ spec:
     dataPoolName: us-west-1.rgw.buckets.standard.data
     metadataPoolName: us-west-1.rgw.meta
   allowUsersInNamespaces:
-    - default
+    - "*"

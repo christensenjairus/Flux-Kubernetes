@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: monitoring
+
+resources:
+
+  # Loki Folder
+  - folder.yaml
+  - loki-bloom-compactor.yaml
+  - loki-bloom-gateway.yaml
+  - loki-chunks.yaml
+  - loki-deletion.yaml
+  - loki-logs.yaml
+  - loki-mixin-recording-rules.yaml
+  - loki-operational.yaml
+  - loki-reads.yaml
+  - loki-reads-resources.yaml
+  - loki-retention.yaml
+  - loki-writes.yaml
+  - loki-writes-resources.yaml

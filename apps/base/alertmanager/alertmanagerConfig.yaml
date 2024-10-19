@@ -1,0 +1,147 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: alertmanager-slack
+  namespace: monitoring
+  labels:
+    alertmanagerConfig: "k8s_alerts"
+spec:
+
+  route:
+    groupBy:
+      - alertname
+      - namespace
+      - job_name
+      - deployment
+      - statefulset
+      - pod
+    groupInterval: 10m
+    groupWait: 1m
+    receiver: "blackhole"
+    repeatInterval: 4h
+    routes:
+      - matchers:
+          - matchType: "=~"
+            name: severity
+            value: "warning|error|critical" # don't send info alerts to slack
+        receiver: slack
+        continue: true
+
+  inhibitRules:
+    - targetMatch:
+        - matchType: "=~"
+          name: "severity"
+          value: "warning|info"
+      sourceMatch:
+        - matchType: "="
+          name: "severity"
+          value: "critical"
+      equal:
+        - cluster
+        - namespace
+        - alertname
+    - targetMatch:
+        - matchType: "="
+          name: "severity"
+          value: "info"
+      sourceMatch:
+        - matchType: "="
+          name: "severity"
+          value: "warning"
+      equal:
+        - cluster
+        - namespace
+        - alertname
+    - targetMatch:
+        - matchType: "="
+          name: "severity"
+          value: "info"
+      sourceMatch:
+        - matchType: "="
+          name: "alertname"
+          value: "InfoInhibitor"
+      equal:
+        - cluster
+        - namespace
+
+  receivers:
+    - name: blackhole
+    - name: slack
+      slackConfigs:
+        - channel: "#omega-alerts"
+          apiURL:
+            key: url
+            name: slack-bot-token
+          sendResolved: true
+          username: Alertmanager
+          iconURL: https://avatars3.githubusercontent.com/u/3380462
+          color:  '{{ if eq .Status "firing" -}}{{ if eq .CommonLabels.severity "warning" -}}warning{{- else if eq .CommonLabels.severity "critical" -}}danger{{- else -}}#439FE0{{- end -}}{{ else -}}good{{- end }}'
+          httpConfig:
+            authorization:
+              credentials:
+                key: credential
+                name: slack-bot-token
+          title: |
+            {{/* Title of the Slack alert */}}
+            {{ define "slack.title" -}}
+            [{{ .Status | toUpper -}}
+            {{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{- end -}}
+            ] {{ .CommonLabels.alertname }}
+            {{- end }}
+            {{ template "slack.title" . }}
+          text: |
+            {{/* Severity of the alert */}}
+            {{ define "__alert_severity" -}}
+                {{- if eq .CommonLabels.severity "critical" -}}
+                *Severity:* `Critical` :red_alert:
+                {{- else if eq .CommonLabels.severity "warning" -}}
+                *Severity:* `Warning` :warning:
+                {{- else if eq .CommonLabels.severity "info" -}}
+                *Severity:* `Info` :information_source:
+                {{- else -}}
+                *Severity:* `Unknown` :question: {{ .CommonLabels.severity }}
+                {{- end }}
+            {{- end }}
+            {{/* The text to display in the alert */}}
+            {{ define "slack.text" -}}
+
+                {{ template "__alert_severity" . }}
+                {{- if (index .Alerts 0).Annotations.summary }}
+                {{- "\n" -}}
+                *Summary:* {{ (index .Alerts 0).Annotations.summary }}
+                {{- end }}
+                {{- if (index .Alerts 0).Labels.namespace }}
+                {{- "\n" -}}
+                *Namespace:* `{{ (index .Alerts 0).Labels.namespace }}`
+                {{- end }}
+                {{ range .Alerts }}
+
+                    {{- if .Annotations.description }}
+                    {{- "\n" -}}
+                    {{ .Annotations.description }}
+                    {{- "\n" -}}
+                    {{- end }}
+                    {{- if .Annotations.message }}
+                    {{- "\n" -}}
+                    {{ .Annotations.message }}
+                    {{- "\n" -}}
+                    {{- end }}
+
+                {{- end }}
+
+            {{- end }}
+            {{ template "slack.text" . }}
+          actions:
+            - type: button
+              text: "Runbook :green_book:"
+              url: "{{ (index .Alerts 0).Annotations.runbook_url }}"
+            - type: button
+              text: "Query :mag:"
+              url: "{{ (index .Alerts 0).GeneratorURL }}"
+            - type: button
+              text: "Dashboard :chart_with_upwards_trend:"
+              url: "{{ (index .Alerts 0).Annotations.dashboard_url }}"
+            - type: button
+              text: "Silence :no_bell:"
+              # Specifying the url with multiline YAML string does not work, hence this difficult-to-read single quoted one liner.
+              url: '{{ .ExternalURL }}/#/silences/new?filter=%7B{{- range .CommonLabels.SortedPairs -}}{{- if ne .Name "alertname" -}}{{- .Name }}%3D"{{- .Value -}}"%2C%20{{- end -}}{{- end -}}alertname%3D"{{- .CommonLabels.alertname -}}"%7D'

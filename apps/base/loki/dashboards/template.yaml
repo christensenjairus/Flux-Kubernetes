@@ -1,0 +1,12 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: <name>
+spec:
+  # https://grafana.github.io/grafana-operator/docs/dashboards/
+  resyncPeriod: 30s
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  folder: Loki
+  json: >

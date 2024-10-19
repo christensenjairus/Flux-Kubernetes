@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yaml
+  - ./blackbox-exporter
+  - ./kube-state-metrics
+  - ./apiserver-monitoring-rules
+  - ./node-exporter
+  - ./prometheus-adapter
+  - ./kubePrometheus-prometheusRule.yaml
+
+  # put these in apps in case I want more for something else. And to only run once per cluster.
+  - ../../../apps/base/grafana
+  - ../../../apps/base/prometheus
+  - ../../../apps/base/alertmanager

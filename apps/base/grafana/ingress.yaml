@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "grafana"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+    nginx.ingress.kubernetes.io/auth-method: 'GET'
+    nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
+    nginx.ingress.kubernetes.io/auth-signin: 'https://auth.christensencloud.us?rm=$request_method'
+    nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
+    nginx.ingress.kubernetes.io/modsecurity-snippet: |
+      SecRuleRemoveById 942100 949110 932110 920350
+  name: grafana
+  namespace: monitoring
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: grafana.christensencloud.us
+      http:
+        paths:
+          - backend:
+              service:
+                name: grafana-service
+                port:
+                  number: 3000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - grafana.christensencloud.us
+      secretName: grafana-christensencloud.us-tls

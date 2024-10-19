@@ -5,3 +5,5 @@ resources:
   - ./postgres-operator
   - ./redis-operator
   - ./splunk-operator
+  - ./grafana-operator
+  - ./prometheus-operator
