@@ -25,3 +25,4 @@ resources:
   - ../base/grafana
   - ../base/alertmanager
   - ../base/prometheus
+  - ../base/mimir

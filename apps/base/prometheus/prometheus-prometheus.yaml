@@ -16,8 +16,9 @@ spec:
         name: alertmanager-main
         namespace: monitoring
         port: web
-  enableFeatures: []
-  externalLabels: {}
+  enableFeatures:
+    - expand-external-labels
+  #externalLabels: {}
   image: quay.io/prometheus/prometheus:v2.54.1
   nodeSelector:
     kubernetes.io/os: linux
@@ -48,10 +49,25 @@ spec:
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector: {}
   version: 2.54.1
+  # Added Ephemeral PVCs
   storage:
-    volumeClaimTemplate:
-      spec:
-        storageClassName: "k8s-rbd"
-        resources:
-          requests:
-            storage: 50Gi
+    ephemeral:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: "k8s-rbd"
+          resources:
+            requests:
+              storage: 10Gi
+  # Added cluster label
+  externalLabels:
+    cluster: "omega"
+  # Added mimir configuration
+  remoteWrite:
+    - url: "http://mimir-nginx.mimir.svc:80/api/v1/push"
+  remoteRead:
+    - url: "http://mimir-nginx.mimir.svc:80/prometheus"
+  retention: "24h" # use Mimir for anything longer
+  # added external URL for alertmanager links
+  externalUrl: "https://prometheus.christensencloud.us"

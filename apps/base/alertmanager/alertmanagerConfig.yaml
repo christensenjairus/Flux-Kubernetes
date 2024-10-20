@@ -10,15 +10,11 @@ spec:
   route:
     groupBy:
       - alertname
-      - namespace
-      - job_name
-      - deployment
-      - statefulset
-      - pod
+      - job
     groupInterval: 10m
     groupWait: 1m
     receiver: "blackhole"
-    repeatInterval: 4h
+    repeatInterval: 6h
     routes:
       - matchers:
           - matchType: "=~"
