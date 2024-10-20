@@ -7,6 +7,7 @@ spec:
   instanceSelector: {}
   allowCrossNamespaceImport: true
   datasource:
+    isDefault: true # goes back further in time than prometheus
     access: proxy
     database: prometheus
     jsonData:

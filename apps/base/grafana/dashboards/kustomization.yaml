@@ -37,6 +37,7 @@ resources:
   - Kubernetes-Old/k8s-pvs.yaml
   - Kubernetes-Old/postgres-database.yaml
   - Kubernetes-Old/alertmanager-overview.yaml
+  - Kubernetes-Old/k8s-views-global.yaml
   - Nginx/folder.yaml
   - Nginx/nginx-overview.yaml
   - Nginx/nginx-request-handling-performance.yaml

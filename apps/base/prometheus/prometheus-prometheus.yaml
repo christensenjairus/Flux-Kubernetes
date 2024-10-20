@@ -33,7 +33,7 @@ spec:
   podMonitorSelector: {}
   probeNamespaceSelector: {}
   probeSelector: {}
-  replicas: 3
+  replicas: 2
   resources:
     requests:
       memory: 400Mi
@@ -66,8 +66,10 @@ spec:
   # Added mimir configuration
   remoteWrite:
     - url: "http://mimir-nginx.mimir.svc:80/api/v1/push"
-  remoteRead:
-    - url: "http://mimir-nginx.mimir.svc:80/prometheus"
+      name: Mimir
+  #remoteRead:
+  #  - url: "http://mimir-nginx.mimir.svc:80/prometheus"
+  #    name: Mimir
   retention: "24h" # use Mimir for anything longer
   # added external URL for alertmanager links
   externalUrl: "https://prometheus.christensencloud.us"

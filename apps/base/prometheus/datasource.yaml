@@ -7,7 +7,7 @@ spec:
   instanceSelector: {}
   allowCrossNamespaceImport: true
   datasource:
-    isDefault: true
+    isDefault: false # let Mimir be the default
     access: proxy
     database: prometheus
     jsonData:
