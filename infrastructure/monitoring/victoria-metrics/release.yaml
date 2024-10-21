@@ -862,6 +862,7 @@ spec:
         scrapeInterval: 20s
         externalLabels:
           cluster: zeta
+          __replica__: vmagent
         extraArgs:
           promscrape.streamParse: "true"
           # Do not store original labels in vmagent's memory by default. This reduces the amount of memory used by vmagent
