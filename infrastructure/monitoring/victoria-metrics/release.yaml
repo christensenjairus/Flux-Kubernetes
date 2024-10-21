@@ -850,8 +850,9 @@ spec:
       # defined spec will be added to the remoteWrite configuration of VMAgent
       additionalRemoteWrites:
         - url: "http://mimir-nginx.mimir.svc:80/api/v1/push"
-          #streamAggrConfig:
-          #  dedupInterval: 20s
+          streamAggrConfig:
+            dedupInterval: 30s
+            rules: []
       # spec for VMAgent crd
       # https://docs.victoriametrics.com/operator/api.html#vmagentspec
       spec:
