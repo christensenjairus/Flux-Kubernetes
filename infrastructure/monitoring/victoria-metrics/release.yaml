@@ -867,6 +867,8 @@ spec:
           # Do not store original labels in vmagent's memory by default. This reduces the amount of memory used by vmagent
           # but makes vmagent debugging UI less informative. See: https://docs.victoriametrics.com/vmagent/#relabel-debug
           promscrape.dropOriginalLabels: "false" # was true, but discovery didn't work well
+          promscrape.suppressScrapeErrors: "true" # too many failed scrape logs triggered alerts
+          promscrape.maxScrapeSize: "167772160" # 10x the default
         resources:
           limits: {}
 #            cpu: 2000m # default is 100m
