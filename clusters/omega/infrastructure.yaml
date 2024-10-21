@@ -132,9 +132,9 @@ spec:
         - op: replace
           path: /spec/values/vmagent/spec/externalLabels/cluster
           value: omega
-        - op: replace
-          path: /spec/values/alertmanager/config/receivers/1/slack_configs/0/channel
-          value: "#omega-alerts"
+        #- op: replace
+        #  path: /spec/values/alertmanager/config/receivers/1/slack_configs/0/channel
+        #  value: "#omega-alerts"
         - op: replace
           path: /spec/values/vmsingle/ingress/annotations
           value:
