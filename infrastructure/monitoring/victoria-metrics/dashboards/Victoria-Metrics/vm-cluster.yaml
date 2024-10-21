@@ -9455,8 +9455,8 @@ spec:
             "list": [
               {
                 "current": {
-                  "selected": false,
-                  "text": "VictoriaMetrics"
+                  "selected": true,
+                  "text": "Victoria Metrics (24h)"
                 },
                 "hide": 0,
                 "includeAll": false,

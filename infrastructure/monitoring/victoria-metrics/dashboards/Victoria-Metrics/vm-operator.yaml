@@ -1320,9 +1320,8 @@ spec:
             "list": [
               {
                 "current": {
-                  "selected": false,
-                  "text": "VictoriaMetrics",
-                  "value": "P4169E866C3094E38"
+                  "selected": true,
+                  "text": "Victoria Metrics (24h)"
                 },
                 "hide": 0,
                 "includeAll": false,
