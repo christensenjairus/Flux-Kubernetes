@@ -55,7 +55,8 @@ spec:
       grafana_url: ""
       grafana_api_key: ""
       grafana_dashboard_uid: ""
-      prometheus_url: ""
+      prometheus_url: "http://vmsingle-victoria-metrics-k8s-stack.monitoring.svc:8429/prometheus"
+      alertmanager_url: "http://vmalertmanager-victoria-metrics-k8s-stack.monitoring.svc:9093"
       signing_key: "{{ env.SIGNING_KEY }}"
       account_id: "{{ env.ACCOUNT_ID }}"
       custom_annotations: []
@@ -720,6 +721,7 @@ spec:
           memory: 1024Mi
         limits:
           cpu: ~
+          memory: 4Gi # 4x the default
       additional_env_vars:
         - name: SLACK_TOKEN
           valueFrom:

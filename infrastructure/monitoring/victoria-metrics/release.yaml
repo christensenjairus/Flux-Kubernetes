@@ -555,7 +555,7 @@ spec:
       # spec for VMAlertmanager crd
       # https://docs.victoriametrics.com/operator/api.html#vmalertmanagerspec
       spec:
-        replicaCount: 2
+        replicaCount: 1
         nodeSelector:
           nodeclass: general
         selectAllByDefault: true
@@ -761,7 +761,7 @@ spec:
       # spec for VMAlert crd
       # https://docs.victoriametrics.com/operator/api.html#vmalertspec
       spec:
-        replicaCount: 2
+        replicaCount: 1
         nodeSelector:
           nodeclass: general
         selectAllByDefault: true
@@ -850,10 +850,12 @@ spec:
       # defined spec will be added to the remoteWrite configuration of VMAgent
       additionalRemoteWrites:
         - url: "http://mimir-nginx.mimir.svc:80/api/v1/push"
+          #streamAggrConfig:
+          #  dedupInterval: 20s
       # spec for VMAgent crd
       # https://docs.victoriametrics.com/operator/api.html#vmagentspec
       spec:
-        replicaCount: 2
+        replicaCount: 1
         nodeSelector:
           nodeclass: general
         selectAllByDefault: true
@@ -862,12 +864,6 @@ spec:
         scrapeInterval: 20s
         externalLabels:
           cluster: zeta
-          __replica__: "$POD_NAME"
-        extraEnv:
-          - name: POD_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
         extraArgs:
           promscrape.streamParse: "true"
           # Do not store original labels in vmagent's memory by default. This reduces the amount of memory used by vmagent
@@ -875,6 +871,15 @@ spec:
           promscrape.dropOriginalLabels: "false" # was true, but discovery didn't work well
           promscrape.suppressScrapeErrors: "true" # too many failed scrape logs triggered alerts
           promscrape.maxScrapeSize: "167772160" # 10x the default
+
+          # https://docs.victoriametrics.com/vmagent/#flexible-deduplication
+          #streamAggr.dedupInterval: 60s # send only the last same seen per each time series per every 60s
+          #streamAggr.dropInputLabels: replica
+
+          # https://docs.victoriametrics.com/vmagent/#scraping-big-number-of-targets
+          #promscrape.cluster.membersCount: 3
+          #promscrape.cluster.replicationFactor: 2
+          #promscrape.cluster.name: omega
         resources:
           limits: {}
 #            cpu: 2000m # default is 100m
