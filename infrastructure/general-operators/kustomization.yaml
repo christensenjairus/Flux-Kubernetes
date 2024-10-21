@@ -6,4 +6,4 @@ resources:
   - ./redis-operator
   - ./splunk-operator
   - ./grafana-operator
-  - ./prometheus-operator
+  #- ./prometheus-operator

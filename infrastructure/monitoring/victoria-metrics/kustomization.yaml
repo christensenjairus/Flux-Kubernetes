@@ -8,4 +8,5 @@ resources:
   - basic-auth-secret.yaml
   - slack-bot-token.yaml
   - release.yaml
+  - datasource.yaml
   - ./dashboards

@@ -1,0 +1,18 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: victoria-metrics
+  namespace: monitoring
+spec:
+  instanceSelector: {}
+  allowCrossNamespaceImport: true
+  datasource:
+    isDefault: false # let mimir be the default
+    access: proxy
+    database: prometheus
+    jsonData:
+      timeInterval: 5s
+      tlsSkipVerify: true
+    name: VictoriaMetrics
+    type: prometheus
+    url: http://vmsingle-victoria-metrics-k8s-stack.monitoring.svc:8429/prometheus

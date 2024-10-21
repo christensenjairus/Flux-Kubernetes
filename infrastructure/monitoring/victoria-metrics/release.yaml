@@ -740,7 +740,7 @@ spec:
       enabled: true
 
       # Controls whether VMAlert should use VMAgent or VMInsert as a target for remotewrite
-      remoteWriteVMAgent: false
+      remoteWriteVMAgent: true
       # spec for VMAlert crd
       # https://docs.victoriametrics.com/operator/api.html#vmalertspec
       spec:
@@ -831,8 +831,7 @@ spec:
       # https://docs.victoriametrics.com/operator/api.html#vmagentremotewritespec
       # defined spec will be added to the remoteWrite configuration of VMAgent
       additionalRemoteWrites:
-        []
-        #- url: http://some-remote-write/api/v1/write
+        - url: "http://mimir-nginx.mimir.svc:80/api/v1/push"
       # spec for VMAgent crd
       # https://docs.victoriametrics.com/operator/api.html#vmagentspec
       spec:
@@ -902,7 +901,7 @@ spec:
     #################################################
     # Grafana dependency chart configuration. For possible values refer to https://github.com/grafana/helm-charts/tree/main/charts/grafana#configuration
     grafana:
-      enabled: true
+      enabled: false
       nodeSelector:
         nodeclass: general
       ## all values for grafana helm chart can be specified here

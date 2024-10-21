@@ -2,8 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./node-problem-detector
-  #- ./metrics-server
-  #- ./victoria-metrics
+  - ./metrics-server
+  - ./victoria-metrics
   #- ./blackbox-exporter
   #- blackbox-probe.yaml
-  - ./kube-prometheus
+  #- ./kube-prometheus # opting to use victoria-metrics instead

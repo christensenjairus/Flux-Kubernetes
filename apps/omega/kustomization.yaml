@@ -23,6 +23,6 @@ resources:
   - ../base/loki
   - ../base/promtail
   - ../base/grafana
-  - ../base/alertmanager
-  - ../base/prometheus
+  #- ../base/alertmanager
+  #- ../base/prometheus
   - ../base/mimir
