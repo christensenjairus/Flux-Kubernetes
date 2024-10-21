@@ -1,47 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: monitoring
-
 resources:
-
-  # Kubernetes Folder
-  - Kubernetes-New/folder.yaml
-  - Kubernetes-New/apiserver.yaml
-  - Kubernetes-New/cluster-total.yaml
-  - Kubernetes-New/controller-manager.yaml
-  - Kubernetes-New/k8s-resources-cluster.yaml
-  - Kubernetes-New/k8s-resources-multicluster.yaml
-  - Kubernetes-New/k8s-resources-namespace.yaml
-  - Kubernetes-New/k8s-resources-node.yaml
-  - Kubernetes-New/k8s-resources-pod.yaml
-  - Kubernetes-New/k8s-resources-workload.yaml
-  - Kubernetes-New/k8s-resources-workloads-namespace.yaml
-  - Kubernetes-New/kubelet.yaml
-  - Kubernetes-New/namespace-by-pod.yaml
-  - Kubernetes-New/namespace-by-workload.yaml
-  - Kubernetes-New/node-cluster-rsrc-use.yaml
-  - Kubernetes-New/node-rsrc-use.yaml
-  - Kubernetes-New/nodes.yaml
-  - Kubernetes-New/nodes-aix.yaml
-  - Kubernetes-New/nodes-darwin.yaml
-  - Kubernetes-New/persistentvolumesusage.yaml
-  - Kubernetes-New/pod-total.yaml
-  - Kubernetes-New/prometheus.yaml
-  - Kubernetes-New/prometheus-remote-write.yaml
-  - Kubernetes-New/proxy.yaml
-  - Kubernetes-New/scheduler.yaml
-  - Kubernetes-New/workload-total.yaml
-
-  # Previous Dashboards
-  - Kubernetes-Old/folder.yaml
-  - Kubernetes-Old/k8s-pvs.yaml
-  - Kubernetes-Old/postgres-database.yaml
-  - Kubernetes-Old/alertmanager-overview.yaml
-  - Kubernetes-Old/k8s-views-global.yaml
-  - Nginx/folder.yaml
-  - Nginx/nginx-overview.yaml
-  - Nginx/nginx-request-handling-performance.yaml
-
-  # Grafana Folder
-  - Grafana/folder.yaml
-  - Grafana/grafana-overview.yaml
+  - folder.yaml
+  - grafana-overview.yaml

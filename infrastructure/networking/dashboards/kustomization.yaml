@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - folder.yaml
+  - cilium-agent-metrics-v1.12.yaml
+  - cilium-hubble-l7-http-metrics.yaml
+  - cilium-hubble-metrics-v1.12.yaml
+  - cilium-operator-metrics-v1.12.yaml
+  - cilium-policy-verdicts.yaml
+  #- tetragon-kubectl-exec-audit.yaml

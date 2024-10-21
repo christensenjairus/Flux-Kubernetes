@@ -6,8 +6,7 @@ resources:
   - ../redis-replication
   - ../sentinel
   - ./gitlab
-  - redis-dashboard.yaml
-  - redis-rts-dashboard.yaml
+  - datasource.yaml
 patches:
   - path: postgres-patch.yaml
     target:

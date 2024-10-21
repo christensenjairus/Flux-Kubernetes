@@ -1,0 +1,23 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: nextcloud-redis
+  namespace: nextcloud
+spec:
+  instanceSelector: {}
+  allowCrossNamespaceImport: true
+  datasource:
+    access: proxy
+    jsonData:
+      client: standalone # it's actually cluster, but I couldn't get it to work correctly
+      sentinelName: nextcloud-redis
+      poolSize: 15
+      timeout: 10
+      pingInterval: 0
+      pipelineWindow: 0
+    name: nextcloud-redis
+    type: redis-datasource
+    url: redis://nextcloud-redis-leader.nextcloud.svc:6379
+  plugins:
+    - name: redis-datasource
+      version: 2.2.0

@@ -1,0 +1,23 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: gitlab-redis
+  namespace: gitlab
+spec:
+  instanceSelector: {}
+  allowCrossNamespaceImport: true
+  datasource:
+    access: proxy
+    jsonData:
+      client: sentinel
+      sentinelName: gitlab-redis
+      poolSize: 3
+      timeout: 10
+      pingInterval: 0
+      pipelineWindow: 0
+    name: gitlab-redis
+    type: redis-datasource
+    url: redis://gitlab-redis-sentinel-0.gitlab-redis-sentinel-headless.gitlab.svc:26379,gitlab-redis-sentinel-1.gitlab-redis-sentinel-headless.gitlab.svc:26379,gitlab-redis-sentinel-2.gitlab-redis-sentinel-headless.gitlab.svc:26379
+  plugins:
+    - name: redis-datasource
+      version: 2.2.0

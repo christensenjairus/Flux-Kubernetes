@@ -6,8 +6,7 @@ resources:
   - ../postgres
   - ../redis-cluster
   - ./nextcloud
-  - ./redis-dashboard.yaml
-  - ./redis-rts-dashboard.yaml
+  - datasource.yaml
   - ./nextcloud-dashboard.yaml
 patches:
   - path: postgres-patch.yaml

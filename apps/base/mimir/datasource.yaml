@@ -2,17 +2,16 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
 metadata:
   name: mimir
-  namespace: monitoring
+  namespace: mimir
 spec:
   instanceSelector: {}
   allowCrossNamespaceImport: true
   datasource:
     isDefault: true # goes back further in time than prometheus
     access: proxy
-    database: prometheus
     jsonData:
       timeInterval: 5s
       tlsSkipVerify: true
-    name: Mimir
+    name: Mimir (90d)
     type: prometheus
     url: http://mimir-nginx.mimir.svc:80/prometheus # change if you create another instance

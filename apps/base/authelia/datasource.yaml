@@ -1,0 +1,23 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: authelia-redis
+  namespace: authelia
+spec:
+  instanceSelector: {}
+  allowCrossNamespaceImport: true
+  datasource:
+    access: proxy
+    jsonData:
+      client: sentinel
+      sentinelName: authelia-redis
+      poolSize: 3
+      timeout: 10
+      pingInterval: 0
+      pipelineWindow: 0
+    name: authelia-redis
+    type: redis-datasource
+    url: redis://authelia-redis-sentinel-0.authelia-redis-sentinel-headless.authelia.svc:26379,authelia-redis-sentinel-1.authelia-redis-sentinel-headless.authelia.svc:26379,authelia-redis-sentinel-2.authelia-redis-sentinel-headless.authelia.svc:26379
+  plugins:
+    - name: redis-datasource
+      version: 2.2.0

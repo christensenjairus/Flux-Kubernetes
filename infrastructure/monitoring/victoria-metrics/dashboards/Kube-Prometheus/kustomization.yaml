@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - folder.yaml
+  - apiserver.yaml
+  - cluster-total.yaml
+  - controller-manager.yaml
+  - k8s-resources-workloads-namespace.yaml
+  - k8s-resources-workload.yaml
+  - k8s-resources-pod.yaml
+  - k8s-resources-node.yaml
+  - k8s-resources-namespace.yaml
+  - k8s-resources-multicluster.yaml
+  - k8s-resources-cluster.yaml
+  - kubelet.yaml
+  - namespace-by-workload.yaml
+  - namespace-by-pod.yaml
+  - node-cluster-rsrc-use.yaml
+  - node-rsrc-use.yaml
+  - nodes.yaml
+  - nodes-aix.yaml
+  - nodes-darwin.yaml
+  - persistentvolumesusage.yaml
+  - pod-total.yaml
+  - prometheus.yaml
+  - prometheus-remote-write.yaml
+  - proxy.yaml
+  - scheduler.yaml
+  - workload-total.yaml

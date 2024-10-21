@@ -1,69 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-
-  # victoriametrics default dashboards
-  - alertmanager-overview.yaml
-  - grafana-overview.yaml
-  - k8s-kube-state-metrics.yaml
-  - k8s-system-coredns.yaml
-  - k8s-views-global.yaml
-  - k8s-views-namespaces.yaml
-  - k8s-views-pods.yaml
-  - nodes-overview.yaml
-  - vm-backupmanager.yaml
-  - vm-cluster.yaml
-  - vm-operator.yaml
-  - vm-single-node.yaml
-  - vm-vmagent.yaml
-  - vm-vmalert.yaml
-
-  # ingress-nginx dashboards
-  - nginx-overview.yaml
-  - nginx-request-handling-performance.yaml
-
-  # isovalent dashboards
-  - cilium-agent-metrics-v1.12.yaml
-  - cilium-hubble-l7-http-metrics.yaml
-  - cilium-hubble-metrics-v1.12.yaml
-  - cilium-policy-verdicts.yaml
-  - cilium-operator-metrics-v1.12.yaml
-  # - tetragon-kubectl-exec-audit.yaml
-
-  # ceph dashboards recommended by rook-ceph
-  - rook-ceph-osd.yaml
-  - rook-ceph-overview.yaml
-  - rook-ceph-pools.yaml
-
-  # postgres dashboard working with crunchydata postgres-operator. I took the dashboard info from a postgres_exporter dash and edited it
-  - postgres-database.yaml
-
-  # node-problem-detector dashboard
-  - nodes-detected-problems.yaml
-
-  # Ceph Dashboards from their repo here: https://github.com/ceph/ceph/tree/main/monitoring/ceph-mixin/dashboards_out
-  - ceph-cephfs-overview.yaml
-  - ceph-cluster-advanced.yaml
-  - ceph-cluster.yaml
-  - ceph-host-details.yaml
-  - ceph-host-overview.yaml
-  - ceph-multi-cluster-overview.yaml
-  - ceph-osd-device-details.yaml
-  - ceph-osd-overview.yaml
-  - ceph-pool-details.yaml
-  - ceph-pools-overview.yaml
-  - ceph-radosgw-details.yaml
-  - ceph-radosgw-overview.yaml
-  - ceph-radosgw-sync-overview.yaml
-  - ceph-rbd-details.yaml
-  - ceph-rbd-overview.yaml
-  - ceph-rgw-s3-analytics.yaml
-
-  # found myself on grafana.com
-  - k8s-apiserver.yaml
-  - k8s-system-pressure.yaml
-  - k8s-pvs.yaml
-
-  # blackbox-exporter dashboards
-  #- blackbox-exporter.yaml
-  #- blackbox-exporter-simplified.yaml
+  - Kubernetes
+  - Kube-Prometheus
+  - Victoria-Metrics
+  - Nodes

@@ -13,6 +13,6 @@ spec:
     jsonData:
       timeInterval: 5s
       tlsSkipVerify: true
-    name: VictoriaMetrics
+    name: Victoria Metrics (24h)
     type: prometheus
     url: http://vmsingle-victoria-metrics-k8s-stack.monitoring.svc:8429/prometheus

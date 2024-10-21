@@ -1,0 +1,13 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: <name>
+spec:
+  # https://grafana.github.io/grafana-operator/docs/dashboards/
+  resyncPeriod: 30s
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  folder: Victoria-Metrics
+  json: >

@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: ingress-nginx-public
 resources:
   - ../../base
+  - ./dashboards # I only want one instance of these
 patches:
   - path: release-patch.yaml
     target:

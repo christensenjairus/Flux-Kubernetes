@@ -360,7 +360,7 @@ spec:
           max_cache_freshness: 10m
         
           max_global_series_per_user: 15000000  # 100x the default
-          compactor_blocks_retention_period: 3m # Delete blocks in object storage after 3 months 
+          compactor_blocks_retention_period: 90d # Delete blocks in object storage after 3 months 
 
         memberlist:
           abort_if_cluster_join_fails: false

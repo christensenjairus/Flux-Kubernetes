@@ -6,8 +6,6 @@ resources:
   - ../sentinel
   - ../postgres
   - ./harbor
-  - redis-dashboard.yaml
-  - redis-rts-dashboard.yaml
 patches:
   - path: postgres-patch.yaml
     target:

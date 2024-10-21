@@ -1,0 +1,23 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: harbor-redis
+  namespace: harbor
+spec:
+  instanceSelector: {}
+  allowCrossNamespaceImport: true
+  datasource:
+    access: proxy
+    jsonData:
+      client: sentinel
+      sentinelName: harbor-redis
+      poolSize: 3
+      timeout: 10
+      pingInterval: 0
+      pipelineWindow: 0
+    name: harbor-redis
+    type: redis-datasource
+    url: redis://harbor-redis-sentinel-0.harbor-redis-sentinel-headless.harbor.svc:26379,harbor-redis-sentinel-1.harbor-redis-sentinel-headless.harbor.svc:26379,harbor-redis-sentinel-2.harbor-redis-sentinel-headless.harbor.svc:26379
+  plugins:
+    - name: redis-datasource
+      version: 2.2.0
