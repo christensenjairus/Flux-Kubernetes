@@ -359,7 +359,8 @@ spec:
           # This presents caching incomplete results
           max_cache_freshness: 10m
         
-          max_global_series_per_user: 15000000 # 100x the default
+          max_global_series_per_user: 15000000  # 100x the default
+          compactor_blocks_retention_period: 3m # Delete blocks in object storage after 3 months 
 
         memberlist:
           abort_if_cluster_join_fails: false
@@ -1003,7 +1004,7 @@ spec:
           - ReadWriteOnce
 
         # Ingester data Persistent Volume size
-        size: 10Gi
+        size: 25Gi
 
         # Subdirectory of Ingester data Persistent Volume to mount
         # Useful if the volume's root directory is not empty

@@ -18,6 +18,9 @@ variable "clusters" {
       ssh_key_type                   : string # type of key to scan and trust for remote hosts. the key of this type gets added to local ~/.ssh/known_hosts.
     })
     networking                       : object({
+      use_pve_firewall               : bool   # whether or not to create and enable firewall rules in proxmox to harden your cluster
+      management_ranges_ipv4         : string # proxmox list of the IPs, ranges, or cidrs that you want to be able to reach the K8s api and ssh into the hosts. Only used if use_pve_firewall is true. Use a dash for ranges and comma separation
+      management_ranges_ipv6         : string # proxmox list of the IPs, ranges, or cidrs that you want to be able to reach the K8s api and ssh into the hosts. Only used if use_pve_firewall is true. Use a dash for ranges and comma separation
       bridge                         : string # name of the proxmox bridge to use for VM's network interface
       dns_search_domain              : string # search domain for DNS resolution
       assign_vlan                    : bool   # whether or not to assign a vlan to the network interfaces of the VMs.
@@ -68,11 +71,11 @@ variable "clusters" {
           size      : number        # size of disk in GB.
           datastore : string        # name of the proxmox datastore to use for this disk
           backup    : bool          # boolean to determine if this disk will be backed up when Proxmox performs a vm backup.
-        }))         
+        }))
         start_ip    : number        # last octet of the ip address for the first apiserver node
         labels      : map(string)   # labels to apply to the nodes
         taints      : map(string)   # taints to apply to the nodes
-      })            
+      })
       etcd          : object({      # required type, but can be 0.
         count       : number        # use 0 for a stacked etcd architecture. Usually 3 if you want an external etcd. Should be an odd number. Should not pass 10 without editing start IPs
         cores       : number        # raise when needed, should grow as cluster grows
@@ -83,7 +86,7 @@ variable "clusters" {
           size      : number        # size of disk in GB.
           datastore : string        # name of the proxmox datastore to use for this disk
           backup    : bool          # boolean to determine if this disk will be backed up when Proxmox performs a vm backup.
-        }))         
+        }))
         start_ip    : number        # last octet of the ip address for the first etcd node
         # no node labels or taints because etcd nodes are external to the cluster itself
       })
@@ -97,11 +100,11 @@ variable "clusters" {
           size      : number        # size of disk in GB.
           datastore : string        # name of the proxmox datastore to use for this disk
           backup    : bool          # boolean to determine if this disk will be backed up when Proxmox performs a vm backup.
-        }))         
+        }))
         start_ip    : number        # last octet of the ip address for the first backup node
         labels      : map(string)   # labels to apply to the nodes
         taints      : map(string)   # taints to apply to the nodes
-      })            
+      })
       database      : object({      # custom worker type, can be 0
         count       : number        # Should not pass 10 without editing start IPs
         cores       : number
@@ -112,11 +115,11 @@ variable "clusters" {
           size      : number        # size of disk in GB.
           datastore : string        # name of the proxmox datastore to use for this disk
           backup    : bool          # boolean to determine if this disk will be backed up when Proxmox performs a vm backup.
-        }))         
+        }))
         start_ip    : number        # last octet of the ip address for the first db node
         labels      : map(string)   # labels to apply to the nodes
         taints      : map(string)   # taints to apply to the nodes
-      })            
+      })
       general       : object({      # custom worker type, can be 0
         count       : number        # Should not pass 50 without editing load balancer ip cidr and nginx ingress controller ip
         cores       : number
@@ -127,7 +130,7 @@ variable "clusters" {
           size      : number        # size of disk in GB.
           datastore : string        # name of the proxmox datastore to use for this disk
           backup    : bool          # boolean to determine if this disk will be backed up when Proxmox performs a vm backup.
-        }))         
+        }))
         start_ip    : number        # last octet of the ip address for the first general node.
         labels      : map(string)   # labels to apply to the nodes
         taints      : map(string)   # taints to apply to the nodes
@@ -149,6 +152,9 @@ variable "clusters" {
         ssh_key_type                   = "ssh-ed25519"
       }
       networking                       = {
+        management_ranges_ipv4         = "10.0.0.1-10.0.0.3,10.0.60.2,10.0.50.5,10.0.50.6"
+        management_ranges_ipv6         = ""
+        use_pve_firewall               = false
         bridge                         = "vmbr0"
         dns_search_domain              = "lan"
         vlan_name                      = "DELTA"
@@ -172,7 +178,7 @@ variable "clusters" {
           dns2                         = "2607:fa18::2"
         }
         kube_vip = {
-          kube_vip_version             = "0.8.3"
+          kube_vip_version             = "0.8.4"
           vip                          = "10.0.4.100" #"2607:fa18:47fd:2::100"
           vip_hostname                 = "delta-api-server"
           vip_interface                = "eth0"
@@ -191,9 +197,9 @@ variable "clusters" {
       node_classes = {
         apiserver = {
           count      = 1
-          cores      = 12  # need a ton for testing large apps like clustered Splunk
+          cores      = 12  # need a ton for testing large apps
           sockets    = 2
-          memory     = 24576 # need a ton for testing large apps like clustered Splunk
+          memory     = 24576 # need a ton for testing large apps
           disks      = [
             { index = 0, datastore = "pve-block", size = 100, backup = true }
           ]
@@ -269,6 +275,9 @@ variable "clusters" {
         ssh_key_type                   = "ssh-ed25519"
       }
       networking                       = {
+        use_pve_firewall               = false
+        management_ranges_ipv4         = "10.0.0.1-10.0.0.3,10.0.60.2,10.0.50.5,10.0.50.6"
+        management_ranges_ipv6         = "2607:fa18:47fd::2"
         bridge                         = "vmbr0"
         dns_search_domain              = "lan"
         assign_vlan                    = true
@@ -292,18 +301,18 @@ variable "clusters" {
           dns2                         = "2607:fa18::2"
         }
         kube_vip = {
-          kube_vip_version             = "0.8.3"
+          kube_vip_version             = "0.8.4"
           vip                          = "10.0.5.100"
           vip_hostname                 = "epsilon-api-server"
           vip_interface                = "eth0"
           use_ipv6                     = false
         }
         cilium = {
-          cilium_version                 = "1.16.1"
+          cilium_version                 = "1.16.2"
         }
       }
       local_path_provisioner = {
-        local_path_provisioner_version = "0.0.29"
+        local_path_provisioner_version = "0.0.30"
       }
       metrics_server = {
         metrics_server_version         = "0.7.2"
@@ -334,13 +343,12 @@ variable "clusters" {
           start_ip   = 120
         }
         storage = {
-          count      = 1
+          count      = 0
           cores      = 4
           sockets    = 2
           memory     = 8192
           disks      = [
-            { index = 0, datastore = "pve-block", size = 20, backup = true },
-            { index = 1, datastore = "pve-block", size = 100, backup = false }
+            { index = 0, datastore = "pve-block", size = 20, backup = true }
           ]
           start_ip   = 130
           labels = {
@@ -349,13 +357,12 @@ variable "clusters" {
           taints = {}
         }
         database = {
-          count      = 1
+          count      = 0
           cores      = 4
           sockets    = 2
           memory     = 8192
           disks      = [
-            { index = 0, datastore = "pve-block", size = 50, backup = true }, # big enough to hold vitess databases
-            { index = 1, datastore = "pve-block", size = 100, backup = false }
+            { index = 0, datastore = "pve-block", size = 20, backup = true }
           ]
           start_ip   = 140
           labels = {
@@ -369,8 +376,7 @@ variable "clusters" {
           sockets    = 2
           memory     = 18432
           disks      = [
-            { index = 0, datastore = "pve-block", size = 20, backup = true },
-            { index = 1, datastore = "pve-block", size = 100, backup = false }
+            { index = 0, datastore = "pve-block", size = 20, backup = true }
           ]
           start_ip   = 150
           labels = {
@@ -384,7 +390,7 @@ variable "clusters" {
       cluster_name                     = "zeta"
       cluster_id                       = 6
       kubeconfig_file_name             = "zeta.yml"
-      start_on_proxmox_boot            = false #true
+      start_on_proxmox_boot            = true
       max_pods_per_node                = 512
       ssh                              = {
         ssh_user                       = "line6"
@@ -392,6 +398,9 @@ variable "clusters" {
         ssh_key_type                   = "ssh-ed25519"
       }
       networking                       = {
+        use_pve_firewall               = false
+        management_ranges_ipv4         = "10.0.0.1-10.0.0.3,10.0.60.2,10.0.50.5,10.0.50.6"
+        management_ranges_ipv6         = ""
         bridge                         = "vmbr0"
         dns_search_domain              = "lan"
         assign_vlan                    = true
@@ -415,18 +424,18 @@ variable "clusters" {
           dns2                         = "2607:fa18::2"
         }
         kube_vip = {
-          kube_vip_version             = "0.8.3"
+          kube_vip_version             = "0.8.4"
           vip                          = "10.0.6.100"
           vip_hostname                 = "zeta-api-server"
           vip_interface                = "eth0"
           use_ipv6                     = false
         }
         cilium = {
-          cilium_version               = "1.16.1"
+          cilium_version               = "1.16.2"
         }
       }
       local_path_provisioner = {
-        local_path_provisioner_version = "0.0.29"
+        local_path_provisioner_version = "0.0.30"
       }
       metrics_server = {
         metrics_server_version         = "0.7.2"
@@ -516,6 +525,9 @@ variable "clusters" {
         ssh_key_type                   = "ssh-ed25519"
       }
       networking                       = {
+        use_pve_firewall               = false
+        management_ranges_ipv4         = "10.0.0.1-10.0.0.3,10.0.60.2,10.0.50.5,10.0.50.6"
+        management_ranges_ipv6         = ""
         bridge                         = "vmbr0"
         dns_search_domain              = "lan"
         assign_vlan                    = true
@@ -539,18 +551,18 @@ variable "clusters" {
           dns2                         = "2607:fa18::2"
         }
         kube_vip = {
-          kube_vip_version             = "0.8.3"
+          kube_vip_version             = "0.8.4"
           vip                          = "10.0.7.100"
           vip_hostname                 = "omega-api-server"
           vip_interface                = "eth0"
           use_ipv6                     = false
         }
         cilium = {
-          cilium_version               = "1.16.1"
+          cilium_version               = "1.16.2"
         }
       }
       local_path_provisioner = {
-        local_path_provisioner_version = "0.0.29"
+        local_path_provisioner_version = "0.0.30"
       }
       metrics_server = {
         metrics_server_version         = "0.7.2"
@@ -595,7 +607,7 @@ variable "clusters" {
           taints   = {}
         }
         database = {
-          count    = 3 # should be three or more. Redis and postgres clusters are assigned to these nodes. They have three nodes w/ spread constraints.
+          count    = 0 # should be three or more. Redis and postgres clusters are assigned to these nodes. They have three nodes w/ spread constraints.
           cores    = 4
           sockets  = 2
           memory   = 12288
@@ -610,9 +622,9 @@ variable "clusters" {
         }
         general = {
           count    = 4 # should be three or more. Various apps are spread across these nodes to maintain spread. Like splunk search heads and indexers.
-          cores    = 16
+          cores    = 24
           sockets  = 2
-          memory   = 24576
+          memory   = 36864
           disks    = [
             { index = 0, datastore = "pve-block", size = 70, backup = true } # an extra 20 for emptyDir volumes for holding a ton of local copies of images. I got disk pressure taints with 30GB and low kubelet space warnings with 50GB.
           ]

@@ -40,8 +40,8 @@ SCRIPT_DIR="$(pwd)"
 pushd $SCRIPT_DIR > /dev/null
 
 echo "Replacing clusters.tf file in ClusterCreator with the current one..."
-rm -f ../../../ClusterCreator/clusters.tf
-cp -f ./clusters.tf ../../../ClusterCreator/clusters.tf
+rm -f ../../../ClusterCreator/terraform/clusters.tf
+cp -f ./clusters.tf ../../../ClusterCreator/terraform/clusters.tf
 echo "Done"
 
 popd > /dev/null

@@ -18,7 +18,7 @@ resources:
   - ../base/portainer
   - ../base/kasm
   - ../base/nextcloud
-  - ../base/wazuh
+  #- ../base/wazuh
 
   - ../base/loki
   - ../base/promtail
