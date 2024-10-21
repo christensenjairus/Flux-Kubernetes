@@ -10,7 +10,7 @@ metadata:
     prometheus: k8s
     role: alert-rules
   name: alertmanager-main-rules
-  namespace: monitoring
+  namespace: alertmanager
 spec:
   groups:
     - name: alertmanager.rules

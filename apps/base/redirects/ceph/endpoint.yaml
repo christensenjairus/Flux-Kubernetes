@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: ceph
+  namespace: redirects
+subsets:
+  - addresses:
+      # must keep this up to date with the leading mon
+      #- ip: 10.0.0.100
+      - ip: 10.0.0.108
+      #- ip: 10.0.0.109
+    ports:
+      - port: 8000
+        protocol: TCP

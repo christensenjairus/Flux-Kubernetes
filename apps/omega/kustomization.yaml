@@ -23,4 +23,5 @@ resources:
   - ../base/loki
   - ../base/promtail
   - ../base/grafana
+  - ../base/robusta
   - ../base/mimir

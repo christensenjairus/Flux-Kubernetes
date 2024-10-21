@@ -1004,7 +1004,7 @@ spec:
           - ReadWriteOnce
 
         # Ingester data Persistent Volume size
-        size: 25Gi
+        size: 25Gi # data seems to show this not really surpassing 6Gi. Will check back later.
 
         # Subdirectory of Ingester data Persistent Volume to mount
         # Useful if the volume's root directory is not empty

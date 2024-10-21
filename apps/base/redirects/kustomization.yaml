@@ -12,3 +12,4 @@ resources:
   - ./minio
   - ./nas3
   - ./s3
+  - ./ceph
