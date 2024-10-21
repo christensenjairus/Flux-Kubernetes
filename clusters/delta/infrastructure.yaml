@@ -504,14 +504,14 @@ spec:
   path: ./infrastructure/ceph
   prune: true
   wait: true
-  patches:
-    - patch: |
-        # forget about osd placement
-        - op: remove
-          path: /spec/values/discover/nodeAffinity
-      target:
-        kind: HelmRelease
-        name: rook-ceph
+#  patches:
+#    - patch: |
+#        # forget about osd placement
+#        - op: remove
+#          path: /spec/values/discover/nodeAffinity
+#      target:
+#        kind: HelmRelease
+#        name: rook-ceph
 #    - patch: |
 #        - op: replace
 #          path: /spec/values/ingress/dashboard/host/name

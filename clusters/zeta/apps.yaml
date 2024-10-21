@@ -12,7 +12,7 @@ spec:
     - name: infra-ceph
     - name: infra-certificates
     - name: infra-crds
-    - name: infra-external-storage
+#    - name: infra-external-storage
     - name: infra-general-operators
     - name: infra-ingress
     - name: infra-kyverno
