@@ -7,4 +7,5 @@ resources:
   - ./external-snapshotter
   - ./cosi
   - ./redis-operator
+  - ./kubevirt-operator
 

@@ -7,3 +7,4 @@ resources:
   - ./splunk-operator
   - ./grafana-operator
   #- ./prometheus-operator
+  #- ./kubevirt-operator
