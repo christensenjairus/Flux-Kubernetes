@@ -623,6 +623,7 @@ spec:
           memory: 512Mi
         limits:
           cpu: ~
+          memory: 2Gi # 4x the default
       additional_env_vars:
         - name: ROBUSTA_TOKEN
           valueFrom:
