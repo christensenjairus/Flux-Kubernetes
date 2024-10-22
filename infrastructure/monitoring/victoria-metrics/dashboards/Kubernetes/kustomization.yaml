@@ -12,3 +12,4 @@ resources:
   - k8s-views-global.yaml
   - k8s-views-namespaces.yaml
   - k8s-views-pods.yaml
+  - etcd-cluster-overview.yaml
