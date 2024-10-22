@@ -588,7 +588,7 @@ variable "clusters" {
           sockets  = 1
           memory   = 6144
           disks    = [
-            { index = 0, datastore = "pve-block", size = 30, backup = true } # an extra 10 for extra space for etcd backups. 24+7 of them at 250MB each is 8GB.
+            { index = 0, datastore = "pve-block", size = 70, backup = true } # an extra 70 for extra space for etcd backups.
           ]
           start_ip = 120
         }

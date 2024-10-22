@@ -850,9 +850,6 @@ spec:
       # defined spec will be added to the remoteWrite configuration of VMAgent
       additionalRemoteWrites:
         - url: "http://mimir-nginx.mimir.svc:80/api/v1/push"
-          #streamAggrConfig:
-          #  dedupInterval: 60s
-          #  rules: []
       # spec for VMAgent crd
       # https://docs.victoriametrics.com/operator/api.html#vmagentspec
       spec:
@@ -873,14 +870,6 @@ spec:
           promscrape.suppressScrapeErrors: "true" # too many failed scrape logs triggered alerts
           promscrape.maxScrapeSize: "167772160" # 10x the default
 
-          # https://docs.victoriametrics.com/vmagent/#flexible-deduplication
-          streamAggr.dedupInterval: 60s # send only the last same seen per each time series per every 60s
-          streamAggr.dropInputLabels: replica
-
-          # https://docs.victoriametrics.com/vmagent/#scraping-big-number-of-targets
-          #promscrape.cluster.membersCount: 3
-          #promscrape.cluster.replicationFactor: 2
-          #promscrape.cluster.name: omega
         resources:
           limits: {}
 #            cpu: 2000m # default is 100m
