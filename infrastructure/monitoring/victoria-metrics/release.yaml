@@ -555,7 +555,7 @@ spec:
       # spec for VMAlertmanager crd
       # https://docs.victoriametrics.com/operator/api.html#vmalertmanagerspec
       spec:
-        replicaCount: 1
+        replicaCount: 2
         nodeSelector:
           nodeclass: general
         selectAllByDefault: true
@@ -761,7 +761,7 @@ spec:
       # spec for VMAlert crd
       # https://docs.victoriametrics.com/operator/api.html#vmalertspec
       spec:
-        replicaCount: 1
+        replicaCount: 2
         nodeSelector:
           nodeclass: general
         selectAllByDefault: true
@@ -853,7 +853,7 @@ spec:
       # spec for VMAgent crd
       # https://docs.victoriametrics.com/operator/api.html#vmagentspec
       spec:
-        replicaCount: 1
+        replicaCount: 2
         nodeSelector:
           nodeclass: general
         selectAllByDefault: true
