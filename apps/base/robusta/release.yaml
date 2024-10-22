@@ -619,7 +619,7 @@ spec:
       pprof: True
       resources:
         requests:
-          cpu: 10m
+          cpu: 750m
           memory: 512Mi
         limits:
           cpu: ~
