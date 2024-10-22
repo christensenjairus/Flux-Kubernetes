@@ -7,15 +7,16 @@ metadata:
     k8s-app: external-etcd
 spec:
   endpoints:
-    - interval: 30s
+    - interval: 15s # eventually decrease this. Currently debugging.
       port: metrics
       scheme: https
-      tlsConfig:                                                           # needed to output the following files:
-        caFile: /etc/vm/secrets/external-etcd-tls-certs/etcd-client-ca.crt # /etc/kubernetes/pki/etcd/ca.crt
-        certFile: /etc/vm/secrets/external-etcd-tls-certs/etcd-client.crt. # /etc/kubernetes/pki/etcd/server.crt
-        keyFile: /etc/vm/secrets/external-etcd-tls-certs/etcd-client.key.  # /etc/kubernetes/pki/etcd/server.key
+      tlsConfig:                                                                    # needed to output the following files:
+        caFile: /etc/vm/secrets/external-etcd-tls-certs/external-etcd-client-ca.crt # /etc/kubernetes/pki/etcd/ca.crt
+        certFile: /etc/vm/secrets/external-etcd-tls-certs/external-etcd-client.crt  # /etc/kubernetes/pki/etcd/server.crt
+        keyFile: /etc/vm/secrets/external-etcd-tls-certs/external-etcd-client.key   # /etc/kubernetes/pki/etcd/server.key
         serverName: external-etcd
         insecureSkipVerify: true
+  jobLabel: k8s-app
   selector:
     matchLabels:
       k8s-app: external-etcd

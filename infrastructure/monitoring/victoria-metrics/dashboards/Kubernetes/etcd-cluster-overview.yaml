@@ -3573,7 +3573,7 @@ spec:
           },
           {
             "current": {
-              "selected": false,
+              "selected": true,
               "text": "external-etcd"
             },
             "datasource": {
