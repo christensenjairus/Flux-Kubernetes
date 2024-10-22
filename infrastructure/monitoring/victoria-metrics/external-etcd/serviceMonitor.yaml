@@ -4,7 +4,7 @@ metadata:
   name: external-etcd
   namespace: monitoring
   labels:
-    k8s-app: etcd
+    k8s-app: external-etcd
 spec:
   endpoints:
     - interval: 30s
@@ -14,9 +14,8 @@ spec:
         caFile: /etc/vm/secrets/external-etcd-tls-certs/etcd-client-ca.crt # /etc/kubernetes/pki/etcd/ca.crt
         certFile: /etc/vm/secrets/external-etcd-tls-certs/etcd-client.crt. # /etc/kubernetes/pki/etcd/server.crt
         keyFile: /etc/vm/secrets/external-etcd-tls-certs/etcd-client.key.  # /etc/kubernetes/pki/etcd/server.key
-        serverName: etcd
+        serverName: external-etcd
         insecureSkipVerify: true
-  jobLabel: k8s-app
   selector:
     matchLabels:
-      k8s-app: etcd
+      k8s-app: external-etcd

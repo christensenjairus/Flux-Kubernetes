@@ -4,7 +4,7 @@ metadata:
   name: external-etcd
   namespace: monitoring
   labels:
-    k8s-app: etcd
+    k8s-app: external-etcd
 subsets:
   - addresses:
       - ip: 10.0.7.120

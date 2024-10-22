@@ -3574,8 +3574,7 @@ spec:
           {
             "current": {
               "selected": false,
-              "text": "clustermesh-apiserver-metrics",
-              "value": "clustermesh-apiserver-metrics"
+              "text": "external-etcd"
             },
             "datasource": {
               "type": "prometheus",
