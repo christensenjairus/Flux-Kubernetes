@@ -10,3 +10,4 @@ resources:
   - release.yaml
   - datasource.yaml
   - ./dashboards
+  - ./external-etcd

@@ -869,7 +869,8 @@ spec:
           promscrape.dropOriginalLabels: "false" # was true, but discovery didn't work well
           promscrape.suppressScrapeErrors: "true" # too many failed scrape logs triggered alerts
           promscrape.maxScrapeSize: "167772160" # 10x the default
-
+        secrets:
+          - external-etcd-tls-certs
         resources:
           limits: {}
 #            cpu: 2000m # default is 100m

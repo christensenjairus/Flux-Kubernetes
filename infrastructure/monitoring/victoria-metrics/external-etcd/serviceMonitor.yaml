@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: external-etcd
+  namespace: monitoring
+  labels:
+    k8s-app: etcd
+spec:
+  endpoints:
+    - interval: 30s
+      port: metrics
+      scheme: https
+      tlsConfig:
+        caFile: /etc/vm/secrets/external-etcd-tls-certs/etcd-client-ca.crt
+        certFile: /etc/vm/secrets/external-etcd-tls-certs/etcd-client.crt
+        keyFile: /etc/vm/secrets/external-etcd-tls-certs/etcd-client.key
+        serverName: etcd
+  jobLabel: k8s-app
+  selector:
+    matchLabels:
+      k8s-app: etcd

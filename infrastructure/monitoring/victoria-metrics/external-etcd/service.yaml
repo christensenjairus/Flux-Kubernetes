@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-etcd
+  namespace: monitoring
+  labels:
+    k8s-app: etcd
+spec:
+  ports:
+    - name: metrics
+      protocol: TCP
+      targetPort: 2379
+      port: 2379
+  type: ClusterIP

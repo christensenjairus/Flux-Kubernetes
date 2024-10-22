@@ -1,0 +1,8 @@
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: external-etcd-tls-certs
+  namespace: monitoring
+spec:
+  itemPath: vaults/HomeLab K8S/items/External ETCD TLS Certs
