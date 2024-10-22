@@ -853,7 +853,7 @@ spec:
       # spec for VMAgent crd
       # https://docs.victoriametrics.com/operator/api.html#vmagentspec
       spec:
-        replicaCount: 2
+        replicaCount: 1
         nodeSelector:
           nodeclass: general
         selectAllByDefault: true
