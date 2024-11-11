@@ -11,7 +11,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
     nginx.ingress.kubernetes.io/proxy-body-size: 64m # raised because some joplin uploads got 413 errors. Probably because of screenshot images.
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
-      SecRuleRemoveById 920350 911100
+      SecRuleRemoveById 920350 911100 949110
   name: joplin
 spec:
   ingressClassName: nginx-public
