@@ -180,5 +180,4 @@ spec:
         - name: homarr-icons
           persistentVolumeClaim:
            claimName: homarr-icons
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}

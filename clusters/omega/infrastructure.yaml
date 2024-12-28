@@ -30,16 +30,6 @@ spec:
   prune: true
   wait: true
   patches:
-#    - patch: |
-#        - op: replace
-#          path: /spec/blocks/0/start
-#          value: "10.0.7.200"
-#        - op: replace
-#          path: /spec/blocks/0/stop
-#          value: "10.0.7.254"
-#      target:
-#        kind: CiliumLoadBalancerIPPool
-#        name: cilium-loadbalancer-ip-pool
     - patch: |
         - op: replace
           path: /spec/addresses/0

@@ -17,8 +17,7 @@ spec:
       labels:
         app: bazarr
     spec:
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       containers:
         - env:
             - name: TZ

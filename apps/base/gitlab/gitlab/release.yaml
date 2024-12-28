@@ -49,8 +49,7 @@ spec:
       ## https://docs.gitlab.com/charts/charts/globals#gitlab-version
       gitlabVersion: "17.3.5"
 
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
 
       common:
         labels: {}

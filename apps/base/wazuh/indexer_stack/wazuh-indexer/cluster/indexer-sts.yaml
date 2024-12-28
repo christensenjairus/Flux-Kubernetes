@@ -24,8 +24,7 @@ spec:
         app: wazuh-indexer
       name: wazuh-indexer
     spec:
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # Set the wazuh-indexer volume permissions so the wazuh-indexer user can use it
       volumes:
         - name: indexer-certs

@@ -23,8 +23,7 @@ spec:
         app: wazuh-dashboard
       name: wazuh-dashboard
     spec:
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       volumes:
         - name: config
           configMap:

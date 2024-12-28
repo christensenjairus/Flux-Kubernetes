@@ -17,8 +17,7 @@ spec:
       labels:
         app: lidarr
     spec:
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       containers:
         - env:
             - name: TZ

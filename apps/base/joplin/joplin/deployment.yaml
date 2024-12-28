@@ -22,8 +22,7 @@ spec:
         app.kubernetes.io/name: joplin-server
         app.kubernetes.io/instance: joplin-server
     spec:
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

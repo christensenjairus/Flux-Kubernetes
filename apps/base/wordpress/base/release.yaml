@@ -412,8 +412,7 @@ spec:
     ## @param nodeSelector Node labels for pod assignment
     ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
     ##
-    nodeSelector:
-      nodeclass: general
+    nodeSelector: {}
     ## @param tolerations Tolerations for pod assignment
     ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
     ##
@@ -1323,8 +1322,7 @@ spec:
       ## MariaDB Primary configuration
       ##
       primary:
-        nodeSelector:
-          nodeclass: general
+        nodeSelector: {}
         podAntiAffinityPreset: hard
         ## MariaDB Primary Persistence parameters
         ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
@@ -1362,8 +1360,7 @@ spec:
         resources: { }
       secondary:
         replicaCount: 2
-        nodeSelector:
-          nodeclass: general
+        nodeSelector: {}
         podAntiAffinityPreset: hard
         ## MariaDB Secondary Persistence parameters
         ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
@@ -1435,8 +1432,7 @@ spec:
 #        rollingUpdate:
 #          maxSurge: 0% # don't make a fourth
 #          maxUnavailable: 30% # only take away one of the three at a time
-      nodeSelector:
-        nodeclass: general # they have the most RAM and it keeps it close to the wordpress pods
+      nodeSelector: {}
       podAntiAffinityPreset: hard
       metrics:
         enabled: false # I haven't found how to use this yet

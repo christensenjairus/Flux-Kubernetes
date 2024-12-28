@@ -17,8 +17,7 @@ spec:
       labels:
         app: overseerr
     spec:
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       containers:
         - env:
             - name: TZ

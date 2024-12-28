@@ -17,8 +17,7 @@ spec:
       labels:
         app: deluge
     spec:
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       containers:
         - env:
           - name: VPN_USER

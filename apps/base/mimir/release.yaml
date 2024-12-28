@@ -594,8 +594,7 @@ spec:
       priorityClassName: null
 
       # -- NodeSelector to pin alertmanager pods to certain set of nodes. This is ignored when alertmanager.zoneAwareReplication.enabled=true.
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Pod affinity settings for the alertmanager. This is ignored when alertmanager.zoneAwareReplication.enabled=true.
       affinity: {}
 
@@ -867,8 +866,7 @@ spec:
       # -- The name of the PriorityClass for distributor pods
       priorityClassName: null
 
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity: {}
 
       # -- topologySpreadConstraints allows to customize the default topologySpreadConstraints. This can be either a single dict as shown below or a slice of topologySpreadConstraints.
@@ -964,8 +962,7 @@ spec:
       podManagementPolicy: Parallel
 
       # -- NodeSelector to pin ingester pods to certain set of nodes. This is ignored when ingester.zoneAwareReplication.enabled=true.
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Pod affinity settings for the ingester. This is ignored when ingester.zoneAwareReplication.enabled=true.
       affinity: {}
 
@@ -1184,8 +1181,7 @@ spec:
       # -- The name of the PriorityClass for overrides-exporter pods
       priorityClassName: null
 
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity: {}
 
       # -- topologySpreadConstraints allows to customize the default topologySpreadConstraints. This can be either a single dict as shown below or a slice of topologySpreadConstraints.
@@ -1304,8 +1300,7 @@ spec:
       podDisruptionBudget:
         maxUnavailable: 1
 
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity: {}
 
       # -- topologySpreadConstraints allows to customize the default topologySpreadConstraints. This can be either a single dict as shown below or a slice of topologySpreadConstraints.
@@ -1446,8 +1441,7 @@ spec:
       # -- The name of the PriorityClass for ruler-querier pods
       priorityClassName: null
 
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity: {}
 
       # -- topologySpreadConstraints allows to customize the default topologySpreadConstraints. This can be either a single dict as shown below or a slice of topologySpreadConstraints.
@@ -1554,8 +1548,7 @@ spec:
       # -- The name of the PriorityClass for ruler-query-frontend pods
       priorityClassName: null
 
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity: {}
 
       # -- topologySpreadConstraints allows to customize the default topologySpreadConstraints. This can be either a single dict as shown below or a slice of topologySpreadConstraints.
@@ -1639,8 +1632,7 @@ spec:
       # -- The name of the PriorityClass for ruler-query-scheduler pods
       priorityClassName: null
 
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity: {}
 
       # -- topologySpreadConstraints allows to customize the default topologySpreadConstraints. This can be either a single dict as shown below or a slice of topologySpreadConstraints.
@@ -1765,8 +1757,7 @@ spec:
       # -- The name of the PriorityClass for querier pods
       priorityClassName: null
 
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity: {}
 
       # -- topologySpreadConstraints allows to customize the default topologySpreadConstraints. This can be either a single dict as shown below or a slice of topologySpreadConstraints.
@@ -1883,8 +1874,7 @@ spec:
       # -- The name of the PriorityClass for query-frontend pods
       priorityClassName: null
 
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity: {}
 
       # -- topologySpreadConstraints allows to customize the default topologySpreadConstraints. This can be either a single dict as shown below or a slice of topologySpreadConstraints.
@@ -1968,8 +1958,7 @@ spec:
       # -- The name of the PriorityClass for query-scheduler pods
       priorityClassName: null
 
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity: {}
 
       # -- topologySpreadConstraints allows to customize the default topologySpreadConstraints. This can be either a single dict as shown below or a slice of topologySpreadConstraints.
@@ -2065,8 +2054,7 @@ spec:
       priorityClassName: null
 
       # -- NodeSelector to pin store-gateway pods to certain set of nodes. This is ignored when store_gateway.zoneAwareReplication.enabled=true.
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Pod affinity settings for the store_gateway. This is ignored when store_gateway.zoneAwareReplication.enabled=true.
       affinity: {}
 
@@ -2281,8 +2269,7 @@ spec:
       # -- The name of the PriorityClass for compactor pods
       priorityClassName: null
 
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity: {}
 
       # -- topologySpreadConstraints allows to customize the default topologySpreadConstraints. This can be either a single dict as shown below or a slice of topologySpreadConstraints.
@@ -2461,8 +2448,7 @@ spec:
       # -- Annotations for the chunks-cache pods
       annotations: {}
       # -- Node selector for chunks-cache pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Affinity for chunks-cache pods
       affinity: {}
 
@@ -2562,8 +2548,7 @@ spec:
       # -- Annotations for the index-cache pods
       annotations: {}
       # -- Node selector for index-cache pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Affinity for index-cache pods
       affinity: {}
 
@@ -2663,8 +2648,7 @@ spec:
       # -- Annotations for the metadata-cache pods
       annotations: {}
       # -- Node selector for metadata-cache pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Affinity for metadata-cache pods
       affinity: {}
 
@@ -2764,8 +2748,7 @@ spec:
       # -- Annotations for the results-cache pods
       annotations: {}
       # -- Node selector for results-cache pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Affinity for results-cache pods
       affinity: {}
 
@@ -2987,8 +2970,7 @@ spec:
       annotations: {}
 
       # -- Node selector for nginx pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for nginx pods
       tolerations: []
       # Nginx service configuration
@@ -3375,8 +3357,7 @@ spec:
       annotations: {}
 
       # -- Node selector for Deployment Pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for Deployment Pods
       tolerations: []
       # -- Gateway Service configuration
@@ -3929,8 +3910,7 @@ spec:
         #    drop: [ALL]
 
         # -- Node selector for Deployment Pods
-        nodeSelector:
-          nodeclass: general
+        nodeSelector: {}
         # -- Tolerations for Deployment Pods
         tolerations: []
 
@@ -4034,8 +4014,7 @@ spec:
       podLabels: {}
       podAnnotations: {}
 
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity: {}
 
       # -- topologySpreadConstraints allows to customize the default topologySpreadConstraints. This can be either a single dict as shown below or a slice of topologySpreadConstraints.
@@ -4124,8 +4103,7 @@ spec:
       # -- Annotations for the admin-cache pods
       annotations: {}
       # -- Node selector for admin-cache pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Affinity for admin-cache pods
       affinity: {}
 
@@ -4216,8 +4194,7 @@ spec:
         # -- Annotations for graphite-querier pods
         podAnnotations: {}
 
-        nodeSelector:
-          nodeclass: general
+        nodeSelector: {}
         affinity:
           podAntiAffinity:
             preferredDuringSchedulingIgnoredDuringExecution:
@@ -4298,8 +4275,7 @@ spec:
         # -- Annotations for graphite-write-proxy pods
         podAnnotations: {}
         # -- Node selector for graphite-write-proxy pods
-        nodeSelector:
-          nodeclass: general
+        nodeSelector: {}
         # -- Affinity for graphite-write-proxy pods
         affinity:
           podAntiAffinity:
@@ -4386,8 +4362,7 @@ spec:
       # -- Annotations for the graphite-aggregation-cache pods
       annotations: {}
       # -- Node selector for graphite-aggregation-cache pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Affinity for graphite-aggregation-cache pods
       affinity: {}
       # -- Tolerations for graphite-aggregation-cache pods
@@ -4452,8 +4427,7 @@ spec:
       # -- Annotations for the graphite-metric-name-cache pods
       annotations: {}
       # -- Node selector for graphite-metric-name-cache pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Affinity for graphite-metric-name-cache pods
       affinity: {}
       # -- Tolerations for graphite-metric-name-cache pods
@@ -4572,8 +4546,7 @@ spec:
       # -- Extra initContainers for the continuous test Deployment
       initContainers: []
       # -- Nodeselector of continuous test replicas
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- The name of the PriorityClass for continuous test pods
       priorityClassName: null
       # -- Kubernetes resource requests and limits for continuous test

@@ -1,0 +1,28 @@
+# This is a bandaid until velero version 1.15 is released.
+# https://github.com/vmware-tanzu/velero/pull/8119/files
+# https://github.com/vmware-tanzu/velero/issues/7747
+
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: velero-set-pvc-accessmode
+spec:
+  rules:
+    - name: mutate-pvc-accessmode
+      match:
+        resources:
+          kinds:
+            - PersistentVolumeClaim
+          namespaces:
+            - velero
+      preconditions:
+        all:
+          - key: "{{ request.object.spec.storageClassName }}"
+            operator: In
+            value:
+              - k8s-cephfs
+              # Add specific storage classes as needed
+      mutate:
+        patchStrategicMerge:
+          spec:
+            accessModes: ["ReadOnlyMany"]

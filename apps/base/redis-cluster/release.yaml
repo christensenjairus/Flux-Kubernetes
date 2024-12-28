@@ -62,8 +62,7 @@ spec:
           #   operator: "Equal"
         #   value: "value"
         #   effect: "NoSchedule"
-        nodeSelector:
-          nodeclass: general
+        nodeSelector: {}
         securityContext: { }
         pdb:
           enabled: false #true
@@ -96,8 +95,7 @@ spec:
           #   operator: "Equal"
         #   value: "value"
         #   effect: "NoSchedule"
-        nodeSelector:
-          nodeclass: general
+        nodeSelector: {}
         securityContext: { }
         pdb:
           enabled: false #true

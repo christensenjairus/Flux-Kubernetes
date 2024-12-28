@@ -113,8 +113,7 @@ spec:
 
     priorityClassName: ""
 
-    nodeSelector:
-     nodeclass: general
+    nodeSelector: {}
 
     storageSpec:
       volumeClaimTemplate:

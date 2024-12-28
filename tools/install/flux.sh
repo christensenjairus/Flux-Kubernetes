@@ -21,7 +21,7 @@ export GITHUB_TOKEN=$(op item get "GitHub Personal Access Token" --vault "HomeLa
 flux bootstrap github \
   --owner=christensenjairus \
   --repository=Flux-Kubernetes \
-  --branch=main \
+  --branch=modularize_infrastructure_with_cluster_variables \
   --path=./clusters/$current_context \
   --context=$current_context \
   --personal #\

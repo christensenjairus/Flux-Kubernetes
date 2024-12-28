@@ -27,8 +27,7 @@ spec:
         node-type: master
       name: wazuh-manager-master
     spec:
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       volumes:
         - name: config
           configMap:

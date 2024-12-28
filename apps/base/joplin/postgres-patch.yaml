@@ -20,7 +20,7 @@ spec:
         - "ReadWriteOnce"
         resources:
           requests:
-            storage: 10Gi
+            storage: 15Gi
       resources:
         requests:
           cpu: 250m
@@ -60,7 +60,7 @@ spec:
             - "ReadWriteOnce"
             resources:
               requests:
-                storage: 10Gi
+                storage: 15Gi
       - name: repo2
         schedules:
           full: "30 0 * * *" # daily at 12:30am

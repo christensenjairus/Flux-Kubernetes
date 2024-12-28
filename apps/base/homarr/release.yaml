@@ -221,8 +221,7 @@ spec:
         mountPath: "/app/public/icons"
 
     # -- Node selectors for pod scheduling
-    nodeSelector:
-      nodeclass: general
+    nodeSelector: {}
     # -- Node tolerations for pod scheduling
     tolerations: [ ]
     # -- Node affinity for pod scheduling

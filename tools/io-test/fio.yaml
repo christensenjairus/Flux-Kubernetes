@@ -74,6 +74,5 @@ spec:
       - name: vol
         persistentVolumeClaim:
           claimName: kbench-pvc
-#      nodeSelector:
-#        nodeclass: general
+#      nodeSelector: {}
   backoffLimit: 0

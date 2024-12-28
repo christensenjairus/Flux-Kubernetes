@@ -533,8 +533,7 @@ spec:
       # -- Max Surge for ingester pods
       maxSurge: 0
       # -- Node selector for ingester pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for ingester pods
       tolerations: []
       # -- readiness probe settings for ingester pods. If empty, use `loki.readinessProbe`
@@ -661,8 +660,7 @@ spec:
       # -- Max Surge for distributor pods
       maxSurge: 0
       # -- Node selector for distributor pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for distributor pods
       tolerations: []
         # -- Adds the appProtocol field to the distributor service. This allows distributor to work with istio protocol selection.
@@ -774,8 +772,7 @@ spec:
       # -- Max Surge for querier pods
       maxSurge: 0
       # -- Node selector for querier pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for querier pods
       tolerations: []
       # -- DNSConfig for querier pods
@@ -889,8 +886,7 @@ spec:
       # -- Pod Disruption Budget maxUnavailable
       maxUnavailable: 1
       # -- Node selector for query-frontend pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for query-frontend pods
       tolerations: []
       # -- Adds the appProtocol field to the queryFrontend service. This allows queryFrontend to work with istio protocol selection.
@@ -964,8 +960,7 @@ spec:
       # -- Pod Disruption Budget maxUnavailable
       maxUnavailable: 1
       # -- Node selector for query-scheduler pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for query-scheduler pods
       tolerations: []
       # -- Set the optional grpc service protocol. Ex: "grpc", "http2" or "https"
@@ -1034,8 +1029,7 @@ spec:
                     {{- include "loki.tableManagerSelectorLabels" . | nindent 12 }}
                 topologyKey: failure-domain.beta.kubernetes.io/zone
       # -- Node selector for table-manager pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for table-manager pods
       tolerations: []
 
@@ -1183,8 +1177,7 @@ spec:
       # -- Pod Disruption Budget maxUnavailable
       maxUnavailable: 1
       # -- Node selector for gateway pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for gateway pods
       tolerations: []
       # -- DNSConfig for gateway pods
@@ -1470,8 +1463,7 @@ spec:
       # -- Grace period to allow the compactor to shutdown before it is killed
       terminationGracePeriodSeconds: 30
       # -- Node selector for compactor pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for compactor pods
       tolerations: []
       # -- Set the optional grpc service protocol. Ex: "grpc", "http2" or "https"
@@ -1591,8 +1583,7 @@ spec:
       # -- Pod Disruption Budget maxUnavailable
       maxUnavailable: 1
       # -- Node selector for ruler pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for ruler pods
       tolerations: []
       # -- DNSConfig for ruler pods
@@ -1748,8 +1739,7 @@ spec:
       # -- Pod Disruption Budget maxUnavailable
       maxUnavailable: 1
       # -- Node selector for index-gateway pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for index-gateway pods
       tolerations: []
       persistence:
@@ -1888,8 +1878,7 @@ spec:
       # -- Pod Disruption Budget maxUnavailable
       maxUnavailable: 1
       # -- Node selector for memcached-chunks pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for memcached-chunks pods
       tolerations: []
       persistence:
@@ -1958,8 +1947,7 @@ spec:
       # -- Pod Disruption Budget maxUnavailable
       maxUnavailable: 1
       # -- Node selector for memcached-frontend pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for memcached-frontend pods
       tolerations: []
       persistence:
@@ -2024,8 +2012,7 @@ spec:
       # -- Pod Disruption Budget maxUnavailable
       maxUnavailable: 1
       # -- Node selector for memcached-index-queries pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for memcached-index-queries pods
       tolerations: []
       persistence:
@@ -2090,8 +2077,7 @@ spec:
       # -- Pod Disruption Budget maxUnavailable
       maxUnavailable: 1
       # -- Node selector for memcached-index-writes pods
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       # -- Tolerations for memcached-index-writes pods
       tolerations: []
       persistence:

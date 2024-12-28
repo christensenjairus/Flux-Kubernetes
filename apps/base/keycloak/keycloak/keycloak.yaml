@@ -1,0 +1,35 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: keycloak
+  namespace: keycloak
+spec:
+  bootstrapAdmin:
+    user:
+      secret: keycloak-admin
+  instances: 3
+  image: harbor.christensencloud.us/quay.io/keycloak/keycloak:26.0.7
+  imagePullSecrets:
+  - name: harbor-pull-secret
+  db:
+    vendor: postgres
+    host: keycloak-db-ha.keycloak.svc.cluster.local
+    port: 5432
+    database: keycloak
+    schema: keycloak
+    usernameSecret:
+      name: keycloak-db-pguser-keycloak
+      key: user
+    passwordSecret:
+      name: keycloak-db-pguser-keycloak
+      key: password
+  http:
+    httpEnabled: true
+    tlsSecret: identity-christensencloud.us-tls
+  hostname:
+    adminUrl: 'https://identity.christensencloud.us'
+    hostname: identity.christensencloud.us
+    strict: true
+  ingress:
+    enabled: false
+  startOptimized: false

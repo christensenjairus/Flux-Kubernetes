@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: harbor
-      version: "1.14.x"
+      version: "1.16.x"
       sourceRef:
         kind: HelmRepository
         name: harbor
@@ -421,8 +421,7 @@ spec:
       #    memory: 256Mi
       #    cpu: 100m
       extraEnvVars: []
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       tolerations: []
       affinity: {}
       # Spread Pods across failure-domains like regions, availability zones or nodes
@@ -453,8 +452,7 @@ spec:
       #    memory: 256Mi
       #    cpu: 100m
       extraEnvVars: []
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       tolerations: []
       affinity: {}
       # Spread Pods across failure-domains like regions, availability zones or nodes
@@ -491,8 +489,7 @@ spec:
       #    memory: 256Mi
       #    cpu: 100m
       extraEnvVars: []
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       tolerations: []
       affinity: {}
       # Spread Pods across failure-domains like regions, availability zones or nodes
@@ -585,8 +582,7 @@ spec:
       #     memory: 256Mi
       #     cpu: 100m
       extraEnvVars: []
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       tolerations: []
       affinity: {}
       # Spread Pods across failure-domains like regions, availability zones or nodes
@@ -636,8 +632,7 @@ spec:
         extraEnvVars: []
       replicas: 2
       revisionHistoryLimit: 10
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       tolerations: []
       affinity: {}
       # Spread Pods across failure-domains like regions, availability zones or nodes
@@ -762,8 +757,7 @@ spec:
 #          cpu: 1
 #          memory: 1Gi
       extraEnvVars: []
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       tolerations: []
       affinity: {}
       # Spread Pods across failure-domains like regions, availability zones or nodes
@@ -808,8 +802,7 @@ spec:
         readinessProbe:
           timeoutSeconds: 1
         extraEnvVars: []
-        nodeSelector:
-          nodeclass: general
+        nodeSelector: {}
         tolerations: []
         affinity: {}
         ## The priority class to run the pod as
@@ -873,8 +866,7 @@ spec:
         #    memory: 256Mi
         #    cpu: 100m
         extraEnvVars: []
-        nodeSelector:
-          nodeclass: general
+        nodeSelector: {}
         tolerations: []
         affinity: {}
         ## The priority class to run the pod as
@@ -933,8 +925,7 @@ spec:
       image:
         repository: goharbor/harbor-exporter
         tag: v2.10.2
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       tolerations: []
       affinity: {}
       # Spread Pods across failure-domains like regions, availability zones or nodes

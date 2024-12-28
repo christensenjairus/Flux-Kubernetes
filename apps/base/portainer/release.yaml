@@ -37,8 +37,7 @@ spec:
 
     imagePullSecrets: [ ]
 
-    nodeSelector:
-      nodeclass: general
+    nodeSelector: {}
 
     serviceAccount:
       annotations: { }

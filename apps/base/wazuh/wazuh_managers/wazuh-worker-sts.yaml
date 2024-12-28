@@ -27,8 +27,7 @@ spec:
         node-type: worker
       name: wazuh-manager-worker
     spec:
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

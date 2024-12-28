@@ -17,8 +17,7 @@ spec:
       labels:
         app: radarr-4k
     spec:
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       containers:
         - env:
             - name: TZ

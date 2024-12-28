@@ -17,8 +17,7 @@ spec:
       labels:
         app: sonarr-4k
     spec:
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       containers:
         - env:
             - name: TZ

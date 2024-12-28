@@ -443,6 +443,7 @@ spec:
       # @default -- See `values.yaml`
       clients:
         - url: http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push
+        #- url: http://vls-victoria-logs-single-server.vls.svc.cluster.local:9428/insert/loki/api/v1/push?_stream_fields=instance,job,host,app
       # -- Configures where Promtail will save it's positions file, to resume reading after restarts.
       # Must be referenced in `config.file` to configure `positions`
       positions:

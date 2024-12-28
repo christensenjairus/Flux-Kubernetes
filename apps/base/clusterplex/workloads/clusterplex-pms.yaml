@@ -20,8 +20,7 @@ spec:
         app.kubernetes.io/name: pms
         app.kubernetes.io/instance: clusterplex
     spec:
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       serviceAccountName: default
       automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
