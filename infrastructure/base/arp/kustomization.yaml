@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - metallb-native-v0.14.5.yaml
+  - namespace.yaml
+  - ./chart
   - metallb-ipaddresspool.yaml
   - metallb-l2advertisement.yaml
