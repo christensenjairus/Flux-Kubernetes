@@ -1,4 +1,4 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: metallb
@@ -16,4 +16,4 @@ spec:
       interval: 12h
   valuesFrom:
     - kind: ConfigMap
-      name: cilium-values
+      name: metallb-values
