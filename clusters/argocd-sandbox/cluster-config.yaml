@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cluster-config
+  name: cluster-vars
   namespace: kube-system
 data:
   clusterId: "8"

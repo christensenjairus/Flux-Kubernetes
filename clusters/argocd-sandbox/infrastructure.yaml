@@ -13,14 +13,28 @@ spec:
   path: ./infrastructure/arp
   prune: true
   wait: true
-  patches:
-    - patch: |
-        - op: replace
-          path: /spec/addresses/0
-          value: "${ipv4LbPrefix}.200-${ipv4LbPrefix}.254"
-        - op: replace
-          path: /spec/addresses/1
-          value: "${ipv6LbPrefix}::/112"
-      target:
-        kind: IPAddressPool
-        name: metallb-ipaddresspool
+  postBuild:
+    substitute:
+      clusterId: "8"
+      clusterName: "argocd-sandbox"
+      highAvailability: "false"
+      type: "development"
+      ipv4LbPrefix: "10.0.8"
+      ipv6LbPrefix: "2607:fa18:47fd:800:34"
+      radosNamespaceClusterID: "b948e2030db64cc942710b08d7aecb91"
+      subvolumeGroupClusterID: "c91cb01333dcfbca965d6e9386b40e8a"
+#    substituteFrom:
+#      - kind: ConfigMap
+#        name: cluster-vars
+          # Use this ConfigMap if it exists, but proceed if it doesn't.
+#  patches:
+#    - patch: |
+#        - op: replace
+#          path: /spec/addresses/0
+#          value: "${ipv4LbPrefix}.200-${ipv4LbPrefix}.254"
+#        - op: replace
+#          path: /spec/addresses/1
+#          value: "${ipv6LbPrefix}::/112"
+#      target:
+#        kind: IPAddressPool
+#        name: metallb-ipaddresspool
