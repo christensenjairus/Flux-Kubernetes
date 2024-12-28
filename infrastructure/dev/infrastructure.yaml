@@ -37,6 +37,10 @@ spec:
       target:
         kind: DaemonSet
         name: speaker
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-vars
 #---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1
 #kind: Kustomization
