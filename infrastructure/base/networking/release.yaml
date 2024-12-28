@@ -20,8 +20,8 @@ spec:
       interval: 12h
   values:
     cluster:
-      id: ${clusterID:=FIXME}
-      name: "${clusterName,,:=FIXME}"
+      id: ${clusterID}
+      name: "${clusterName,,}"
     cni:
       exclusive: false # false needed for Istio ambient
     hubble:

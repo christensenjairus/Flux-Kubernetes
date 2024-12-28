@@ -4,4 +4,4 @@ metadata:
   name: democratic-csi-driver-iscsi-config
   namespace: democratic-csi-iscsi
 spec:
-  itemPath: "vaults/HomeLab K8S/items/${clusterName:=FIXME} Democratic CSI Driver iSCSI Config"
+  itemPath: "vaults/HomeLab K8S/items/${clusterName} Democratic CSI Driver iSCSI Config"

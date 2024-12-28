@@ -290,7 +290,7 @@ spec:
         pathType: Prefix
 
         hosts:
-          - vm-${clusterName,,:=FIXME}.christensencloud.us
+          - vm-${clusterName,,}.christensencloud.us
         ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
         extraPaths: []
         # - path: /*
@@ -306,9 +306,9 @@ spec:
         #       port:
         #         name: service
         tls: #[]
-        - secretName: vm-${clusterName,,:=FIXME}-christensencloud.us-tls
+        - secretName: vm-${clusterName,,}-christensencloud.us-tls
           hosts:
-            - vm-${clusterName,,:=FIXME}.christensencloud.us
+            - vm-${clusterName,,}.christensencloud.us
 
     vmcluster:
       enabled: false # I would use this, but I'm having timeout issues between vmselect and vmstorage. Sometimes vminsert too. Might be a network issue. But I don't have a big enough cluster to justify this anyway.
@@ -446,7 +446,7 @@ spec:
           pathType: Prefix
 
           hosts:
-            - vmstorage-${clusterName,,:=FIXME}.christensencloud.us
+            - vmstorage-${clusterName,,}.christensencloud.us
           ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
           extraPaths: []
           # - path: /*
@@ -462,9 +462,9 @@ spec:
           #       port:
           #         name: service
           tls: #[]
-          - secretName: vmstorage-${clusterName,,:=FIXME}-christensencloud.us-tls
+          - secretName: vmstorage-${clusterName,,}-christensencloud.us-tls
             hosts:
-              - vmstorage-${clusterName,,:=FIXME}.christensencloud.us
+              - vmstorage-${clusterName,,}.christensencloud.us
         select:
           enabled: true
           # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
@@ -486,8 +486,8 @@ spec:
           pathType: Prefix
 
           hosts:
-            # - vmselect-${clusterName,,:=FIXME}.christensencloud.us
-            - vm-${clusterName,,:=FIXME}.christensencloud.us
+            # - vmselect-${clusterName,,}.christensencloud.us
+            - vm-${clusterName,,}.christensencloud.us
           ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
           extraPaths: #[]
           # - path: /*
@@ -503,11 +503,11 @@ spec:
                 port:
                   number: 8480
           tls: #[]
-          # - secretName: vmselect-${clusterName,,:=FIXME}-christensencloud.us-tls
-          - secretName: vm-${clusterName,,:=FIXME}-christensencloud.us-tls
+          # - secretName: vmselect-${clusterName,,}-christensencloud.us-tls
+          - secretName: vm-${clusterName,,}-christensencloud.us-tls
             hosts:
-              # - vmselect-${clusterName,,:=FIXME}.christensencloud.us
-              - vm-${clusterName,,:=FIXME}.christensencloud.us
+              # - vmselect-${clusterName,,}.christensencloud.us
+              - vm-${clusterName,,}.christensencloud.us
         insert:
           enabled: false
           # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
@@ -529,7 +529,7 @@ spec:
           pathType: Prefix
 
           hosts:
-            - vminsert-${clusterName,,:=FIXME}.christensencloud.us
+            - vminsert-${clusterName,,}.christensencloud.us
           ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
           extraPaths: #[]
           # - path: /*
@@ -545,9 +545,9 @@ spec:
                 port:
                   number: 8481
           tls: #[]
-          - secretName: vminsert-${clusterName,,:=FIXME}-christensencloud.us-tls
+          - secretName: vminsert-${clusterName,,}-christensencloud.us-tls
             hosts:
-              - vminsert-${clusterName,,:=FIXME}.christensencloud.us
+              - vminsert-${clusterName,,}.christensencloud.us
 
     alertmanager:
       enabled: true
@@ -561,7 +561,7 @@ spec:
         selectAllByDefault: true
         image:
           tag: v0.25.0
-        externalURL: "https://alertmanager-${clusterName,,:=FIXME}.christensencloud.us"
+        externalURL: "https://alertmanager-${clusterName,,}.christensencloud.us"
         routePrefix: /
 
         # if this one defined, it will be used for alertmanager configuration and config parameter will be ignored
@@ -732,7 +732,7 @@ spec:
         pathType: Prefix
 
         hosts:
-          - alertmanager-${clusterName,,:=FIXME}.christensencloud.us
+          - alertmanager-${clusterName,,}.christensencloud.us
         ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
         extraPaths: []
         # - path: /*
@@ -748,9 +748,9 @@ spec:
         #       port:
         #         name: service
         tls: #[]
-        - secretName: alertmanager-${clusterName,,:=FIXME}-christensencloud.us-tls
+        - secretName: alertmanager-${clusterName,,}-christensencloud.us-tls
           hosts:
-            - alertmanager-${clusterName,,:=FIXME}.christensencloud.us
+            - alertmanager-${clusterName,,}.christensencloud.us
 
     vmalert:
       annotations: {}
@@ -771,7 +771,7 @@ spec:
         extraArgs:
           memory.allowedPercent: "95"
           loggerTimezone: "America/Denver"
-          external.url: "https://vmalert-${clusterName,,:=FIXME}.christensencloud.us"
+          external.url: "https://vmalert-${clusterName,,}.christensencloud.us"
         resources:
           limits: {}
 #            cpu: 1000m # default is 200m
@@ -823,7 +823,7 @@ spec:
         pathType: Prefix
 
         hosts:
-          - vmalert-${clusterName,,:=FIXME}.christensencloud.us
+          - vmalert-${clusterName,,}.christensencloud.us
         ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
         extraPaths: []
         # - path: /*
@@ -839,9 +839,9 @@ spec:
         #       port:
         #         name: service
         tls: #[]
-        - secretName: vmalert-${clusterName,,:=FIXME}-christensencloud.us-tls
+        - secretName: vmalert-${clusterName,,}-christensencloud.us-tls
           hosts:
-            - vmalert-${clusterName,,:=FIXME}.christensencloud.us
+            - vmalert-${clusterName,,}.christensencloud.us
 
     vmagent:
       enabled: true
@@ -899,7 +899,7 @@ spec:
         pathType: Prefix
 
         hosts:
-          - vmagent-${clusterName,,:=FIXME}.christensencloud.us
+          - vmagent-${clusterName,,}.christensencloud.us
         ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
         extraPaths: []
         # - path: /*
@@ -915,9 +915,9 @@ spec:
         #       port:
         #         name: service
         tls: #[]
-        - secretName: vmagent-${clusterName,,:=FIXME}-christensencloud.us-tls
+        - secretName: vmagent-${clusterName,,}-christensencloud.us-tls
           hosts:
-            - vmagent-${clusterName,,:=FIXME}.christensencloud.us
+            - vmagent-${clusterName,,}.christensencloud.us
 
     #################################################
     ###              dependencies               #####
@@ -1123,7 +1123,7 @@ spec:
         pathType: Prefix
 
         hosts:
-          - grafana-${clusterName,,:=FIXME}.christensencloud.us
+          - grafana-${clusterName,,}.christensencloud.us
         ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
         extraPaths: []
         # - path: /*
@@ -1139,9 +1139,9 @@ spec:
         #       port:
         #         name: service
         tls: #[]
-        - secretName:  grafana-${clusterName,,:=FIXME}-christensencloud.us-tls
+        - secretName:  grafana-${clusterName,,}-christensencloud.us-tls
           hosts:
-            -  grafana-${clusterName,,:=FIXME}.christensencloud.us
+            -  grafana-${clusterName,,}.christensencloud.us
 
       vmServiceScrape:
         # whether we should create a service scrape resource for grafana
