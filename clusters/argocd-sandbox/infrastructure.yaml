@@ -1,0 +1,26 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-arp
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/arp
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/addresses/0
+          value: "${ipv4LbPrefix}.200-${ipv4LbPrefix}.254"
+        - op: replace
+          path: /spec/addresses/1
+          value: "${ipv6LbPrefix}::/112"
+      target:
+        kind: IPAddressPool
+        name: metallb-ipaddresspool

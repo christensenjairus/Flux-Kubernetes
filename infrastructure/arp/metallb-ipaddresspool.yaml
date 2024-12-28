@@ -6,7 +6,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 10.0.6.200-10.0.6.254
-  - 2607:fa18:47fd:600:34::/112
+  - ${ipv4LbPrefix}.200-${ipv4LbPrefix}.254
+  - ${ipv6LbPrefix}::/112
   autoAssign: true
   avoidBuggyIPs: true
