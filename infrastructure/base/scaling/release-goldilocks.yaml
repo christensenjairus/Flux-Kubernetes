@@ -172,15 +172,15 @@ spec:
           # kubernetes.io/ingress.class: nginx
           # kubernetes.io/tls-acme: "true"
         hosts:
-          - host: vpa.christensencloud.us
+          - host: vpa-${clusterName,,:=FIXME}.christensencloud.us
             paths:
               - path: /
                 type: ImplementationSpecific
 
         tls: #[]
-        - secretName: vpa-christensencloud.us
+        - secretName: vpa-${clusterName,,:=FIXME}-christensencloud.us
           hosts:
-            - vpa.christensencloud.us
+            - vpa-${clusterName,,:=FIXME}.christensencloud.us
 
       # dashboard.resources -- A resources block for the dashboard.
       resources:

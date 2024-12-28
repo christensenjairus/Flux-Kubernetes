@@ -1434,7 +1434,6 @@ spec:
       gitlab-shell:
         service:
           annotations:
-            io.cilium/lb-ipam-ips: 10.0.7.204,2607:fa18:47fd:700:34::204
             metallb.universe.tf/loadBalancerIPs: 10.0.7.204,2607:fa18:47fd:700:34::204
           type: LoadBalancer
           externalTrafficPolicy: Local

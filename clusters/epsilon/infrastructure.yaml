@@ -82,9 +82,6 @@ spec:
           path: /spec/values/k8sServiceHost
           value: "10.0.5.100"
         - op: replace
-          path: /spec/values/clustermesh/apiserver/service/annotations/io.cilium~1lb-ipam-ips
-          value: "10.0.5.254"
-        - op: replace
           path: /spec/values/clustermesh/apiserver/service/annotations/metallb.universe.tf~1loadBalancerIPs
           value: "10.0.5.254"
         - op: remove
@@ -227,9 +224,6 @@ spec:
   patches:
     - patch: |
         - op: replace
-          path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
-          value: "10.0.5.201,2607:fa18:47fd:500:34::201"
-        - op: replace
           path: /spec/values/controller/service/annotations/metallb.universe.tf~1loadBalancerIPs
           value: "10.0.5.201,2607:fa18:47fd:500:34::201"
       target:
@@ -237,9 +231,6 @@ spec:
         name: ingress-nginx
         namespace: ingress-nginx-private
     - patch: |
-        - op: replace
-          path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
-          value: "10.0.5.200,2607:fa18:47fd:500:34::200"
         - op: replace
           path: /spec/values/controller/service/annotations/metallb.universe.tf~1loadBalancerIPs
           value: "10.0.5.200,2607:fa18:47fd:500:34::200"

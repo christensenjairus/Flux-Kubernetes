@@ -107,9 +107,6 @@ spec:
           path: /spec/values/operator/replicas
           value: 1
         - op: replace
-          path: /spec/values/clustermesh/apiserver/service/annotations/io.cilium~1lb-ipam-ips
-          value: "10.0.4.254"
-        - op: replace
           path: /spec/values/clustermesh/apiserver/service/annotations/metallb.universe.tf~1loadBalancerIPs
           value: "10.0.4.254"
         - op: remove
@@ -322,9 +319,6 @@ spec:
         - op: remove
           path: /spec/values/controller/admissionWebhooks/patch/nodeSelector/nodeclass
         - op: replace
-          path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
-          value: 10.0.4.200,2607:fa18:47fd:400:34::200
-        - op: replace
           path: /spec/values/controller/service/annotations/metallb.universe.tf~1loadBalancerIPs
           value: 10.0.4.200,2607:fa18:47fd:400:34::200
       target:
@@ -347,9 +341,6 @@ spec:
           path: /spec/values/defaultBackend/nodeSelector/nodeclass
         - op: remove
           path: /spec/values/controller/admissionWebhooks/patch/nodeSelector/nodeclass
-        - op: replace
-          path: /spec/values/controller/service/annotations/io.cilium~1lb-ipam-ips
-          value: 10.0.4.201,2607:fa18:47fd:400:34::201
         - op: replace
           path: /spec/values/controller/service/annotations/metallb.universe.tf~1loadBalancerIPs
           value: 10.0.4.201,2607:fa18:47fd:400:34::201

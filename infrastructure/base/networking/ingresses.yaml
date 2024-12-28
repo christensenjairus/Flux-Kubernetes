@@ -14,10 +14,10 @@ spec:
   ingressClassName: nginx-private
   tls:
     - hosts:
-        - hubble.christensencloud.us
-      secretName: hubble-christensencloud.us-tls
+        - hubble-${clusterName,,:=FIXME}.christensencloud.us
+      secretName: hubble-${clusterName,,:=FIXME}-christensencloud.us-tls
   rules:
-  - host: hubble.christensencloud.us
+  - host: hubble-${clusterName,,:=FIXME}.christensencloud.us
     http:
       paths:
       - path: /

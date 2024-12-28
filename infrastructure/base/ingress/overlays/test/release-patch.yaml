@@ -11,9 +11,8 @@ spec:
         udp-services-configmap: ingress-nginx-test/udp-services
       service:
         annotations:
-          io.cilium/lb-ipam-ips: 10.0.7.250
           metallb.universe.tf/loadBalancerIPs: 10.0.7.250
-        #loadBalancerIP: 10.0.6.200
+        #loadBalancerIP: ${ipv4LBPrefix:=10.0.0}.200
       ingressClassResource:
         name: nginx-test
         controllerValue: k8s.io/nginx-test

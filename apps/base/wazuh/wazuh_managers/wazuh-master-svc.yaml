@@ -18,7 +18,6 @@ metadata:
   annotations:
     # domainName: 'changeme'
     #service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
-    io.cilium/lb-ipam-ips: 10.0.7.206,2607:fa18:47fd:700:34::206
     metallb.universe.tf/loadBalancerIPs: 10.0.7.206,2607:fa18:47fd:700:34::206
     metallb.universe.tf/allow-shared-ip: "wazuh-agent-connectivity-endpoint"
 spec:

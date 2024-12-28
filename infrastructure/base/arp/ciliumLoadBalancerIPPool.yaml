@@ -6,5 +6,5 @@ metadata:
   namespace: kube-system
 spec:
   blocks:
-    - start: "10.0.6.200"
-      stop: "10.0.6.254"
+    - start: "${ipv4LBPrefix:=10.0.0}.200"
+      stop: "${ipv4LBPrefix:=10.0.0}.254"

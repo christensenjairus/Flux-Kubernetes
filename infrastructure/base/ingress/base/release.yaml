@@ -95,7 +95,7 @@ spec:
           # Whitelist traffic from local or trusted networks by skipping rules
           SecRule REMOTE_ADDR "@ipMatch 10.0.0.0/24" \
             "id:1000,phase:1,nolog,pass,ctl:ruleEngine=Off"        # Default ipv4
-          SecRule REMOTE_ADDR "@ipMatch 10.0.6.0/24" \
+          SecRule REMOTE_ADDR "@ipMatch ${ipv4LBPrefix:=10.0.0}.0/24" \
             "id:1001,phase:1,nolog,pass,ctl:ruleEngine=Off"        # ZETA ipv4
           SecRule REMOTE_ADDR "@ipMatch 10.0.7.0/24" \
             "id:1002,phase:1,nolog,pass,ctl:ruleEngine=Off"        # OMEGA ipv4
@@ -537,8 +537,7 @@ spec:
           enabled: true
         # -- Annotations to be added to the external controller service. See `controller.service.internal.annotations` for annotations to be added to the internal controller service.
         annotations: {}
-          #io.cilium/lb-ipam-ips: 10.0.6.200
-          #metallb.universe.tf/loadBalancerIPs: 10.0.6.200
+          #metallb.universe.tf/loadBalancerIPs: ${ipv4LBPrefix:=10.0.0}.200
         # -- Labels to be added to both controller services.
         labels: { }
         # -- Type of the external controller service.

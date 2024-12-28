@@ -31,7 +31,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: "cluster-ids"
-              key: "zeta"
+              key: "${clusterName,,:=FIXME}"
         - name: MY_POD_NAME
           valueFrom:
             fieldRef:

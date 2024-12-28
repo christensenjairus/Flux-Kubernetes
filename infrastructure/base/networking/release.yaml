@@ -20,8 +20,8 @@ spec:
       interval: 12h
   values:
     cluster:
-      id: 6
-      name: "zeta"
+      id: ${clusterID:=FIXME}
+      name: "${clusterName,,:=FIXME}"
     cni:
       exclusive: false # false needed for Istio ambient
     hubble:
@@ -110,9 +110,7 @@ spec:
         service:
           type: LoadBalancer
           annotations:
-            io.cilium/lb-ipam-ips: 10.0.6.254
-            metallb.universe.tf/loadBalancerIPs: 10.0.6.254
-          #loadBalancerIP: 10.0.6.254
+            metallb.universe.tf/loadBalancerIPs: ${ipv4LBPrefix:=10.0.0}.254
     externalIPs: # I don't think this is needed without l2announcements
       enabled: true
     nodePort:
@@ -136,7 +134,7 @@ spec:
     k8sClientRateLimit:
       qps: 30 # 10 is default
       burst: 60 # 20 is default
-    k8sServiceHost: "10.0.6.100"
+    k8sServiceHost: "${ipv4LBPrefix:=10.0.0}.100"
     k8sServicePort: 6443
     kubeProxyReplacement: strict
 
