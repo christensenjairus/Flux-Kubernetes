@@ -4,5 +4,5 @@ namespace: metallb-system
 resources:
   - namespace.yaml
   - ./chart
-  - metallb-ipaddresspool.yaml
-  - metallb-l2advertisement.yaml
+  - ipaddresspool.yaml
+  - l2advertisement.yaml
