@@ -89,7 +89,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-certificates
+  name: infra-certs
   namespace: flux-system
 spec:
   dependsOn:
@@ -99,7 +99,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/certificates
+  path: ./infrastructure/base/certs
   prune: true
   patches:
     - patch: | # use staging letsencrypt server
