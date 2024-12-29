@@ -1512,7 +1512,7 @@ hubble:
         # type: [null, array]
         # @schema
         # -- Relabeling configs for the ServiceMonitor hubble-relay
-        relabelings: []
+        # relabelings: ~ # had to comment this out because of how the HelmRelease reads it
         # @schema
         # type: [null, array]
         # @schema
@@ -2643,7 +2643,7 @@ operator:
       # type: [null, array]
       # @schema
       # -- Relabeling configs for the ServiceMonitor cilium-operator
-      relabelings: []
+      # relabelings: ~ # had to comment this out because of how the HelmRelease reads it
       # @schema
       # type: [null, array]
       # @schema
@@ -3286,7 +3286,7 @@ clustermesh:
         # type: [null, array]
         # @schema
         # -- Relabeling configs for the ServiceMonitor clustermesh-apiserver (apiserver metrics)
-        relabelings: []
+        # relabelings: ~ # had to comment this out because of how the HelmRelease reads it
         # @schema
         # type: [null, array]
         # @schema
@@ -3299,7 +3299,7 @@ clustermesh:
           # type: [null, array]
           # @schema
           # -- Relabeling configs for the ServiceMonitor clustermesh-apiserver (KVStoreMesh metrics)
-          relabelings: []
+          # relabelings: ~ # had to comment this out because of how the HelmRelease reads it
           # @schema
           # type: [null, array]
           # @schema
@@ -3312,7 +3312,7 @@ clustermesh:
           # type: [null, array]
           # @schema
           # -- Relabeling configs for the ServiceMonitor clustermesh-apiserver (etcd metrics)
-          relabelings: []
+          # relabelings: ~ # had to comment this out because of how the HelmRelease reads it
           # @schema
           # type: [null, array]
           # @schema
