@@ -9,6 +9,7 @@ spec:
   timeout: 5m
   prune: true
   wait: false
+  force: true
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -21,11 +22,6 @@ spec:
         metadata:
           name: not-used
         spec:
-          interval: 1h
-          retryInterval: 30s
-          timeout: 5m
-          prune: true
-          wait: true
           postBuild:
             substituteFrom:
               - kind: ConfigMap
