@@ -13,3 +13,16 @@ spec:
   path: ./infrastructure/dev
   prune: true
   wait: true
+  patches:
+    - patch: |-
+        apiVersion: kustomize.toolkit.fluxcd.io/v1
+        kind: Kustomization
+        spec:
+          postBuild:
+            substituteFrom:
+              - kind: ConfigMap
+                name: cluster-vars
+                optional: false
+      target:
+        kind: Kustomization
+        labelSelector: "kustomize.toolkit.fluxcd.io/name=infra-master"
