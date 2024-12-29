@@ -34,4 +34,5 @@ spec:
                 optional: false
       target:
         kind: Kustomization
+        namespace: flux-system
         labelSelector: "kustomize.toolkit.fluxcd.io/name=infra-master"
