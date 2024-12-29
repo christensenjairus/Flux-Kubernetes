@@ -11,8 +11,7 @@ spec:
         udp-services-configmap: ingress-nginx-private/udp-services
       service:
         annotations:
-          metallb.universe.tf/loadBalancerIPs: ${ipv4LBPrefix:=10.0.0}.201
-        #loadBalancerIP: ${ipv4LBPrefix:=10.0.0}.201
+          metallb.universe.tf/loadBalancerIPs: ${ipv4LBPrefix:=10.0.0}.201,${ipv6LBPrefix}::201
       ingressClassResource:
         name: nginx-private
         controllerValue: k8s.io/nginx-private
