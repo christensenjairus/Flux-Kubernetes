@@ -5,14 +5,11 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  retryInterval: 1m
-  timeout: 10m
   sourceRef:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/crds
   prune: true
-  wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -21,14 +18,11 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  retryInterval: 1m
-  timeout: 10m
   sourceRef:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/arp
   prune: true
-  wait: true
   patches:
     - patch: |
         - op: add
@@ -49,14 +43,11 @@ spec:
     #- name: infra-arp     # I forget why this was needed
     - name: infra-ingress # needed for ingresses to pass a validating webhook
   interval: 1h
-  retryInterval: 1m
-  timeout: 5m
   sourceRef:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/networking
   prune: true
-  wait: true
   patches:
     - patch: |
         - op: replace
@@ -81,14 +72,11 @@ spec:
     - name: infra-ingress    # needed for ingress validating webhook
     - name: infra-ceph       # needed for vm pvc
   interval: 1h
-  retryInterval: 1m
-  timeout: 5m
   sourceRef:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/monitoring
   prune: true
-  wait: true
   patches:
     - patch: |
         - op: replace
@@ -108,14 +96,11 @@ spec:
     - name: infra-crds
     #- name: infra-networking # I forget why this was needed
   interval: 1h
-  retryInterval: 1m
-  timeout: 5m
   sourceRef:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/certificates
   prune: true
-  wait: true
   patches:
     - patch: | # use staging letsencrypt server
         - op: replace
@@ -136,14 +121,11 @@ spec:
     #- name: infra-arp  # I forget why this was needed
     - name: infra-ceph # needed for cache pvc
   interval: 1h
-  retryInterval: 1m
-  timeout: 5m
   sourceRef:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/ingress/overlays
   prune: true
-  wait: true
   patches:
     - patch: |
         - op: replace
@@ -233,14 +215,11 @@ spec:
   dependsOn:
     - name: infra-crds
   interval: 1h
-  retryInterval: 1m
-  timeout: 5m
   sourceRef:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/ceph
   prune: true
-  wait: true
 ---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1
 #kind: Kustomization
