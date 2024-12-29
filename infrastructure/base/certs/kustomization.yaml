@@ -4,9 +4,6 @@ metadata:
   name: infra-certs-stage-1
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: infra-crds
-    - name: infra-networking # Needed for validating webhook
   interval: 1h
   sourceRef:
     kind: GitRepository
@@ -21,8 +18,6 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-crds
-    - name: infra-networking # Needed for validating webhook
     - name: infra-certs-stage-1
   interval: 1h
   sourceRef:

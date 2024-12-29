@@ -96,7 +96,7 @@ metadata:
 spec:
   dependsOn:
     - name: infra-crds
-    - name: infra-networking # Needed for validating webhook
+    #- name: infra-networking # Needed for validating webhook
   interval: 1h
   sourceRef:
     kind: GitRepository
