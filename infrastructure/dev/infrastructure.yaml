@@ -55,7 +55,7 @@ metadata:
 spec:
   dependsOn:
     #- name: infra-lb-stage-2     # I forget why this was needed
-    - name: infra-ingress # needed for ingresses to pass a validating webhook
+    - name: infra-ingress # needed for ingresses to pass a validating webhook. Infra-ingress also depends on infra-monitoring-stage-1, which has the grafana crds
   interval: 1h
   sourceRef:
     kind: GitRepository
@@ -82,12 +82,25 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-monitoring
+  name: infra-monitoring-stage-1
+  namespace: flux-system
+spec:
+  interval: 1h
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/base/monitoring/stage-1
+  prune: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-monitoring-stage-2
   namespace: flux-system
 spec:
   dependsOn:
-    #- name: infra-networking # I forget why this was needed
-    - name: infra-ingress    # needed for ingress validating webhook, also ingress waits for infra-storage which is also needed for a pvc
+    - name: infra-ingress  # needed for ingress validating webhook, also ingress waits for infra-storage which is also needed for a pvc
+    - name: infra-monitoring-stage-1
   interval: 1h
   sourceRef:
     kind: GitRepository
@@ -95,13 +108,18 @@ spec:
   path: ./infrastructure/base/monitoring
   prune: true
   patches:
-    - patch: |
-        - op: replace
-          path: /spec/replicas
-          value: 1
+    - patch: |-
+        apiVersion: helm.toolkit.fluxcd.io/v2beta2
+        kind: HelmRelease
+        metadata:
+          name: not-used
+        spec:
+          values:
+            replicas: 1
       target:
-        kind: Deployment
+        kind: HelmRelease
         name: metrics-server
+        namespace: kube-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -150,6 +168,7 @@ spec:
   dependsOn:
     #- name: infra-lb  # I forget why this was needed
     - name: infra-storage-stage-2 # needed for cache pvc
+    - name: infra-monitoring-stage-1 # needed for grafana crds
   interval: 1h
   sourceRef:
     kind: GitRepository
