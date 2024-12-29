@@ -5,14 +5,14 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  retryInterval: 1m
-  timeout: 10m
+  retryInterval: 30s
+  timeout: 5m
+  prune: true
+  wait: false
   sourceRef:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/dev
-  prune: true
-  wait: true
   patches:
     # Centralized controls over child kustomizations
     - patch: |-
