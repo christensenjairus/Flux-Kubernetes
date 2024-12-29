@@ -51,7 +51,7 @@ spec:
   prune: true
   patches:
     - patch: |-
-        apiVersion: helm.toolkit.fluxcd.io/v2beta2
+        apiVersion: helm.toolkit.fluxcd.io/v2
         kind: HelmRelease
         metadata:
           name: not-used
@@ -97,7 +97,7 @@ spec:
   prune: true
   patches:
     - patch: |-
-        apiVersion: helm.toolkit.fluxcd.io/v2beta2
+        apiVersion: helm.toolkit.fluxcd.io/v2
         kind: HelmRelease
         metadata:
           name: not-used
@@ -166,7 +166,7 @@ spec:
   patches:
     # don't autoscale and remove resource requirements
     - patch: |-
-        apiVersion: helm.toolkit.fluxcd.io/v2beta2
+        apiVersion: helm.toolkit.fluxcd.io/v2
         kind: HelmRelease
         metadata:
           name: not-used
