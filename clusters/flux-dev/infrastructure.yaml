@@ -35,4 +35,4 @@ spec:
       target:
         kind: Kustomization
         namespace: flux-system
-        labelSelector: "kustomize.toolkit.fluxcd.io/name=infra-master"
+        name: ^infra-(?!master$).+ # match all infra-* except for infra-master
