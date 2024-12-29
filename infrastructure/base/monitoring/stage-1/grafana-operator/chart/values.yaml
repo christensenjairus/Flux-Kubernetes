@@ -84,8 +84,7 @@ resources: { }
 # -- pod priority class name
 priorityClassName: ""
 # -- pod node selector
-nodeSelector:
-  nodeclass: general
+nodeSelector: {}
 # -- pod tolerations
 tolerations: [ ]
 # -- pod affinity
