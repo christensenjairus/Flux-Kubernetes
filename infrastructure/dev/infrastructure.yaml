@@ -70,7 +70,7 @@ spec:
     - name: infra-crds
     #- name: infra-networking # I forget why this was needed
     - name: infra-ingress    # needed for ingress validating webhook
-    - name: infra-ceph       # needed for vm pvc
+    - name: infra-storage       # needed for vm pvc
   interval: 1h
   sourceRef:
     kind: GitRepository
@@ -119,7 +119,7 @@ spec:
   dependsOn:
     - name: infra-crds
     #- name: infra-arp  # I forget why this was needed
-    - name: infra-ceph # needed for cache pvc
+    - name: infra-storage # needed for cache pvc
   interval: 1h
   sourceRef:
     kind: GitRepository
@@ -151,42 +151,23 @@ spec:
         name: prometheus-ingress-rules
         namespace: ingress-nginx.*
 ---
-#apiVersion: kustomize.toolkit.fluxcd.io/v1
-#kind: Kustomization
-#metadata:
-#  name: infra-kyverno
-#  namespace: flux-system
-#spec:
-#  dependsOn:
-#    - name: infra-crds
-#  interval: 1h
-#  retryInterval: 1m
-#  timeout: 5m
-#  sourceRef:
-#    kind: GitRepository
-#    name: flux-system
-#  path: ./infrastructure/base/kyverno
-#  prune: true
-#  wait: true
-#---
-#apiVersion: kustomize.toolkit.fluxcd.io/v1
-#kind: Kustomization
-#metadata:
-#  name: infra-policies
-#  namespace: flux-system
-#spec:
-#  dependsOn:
-#    - name: infra-crds
-#    - name: infra-kyverno # validating webhooks and crds
-#  interval: 1h
-#  retryInterval: 1m
-#  timeout: 5m
-#  sourceRef:
-#    kind: GitRepository
-#    name: flux-system
-#  path: ./infrastructure/base/policies/overlays/harbor-registry-all-pods
-#  prune: true
-#  wait: true
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-policies
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/base/policies/overlays/harbor-registry-all-pods
+  prune: true
+  wait: true
 #---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1
 #kind: Kustomization
@@ -205,11 +186,11 @@ spec:
 #  path: ./infrastructure/base/scaling
 #  prune: true
 #  wait: true
-#---
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-ceph
+  name: infra-storage
   namespace: flux-system
 spec:
   dependsOn:
@@ -218,7 +199,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/ceph
+  path: ./infrastructure/base/storage
   prune: true
 ---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1

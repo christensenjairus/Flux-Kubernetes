@@ -5,7 +5,7 @@ metadata:
   name: k8s-cephfs
 driver: rook-ceph.cephfs.csi.ceph.com
 parameters:
-  clusterID: "${subvolumeGroupClusterID}"
+  clusterID: "${subvolumeGroupClusterID,,}"
   csi.storage.k8s.io/snapshotter-secret-name: rook-csi-cephfs-provisioner
   csi.storage.k8s.io/snapshotter-secret-namespace: rook-ceph-external
 deletionPolicy: Delete
