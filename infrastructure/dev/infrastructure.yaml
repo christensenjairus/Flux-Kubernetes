@@ -108,6 +108,30 @@ spec:
         kind: HelmRelease
         name: metrics-server
         namespace: kube-system
+    # remove victoria metrics resource requirements
+    - patch: |-
+        apiVersion: helm.toolkit.fluxcd.io/v2
+        kind: HelmRelease
+        metadata:
+          name: not-used
+        spec:
+          values:
+            vmsingle:
+              spec:
+                resources:
+                  requests: {}
+            vmalert:
+              spec:
+                resources:
+                  requests: {}
+            vmagent:
+              spec:
+                resources:
+                  requests: {}
+      target:
+        kind: HelmRelease
+        name: victoria-metrics-k8s-stack
+        namespace: monitoring
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
