@@ -1124,7 +1124,7 @@ hubble:
       # -- Create ServiceMonitor resources for Prometheus Operator.
       # This requires the prometheus CRDs to be available.
       # ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml)
-      enabled: false
+      enabled: true
       # -- Labels to add to ServiceMonitor hubble
       labels: {}
       # -- Annotations to add to ServiceMonitor hubble
@@ -1138,7 +1138,7 @@ hubble:
         - sourceLabels:
             - __meta_kubernetes_pod_node_name
           targetLabel: node
-          replacement: ${1}
+          replacement: $${1} # escape flux replacements
       # @schema
       # type: [null, array]
       # @schema
@@ -1498,7 +1498,7 @@ hubble:
       serviceMonitor:
         # -- Enable service monitors.
         # This requires the prometheus CRDs to be available (see https://github.com/prometheus-operator/prometheus-operator/blob/main/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml)
-        enabled: false
+        enabled: true
         # -- Labels to add to ServiceMonitor hubble-relay
         labels: {}
         # -- Annotations to add to ServiceMonitor hubble-relay
@@ -1512,7 +1512,7 @@ hubble:
         # type: [null, array]
         # @schema
         # -- Relabeling configs for the ServiceMonitor hubble-relay
-        # relabelings: ~ # had to comment this out because of how the HelmRelease reads it
+        relabelings: ~
         # @schema
         # type: [null, array]
         # @schema
@@ -2085,7 +2085,7 @@ prometheus:
   serviceMonitor:
     # -- Enable service monitors.
     # This requires the prometheus CRDs to be available (see https://github.com/prometheus-operator/prometheus-operator/blob/main/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml)
-    enabled: false
+    enabled: true
     # -- Labels to add to ServiceMonitor cilium-agent
     labels: {}
     # -- Annotations to add to ServiceMonitor cilium-agent
@@ -2102,7 +2102,7 @@ prometheus:
       - sourceLabels:
           - __meta_kubernetes_pod_node_name
         targetLabel: node
-        replacement: ${1}
+        replacement: $${1} # escape flux replacements
     # @schema
     # type: [null, array]
     # @schema
@@ -2349,7 +2349,7 @@ envoy:
       # This requires the prometheus CRDs to be available (see https://github.com/prometheus-operator/prometheus-operator/blob/main/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml)
       # Note that this setting applies to both cilium-envoy _and_ cilium-agent
       # with Envoy enabled.
-      enabled: false
+      enabled: true
       # -- Labels to add to ServiceMonitor cilium-envoy
       labels: {}
       # -- Annotations to add to ServiceMonitor cilium-envoy
@@ -2365,7 +2365,7 @@ envoy:
         - sourceLabels:
             - __meta_kubernetes_pod_node_name
           targetLabel: node
-          replacement: ${1}
+          replacement: $${1} # escape flux replacements
       # @schema
       # type: [null, array]
       # @schema
@@ -2630,7 +2630,7 @@ operator:
     serviceMonitor:
       # -- Enable service monitors.
       # This requires the prometheus CRDs to be available (see https://github.com/prometheus-operator/prometheus-operator/blob/main/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml)
-      enabled: false
+      enabled: true
       # -- Labels to add to ServiceMonitor cilium-operator
       labels: {}
       # -- Annotations to add to ServiceMonitor cilium-operator
@@ -2643,7 +2643,7 @@ operator:
       # type: [null, array]
       # @schema
       # -- Relabeling configs for the ServiceMonitor cilium-operator
-      # relabelings: ~ # had to comment this out because of how the HelmRelease reads it
+      relabelings: ~
       # @schema
       # type: [null, array]
       # @schema
@@ -3271,7 +3271,7 @@ clustermesh:
       serviceMonitor:
         # -- Enable service monitor.
         # This requires the prometheus CRDs to be available (see https://github.com/prometheus-operator/prometheus-operator/blob/main/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml)
-        enabled: false
+        enabled: true
         # -- Labels to add to ServiceMonitor clustermesh-apiserver
         labels: {}
         # -- Annotations to add to ServiceMonitor clustermesh-apiserver
@@ -3286,7 +3286,7 @@ clustermesh:
         # type: [null, array]
         # @schema
         # -- Relabeling configs for the ServiceMonitor clustermesh-apiserver (apiserver metrics)
-        # relabelings: ~ # had to comment this out because of how the HelmRelease reads it
+        relabelings: ~
         # @schema
         # type: [null, array]
         # @schema
@@ -3299,7 +3299,7 @@ clustermesh:
           # type: [null, array]
           # @schema
           # -- Relabeling configs for the ServiceMonitor clustermesh-apiserver (KVStoreMesh metrics)
-          # relabelings: ~ # had to comment this out because of how the HelmRelease reads it
+          relabelings: ~
           # @schema
           # type: [null, array]
           # @schema
@@ -3312,7 +3312,7 @@ clustermesh:
           # type: [null, array]
           # @schema
           # -- Relabeling configs for the ServiceMonitor clustermesh-apiserver (etcd metrics)
-          # relabelings: ~ # had to comment this out because of how the HelmRelease reads it
+          relabelings: ~
           # @schema
           # type: [null, array]
           # @schema
