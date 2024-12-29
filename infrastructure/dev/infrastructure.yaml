@@ -54,7 +54,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    #- name: infra-lb     # I forget why this was needed
+    #- name: infra-lb-stage-2     # I forget why this was needed
     - name: infra-ingress # needed for ingresses to pass a validating webhook
   interval: 1h
   sourceRef:
@@ -126,7 +126,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/certs
-  prune: true
+  prune: false # don't delete my storage
   patches:
     - patch: | # use staging letsencrypt server
         - op: replace
@@ -144,13 +144,13 @@ metadata:
 spec:
   dependsOn:
     #- name: infra-lb  # I forget why this was needed
-    - name: infra-storage # needed for cache pvc
+    - name: infra-storage-stage-2 # needed for cache pvc
   interval: 1h
   sourceRef:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/ingress/overlays
-  prune: true
+  prune: false # don't delete my storage
   patches:
     # don't autoscale and remove resource requirements
     - patch: |
@@ -234,16 +234,29 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-storage
+  name: infra-storage-stage-1
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: infra-crds
   interval: 1h
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/storage
+  path: ./infrastructure/base/storage/stage-1
+  prune: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-storage
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-storage-stage-1
+  interval: 1h
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/base/storage/stage-2
   prune: true
 ---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1

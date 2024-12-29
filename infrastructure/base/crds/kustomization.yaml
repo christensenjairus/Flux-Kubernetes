@@ -8,7 +8,7 @@ resources:
   - ./cosi
   - ./redis-operator
   - ./kubevirt-operator
-  - ./rook-ceph
+  #- ./rook-ceph
   - ./grafana-operator
   #- ./kyverno
   #- ./metallb
