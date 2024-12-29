@@ -108,7 +108,7 @@ spec:
         kind: HelmRelease
         name: metrics-server
         namespace: kube-system
-    # remove victoria metrics resource requirements
+    # set victoria metrics resource requirements to 10% of their defaults
     - patch: |-
         apiVersion: helm.toolkit.fluxcd.io/v2
         kind: HelmRelease
@@ -119,15 +119,21 @@ spec:
             vmsingle:
               spec:
                 resources:
-                  requests: {}
+                  requests:
+                    memory: 50Mi
+                    cpu: 15m
             vmalert:
               spec:
                 resources:
-                  requests: {}
+                  requests:
+                    memory: 20Mi
+                    cpu: 5m
             vmagent:
               spec:
                 resources:
-                  requests: {}
+                  requests:
+                    memory: 20Mi
+                    cpu: 10m
       target:
         kind: HelmRelease
         name: victoria-metrics-k8s-stack
