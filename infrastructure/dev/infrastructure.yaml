@@ -22,29 +22,29 @@ spec:
         kind: DaemonSet
         name: speaker
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: infra-networking
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: infra-crds
-    - name: infra-arp
-    - name: infra-ingress
-  path: ./infrastructure/base/networking
-  patches:
-    - patch: |
-        - op: replace
-          path: /spec/values/clustermesh/apiserver/replicas
-          value: 1
-        - op: replace
-          path: /spec/values/operator/replicas
-          value: 1
-      target:
-        kind: HelmRelease
-        name: cilium
----
+#apiVersion: kustomize.toolkit.fluxcd.io/v1
+#kind: Kustomization
+#metadata:
+#  name: infra-networking
+#  namespace: flux-system
+#spec:
+#  dependsOn:
+#    - name: infra-crds
+#    - name: infra-arp
+#    - name: infra-ingress
+#  path: ./infrastructure/base/networking
+#  patches:
+#    - patch: |
+#        - op: replace
+#          path: /spec/values/clustermesh/apiserver/replicas
+#          value: 1
+#        - op: replace
+#          path: /spec/values/operator/replicas
+#          value: 1
+#      target:
+#        kind: HelmRelease
+#        name: cilium
+#---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1
 #kind: Kustomization
 #metadata:
