@@ -9,3 +9,4 @@ resources:
   - ./redis-operator
   - ./kubevirt-operator
   - ./rook-ceph
+  - ./grafana-operator

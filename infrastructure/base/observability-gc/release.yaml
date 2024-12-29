@@ -124,7 +124,7 @@ spec:
       basePath: ""
 
     #GENERAL
-    clusterId: zeta
+    clusterId: ${clusterName}
     installationId:
     # multipleClusterIds:
     #  - clusterA
