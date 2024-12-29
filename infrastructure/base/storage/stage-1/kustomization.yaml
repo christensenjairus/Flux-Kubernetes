@@ -4,3 +4,4 @@ namespace: rook-ceph
 resources:
 - namespace.yaml
 - ./chart
+- ./cosi-crds
