@@ -35,4 +35,4 @@ spec:
       target:
         kind: Kustomization
         namespace: flux-system
-        name: ^infra-(?!master$).+ # match all infra-* except for infra-master
+        name: infra-.*
