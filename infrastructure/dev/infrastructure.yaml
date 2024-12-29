@@ -143,6 +143,8 @@ spec:
         - op: replace
           path: /spec/values/controller/autoscaling/enabled
           value: false
+        - op: remove
+          path: /spec/values/controller/resources
         - op: replace
           path: /spec/values/controller/replicaCount
           value: 1
