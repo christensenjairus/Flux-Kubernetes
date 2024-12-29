@@ -4,3 +4,6 @@ resources:
   - folder.yaml
   - nginx-overview.yaml
   - nginx-request-handling-performance.yaml
+
+commonAnnotations:
+  kustomize.toolkit.fluxcd.io/substitute: disabled
