@@ -5,4 +5,4 @@ resources:
 - namespace.yaml
 - ./chart
 - ./cosi-crds
-#- ./snapshot-controller-crds/chart
+- ./snapshot-controller
