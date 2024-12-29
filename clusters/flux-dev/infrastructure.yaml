@@ -34,4 +34,4 @@ spec:
                 optional: false
       target:
         kind: Kustomization
-        labelSelector: "kustomize.toolkit.fluxcd.io/name=infra-master"
+        #labelSelector: "kustomize.toolkit.fluxcd.io/name=infra-master"
