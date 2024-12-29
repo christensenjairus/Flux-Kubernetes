@@ -243,24 +243,24 @@ spec:
 #  prune: true
 #  wait: true
 #---
-#apiVersion: kustomize.toolkit.fluxcd.io/v1
-#kind: Kustomization
-#metadata:
-#  name: infra-ceph
-#  namespace: flux-system
-#spec:
-#  dependsOn:
-#    - name: infra-crds
-#  interval: 1h
-#  retryInterval: 1m
-#  timeout: 5m
-#  sourceRef:
-#    kind: GitRepository
-#    name: flux-system
-#  path: ./infrastructure/base/ceph
-#  prune: true
-#  wait: true
-#---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-ceph
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/base/ceph
+  prune: true
+  wait: true
+---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1
 #kind: Kustomization
 #metadata:
