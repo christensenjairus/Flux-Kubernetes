@@ -1,0 +1,25 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  install:
+    crds: CreateReplace
+    timeout: 20m # takes a while to install because every pod needs to roll out one at a time
+  upgrade:
+    crds: CreateReplace
+    timeout: 20m
+  interval: 30m
+  chart:
+    spec:
+      chart: cilium
+      version: "1.15.x"
+      sourceRef:
+        kind: HelmRepository
+        name: cilium
+        namespace: kube-system
+      interval: 12h
+  valuesFrom:
+    - kind: ConfigMap
+      name: cilium-values

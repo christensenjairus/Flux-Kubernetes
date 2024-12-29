@@ -1,10 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./gateway-api
-  - repository.yaml
+  - ./gateway-api-crds
   - basic-auth-secret.yaml
-  - release.yaml
   - ingresses.yaml
   - ./dashboards
-  #- blackbox-probe.yaml
+  - ./chart

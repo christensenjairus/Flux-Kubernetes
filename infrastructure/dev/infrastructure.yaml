@@ -63,16 +63,21 @@ spec:
   path: ./infrastructure/base/networking
   prune: true
   patches:
-    - patch: |
-        - op: replace
-          path: /spec/values/clustermesh/apiserver/replicas
-          value: 1
-        - op: replace
-          path: /spec/values/operator/replicas
-          value: 1
+    - patch: |-
+        apiVersion: helm.toolkit.fluxcd.io/v2beta2
+        kind: HelmRelease
+        metadata:
+          name: not-used
+        spec:
+          values:
+            operator: 
+              replicas: 1
+            clustermesh:
+              apiserver: 1
       target:
         kind: HelmRelease
         name: cilium
+        namespace: kube-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -153,23 +158,6 @@ spec:
   prune: false # don't delete my storage
   patches:
     # don't autoscale and remove resource requirements
-#    - patch: |
-#        - op: add
-#          path: /spec/values/controller/autoscaling/enabled
-#          value: false
-#        - op: add
-#          path: /spec/values/controller/resources
-#          value: {}
-#        - op: add
-#          path: /spec/values/controller/replicaCount
-#          value: 1
-#        - op: add
-#          path: /spec/values/defaultBackend/replicaCount
-#          value: 1
-#      target:
-#        kind: HelmRelease
-#        name: ingress-nginx
-#        namespace: ingress-nginx.*
     - patch: |-
         apiVersion: helm.toolkit.fluxcd.io/v2beta2
         kind: HelmRelease
