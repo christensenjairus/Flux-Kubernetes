@@ -98,32 +98,32 @@ spec:
         kind: Deployment
         name: metrics-server
 ---
-#apiVersion: kustomize.toolkit.fluxcd.io/v1
-#kind: Kustomization
-#metadata:
-#  name: infra-certificates
-#  namespace: flux-system
-#spec:
-#  dependsOn:
-#    - name: infra-crds
-#    #- name: infra-networking # I forget why this was needed
-#  interval: 1h
-#  retryInterval: 1m
-#  timeout: 5m
-#  sourceRef:
-#    kind: GitRepository
-#    name: flux-system
-#  path: ./infrastructure/base/certificates
-#  prune: true
-#  wait: true
-#  patches:
-#    - patch: | # use staging letsencrypt server
-#        - op: replace
-#          path: /spec/acme/server
-#          value: https://acme-staging-v02.api.letsencrypt.org/directory
-#      target:
-#        kind: ClusterIssuer
-#        name: letsencrypt
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-certificates
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-crds
+    #- name: infra-networking # I forget why this was needed
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/base/certificates
+  prune: true
+  wait: true
+  patches:
+    - patch: | # use staging letsencrypt server
+        - op: replace
+          path: /spec/acme/server
+          value: https://acme-staging-v02.api.letsencrypt.org/directory
+      target:
+        kind: ClusterIssuer
+        name: letsencrypt
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -158,21 +158,7 @@ spec:
       target:
         kind: HelmRelease
         name: ingress-nginx
-        namespace: ingress-nginx-public
-    - patch: |
-        - op: replace
-          path: /spec/values/controller/autoscaling/enabled
-          value: false
-        - op: replace
-          path: /spec/values/controller/replicaCount
-          value: 1
-        - op: replace
-          path: /spec/values/defaultBackend/replicaCount
-          value: 1
-      target:
-        kind: HelmRelease
-        name: ingress-nginx
-        namespace: ingress-nginx-private
+        namespace: ingress-nginx-.*
     # reduce the severity of NGINXTooMany400s alert
     - patch: |
         - op: replace
@@ -180,14 +166,7 @@ spec:
           value: "none"
       target:
         kind: PrometheusRule
-        name: prometheus-ingress-rules-private
-    - patch: |
-        - op: replace
-          path: /spec/groups/0/rules/0/labels/severity
-          value: "none"
-      target:
-        kind: PrometheusRule
-        name: prometheus-ingress-rules-public
+        name: prometheus-ingress-rules-.*
 ---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1
 #kind: Kustomization
