@@ -41,7 +41,6 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-crds
     #- name: infra-lb     # I forget why this was needed
     - name: infra-ingress # needed for ingresses to pass a validating webhook
   interval: 1h
@@ -69,10 +68,8 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-crds
     #- name: infra-networking # I forget why this was needed
-    - name: infra-ingress    # needed for ingress validating webhook
-    - name: infra-storage       # needed for vm pvc
+    - name: infra-ingress    # needed for ingress validating webhook, also ingress waits for infra-storage which is also needed for a pvc
   interval: 1h
   sourceRef:
     kind: GitRepository
@@ -95,8 +92,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-crds
-    #- name: infra-ingress # Needed for validating webhook
+    - name: infra-ingress # Needed for validating webhook
   interval: 1h
   sourceRef:
     kind: GitRepository
@@ -134,7 +130,6 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-crds
     #- name: infra-lb  # I forget why this was needed
     - name: infra-storage # needed for cache pvc
   interval: 1h
@@ -171,7 +166,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-policies
+  name: infra-policies-stage-1
   namespace: flux-system
 spec:
   dependsOn:
@@ -182,7 +177,25 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/policies/overlays/harbor-registry-all-pods
+  path: ./infrastructure/base/policies/stage-1
+  prune: true
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-policies-stage-2
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-policies-stage-1
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/base/policies/stage-2/overlays/harbor-registry-all-pods
   prune: true
   wait: true
 #---

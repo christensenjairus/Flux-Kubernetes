@@ -10,5 +10,5 @@ resources:
   - ./kubevirt-operator
   - ./rook-ceph
   - ./grafana-operator
-  - ./kyverno
-  - ./metallb
+  #- ./kyverno
+  #- ./metallb
