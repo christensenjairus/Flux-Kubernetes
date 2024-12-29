@@ -17,6 +17,8 @@ metadata:
   name: infra-lb
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: infra-crds
   interval: 1h
   sourceRef:
     kind: GitRepository
