@@ -9,5 +9,5 @@ data:
   highAvailability: "false"
   ipv4LbPrefix: "10.0.8"
   ipv6LbPrefix: "2607:fa18:47fd:800:34"
-  radosNamespaceClusterID: "b948e2030db64cc942710b08d7aecb91"
-  subvolumeGroupClusterID: "c91cb01333dcfbca965d6e9386b40e8a"
+  radosNamespaceClusterID: "5b62ef8a9d817aeb1d27ec54bae65fcc"
+  subvolumeGroupClusterID: "68a6a27f4cf25936f0bdc77093cd5dbe"

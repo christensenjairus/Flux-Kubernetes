@@ -60,6 +60,8 @@ https://rook.io/docs/rook/latest/CRDs/Block-Storage/ceph-block-pool-rados-namesp
 Once the radosnamespace is 'Ready', take the clusterID and place it in the `storageClass` and `volumeSnapshotClass` under .parameters.clusterID
 
 ```bash
+CLUSTER_NAME=omega
+NAMESPACE=rook-ceph-external
 echo "RBD ClusterID: $(kubectl -n $NAMESPACE get cephblockpoolradosnamespace/$CLUSTER_NAME -o jsonpath='{.status.info.clusterID}')"
 echo "CephFS ClusterID: $(kubectl -n $NAMESPACE get cephfilesystemsubvolumegroups/$CLUSTER_NAME -o jsonpath='{.status.info.clusterID}')"
 ```
