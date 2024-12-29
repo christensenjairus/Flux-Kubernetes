@@ -93,7 +93,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/monitoring
+  path: ./infrastructure/base/monitoring/stage-2
   prune: true
   patches:
     - patch: |-
