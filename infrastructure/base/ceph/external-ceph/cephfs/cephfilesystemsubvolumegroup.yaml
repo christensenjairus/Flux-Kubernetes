@@ -1,7 +1,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystemSubVolumeGroup
 metadata:
-  name: omega
+  name: ${clusterName,,}
   namespace: rook-ceph-external
 spec:
   filesystemName: k8s-cephfs
