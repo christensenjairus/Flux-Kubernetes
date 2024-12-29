@@ -158,7 +158,7 @@ spec:
       target:
         kind: HelmRelease
         name: ingress-nginx
-        namespace: ingress-nginx-.*
+        namespace: ingress-nginx.*
     # reduce the severity of NGINXTooMany400s alert
     - patch: |
         - op: replace
@@ -166,7 +166,8 @@ spec:
           value: "none"
       target:
         kind: PrometheusRule
-        name: prometheus-ingress-rules-.*
+        name: prometheus-ingress-rules
+        namespace: ingress-nginx.*
 ---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1
 #kind: Kustomization
