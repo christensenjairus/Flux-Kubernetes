@@ -153,19 +153,38 @@ spec:
   prune: false # don't delete my storage
   patches:
     # don't autoscale and remove resource requirements
-    - patch: |
-        - op: add
-          path: /spec/values/controller/autoscaling/enabled
-          value: false
-        - op: add
-          path: /spec/values/controller/resources
-          value: {}
-        - op: add
-          path: /spec/values/controller/replicaCount
-          value: 1
-        - op: add
-          path: /spec/values/defaultBackend/replicaCount
-          value: 1
+#    - patch: |
+#        - op: add
+#          path: /spec/values/controller/autoscaling/enabled
+#          value: false
+#        - op: add
+#          path: /spec/values/controller/resources
+#          value: {}
+#        - op: add
+#          path: /spec/values/controller/replicaCount
+#          value: 1
+#        - op: add
+#          path: /spec/values/defaultBackend/replicaCount
+#          value: 1
+#      target:
+#        kind: HelmRelease
+#        name: ingress-nginx
+#        namespace: ingress-nginx.*
+    - patch: |-
+        apiVersion: helm.toolkit.fluxcd.io/v2beta2
+        kind: HelmRelease
+        metadata:
+          name: not-used
+        spec:
+          values:
+            controller:
+              replicaCount: 1
+              autoscaling:
+                enabled: false
+              resources:
+                requests: {}
+            defaultBackend:
+              replicaCount: 1
       target:
         kind: HelmRelease
         name: ingress-nginx
