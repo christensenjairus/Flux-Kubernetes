@@ -5,3 +5,4 @@ resources:
 - namespace.yaml
 - ./chart
 - ./cosi-crds
+- ./external-snapshotter-crds
