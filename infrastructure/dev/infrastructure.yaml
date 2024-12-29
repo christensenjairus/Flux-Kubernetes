@@ -139,6 +139,7 @@ spec:
   path: ./infrastructure/base/ingress/overlays
   prune: true
   patches:
+    # don't autoscale and remove resource requirements
     - patch: |
         - op: replace
           path: /spec/values/controller/autoscaling/enabled
