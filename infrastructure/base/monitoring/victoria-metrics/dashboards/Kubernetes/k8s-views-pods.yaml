@@ -2,6 +2,8 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: k8s-views-pods
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
 spec:
   # https://grafana.github.io/grafana-operator/docs/dashboards/
   resyncPeriod: 30s
