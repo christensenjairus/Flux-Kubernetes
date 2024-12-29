@@ -346,7 +346,6 @@ spec:
     # +docs:property
     nodeSelector:
       kubernetes.io/os: linux
-      nodeclass: general
 
     # +docs:ignore
     ingressShim: { }
@@ -723,7 +722,6 @@ spec:
       # +docs:property
       nodeSelector:
         kubernetes.io/os: linux
-        nodeclass: general
 
       # A Kubernetes Affinity, if required; see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core
       #
@@ -1010,7 +1008,6 @@ spec:
       # +docs:property
       nodeSelector:
         kubernetes.io/os: linux
-        nodeclass: general
 
       # A Kubernetes Affinity, if required; see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core
       #
@@ -1210,7 +1207,6 @@ spec:
       # +docs:property
       nodeSelector:
         kubernetes.io/os: linux
-        nodeclass: general
 
       # A Kubernetes Affinity, if required; see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core
       #
