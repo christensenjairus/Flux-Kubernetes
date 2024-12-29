@@ -15,7 +15,7 @@ spec:
     name: flux-system
   path: ./infrastructure/dev
   patches:
-    # Centralized controls over child kustomizations
+    # Centralized controls over child Kustomizations
     - patch: |-
         apiVersion: kustomize.toolkit.fluxcd.io/v1
         kind: Kustomization
@@ -36,3 +36,18 @@ spec:
         kind: Kustomization
         namespace: flux-system
         name: infra-.*
+    # Centralized controls over grandchild HelmReleases
+    - patch: |-
+        apiVersion: helm.toolkit.fluxcd.io/v2
+        kind: HelmRelease
+        metadata:
+          name: not-used
+        spec:
+          install:
+            crds: CreateReplace
+          upgrade:
+            crds: CreateReplace
+      target:
+        kind: HelmRelease
+        namespace: .*
+        labelSelector: "kustomize.toolkit.fluxcd.io/name=infra-.*"

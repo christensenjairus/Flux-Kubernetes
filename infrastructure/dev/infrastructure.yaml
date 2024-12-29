@@ -14,14 +14,14 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-arp
+  name: infra-lb
   namespace: flux-system
 spec:
   interval: 1h
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/arp
+  path: ./infrastructure/base/lb
   prune: true
   patches:
     - patch: |
@@ -40,7 +40,7 @@ metadata:
 spec:
   dependsOn:
     - name: infra-crds
-    #- name: infra-arp     # I forget why this was needed
+    #- name: infra-lb     # I forget why this was needed
     - name: infra-ingress # needed for ingresses to pass a validating webhook
   interval: 1h
   sourceRef:
@@ -118,7 +118,7 @@ metadata:
 spec:
   dependsOn:
     - name: infra-crds
-    #- name: infra-arp  # I forget why this was needed
+    #- name: infra-lb  # I forget why this was needed
     - name: infra-storage # needed for cache pvc
   interval: 1h
   sourceRef:
