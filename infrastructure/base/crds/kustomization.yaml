@@ -8,4 +8,4 @@ resources:
   - ./cosi
   - ./redis-operator
   - ./kubevirt-operator
-
+  - ./rook-ceph
