@@ -1,19 +1,6 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-crds
-  namespace: flux-system
-spec:
-  interval: 1h
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/base/crds
-  prune: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: infra-lb-stage-1
   namespace: flux-system
 spec:
@@ -246,8 +233,6 @@ spec:
 #  name: infra-scaling
 #  namespace: flux-system
 #spec:
-#  dependsOn:
-#    - name: infra-crds
 #  interval: 1h
 #  retryInterval: 1m
 #  timeout: 5m
@@ -292,8 +277,6 @@ spec:
 #  name: infra-backups
 #  namespace: flux-system
 #spec:
-#  dependsOn:
-#    - name: infra-crds
 #  interval: 1h
 #  retryInterval: 1m
 #  timeout: 5m
@@ -310,8 +293,6 @@ spec:
 #  name: infra-general-operators
 #  namespace: flux-system
 #spec:
-#  dependsOn:
-#    - name: infra-crds
 #  interval: 1h
 #  retryInterval: 1m
 #  timeout: 5m
