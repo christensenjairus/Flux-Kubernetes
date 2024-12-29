@@ -154,15 +154,16 @@ spec:
   patches:
     # don't autoscale and remove resource requirements
     - patch: |
-        - op: replace
+        - op: add
           path: /spec/values/controller/autoscaling/enabled
           value: false
-        - op: remove
+        - op: add
           path: /spec/values/controller/resources
-        - op: replace
+          value: {}
+        - op: add
           path: /spec/values/controller/replicaCount
           value: 1
-        - op: replace
+        - op: add
           path: /spec/values/defaultBackend/replicaCount
           value: 1
       target:
