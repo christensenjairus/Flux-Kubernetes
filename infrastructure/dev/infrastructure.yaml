@@ -60,7 +60,8 @@ spec:
             operator: 
               replicas: 1
             clustermesh:
-              apiserver: 1
+              apiserver:
+                replicas: 1
       target:
         kind: HelmRelease
         name: cilium
