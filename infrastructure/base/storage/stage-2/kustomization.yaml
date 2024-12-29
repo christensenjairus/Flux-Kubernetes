@@ -6,3 +6,4 @@ resources:
 - ./rbd
 - ./cephfs
 - ./rgw
+- ./snapshot-controller/chart

@@ -1,0 +1,23 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: snapshot-controller
+  namespace: kube-system
+spec:
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+  chart:
+    spec:
+      chart: snapshot-controller
+      version: 2.2.x # auto-update to semver bugfixes only
+      interval: 12h
+      sourceRef:
+        kind: HelmRepository
+        name: piraeus-charts
+        namespace: kube-system
+  interval: 30m
+  valuesFrom:
+    - kind: ConfigMap
+      name: snapshot-controller-values
