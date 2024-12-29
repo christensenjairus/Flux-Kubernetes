@@ -13,8 +13,7 @@ victoria-metrics-operator:
   enabled: true
   # -- Tells helm to clean up vm cr resources when uninstalling
   cleanupCRD: true
-  nodeSelector:
-    nodeclass: general
+  nodeSelector: {}
   cleanupImage:
     repository: bitnami/kubectl
     # use image tag that matches k8s API version by default
@@ -247,8 +246,7 @@ vmsingle:
       resources:
         requests:
           storage: 5Gi
-    nodeSelector:
-      nodeclass: general
+    nodeSelector: {}
   ingress:
     enabled: true
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
@@ -327,8 +325,7 @@ vmcluster:
         requests:
           cpu: 500m # default is 100m
           memory: 500Mi # default is 100Mi
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -378,8 +375,7 @@ vmcluster:
         requests:
           cpu: 500m
           memory: 100Mi
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
     vminsert:
       image:
         tag: v1.101.0-cluster
@@ -401,8 +397,7 @@ vmcluster:
         requests:
           cpu: 100m
           memory: 100Mi
-      nodeSelector:
-        nodeclass: general
+      nodeSelector: {}
 
   ingress:
     storage:
@@ -536,8 +531,7 @@ alertmanager:
   # https://docs.victoriametrics.com/operator/api.html#vmalertmanagerspec
   spec:
     replicaCount: 2
-    nodeSelector:
-      nodeclass: general
+    nodeSelector: {}
     selectAllByDefault: true
     image:
       tag: v0.25.0
@@ -742,8 +736,7 @@ vmalert:
   # https://docs.victoriametrics.com/operator/api.html#vmalertspec
   spec:
     replicaCount: 2
-    nodeSelector:
-      nodeclass: general
+    nodeSelector: {}
     selectAllByDefault: true
     image:
       tag: v1.101.0
@@ -834,8 +827,7 @@ vmagent:
   # https://docs.victoriametrics.com/operator/api.html#vmagentspec
   spec:
     replicaCount: 1
-    nodeSelector:
-      nodeclass: general
+    nodeSelector: {}
     selectAllByDefault: true
     image:
       tag: v1.101.0
@@ -905,8 +897,7 @@ vmagent:
 # Grafana dependency chart configuration. For possible values refer to https://github.com/grafana/helm-charts/tree/main/charts/grafana#configuration
 grafana:
   enabled: false
-  nodeSelector:
-    nodeclass: general
+  nodeSelector: {}
   ## all values for grafana helm chart can be specified here
   sidecar:
     datasources:
@@ -1162,8 +1153,7 @@ prometheus-node-exporter:
 kube-state-metrics:
   enabled: true
   ## all values for kube-state-metrics helm chart can be specified here
-  nodeSelector:
-    nodeclass: general
+  nodeSelector: {}
 
   # spec for VMServiceScrape crd
   # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
