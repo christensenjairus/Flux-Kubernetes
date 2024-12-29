@@ -120,7 +120,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/certs
+  path: ./infrastructure/base/certs/stage-1
   prune: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -135,7 +135,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/certs
+  path: ./infrastructure/base/certs/stage-2
   prune: false # don't delete my storage
   patches:
     - patch: | # use staging letsencrypt server
