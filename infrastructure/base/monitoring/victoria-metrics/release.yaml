@@ -4,9 +4,12 @@ metadata:
   name: victoria-metrics-k8s-stack
   namespace: monitoring
 spec:
-  interval: 30m
   install:
+    crds: CreateReplace
     timeout: 20m # takes a while to install because its waiting for ceph to be ready
+  upgrade:
+    crds: CreateReplace
+  interval: 30m
   chart:
     spec:
       chart: victoria-metrics-k8s-stack

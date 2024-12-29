@@ -4,6 +4,10 @@ metadata:
   name: velero
   namespace: velero
 spec:
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
   interval: 30m
   chart:
     spec:

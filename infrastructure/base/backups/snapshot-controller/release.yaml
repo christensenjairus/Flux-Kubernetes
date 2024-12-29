@@ -4,6 +4,10 @@ metadata:
   name: snapshot-controller
   namespace: kube-system
 spec:
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
   chart:
     spec:
       chart: snapshot-controller

@@ -4,6 +4,10 @@ metadata:
   name: redis-operator
   namespace: general-operators
 spec:
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
   interval: 30m
   chart:
     spec:
