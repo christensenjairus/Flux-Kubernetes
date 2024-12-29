@@ -6,7 +6,6 @@ metadata:
 spec:
   install:
     crds: CreateReplace
-    timeout: 20m # takes a while to install because its waiting for ceph to be ready
   upgrade:
     crds: CreateReplace
   interval: 30m
