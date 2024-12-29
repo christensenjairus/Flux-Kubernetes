@@ -2,8 +2,6 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: cluster-total
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
 spec:
   # https://grafana.github.io/grafana-operator/docs/dashboards/
   resyncPeriod: 30s

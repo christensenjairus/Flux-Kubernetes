@@ -6,3 +6,6 @@ resources:
   - Kube-Prometheus
   - Victoria-Metrics
   - Nodes
+
+commonAnnotations:
+  kustomize.toolkit.fluxcd.io/substitute: disabled
