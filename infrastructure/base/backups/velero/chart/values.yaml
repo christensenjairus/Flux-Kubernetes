@@ -105,12 +105,6 @@ dnsPolicy: ClusterFirst
 # Init containers to add to the Velero deployment's pod spec. At least one plugin provider image is required.
 # If the value is a string then it is evaluated as a template.
 initContainers:
-#  - name: velero-plugin-for-csi
-#    image: velero/velero-plugin-for-csi:v0.7.1
-#    imagePullPolicy: IfNotPresent
-#    volumeMounts:
-#      - mountPath: /target
-#        name: plugins
   - name: velero-plugin-for-aws
     image: velero/velero-plugin-for-aws:v1.10.0
     imagePullPolicy: IfNotPresent
@@ -536,7 +530,7 @@ configuration:
   # `velero server` default: 20.0
   clientQPS:
   # Name of the default backup storage location. Default: default
-  defaultBackupStorageLocation:
+  defaultBackupStorageLocation: ${clusterName,,}
   # The default duration any single item operation can take before timing out, especially important for large volume schedules. Default 4h
   defaultItemOperationTimeout:
   # How long to wait by default before backups can be garbage collected. Default: 72h
