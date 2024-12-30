@@ -47,8 +47,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    #- name: infra-lb-stage-2     # I forget why this was needed
-    - name: infra-ingress # needed for ingresses to pass a validating webhook. Infra-ingress also depends on infra-monitoring-stage-1, which has the grafana crds
+    - name: infra-ingress # validating webhook, grafana crds (infra-monitoring-stage-1)
   interval: 1h
   sourceRef:
     kind: GitRepository
@@ -93,7 +92,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-ingress  # needed for ingress validating webhook, also ingress waits for infra-storage which is also needed for a pvc
+    - name: infra-ingress  # ingress validating webhook, pvc (infra-storage-stage-2)
     - name: infra-monitoring-stage-1
   interval: 1h
   sourceRef:
@@ -152,7 +151,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-ingress # Needed for validating webhook
+    - name: infra-ingress # Validating webhook
   interval: 1h
   sourceRef:
     kind: GitRepository
@@ -190,9 +189,8 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    #- name: infra-lb  # I forget why this was needed
-    - name: infra-storage-stage-2 # needed for cache pvc
-    - name: infra-monitoring-stage-1 # needed for grafana crds
+    - name: infra-storage-stage-2    # cache pvc
+    - name: infra-monitoring-stage-1 # grafana crds
   interval: 1h
   sourceRef:
     kind: GitRepository
@@ -200,7 +198,6 @@ spec:
   path: ./infrastructure/base/ingress/overlays
   prune: false # don't delete my storage
   patches:
-    # don't autoscale and remove resource requirements
     - patch: |-
         apiVersion: helm.toolkit.fluxcd.io/v2
         kind: HelmRelease
@@ -355,21 +352,21 @@ spec:
   path: ./infrastructure/base/storage/stage-2
   prune: true
 ---
-#apiVersion: kustomize.toolkit.fluxcd.io/v1
-#kind: Kustomization
-#metadata:
-#  name: infra-backups
-#  namespace: flux-system
-#spec:
-#  interval: 1h
-#  retryInterval: 1m
-#  timeout: 5m
-#  sourceRef:
-#    kind: GitRepository
-#    name: flux-system
-#  path: ./infrastructure/base/backups
-#  prune: true
-#  wait: true
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-backups
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/base/backups
+  prune: true
+  wait: true
 #---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1
 #kind: Kustomization
