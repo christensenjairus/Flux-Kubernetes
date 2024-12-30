@@ -321,7 +321,7 @@ volumeSnapshotClasses:
 - name: truenas-nfs
   annotations: {}
   labels: {}
-  deletionPolicy: Delete | Retain
+  deletionPolicy: Delete
   parameters:
 #  secrets:
 #    snapshotter-secret:

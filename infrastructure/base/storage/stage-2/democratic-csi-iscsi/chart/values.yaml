@@ -319,7 +319,7 @@ volumeSnapshotClasses:
 - name: truenas-iscsi
   annotations: {}
   labels: {}
-  deletionPolicy: Delete | Retain
+  deletionPolicy: Delete
   parameters:
 #  secrets:
 #    snapshotter-secret:
