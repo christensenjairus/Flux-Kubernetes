@@ -11,4 +11,4 @@ patches:
         value: --feature-gates=StrictPostBuildSubstitutions=true
     target:
       kind: Deployment
-      name: "kustomization-controller"
+      name: "kustomize-controller"
