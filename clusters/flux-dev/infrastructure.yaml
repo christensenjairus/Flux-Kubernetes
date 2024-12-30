@@ -22,9 +22,9 @@ spec:
         metadata:
           name: not-used
         spec:
-          interval: 1h
-          retryInterval: 30s
-          timeout: 5m
+          interval: 15m
+          retryInterval: 15s
+          timeout: 3m
           wait: true
           postBuild:
             substituteFrom:
