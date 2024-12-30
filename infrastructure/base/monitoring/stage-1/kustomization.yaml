@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - ./prometheus-operator-crds/chart
   - ./grafana-operator
-  - harbor-pull-secret.yaml
