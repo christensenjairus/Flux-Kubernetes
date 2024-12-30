@@ -4,6 +4,5 @@ metadata:
   name: grafana
   namespace: grafana-operator
 spec:
-  type: oci
   interval: 24h
   url: oci://ghcr.io/grafana/helm-charts
