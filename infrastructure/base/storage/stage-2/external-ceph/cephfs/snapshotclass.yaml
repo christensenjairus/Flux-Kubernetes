@@ -3,6 +3,8 @@ apiVersion: snapshot.storage.k8s.io/v1
 kind: VolumeSnapshotClass
 metadata:
   name: k8s-cephfs
+  labels:
+    velero.io/csi-volumesnapshot-class: "true"
 driver: rook-ceph.cephfs.csi.ceph.com
 parameters:
   clusterID: "${subvolumeGroupClusterID,,}"
