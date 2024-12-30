@@ -355,6 +355,15 @@ spec:
     name: flux-system
   path: ./infrastructure/base/backups
   prune: true
+  patches:
+    # this doesn't seem to work correctly when done directly in the manifest
+    - patch: |
+        - op: replace
+          path: /spec/template/spec/containers/0/env/1/valueFrom/secretKeyRef/key
+          value: ${clusterName,,}
+      target:
+        kind: Deployment
+        name: cloudcasa-kubeagent-manager
 #---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1
 #kind: Kustomization
