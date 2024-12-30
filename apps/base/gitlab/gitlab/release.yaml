@@ -4,6 +4,8 @@ metadata:
   name: gitlab
   namespace: gitlab
 spec:
+  driftDetection:
+    mode: enabled
   interval: 30m
   install:
     timeout: 20m # takes a while to bootstrap and for the sidekiq jobs to run

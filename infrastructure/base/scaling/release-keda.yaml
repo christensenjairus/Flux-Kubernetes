@@ -4,6 +4,8 @@ metadata:
   name: keda
   namespace: keda
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
   upgrade:

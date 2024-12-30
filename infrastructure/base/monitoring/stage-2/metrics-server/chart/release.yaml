@@ -4,9 +4,9 @@ metadata:
   name: metrics-server
   namespace: kube-system
 spec:
+  driftDetection:
+    mode: enabled
   interval: 30m
-  upgrade:
-    force: true
   chart:
     spec:
       chart: metrics-server

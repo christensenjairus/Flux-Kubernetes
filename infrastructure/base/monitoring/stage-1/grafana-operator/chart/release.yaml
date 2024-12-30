@@ -4,6 +4,8 @@ metadata:
   name: grafana-operator
   namespace: general-operators
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
   upgrade:

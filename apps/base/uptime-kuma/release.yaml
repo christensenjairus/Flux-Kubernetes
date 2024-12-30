@@ -4,6 +4,8 @@ metadata:
   name: uptime-kuma
   namespace: uptime-kuma
 spec:
+  driftDetection:
+    mode: enabled
   interval: 30m
   chart:
     spec:

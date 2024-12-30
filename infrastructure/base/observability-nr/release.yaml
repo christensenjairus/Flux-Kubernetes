@@ -4,6 +4,8 @@ metadata:
   name: newrelic
   namespace: newrelic
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
   upgrade:

@@ -4,6 +4,8 @@ metadata:
   name: descheduler
   namespace: kube-system
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
   upgrade:

@@ -4,6 +4,8 @@ metadata:
   name: truenas-nfs
   namespace: democratic-csi-nfs
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
   upgrade:

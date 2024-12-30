@@ -4,6 +4,8 @@ metadata:
   name: wordpress
   namespace: wordpress
 spec:
+  driftDetection:
+    mode: enabled
   interval: 30m
   chart:
     spec:

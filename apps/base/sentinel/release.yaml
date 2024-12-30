@@ -4,6 +4,8 @@ metadata:
   name: sentinel
   namespace: example
 spec:
+  driftDetection:
+    mode: enabled
   interval: 30m
   chart:
     spec:

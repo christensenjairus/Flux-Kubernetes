@@ -4,6 +4,8 @@ metadata:
   name: victoria-metrics-k8s-stack
   namespace: monitoring
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
   upgrade:

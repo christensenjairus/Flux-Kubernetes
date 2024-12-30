@@ -4,6 +4,8 @@ metadata:
   name: cilium
   namespace: kube-system
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
     timeout: 20m # takes a while to install because every pod needs to roll out one at a time

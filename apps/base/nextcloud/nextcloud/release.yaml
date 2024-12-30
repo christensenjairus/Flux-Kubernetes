@@ -4,6 +4,8 @@ metadata:
   name: nextcloud
   namespace: nextcloud
 spec:
+  driftDetection:
+    mode: enabled
   interval: 30m
   install:
     timeout: 20m # takes a while to initialize when it has the RWX volume

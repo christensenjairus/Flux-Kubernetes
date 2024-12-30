@@ -4,6 +4,8 @@ metadata:
   name: truenas-iscsi
   namespace: democratic-csi-iscsi
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
   upgrade:

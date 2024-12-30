@@ -4,6 +4,8 @@ metadata:
   name: openldap
   namespace: openldap
 spec:
+  driftDetection:
+    mode: enabled
   interval: 30m
   chart:
     spec:

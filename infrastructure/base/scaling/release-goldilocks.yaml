@@ -5,6 +5,8 @@ metadata:
   name: goldilocks
   namespace: goldilocks
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
   upgrade:

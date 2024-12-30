@@ -4,6 +4,8 @@ metadata:
   name: groundcover
   namespace: groundcover
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
   upgrade:

@@ -4,6 +4,8 @@ metadata:
   name: velero-notifications
   namespace: velero
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
   upgrade:

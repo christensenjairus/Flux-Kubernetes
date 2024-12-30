@@ -4,6 +4,8 @@ metadata:
   name: vertical-pod-autoscaler
   namespace: kube-system
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
   upgrade:

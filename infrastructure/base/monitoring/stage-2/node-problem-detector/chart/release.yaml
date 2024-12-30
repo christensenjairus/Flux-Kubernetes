@@ -4,6 +4,8 @@ metadata:
   name: node-problem-detector
   namespace: node-problem-detector
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
   upgrade:

@@ -4,6 +4,8 @@ metadata:
   name: ingress-nginx
   namespace: ingress-nginx
 spec:
+  driftDetection:
+    mode: enabled
   interval: 30m
   chart:
     spec:

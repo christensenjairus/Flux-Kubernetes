@@ -4,6 +4,8 @@ metadata:
   name: podinfo
   namespace: podinfo
 spec:
+  driftDetection:
+    mode: enabled
   releaseName: podinfo
   chart:
     spec:

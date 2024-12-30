@@ -24,6 +24,7 @@ flux bootstrap github \
   --branch=modularize_infrastructure_with_cluster_variables \
   --path=./clusters/$current_context \
   --context=$current_context \
+  --components-extra image-reflector-controller,image-automation-controller \
   --personal #\
   #--toleration-keys="node-role.kubernetes.io/control-plane"
 

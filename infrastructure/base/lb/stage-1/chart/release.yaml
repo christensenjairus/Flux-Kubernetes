@@ -4,6 +4,8 @@ metadata:
   name: metallb
   namespace: metallb-system
 spec:
+  driftDetection:
+    mode: enabled
   install:
     crds: CreateReplace
   upgrade:

@@ -4,6 +4,8 @@ metadata:
   name: vaultwarden
   namespace: vaultwarden
 spec:
+  driftDetection:
+    mode: enabled
   interval: 30m
   chart:
     spec:

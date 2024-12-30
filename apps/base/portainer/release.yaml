@@ -4,6 +4,8 @@ metadata:
   name: portainer
   namespace: portainer
 spec:
+  driftDetection:
+    mode: enabled
   interval: 30m
   chart:
     spec:

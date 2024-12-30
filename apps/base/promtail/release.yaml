@@ -4,6 +4,8 @@ metadata:
   name: promtail
   namespace: promtail
 spec:
+  driftDetection:
+    mode: enabled
   interval: 30m
   chart:
     spec:
