@@ -817,7 +817,7 @@ opentelemetry-collector:
     extensions:
       health_check:
         path: /health
-        tls: ${env:TLS_CONFIG}
+        tls: $${env:TLS_CONFIG}
         endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "health" "containerPort" | int ) }}'
       pprof:
         endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "pprof" "containerPort" | int ) }}'
@@ -829,23 +829,23 @@ opentelemetry-collector:
       loki/historian:
         protocols:
           http:
-            tls: ${env:TLS_CONFIG}
+            tls: $${env:TLS_CONFIG}
             endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "loki-historian" "containerPort" | int ) }}'
         use_incoming_timestamp: true
       loki:
         protocols:
           http:
-            tls: ${env:TLS_CONFIG}
+            tls: $${env:TLS_CONFIG}
             endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "loki-http" "containerPort" | int ) }}'
         use_incoming_timestamp: true
       otlp:
         protocols:
           grpc:
             max_recv_msg_size_mib: 50
-            tls: ${env:TLS_CONFIG}
+            tls: $${env:TLS_CONFIG}
             endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "otlp" "containerPort" | int ) }}'
           http:
-            tls: ${env:TLS_CONFIG}
+            tls: $${env:TLS_CONFIG}
             include_metadata: true
             cors:
               allowed_origins:
@@ -855,7 +855,7 @@ opentelemetry-collector:
             endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "otlp-http" "containerPort" | int ) }}'
       faro:
         http:
-          tls: ${env:TLS_CONFIG}
+          tls: $${env:TLS_CONFIG}
           cors:
             allowed_origins:
               - "*"
@@ -921,7 +921,7 @@ opentelemetry-collector:
       groundcover/monitorState:
         type: monitorState
         timeout: 5s
-        password: ${env:CLICKHOUSE_PASSWORD}
+        password: $${env:CLICKHOUSE_PASSWORD}
         username: '{{ include "clickhouse.username" . }}'
         database: '{{ include "clickhouse.database" . }}'
         endpoint: '{{ include "clickhouse.nativeEndpoint" . }}'
@@ -932,7 +932,7 @@ opentelemetry-collector:
       groundcover/logs:
         type: logs
         timeout: 5s
-        password: ${env:CLICKHOUSE_PASSWORD}
+        password: $${env:CLICKHOUSE_PASSWORD}
         username: '{{ include "clickhouse.username" . }}'
         database: '{{ include "clickhouse.database" . }}'
         endpoint: '{{ include "clickhouse.nativeEndpoint" . }}'
@@ -945,7 +945,7 @@ opentelemetry-collector:
         timeout: 5s
         ttl_interval: 5d
         logs_table_name: k8s_objects
-        password: ${env:CLICKHOUSE_PASSWORD}
+        password: $${env:CLICKHOUSE_PASSWORD}
         username: '{{ include "clickhouse.username" . }}'
         database: '{{ include "clickhouse.database" . }}'
         endpoint: '{{ include "clickhouse.nativeEndpoint" . }}'
@@ -957,7 +957,7 @@ opentelemetry-collector:
         type: traces
         timeout: 5s
         traces_table_name: traces
-        password: ${env:CLICKHOUSE_PASSWORD}
+        password: $${env:CLICKHOUSE_PASSWORD}
         username: '{{ include "clickhouse.username" . }}'
         database: '{{ include "clickhouse.database" . }}'
         endpoint: '{{ include "clickhouse.nativeEndpoint" . }}'
@@ -2367,7 +2367,7 @@ custom-metrics:
             target_label: service
           - source_labels: [__meta_kubernetes_service_name]
             target_label: job
-            replacement: ${1}
+            replacement: $${1}
           - source_labels: [__meta_kubernetes_pod_node_name]
             action: replace
             target_label: node
@@ -2596,7 +2596,7 @@ monitors-manager:
   command:
     - "sh"
     - "-c"
-    - "grafana cli --homepath=\"${GF_PATHS_HOME}\" --config=\"${GF_PATHS_CONFIG}\" admin reset-admin-password \"${GF_SECURITY_ADMIN_PASSWORD}\" && /run.sh"
+    - "grafana cli --homepath=\"$${GF_PATHS_HOME}\" --config=\"$${GF_PATHS_CONFIG}\" admin reset-admin-password \"$${GF_SECURITY_ADMIN_PASSWORD}\" && /run.sh"
 
 curl:
   image:

@@ -9,3 +9,6 @@ resources:
   - cilium-operator-metrics-v1.12.yaml
   - cilium-policy-verdicts.yaml
   #- tetragon-kubectl-exec-audit.yaml
+
+commonAnnotations:
+  kustomize.toolkit.fluxcd.io/substitute: disabled
