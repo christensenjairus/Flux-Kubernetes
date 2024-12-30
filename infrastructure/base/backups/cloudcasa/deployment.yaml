@@ -32,7 +32,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: AMDS_CLUSTER_ID
-              value: null
+              value: null # not sure why this was needed but it was. See https://github.com/kubernetes/kubernetes/issues/46861#issuecomment-731700805
               valueFrom:
                 secretKeyRef:
                   name: "cluster-ids"
