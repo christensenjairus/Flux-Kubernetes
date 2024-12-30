@@ -5,12 +5,3 @@ metadata:
   labels:
     toolkit.fluxcd.io/tenant: sre-team
     goldilocks.fairwinds.com/enabled: "true"
----
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  name: harbor-pull-secret
-  namespace: rook-ceph-external
-type: kubernetes.io/dockerconfigjson
-spec:
-  itemPath: vaults/HomeLab K8S/items/Harbor Pull Secret
