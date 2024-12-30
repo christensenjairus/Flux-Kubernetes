@@ -6,6 +6,11 @@ metadata:
 spec:
   driftDetection:
     mode: enabled
+    ignore:
+      - paths: [ "/spec/template/spec/containers/0/args" ]
+        target:
+          kind: DaemonSet
+          name: metallb-speaker
   install:
     crds: CreateReplace
   upgrade:
