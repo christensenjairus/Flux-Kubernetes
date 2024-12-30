@@ -20,6 +20,18 @@ spec:
         name: democratic-csi
         namespace: democratic-csi-nfs
       interval: 12h
+  postRenderers:
+    # Not sure why this was needed. Flux couldn't tell the state of this resource, but it's working fine
+    - kustomize:
+        patches:
+          - target:
+              version: v1
+              kind: VolumeSnapshotClass
+              name: truenas-nfs
+            patch: |
+              - op: add
+                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
+                value: disabled
   valuesFrom:
     - kind: ConfigMap
       name: democratic-csi-nfs-values
