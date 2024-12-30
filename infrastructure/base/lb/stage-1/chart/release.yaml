@@ -6,12 +6,13 @@ metadata:
 spec:
   driftDetection:
     mode: enabled
-#    ignore:
-#      - paths: [ "/spec/template/spec/containers/0/args" ]
-#        target:
-#          kind: DaemonSet
-#          name: metallb-speaker
+    ignore:
+      - paths: [ "/spec/template/spec/containers/0/args" ]
+        target:
+          kind: DaemonSet
+          name: metallb-speaker
   postRenderers:
+    # Not sure why this was needed. The CRD was being edited by the controller.
     - kustomize:
         patches:
           - target:

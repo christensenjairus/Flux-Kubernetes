@@ -18,7 +18,6 @@ spec:
       target:
         kind: DaemonSet
         name: metallb-speaker
-        namespace: metallb-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
