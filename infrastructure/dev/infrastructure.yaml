@@ -11,13 +11,18 @@ spec:
   path: ./infrastructure/base/lb/stage-1
   prune: true
   patches:
-    - patch: |
-        - op: add
-          path: /spec/template/spec/containers/0/args/-
-          value: "--ignore-exclude-lb"
+    - patch: |-
+        apiVersion: helm.toolkit.fluxcd.io/v2
+        kind: HelmRelease
+        metadata:
+          name: not-used
+        spec:
+          speaker:
+            ignoreExcludeLB: true
       target:
-        kind: DaemonSet
-        name: metallb-speaker
+        kind: HelmRelease
+        name: metallb
+        namespace: metallb-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
