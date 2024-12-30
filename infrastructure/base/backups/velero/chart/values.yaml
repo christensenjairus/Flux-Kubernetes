@@ -794,7 +794,7 @@ schedules:
   3h-cluster-snapshot-24h:
     disabled: false
     labels:
-      source_cluster: ${clusterName,,=FIXME}
+      source_cluster: ${clusterName,,}
       # annotations:
       # myenv: foo
     schedule: "0 */3 * * *" # every third hour, on the hour
