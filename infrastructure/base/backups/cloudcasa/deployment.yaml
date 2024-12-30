@@ -18,43 +18,43 @@ spec:
         app: cloudcasa-kubeagent-manager
     spec:
       containers:
-      - args:
-        - /usr/local/bin/kubeagentmanager
-        - --server_addr
-        - agent.cloudcasa.io:443
-        - --tls
-        - 'true'
-        - --skip_tls_verification
-        - 'false'
-        env:
-        - name: AMDS_CLUSTER_ID
-          valueFrom:
-            secretKeyRef:
-              name: "cluster-ids"
-              key: "${clusterName,,}"
-        - name: MY_POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: KUBEMOVER_IMAGE
-          value: catalogicsoftware/amds-kagent:3.1.0-prod.329
-        - name: DEPLOYMENT_PLATFORM
-          value: yaml
-        image: catalogicsoftware/amds-kagent:3.1.0-prod.329
-        name: kubeagentmanager
-        resources:
-          limits: {}
-#            cpu: 500m
-#            memory: 128Mi
-          requests:
-            cpu: 250m
-            memory: 64Mi
-        volumeMounts:
-        - mountPath: /scratch
-          name: scratch
+        - args:
+            - /usr/local/bin/kubeagentmanager
+            - --server_addr
+            - agent.cloudcasa.io:443
+            - --tls
+            - 'true'
+            - --skip_tls_verification
+            - 'false'
+          env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: AMDS_CLUSTER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "cluster-ids"
+                  key: "${clusterName,,}"
+            - name: KUBEMOVER_IMAGE
+              value: catalogicsoftware/amds-kagent:3.1.0-prod.360
+            - name: DEPLOYMENT_PLATFORM
+              value: yaml
+          image: catalogicsoftware/amds-kagent:3.1.0-prod.360
+          name: kubeagentmanager
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          volumeMounts:
+            - mountPath: /scratch
+              name: scratch
       restartPolicy: Always
       serviceAccountName: cloudcasa-io
       terminationGracePeriodSeconds: 0
       volumes:
-      - emptyDir: {}
-        name: scratch
+        - emptyDir: {}
+          name: scratch

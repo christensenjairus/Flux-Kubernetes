@@ -24,6 +24,9 @@ echo "Continuing with context $current_context..."
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 
 # Execute subscripts using the absolute path
+echo "================================================"
 "$SCRIPT_DIR/subscripts/unset-default-storageclass.sh"
+echo "================================================"
 "$SCRIPT_DIR/subscripts/onepassword-connect.sh"
+echo "================================================"
 "$SCRIPT_DIR/subscripts/flux.sh"
