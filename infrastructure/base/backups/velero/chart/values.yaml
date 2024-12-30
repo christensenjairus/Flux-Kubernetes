@@ -760,7 +760,7 @@ nodeAgent:
 #       excludedClusterScopedResources:
 #       - persistentVolumes
 schedules:
-  1d-cluster-backup-30d:
+  ${clusterName,,}-1d-cluster-backup-30d:
     disabled: false
     labels:
       source_cluster: ${clusterName,,}
@@ -808,7 +808,7 @@ schedules:
         - rook-ceph
         - splunk   # not a system namespace, but we shouldn't need to back it up
         - velero
-  3h-cluster-snapshot-24h:
+  ${clusterName,,}-3h-cluster-snapshot-24h:
     disabled: false
     labels:
       source_cluster: ${clusterName,,}
