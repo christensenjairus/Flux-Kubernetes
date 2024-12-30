@@ -9,7 +9,7 @@ image:
   # -- image repository
   repository: ghcr.io/simoncaron/velero-notifications
   # -- image tag
-  tag: ""  # will default to the appVersion in Chart.yaml
+  #tag: ""  # will default to the appVersion in Chart.yaml
   # -- image pull policy
   pullPolicy: IfNotPresent
   # -- Set image pull secrets

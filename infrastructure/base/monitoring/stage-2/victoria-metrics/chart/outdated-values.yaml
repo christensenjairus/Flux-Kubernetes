@@ -1,0 +1,1413 @@
+nameOverride: ""
+fullnameOverride: ""
+tenant: "0"
+# -- If this chart is used in "Argocd" with "releaseName" field then
+# -- VMServiceScrapes couldn't select the proper services.
+# -- For correct working need set value 'argocdReleaseOverride=$ARGOCD_APP_NAME'
+argocdReleaseOverride: ""
+
+# -- victoria-metrics-operator dependency chart configuration.
+# -- For possible values refer to https://github.com/VictoriaMetrics/helm-charts/tree/master/charts/victoria-metrics-operator#parameters
+# -- also checkout here possible ENV variables to configure operator behaviour https://docs.victoriametrics.com/operator/vars.html
+victoria-metrics-operator:
+  enabled: true
+  # -- Tells helm to clean up vm cr resources when uninstalling
+  cleanupCRD: true
+  nodeSelector: {}
+  cleanupImage:
+    repository: bitnami/kubectl
+    # use image tag that matches k8s API version by default
+    # tag: 1.29.6
+    pullPolicy: IfNotPresent
+
+  createCRD: false # we disable crd creation by operator chart as we create them in this chart
+  operator:
+    # -- By default, operator converts prometheus-operator objects.
+    disable_prometheus_converter: false
+
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: true
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use.
+  # -- If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+## -- Create default rules for monitoring the cluster
+defaultRules:
+  create: true
+
+  # -- Common properties for VMRule groups
+  group:
+    spec:
+      # -- Optional HTTP URL parameters added to each rule request
+      params: {}
+
+  # -- Common properties for VMRules
+  rule:
+    spec:
+      # -- Additional labels for VMRule alerts
+      labels: {}
+      # -- Additional annotations for VMRule alerts
+      annotations: {}
+
+  # -- Per rule properties
+  rules: {}
+    # CPUThrottlingHigh:
+    #   create: true
+    #   spec:
+    #     for: 15m
+    #     labels:
+  #       severity: critical
+  groups:
+    etcd:
+      create: false
+      # -- Common properties for all rules in a group
+      rules: {}
+      # spec:
+      #   annotations:
+      #     dashboard: https://example.com/dashboard/1
+    general:
+      create: true
+      rules: {}
+    k8sContainerMemoryRss:
+      create: true
+      rules: {}
+    k8sContainerMemoryCache:
+      create: true
+      rules: {}
+    k8sContainerCpuUsageSecondsTotal:
+      create: true
+      rules: {}
+    k8sPodOwner:
+      create: true
+      rules: {}
+    k8sContainerResource:
+      create: true
+      rules: {}
+    k8sContainerMemoryWorkingSetBytes:
+      create: true
+      rules: {}
+    k8sContainerMemorySwap:
+      create: true
+      rules: {}
+    kubeApiserver:
+      create: true
+      rules: {}
+    kubeApiserverAvailability:
+      create: true
+      rules: {}
+    kubeApiserverBurnrate:
+      create: true
+      rules: {}
+    kubeApiserverHistogram:
+      create: true
+      rules: {}
+    kubeApiserverSlos:
+      create: true
+      rules: {}
+    kubelet:
+      create: true
+      rules: {}
+    kubePrometheusGeneral:
+      create: true
+      rules: {}
+    kubePrometheusNodeRecording:
+      create: true
+      rules: {}
+    kubernetesApps:
+      create: true
+      rules: {}
+      targetNamespace: ".*"
+    kubernetesResources:
+      create: true
+      rules: {}
+    kubernetesStorage:
+      create: true
+      rules: {}
+      targetNamespace: ".*"
+    kubernetesSystem:
+      create: true
+      rules: {}
+    kubernetesSystemKubelet:
+      create: true
+      rules: {}
+    kubernetesSystemApiserver:
+      create: true
+      rules: {}
+    kubernetesSystemControllerManager:
+      create: true
+      rules: {}
+    kubeScheduler:
+      create: false
+      rules: {}
+    kubernetesSystemScheduler:
+      create: true
+      rules: {}
+    kubeStateMetrics:
+      create: true
+      rules: {}
+    nodeNetwork:
+      create: true
+      rules: {}
+    node:
+      create: true
+      rules: {}
+    vmagent:
+      create: true
+      rules: {}
+    vmsingle:
+      create: true
+      rules: {}
+    vmcluster:
+      create: false
+      rules: {}
+    vmHealth:
+      create: true
+      rules: {}
+    alertmanager:
+      create: true
+      rules: {}
+
+  # -- Runbook url prefix for default rules
+  runbookUrl: https://runbooks.prometheus-operator.dev/runbooks
+
+  # -- Labels for default rules
+  labels: {}
+  # -- Annotations for default rules
+  annotations: {}
+
+## -- Create default dashboards
+defaultDashboardsEnabled: false
+
+## -- Create experimental dashboards
+experimentalDashboardsEnabled: false
+
+## -- Create dashboards as CRDs (reuqires grafana-operator to be installed)
+grafanaOperatorDashboardsFormat:
+  enabled: false # requires CRDs for grafana operator
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  allowCrossNamespaceImport: true
+
+# Provide custom recording or alerting rules to be deployed into the cluster.
+additionalVictoriaMetricsMap:
+#    rule-name:
+#     groups:
+#     - name: my_group
+#       rules:
+#       - record: my_record
+#         expr: 100 * my_record
+
+externalVM:
+  read:
+    url: ""
+    # bearerTokenSecret:
+    #   name: dbaas-read-access-token
+    #   key: bearerToken
+  write:
+    url: ""
+    # bearerTokenSecret:
+    #   name: dbaas-read-access-token
+    #   key: bearerToken
+
+##############
+
+# -- Configures vmsingle params
+vmsingle:
+  annotations: {}
+  enabled: true
+  # spec for VMSingle crd
+  # https://docs.victoriametrics.com/operator/api.html#vmsinglespec
+  spec:
+    image:
+      tag: v1.101.0
+    # -- Data retention period. Possible units character: h(ours), d(ays), w(eeks), y(ears), if no unit character specified - month. The minimum retention period is 24h. See these [docs](https://docs.victoriametrics.com/single-server-victoriametrics/#retention)
+    retentionPeriod: "24h" # use Mimir for long-term storage
+    replicaCount: 1
+    extraArgs:
+      search.logSlowQueryDuration: "15s" # default is 5s
+      loggerTimezone: "America/Denver"
+      memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
+      maxLabelsPerTimeseries: "250" # default is 30. KubeVirt has a ton of labels. If you can find a way to reduce the number of labels, you can reduce this.
+    resources:
+      limits: {}
+      #            cpu: 6000m # default is 1200m
+      #            memory: 6000Mi # default is 1500Mi. I was getting OOMKilled with less than 3GB.
+      requests:
+        cpu: 2000m # default is 150m
+        memory: 4000Mi # default is 500Mi
+    storage:
+      storageClassName: "k8s-rbd"
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+    nodeSelector: {}
+  ingress:
+    enabled: true
+    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+    ingressClassName: nginx-private
+    # Values can be templated
+    annotations:
+      # {}
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    labels: {}
+    path: /
+    # pathType is only for k8s > 1.19
+    pathType: Prefix
+
+    hosts:
+      - vm-${clusterName,,}.christensencloud.us
+    ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+    extraPaths: []
+    # - path: /*
+    #   backend:
+    #     serviceName: ssl-redirect
+    #     servicePort: use-annotation
+    ## Or for k8s > 1.19
+    # - path: /*
+    #   pathType: Prefix
+    #   backend:
+    #     service:
+    #       name: ssl-redirect
+    #       port:
+    #         name: service
+    tls: #[]
+      - secretName: vm-${clusterName,,}-christensencloud.us-tls
+        hosts:
+          - vm-${clusterName,,}.christensencloud.us
+
+vmcluster:
+  enabled: false # I would use this, but I'm having timeout issues between vmselect and vmstorage. Sometimes vminsert too. Might be a network issue. But I don't have a big enough cluster to justify this anyway.
+  annotations: {}
+  # spec for VMCluster crd
+  # https://docs.victoriametrics.com/operator/api.html#vmclusterspec
+  spec:
+    # -- Data retention period. Possible units character: h(ours), d(ays), w(eeks), y(ears), if no unit character specified - month. The minimum retention period is 24h. See these [docs](https://docs.victoriametrics.com/single-server-victoriametrics/#retention)
+    retentionPeriod: "30d"
+    replicationFactor: 2
+    vmstorage:
+      image:
+        tag: v1.101.0-cluster
+      replicaCount: 2
+      storageDataPath: "/vm-data"
+      extraArgs:
+        loggerTimezone: "America/Denver"
+        memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
+      #            loggerLevel: "WARN" # default is INFO
+      #            loggerWarnsPerSecondLimit: "5"
+      #            loggerErrorsPerSecondLimit: "5"
+      #            dedup.minScrapeInterval: "1ms" # was told to do this when replication is enabled: https://docs.victoriametrics.com/cluster-victoriametrics/#replication-and-data-safety
+      #            rpc.disableCompression: "false" # lower cpu usage at the expense of network bandwidth
+      #            loggerFormat: "json"
+      storage:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: "k8s-rbd"
+            resources:
+              requests:
+                storage: 5Gi
+      resources:
+        limits: {}
+        #              cpu: 1500m # default is 1000m
+        #              memory: 1500Mi
+        requests:
+          cpu: 500m # default is 100m
+          memory: 500Mi # default is 100Mi
+      nodeSelector: {}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app.kubernetes.io/name"
+                    operator: "In"
+                    values:
+                      - "vmstorage"
+              topologyKey: "kubernetes.io/hostname"
+    vmselect:
+      image:
+        tag: v1.101.0-cluster
+      replicaCount: 2 # scale to raise query rate
+      cacheMountPath: "/select-cache"
+      extraArgs:
+        loggerTimezone: "America/Denver"
+        memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
+      #            loggerWarnsPerSecondLimit: "5"
+      #            loggerErrorsPerSecondLimit: "5"
+      #            search.maxConcurrentRequests: "16" # default is 4. Increase to handle more concurrent queries. Not recommended to go above 16 because you could overload vmstorage pods.
+      #            search.logSlowQueryDuration: "30s" # default is 5s. Log slow queries to help debug performance issues
+      #            search.maxQueryDuration: "60s" # give up on the vmstorage node after timeout
+      #            search.maxQueueDuration: "120s" # default is 10s.
+      #            search.skipSlowReplicas: "true" # ignore results from slow replicas and return if n - replicationFactor + 1 vmstorage nodes respond.
+      #            vmstorageDialTimeout: "5s" # skip vmstorage nodes that don't respond
+      #            search.denyPartialResponse: "false" # allow partial responses if some vmstorage nodes are down
+      #            dedup.minScrapeInterval: "1ms" # was told to do this when replication is enabled: https://docs.victoriametrics.com/cluster-victoriametrics/#replication-and-data-safety
+      #            loggerLevel: "WARN" # default is INFO
+      #            search.disableCache: "true" # disable cache while I debug
+      #            search.maxQueryLen: "10485760"
+      #            search.maxSamplesPerQuery: "100000000000"
+      #            search.maxUniqueTimeseries: "5000000"
+      #            search.maxSeries: "500000000"
+      #            loggerFormat: "json"
+      storage:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: "k8s-rbd"
+            resources:
+              requests:
+                storage: 5Gi
+      resources:
+        limits: {}
+        #              cpu: 3000m # default is 1500m
+        #              memory: 1000Mi
+        requests:
+          cpu: 500m
+          memory: 100Mi
+      nodeSelector: {}
+    vminsert:
+      image:
+        tag: v1.101.0-cluster
+      replicaCount: 2 # scale to raise ingestion rate
+      extraArgs:
+        loggerTimezone: "America/Denver"
+        memory.allowedPercent: "95" # default is 60. Increase because it's in a container and the memory is already allocated.
+      #            loggerLevel: "WARN" # default is INFO
+      #            loggerWarnsPerSecondLimit: "5"
+      #            loggerErrorsPerSecondLimit: "5"
+      #            disableRerouting: "true" # Don't switch to another vmstorage if the selected one is slow.
+      #            disableReroutingOnUnavailable: "true" # pause data ingestion if vmstorage node is down instead of rerouting to another vmstorage node. Helps with cpu usage during rolling restarts.
+      #            rpc.disableCompression: "true" # lower cpu usage at the expense of network bandwidth
+      #            loggerFormat: "json"
+      resources:
+        limits: {}
+        #              cpu: 1000m
+        #              memory: 1000Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      nodeSelector: {}
+
+  ingress:
+    storage:
+      enabled: false
+      # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+      # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+      ingressClassName: nginx-private
+      # Values can be templated
+      annotations:
+        # {}
+        cert-manager.io/cluster-issuer: letsencrypt
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/auth-type: basic
+        nginx.ingress.kubernetes.io/auth-secret: basic-auth
+        nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+      labels: {}
+      path: /
+      # pathType is only for k8s > 1.19
+      pathType: Prefix
+
+      hosts:
+        - vmstorage-${clusterName,,}.christensencloud.us
+      ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+      extraPaths: []
+      # - path: /*
+      #   backend:
+      #     serviceName: ssl-redirect
+      #     servicePort: use-annotation
+      ## Or for k8s > 1.19
+      # - path: /*
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: ssl-redirect
+      #       port:
+      #         name: service
+      tls: #[]
+        - secretName: vmstorage-${clusterName,,}-christensencloud.us-tls
+          hosts:
+            - vmstorage-${clusterName,,}.christensencloud.us
+    select:
+      enabled: true
+      # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+      # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+      ingressClassName: nginx-private
+      # Values can be templated
+      annotations:
+        #{}
+        cert-manager.io/cluster-issuer: letsencrypt
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/auth-type: basic
+        nginx.ingress.kubernetes.io/auth-secret: basic-auth
+        nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+      labels: {}
+      path: /select
+      # pathType is only for k8s > 1.19
+      pathType: Prefix
+
+      hosts:
+        # - vmselect-${clusterName,,}.christensencloud.us
+        - vm-${clusterName,,}.christensencloud.us
+      ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+      extraPaths: #[]
+        # - path: /*
+        #   backend:
+        #     serviceName: ssl-redirect
+        #     servicePort: use-annotation
+        ## Or for k8s > 1.19
+        - path: /insert
+          pathType: Prefix
+          backend:
+            service:
+              name: vminsert-victoria-metrics-k8s-stack
+              port:
+                number: 8480
+      tls: #[]
+        # - secretName: vmselect-${clusterName,,}-christensencloud.us-tls
+        - secretName: vm-${clusterName,,}-christensencloud.us-tls
+          hosts:
+            # - vmselect-${clusterName,,}.christensencloud.us
+            - vm-${clusterName,,}.christensencloud.us
+    insert:
+      enabled: false
+      # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+      # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+      ingressClassName: nginx-private
+      # Values can be templated
+      annotations:
+        #{}
+        cert-manager.io/cluster-issuer: letsencrypt
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/auth-type: basic
+        nginx.ingress.kubernetes.io/auth-secret: basic-auth
+        nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+      labels: {}
+      path: /insert
+      # pathType is only for k8s > 1.19
+      pathType: Prefix
+
+      hosts:
+        - vminsert-${clusterName,,}.christensencloud.us
+      ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+      extraPaths: #[]
+        # - path: /*
+        #   backend:
+        #     serviceName: ssl-redirect
+        #     servicePort: use-annotation
+        ## Or for k8s > 1.19
+        - path: /select
+          pathType: Prefix
+          backend:
+            service:
+              name: vmselect-victoria-metrics-k8s-stack
+              port:
+                number: 8481
+      tls: #[]
+        - secretName: vminsert-${clusterName,,}-christensencloud.us-tls
+          hosts:
+            - vminsert-${clusterName,,}.christensencloud.us
+
+alertmanager:
+  enabled: true
+  annotations: {}
+  # spec for VMAlertmanager crd
+  # https://docs.victoriametrics.com/operator/api.html#vmalertmanagerspec
+  spec:
+    replicaCount: 2
+    nodeSelector: {}
+    selectAllByDefault: true
+    image:
+      tag: v0.25.0
+    externalURL: "https://alertmanager-${clusterName,,}.christensencloud.us"
+    routePrefix: /
+
+    # if this one defined, it will be used for alertmanager configuration and config parameter will be ignored
+    # configSecret: "alertmanager-config"
+
+    secrets:
+      - slack-bot-token
+
+  config:
+    global:
+      resolve_timeout: 5m
+      slack_api_url: 'https://slack.com/api/chat.postMessage'
+      http_config:
+        authorization:
+          credentials_file: '/etc/vm/secrets/slack-bot-token/credential'
+    templates:
+      - "/etc/vm/configs/**/*.tmpl"
+    route:
+      group_by: ["alertgroup", "job"]
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 12h
+      receiver: "blackhole"
+      routes:
+        - receiver: 'robusta'
+          group_by:
+            - alertgroup
+            - job
+          group_wait: 1s
+          group_interval: 1s
+          matchers:
+            - severity =~ ".*"
+          repeat_interval: 4h
+          continue: true
+
+        ###################################################
+        ## Duplicate code_owner routes to teams
+        ## These will send alerts to team channels but continue
+        ## processing through the rest of the tree to handled by on-call
+        # - matchers:
+        #     - code_owner_channel!=""
+        #     - severity=~"info|warning|critical"
+        #   group_by: ["code_owner_channel", "alertgroup", "job"]
+        #   receiver: slack-code-owners
+        # ###################################################
+        ## Standard on-call routes
+    #            - matchers:
+    #                # - severity=~"info|warning|error|critical"
+    #                - severity=~"warning|error|critical" # don't send info alerts to slack
+    #              receiver: slack-monitoring
+    #              continue: true
+
+    #        inhibit_rules:
+    #          - target_matchers:
+    #              - severity=~"warning|info"
+    #            source_matchers:
+    #              - severity=critical
+    #            equal:
+    #              - cluster
+    #              - namespace
+    #              - alertname
+    #          - target_matchers:
+    #              - severity=info
+    #            source_matchers:
+    #              - severity=warning
+    #            equal:
+    #              - cluster
+    #              - namespace
+    #              - alertname
+    #          - target_matchers:
+    #              - severity=info
+    #            source_matchers:
+    #              - alertname=InfoInhibitor
+    #            equal:
+    #              - cluster
+    #              - namespace
+
+    receivers:
+      - name: blackhole
+      - name: 'robusta'
+        webhook_configs:
+          - url: 'http://robusta-runner.robusta.svc.cluster.local/api/alerts'
+            send_resolved: true
+
+      #          - name: "slack-monitoring"
+      #            slack_configs:
+      #              - channel: "#zeta-alerts"
+      #                send_resolved: true
+      #                title: '{{ template "slack.monzo.title" . }}'
+      #                # icon_emoji: '{{ template "slack.monzo.icon_emoji" . }}'
+      #                username: AlertManager
+      #                icon_url: https://avatars3.githubusercontent.com/u/3380462
+      #                color: '{{ template "slack.monzo.color" . }}'
+      #                text: '{{ template "slack.monzo.text" . }}'
+      #                actions:
+      #                  - type: button
+      #                    text: "Runbook :green_book:"
+      #                    url: "{{ (index .Alerts 0).Annotations.runbook_url }}"
+      #                  - type: button
+      #                    text: "Query :mag:"
+      #                    url: "{{ (index .Alerts 0).GeneratorURL }}"
+      #                  - type: button
+      #                    text: "Dashboard :grafana:"
+      #                    url: "{{ (index .Alerts 0).Annotations.dashboard }}"
+      #                  - type: button
+      #                    text: "Silence :no_bell:"
+      #                    url: '{{ template "__alert_silence_link" . }}'
+      #                  - type: button
+      #                    text: '{{ template "slack.monzo.link_button_text" . }}'
+      #                    url: "{{ .CommonAnnotations.link_url }}"
+      # - name: slack-code-owners
+      #   slack_configs:
+      #     - channel: "#{{ .CommonLabels.code_owner_channel }}"
+      #       send_resolved: true
+      #       title: '{{ template "slack.monzo.title" . }}'
+      #       icon_emoji: '{{ template "slack.monzo.icon_emoji" . }}'
+      #       color: '{{ template "slack.monzo.color" . }}'
+      #       text: '{{ template "slack.monzo.text" . }}'
+      #       actions:
+      #         - type: button
+      #           text: "Runbook :green_book:"
+      #           url: "{{ (index .Alerts 0).Annotations.runbook }}"
+      #         - type: button
+      #           text: "Query :mag:"
+      #           url: "{{ (index .Alerts 0).GeneratorURL }}"
+      #         - type: button
+      #           text: "Dashboard :grafana:"
+      #           url: "{{ (index .Alerts 0).Annotations.dashboard }}"
+      #         - type: button
+      #           text: "Silence :no_bell:"
+      #           url: '{{ template "__alert_silence_link" . }}'
+      #         - type: button
+      #           text: '{{ template "slack.monzo.link_button_text" . }}'
+      #           url: "{{ .CommonAnnotations.link_url }}"
+      #
+  # better alert templates for slack
+  # source https://gist.github.com/milesbxf/e2744fc90e9c41b47aa47925f8ff6512
+  monzoTemplate:
+    enabled: true
+
+  # extra alert templates
+  templateFiles:
+    {}
+    # template_1.tmpl: |-
+    #   {{ define "hello" -}}
+    #   hello, Victoria!
+    #   {{- end }}
+  # template_2.tmpl: ""
+
+  ingress:
+    enabled: true
+    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+    ingressClassName: nginx-private
+    # Values can be templated
+    annotations:
+      # {}
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    labels: {}
+    path: /
+    # pathType is only for k8s > 1.19
+    pathType: Prefix
+
+    hosts:
+      - alertmanager-${clusterName,,}.christensencloud.us
+    ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+    extraPaths: []
+    # - path: /*
+    #   backend:
+    #     serviceName: ssl-redirect
+    #     servicePort: use-annotation
+    ## Or for k8s > 1.19
+    # - path: /*
+    #   pathType: Prefix
+    #   backend:
+    #     service:
+    #       name: ssl-redirect
+    #       port:
+    #         name: service
+    tls: #[]
+      - secretName: alertmanager-${clusterName,,}-christensencloud.us-tls
+        hosts:
+          - alertmanager-${clusterName,,}.christensencloud.us
+
+vmalert:
+  annotations: {}
+  enabled: true
+
+  # Controls whether VMAlert should use VMAgent or VMInsert as a target for remotewrite
+  remoteWriteVMAgent: true
+  # spec for VMAlert crd
+  # https://docs.victoriametrics.com/operator/api.html#vmalertspec
+  spec:
+    replicaCount: 2
+    nodeSelector: {}
+    selectAllByDefault: true
+    image:
+      tag: v1.101.0
+    evaluationInterval: 15s
+    extraArgs:
+      memory.allowedPercent: "95"
+      loggerTimezone: "America/Denver"
+      external.url: "https://vmalert-${clusterName,,}.christensencloud.us"
+    resources:
+      limits: {}
+      #            cpu: 1000m # default is 200m
+      #            memory: 500Mi
+      requests:
+        cpu: 100m # default is 50m
+        memory: 200Mi
+
+    # External labels to add to all generated recording rules and alerts
+    externalLabels: {}
+
+  # extra vmalert annotation templates
+  templateFiles:
+    {}
+    # template_1.tmpl: |-
+    #   {{ define "hello" -}}
+    #   hello, Victoria!
+    #   {{- end }}
+  # template_2.tmpl: ""
+
+  ## additionalNotifierConfigs allows to configure static notifiers, discover notifiers via Consul and DNS,
+  ## see specification in https://docs.victoriametrics.com/vmalert/#notifier-configuration-file.
+  ## This configuration will be created as separate secret and mounted to vmalert pod.
+  additionalNotifierConfigs: {}
+    # dns_sd_configs:
+    #   - names:
+    #       - my.domain.com
+    #     type: 'A'
+  #     port: 9093
+
+  ingress:
+    enabled: true
+    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+    ingressClassName: nginx-private
+    # Values can be templated
+    annotations:
+      # {}
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    labels: {}
+    path: /
+    # pathType is only for k8s > 1.19
+    pathType: Prefix
+
+    hosts:
+      - vmalert-${clusterName,,}.christensencloud.us
+    ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+    extraPaths: []
+    # - path: /*
+    #   backend:
+    #     serviceName: ssl-redirect
+    #     servicePort: use-annotation
+    ## Or for k8s > 1.19
+    # - path: /*
+    #   pathType: Prefix
+    #   backend:
+    #     service:
+    #       name: ssl-redirect
+    #       port:
+    #         name: service
+    tls: #[]
+      - secretName: vmalert-${clusterName,,}-christensencloud.us-tls
+        hosts:
+          - vmalert-${clusterName,,}.christensencloud.us
+
+vmagent:
+  enabled: true
+  annotations: {}
+  # https://docs.victoriametrics.com/operator/api.html#vmagentremotewritespec
+  # defined spec will be added to the remoteWrite configuration of VMAgent
+  additionalRemoteWrites:
+    - url: "http://mimir-nginx.mimir.svc:80/api/v1/push"
+  # spec for VMAgent crd
+  # https://docs.victoriametrics.com/operator/api.html#vmagentspec
+  spec:
+    replicaCount: 1
+    nodeSelector: {}
+    selectAllByDefault: true
+    image:
+      tag: v1.101.0
+    scrapeInterval: 20s
+    externalLabels:
+      cluster: ${clusterName,,}
+    extraArgs:
+      promscrape.streamParse: "true"
+      # Do not store original labels in vmagent's memory by default. This reduces the amount of memory used by vmagent
+      # but makes vmagent debugging UI less informative. See: https://docs.victoriametrics.com/vmagent/#relabel-debug
+      promscrape.dropOriginalLabels: "false" # was true, but discovery didn't work well
+      promscrape.suppressScrapeErrors: "true" # too many failed scrape logs triggered alerts
+      promscrape.maxScrapeSize: "167772160" # 10x the default
+    secrets:
+      - external-etcd-tls-certs
+    resources:
+      limits: {}
+      #            cpu: 2000m # default is 100m
+      #            memory: 500Mi
+      requests:
+        cpu: 350m # default is 100m
+        memory: 200Mi
+  ingress:
+    enabled: true
+    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+    ingressClassName: nginx-private
+    # Values can be templated
+    annotations:
+      # {}
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    labels: {}
+    path: /
+    # pathType is only for k8s > 1.19
+    pathType: Prefix
+
+    hosts:
+      - vmagent-${clusterName,,}.christensencloud.us
+    ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+    extraPaths: []
+    # - path: /*
+    #   backend:
+    #     serviceName: ssl-redirect
+    #     servicePort: use-annotation
+    ## Or for k8s > 1.19
+    # - path: /*
+    #   pathType: Prefix
+    #   backend:
+    #     service:
+    #       name: ssl-redirect
+    #       port:
+    #         name: service
+    tls: #[]
+      - secretName: vmagent-${clusterName,,}-christensencloud.us-tls
+        hosts:
+          - vmagent-${clusterName,,}.christensencloud.us
+
+#################################################
+###              dependencies               #####
+#################################################
+# Grafana dependency chart configuration. For possible values refer to https://github.com/grafana/helm-charts/tree/main/charts/grafana#configuration
+grafana:
+  enabled: false
+  nodeSelector: {}
+  ## all values for grafana helm chart can be specified here
+  sidecar:
+    datasources:
+      enabled: true
+      initDatasources: true
+      createVMReplicasDatasources: false
+      # JSON options for VM datasources
+      # See https://grafana.com/docs/grafana/latest/administration/provisioning/#json-data
+      jsonData: {}
+      #  timeInterval: "1m"
+    dashboards:
+      additionalDashboardLabels: {}
+      additionalDashboardAnnotations: {}
+      enabled: true
+      multicluster: false
+
+  ## ForceDeployDatasource Create datasource configmap even if grafana deployment has been disabled
+  forceDeployDatasource: false
+
+  ## Configure additional grafana datasources (passed through tpl)
+  ## ref: http://docs.grafana.org/administration/provisioning/#datasources
+  additionalDataSources:
+    - name: "Harbor Redis"
+      type: redis-datasource # datasource UID seems to be PD429EC3107F1B030
+      access: proxy # access through grafana, not direct from browser
+      orgId: 1 # 1 is default
+      isDefault: false # only one default data source per organization
+      version: 1
+      url: redis://harbor-redis-sentinel-0.harbor-redis-sentinel-headless.harbor.svc:26379,harbor-redis-sentinel-1.harbor-redis-sentinel-headless.harbor.svc:26379,harbor-redis-sentinel-2.harbor-redis-sentinel-headless.harbor.svc:26379
+      jsonData:
+        client: sentinel
+        sentinelName: harbor-redis
+        poolSize: 3
+        timeout: 10
+        pingInterval: 0
+        pipelineWindow: 0
+      editable: false
+    - name: "Authelia Redis"
+      type: redis-datasource # datasource UID seems to be P68943E3A4BA1DEA6
+      access: proxy # access through grafana, not direct from browser
+      orgId: 1 # 1 is default
+      isDefault: false # only one default data source per organization
+      version: 1
+      url: redis://authelia-redis-sentinel-0.authelia-redis-sentinel-headless.authelia.svc:26379,authelia-redis-sentinel-1.authelia-redis-sentinel-headless.authelia.svc:26379,authelia-redis-sentinel-2.authelia-redis-sentinel-headless.authelia.svc:26379
+      jsonData:
+        client: sentinel
+        sentinelName: authelia-redis
+        poolSize: 3
+        timeout: 10
+        pingInterval: 0
+        pipelineWindow: 0
+      editable: false
+    - name: "GitLab Redis"
+      type: redis-datasource # datasource UID seems to be P013154F8CA11F6FD
+      access: proxy # access through grafana, not direct from browser
+      orgId: 1 # 1 is default
+      isDefault: false # only one default data source per organization
+      version: 1
+      url: redis://gitlab-redis-sentinel-0.gitlab-redis-sentinel-headless.gitlab.svc:26379,gitlab-redis-sentinel-1.gitlab-redis-sentinel-headless.gitlab.svc:26379,gitlab-redis-sentinel-2.gitlab-redis-sentinel-headless.gitlab.svc:26379
+      jsonData:
+        client: sentinel
+        sentinelName: gitlab-redis
+        poolSize: 3
+        timeout: 10
+        pingInterval: 0
+        pipelineWindow: 0
+      editable: false
+    - name: "Nextcloud Redis"
+      type: redis-datasource # datasource UID seems to be P556E1CB39D350619
+      access: proxy # access through grafana, not direct from browser
+      orgId: 1 # 1 is default
+      isDefault: false # only one default data source per organization
+      version: 1
+      url: redis://nextcloud-redis-leader.nextcloud.svc:6379
+      jsonData:
+        client: standalone # it's actually cluster, but I couldn't get it to work correctly
+        sentinelName: gitlab-redis
+        poolSize: 15
+        timeout: 10
+        pingInterval: 0
+        pipelineWindow: 0
+      editable: false
+
+  # - name: prometheus-sample
+  #   access: proxy
+  #   basicAuth: true
+  #   basicAuthPassword: pass
+  #   basicAuthUser: daco
+  #   editable: false
+  #   jsonData:
+  #       tlsSkipVerify: true
+  #   orgId: 1
+  #   type: prometheus
+  #   url: https://{{ printf "%s-prometheus.svc" .Release.Name }}:9090
+  #   version: 1
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: "default"
+          orgId: 1
+          folder: ""
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+
+  dashboards:
+    default: # can import dashboards from grafana.com, use urls, or raw yaml.  https://github.com/grafana/helm-charts/blob/7b857648f19018993987b343deltaalpha898c78c30cfb/charts/grafana/README.md?plain=1#L349
+    # nodeexporter:
+    #   gnetId: 1860
+    #   revision: 22
+    #   datasource: VictoriaMetrics
+    # cilium-policy-verdicts:
+    #   vnetId: 18015
+    #   revision: 4
+    #   datasource: VictoriaMetrics
+    # cilium-hubble-v1.12-metrics:
+    #   gnetId: 16613
+    #   revision: 1
+    #   datasource: VictoriaMetrics
+    # cilium-operator-v1.12-metrics:
+    #   gnetId: 16612
+    #   revision: 1
+    #   datasource: VictoriaMetrics
+    # cilium-hubble-dns-overview-namespace:
+    #   gnetId: 19425
+    #   revision: 1
+    #   datasource: VictoriaMetrics
+    # cilium-hubble-l7-http-metrics-by-workload:
+    #   gnetId: 19423
+    #   revision: 1
+    #   datasource: VictoriaMetrics
+    # cilium-tetragon-kubectl-exec-audit:
+    #   gnetId: 20189
+    #   revision: 1
+    #   datasource: VictoriaMetrics
+    # cert-manager:
+    #   gnetId: 11001
+    #   revision: 1
+    #   datasource: VictoriaMetrics
+    # nginx-overview:
+    #   url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/grafana/dashboards/nginx.json
+    # nginx-request-handling-performance:
+    #   url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/grafana/dashboards/request-handling-performance.json
+
+  defaultDashboardsTimezone: browser
+
+  # Enabling VictoriaMetrics Datasource in Grafana. See more details here: https://github.com/VictoriaMetrics/grafana-datasource/blob/main/README.md#victoriametrics-datasource-for-grafana
+  # Note that Grafana will need internet access to install the datasource plugin.
+  # Uncomment the block below, if you want to enable VictoriaMetrics Datasource in Grafana:
+  plugins:
+    #  - "https://github.com/VictoriaMetrics/grafana-datasource/releases/download/v0.5.0/victoriametrics-datasource-v0.5.0.zip;victoriametrics-datasource"
+    #  - "https://storage.googleapis.com/plugins-community/isovalent-hubble-datasource/release/1.0.0/isovalent-hubble-datasource-1.0.0.zip;isovalent-hubble-datasource"
+    #  - "https://storage.googleapis.com/plugins-community/isovalent-hubbleprocessancestry-panel/release/1.0.3/isovalent-hubbleprocessancestry-panel-1.0.3.zip;isovalent-hubbleprocessancestry-panel"
+    #  - "https://github.com/grafana/singlestat-panel/releases/download/v2.0.0/grafana-singlestat-panel-2.0.0.any.zip;grafana-singlestat-panel"
+    #  - "https://github.com/grafana/singlestat-panel/releases/download/v2.0.0/grafana-singlestat-panel-2.0.0.any.zip;grafana-singlestat-panel" # Replaced by preinstalled 'Stat' panel
+    - "https://storage.googleapis.com/integration-artifacts/vonage-status-panel/release/2.0.0/any/vonage-status-panel-2.0.0.any.zip;vonage-status-panel" # used for some Ceph dashboards
+    - "https://storage.googleapis.com/plugins-community/redis-datasource/release/2.2.0/redis-datasource-2.2.0.zip;redis-datasource"
+    - "https://storage.googleapis.com/plugins-community/redis-app/release/2.2.1/redis-app-2.2.1.zip;redis-app"
+      #   - "https://github.com/oliver006/redis_exporter/archive/refs/tags/v1.59.0.zip;redis-exporter" # can't find a way to import this plugin
+      # grafana.ini:
+      #  plugins:
+    # Why VictoriaMetrics datasource is unsigned: https://github.com/VictoriaMetrics/grafana-datasource/blob/main/README.md#why-victoriametrics-datasource-is-unsigned
+    #  allow_loading_unsigned_plugins: victoriametrics-datasource
+
+  # Change datasource type in dashboards from Prometheus to VictoriaMetrics.
+  # you can use `victoriametrics-datasource` instead of `prometheus` if enabled VictoriaMetrics Datasource above
+  defaultDatasourceType: "prometheus"
+  # defaultDatasourceType: "victoriametrics-datasource"
+
+  ingress:
+    enabled: true
+    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+    ingressClassName: nginx-private
+    # Values can be templated
+    annotations:
+      # {}
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+      nginx.ingress.kubernetes.io/modsecurity-snippet: |
+        SecRuleRemoveById 942100 949110 932110 920350
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    labels: {}
+    path: /
+    # pathType is only for k8s > 1.19
+    pathType: Prefix
+
+    hosts:
+      - grafana-${clusterName,,}.christensencloud.us
+    ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+    extraPaths: []
+    # - path: /*
+    #   backend:
+    #     serviceName: ssl-redirect
+    #     servicePort: use-annotation
+    ## Or for k8s > 1.19
+    # - path: /*
+    #   pathType: Prefix
+    #   backend:
+    #     service:
+    #       name: ssl-redirect
+    #       port:
+    #         name: service
+    tls: #[]
+      - secretName:  grafana-${clusterName,,}-christensencloud.us-tls
+        hosts:
+          -  grafana-${clusterName,,}.christensencloud.us
+
+  vmServiceScrape:
+    # whether we should create a service scrape resource for grafana
+    enabled: true
+
+    # spec for VMServiceScrape crd
+    # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+    spec: {}
+
+# prometheus-node-exporter dependency chart configuration. For possible values refer to https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-node-exporter/values.yaml
+prometheus-node-exporter:
+  enabled: true
+
+  ## all values for prometheus-node-exporter helm chart can be specified here
+  podLabels:
+    ## Add the 'node-exporter' label to be used by serviceMonitor to match standard common usage in rules and grafana dashboards
+    ##
+    jobLabel: node-exporter
+  extraArgs:
+    - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+    - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+
+  vmServiceScrape:
+    # whether we should create a service scrape resource for node-exporter
+    enabled: true
+
+    # spec for VMServiceScrape crd
+    # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+    spec:
+      jobLabel: jobLabel
+      endpoints:
+        - port: metrics
+          metricRelabelConfigs:
+            - action: drop
+              source_labels: [mountpoint]
+              regex: "/var/lib/kubelet/pods.+"
+# kube-state-metrics dependency chart configuration. For possible values refer to https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-state-metrics/values.yaml
+kube-state-metrics:
+  enabled: true
+  ## all values for kube-state-metrics helm chart can be specified here
+  nodeSelector: {}
+
+  # spec for VMServiceScrape crd
+  # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+  vmServiceScrape:
+    spec: {}
+
+  # TODO: selector override for kube-state-metrics deployed separately
+
+#################################################
+###              Service Monitors           #####
+#################################################
+## Component scraping the kubelets
+kubelet:
+  enabled: true
+
+  # -- Enable scraping /metrics/cadvisor from kubelet's service
+  cadvisor: true
+  # -- Enable scraping /metrics/probes from kubelet's service
+  probes: true
+  # spec for VMNodeScrape crd
+  # https://docs.victoriametrics.com/operator/api.html#vmnodescrapespec
+  spec:
+    scheme: "https"
+    honorLabels: true
+    interval: "30s"
+    scrapeTimeout: "5s"
+    tlsConfig:
+      insecureSkipVerify: true
+      caFile: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+    bearerTokenFile: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+    # drop high cardinality label and useless metrics for cadvisor and kubelet
+    metricRelabelConfigs:
+      - action: labeldrop
+        regex: (uid)
+      - action: labeldrop
+        regex: (id|name)
+      - action: drop
+        source_labels: [__name__]
+        regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
+    relabelConfigs:
+      - action: labelmap
+        regex: __meta_kubernetes_node_label_(.+)
+      - sourceLabels: [__metrics_path__]
+        targetLabel: metrics_path
+      - targetLabel: "job"
+        replacement: "kubelet"
+    # ignore timestamps of cadvisor's metrics by default
+    # more info here https://github.com/VictoriaMetrics/VictoriaMetrics/issues/4697#issuecomment-1656540535
+    honorTimestamps: false
+# -- Component scraping the kube api server
+kubeApiServer:
+  enabled: true
+  # spec for VMServiceScrape crd
+  # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+  spec:
+    endpoints:
+      - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+        # bearerTokenSecret:
+        #   key: ""
+        port: https
+        scheme: https
+        tlsConfig:
+          caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          serverName: kubernetes
+    jobLabel: component
+    namespaceSelector:
+      matchNames:
+        - default
+    selector:
+      matchLabels:
+        component: apiserver
+        provider: kubernetes
+
+# -- Component scraping the kube controller manager
+kubeControllerManager:
+  enabled: false
+
+  ## If your kube controller manager is not deployed as a pod, specify IPs it can be found on
+  ##
+  endpoints: []
+  # - 10.141.4.22
+  # - 10.141.4.23
+  # - 10.141.4.24
+
+  ## If using kubeControllerManager.endpoints only the port and targetPort are used
+  ##
+  service:
+    enabled: true
+    port: 10257
+    targetPort: 10257
+    # selector:
+    #   component: kube-controller-manager
+
+  # spec for VMServiceScrape crd
+  # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+  spec:
+    jobLabel: jobLabel
+    endpoints:
+      - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+        # bearerTokenSecret:
+        #   key: ""
+        port: http-metrics
+        scheme: https
+        tlsConfig:
+          caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          serverName: kubernetes
+
+# -Component scraping kubeDns. Use either this or coreDns
+kubeDns:
+  enabled: false
+  service:
+    enabled: false
+    dnsmasq:
+      port: 10054
+      targetPort: 10054
+    skydns:
+      port: 10055
+      targetPort: 10055
+    selector:
+      k8s-app: kube-dns
+  # spec for VMServiceScrape crd
+  # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+  spec:
+    endpoints:
+      - port: http-metrics-dnsmasq
+        bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      - port: http-metrics-skydns
+        bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+# -- Component scraping coreDns. Use either this or kubeDns
+coreDns:
+  enabled: true
+  service:
+    enabled: true
+    port: 9153
+    targetPort: 9153
+    selector:
+      k8s-app: kube-dns
+
+  # spec for VMServiceScrape crd
+  # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+  spec:
+    jobLabel: jobLabel
+    endpoints:
+      - port: http-metrics
+        bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+## Component scraping etcd
+##
+kubeEtcd:
+  enabled: false
+
+  ## If your etcd is not deployed as a pod, specify IPs it can be found on
+  ##
+  endpoints: []
+  # - 10.141.4.22
+  # - 10.141.4.23
+  # - 10.141.4.24
+
+  ## Etcd service. If using kubeEtcd.endpoints only the port and targetPort are used
+  ##
+  service:
+    enabled: true
+    port: 2379
+    targetPort: 2379
+    # selector:
+    #   component: etcd
+
+  # spec for VMServiceScrape crd
+  # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+  spec:
+    jobLabel: jobLabel
+    endpoints:
+      - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+        # bearerTokenSecret:
+        #   key: ""
+        port: http-metrics
+        scheme: https
+        tlsConfig:
+          caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+
+## Component scraping kube scheduler
+##
+kubeScheduler:
+  enabled: false
+
+  ## If your kube scheduler is not deployed as a pod, specify IPs it can be found on
+  ##
+  endpoints: []
+  # - 10.141.4.22
+  # - 10.141.4.23
+  # - 10.141.4.24
+
+  ## If using kubeScheduler.endpoints only the port and targetPort are used
+  ##
+  service:
+    enabled: true
+    port: 10259
+    targetPort: 10259
+    # selector:
+    #   component: kube-scheduler
+
+  # spec for VMServiceScrape crd
+  # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+  spec:
+    jobLabel: jobLabel
+    endpoints:
+      - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+        # bearerTokenSecret:
+        #   key: ""
+        port: http-metrics
+        scheme: https
+        tlsConfig:
+          caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+
+## Component scraping kube proxy
+##
+kubeProxy:
+  enabled: false
+
+  ## If your kube proxy is not deployed as a pod, specify IPs it can be found on
+  ##
+  endpoints: []
+  # - 10.141.4.22
+  # - 10.141.4.23
+  # - 10.141.4.24
+
+  service:
+    enabled: true
+    port: 10249
+    targetPort: 10249
+    # selector:
+    #   k8s-app: kube-proxy
+
+  # spec for VMServiceScrape crd
+  # https://docs.victoriametrics.com/operator/api.html#vmservicescrapespec
+  spec:
+    jobLabel: jobLabel
+    endpoints:
+      - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+        # bearerTokenSecret:
+        #   key: ""
+        port: http-metrics
+        scheme: https
+        tlsConfig:
+          caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+
+## install vm operator crds
+crds:
+  enabled: true
+
+## install prometheus operator crds
+prometheus-operator-crds:
+  enabled: false # true # These are installed in 'infra-crds'
+
+# -- Add extra objects dynamically to this chart
+extraObjects: []

@@ -122,7 +122,7 @@ crds:
       repository: kyverno/kyverno-cli
       # -- (string) Image tag
       # Defaults to appVersion in Chart.yaml if omitted
-      tag: ~
+      #tag: ~
       # -- (string) Image pull policy
       pullPolicy: IfNotPresent
 
@@ -432,7 +432,7 @@ test:
     repository: busybox
     # -- Image tag
     # Defaults to `latest` if omitted
-    tag: '1.35'
+    #tag: '1.35'
     # -- (string) Image pull policy
     # Defaults to image.pullPolicy if omitted
     pullPolicy: ~
@@ -475,7 +475,7 @@ webhooksCleanup:
     repository: bitnami/kubectl
     # -- Image tag
     # Defaults to `latest` if omitted
-    tag: '1.28.5'
+    #tag: '1.28.5'
     # -- (string) Image pull policy
     # Defaults to image.pullPolicy if omitted
     pullPolicy: ~
@@ -531,7 +531,7 @@ policyReportsCleanup:
     repository: bitnami/kubectl
     # -- Image tag
     # Defaults to `latest` if omitted
-    tag: '1.28.5'
+    #tag: '1.28.5'
     # -- (string) Image pull policy
     # Defaults to image.pullPolicy if omitted
     pullPolicy: ~
@@ -708,7 +708,7 @@ cleanupJobs:
       repository: bitnami/kubectl
       # -- Image tag
       # Defaults to `latest` if omitted
-      tag: '1.28.5'
+      #tag: '1.28.5'
       # -- (string) Image pull policy
       # Defaults to image.pullPolicy if omitted
       pullPolicy: ~
@@ -784,7 +784,7 @@ cleanupJobs:
       repository: bitnami/kubectl
       # -- Image tag
       # Defaults to `latest` if omitted
-      tag: '1.28.5'
+      #tag: '1.28.5'
       # -- (string) Image pull policy
       # Defaults to image.pullPolicy if omitted
       pullPolicy: ~
@@ -1074,7 +1074,7 @@ admissionController:
       repository: kyverno/kyvernopre
       # -- (string) Image tag
       # If missing, defaults to image.tag
-      tag: ~
+      #tag: ~
       # -- (string) Image pull policy
       # If missing, defaults to image.pullPolicy
       pullPolicy: ~
@@ -1120,7 +1120,7 @@ admissionController:
       repository: kyverno/kyverno
       # -- (string) Image tag
       # Defaults to appVersion in Chart.yaml if omitted
-      tag: ~
+      #tag: ~
       # -- Image pull policy
       pullPolicy: IfNotPresent
 
@@ -1340,7 +1340,7 @@ backgroundController:
     repository: kyverno/background-controller
     # -- Image tag
     # Defaults to appVersion in Chart.yaml if omitted
-    tag: ~
+    #tag: ~
     # -- Image pull policy
     pullPolicy: IfNotPresent
 
@@ -1594,7 +1594,7 @@ cleanupController:
     repository: kyverno/cleanup-controller
     # -- (string) Image tag
     # Defaults to appVersion in Chart.yaml if omitted
-    tag: ~
+    #tag: ~
     # -- Image pull policy
     pullPolicy: IfNotPresent
 
@@ -1905,7 +1905,7 @@ reportsController:
     repository: kyverno/reports-controller
     # -- (string) Image tag
     # Defaults to appVersion in Chart.yaml if omitted
-    tag: ~
+    #tag: ~
     # -- Image pull policy
     pullPolicy: IfNotPresent
 

@@ -56,7 +56,7 @@ prometheus:
   # the image to be used for the kuberbacproxy container
   rbacProxy:
     repository: gcr.io/kubebuilder/kube-rbac-proxy
-    tag: v0.12.0
+    #tag: v0.12.0
     pullPolicy:
 
   # Prometheus Operator PodMonitors
@@ -198,7 +198,7 @@ controller:
   # webhookMode: enabled
   image:
     repository: quay.io/metallb/controller
-    tag:
+    #tag:
     pullPolicy:
   ## @param controller.updateStrategy.type Metallb controller deployment strategy type.
   ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
@@ -273,7 +273,7 @@ speaker:
 
   image:
     repository: quay.io/metallb/speaker
-    tag:
+    #tag:
     pullPolicy:
   ## @param speaker.updateStrategy.type Speaker daemonset strategy type
   ## ref: https://kubernetes.io/docs/tasks/manage-daemon/update-daemon-set/
@@ -331,7 +331,7 @@ speaker:
     enabled: true
     image:
       repository: quay.io/frrouting/frr
-      tag: 9.1.0
+      #tag: 9.1.0
       pullPolicy:
     metricsPort: 7473
     resources: {}

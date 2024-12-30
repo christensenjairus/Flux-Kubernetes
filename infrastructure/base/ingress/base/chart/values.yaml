@@ -26,8 +26,8 @@ controller:
     ## for backwards compatibility consider setting the full image url via the repository value below
     ## use *either* current default registry/image or repository format or installing chart by providing the values.yaml will fail
     ## repository:
-    tag: "v1.11.3"
-    digest: sha256:d56f135b6462cfc476447cfe564b83a45e8bb7da2774963b00d12161112270b7
+    #tag: "v1.11.3"
+    #digest: sha256:d56f135b6462cfc476447cfe564b83a45e8bb7da2774963b00d12161112270b7
     digestChroot: sha256:22701f0fc0f2dd209ef782f4e281bfe2d8cccd50ededa00aec88e0cdbe7edd14
     pullPolicy: IfNotPresent
     runAsNonRoot: true
@@ -729,8 +729,8 @@ controller:
       ## for backwards compatibility consider setting the full image url via the repository value below
       ## use *either* current default registry/image or repository format or installing chart by providing the values.yaml will fail
       ## repository:
-      tag: v20240813-b933310d
-      digest: sha256:f7604ac0547ed64d79b98d92133234e66c2c8aade3c1f4809fed5eec1fb7f922
+      #tag: v20240813-b933310d
+      #digest: sha256:f7604ac0547ed64d79b98d92133234e66c2c8aade3c1f4809fed5eec1fb7f922
       distroless: true
     containerSecurityContext:
       runAsNonRoot: true
@@ -823,8 +823,8 @@ controller:
         ## for backwards compatibility consider setting the full image url via the repository value below
         ## use *either* current default registry/image or repository format or installing chart by providing the values.yaml will fail
         ## repository:
-        tag: v1.4.4
-        digest: sha256:a9f03b34a3cbfbb26d103a14046ab2c5130a80c3d69d526ff8063d2b37b9fd3f
+        #tag: v1.4.4
+        #digest: sha256:a9f03b34a3cbfbb26d103a14046ab2c5130a80c3d69d526ff8063d2b37b9fd3f
         pullPolicy: IfNotPresent
       # -- Provide a priority class name to the webhook patching job
       ##
@@ -979,7 +979,7 @@ defaultBackend:
     ## for backwards compatibility consider setting the full image url via the repository value below
     ## use *either* current default registry/image or repository format or installing chart by providing the values.yaml will fail
     ## repository:
-    tag: "1.5"
+    #tag: "1.5"
     pullPolicy: IfNotPresent
     runAsNonRoot: true
     # nobody user -> uid 65534

@@ -14,7 +14,7 @@ controller:
     repository: registry.k8s.io/sig-storage/snapshot-controller
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
+    #tag: ""
 
   imagePullSecrets: [ ]
 
@@ -98,7 +98,7 @@ webhook:
     repository: registry.k8s.io/sig-storage/snapshot-validation-webhook
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
+    #tag: ""
 
   webhook:
     timeoutSeconds: 5

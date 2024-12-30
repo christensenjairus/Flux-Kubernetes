@@ -4,7 +4,7 @@ namespace: monitoring
 resources:
   - Kubernetes
   - Kube-Prometheus
-  - Victoria-Metrics
+  #- Victoria-Metrics # FIXME: copy the new dashboards from victoria metrics
   - Nodes
 
 commonAnnotations:

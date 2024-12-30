@@ -19,8 +19,3 @@ spec:
         kind: HelmRepository
         name: prometheus-community
       interval: 12h
-  valuesFrom:
-    - kind: ConfigMap
-      name: prometheus-operator-crds-values
-
-

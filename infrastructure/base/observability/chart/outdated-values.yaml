@@ -1,0 +1,1603 @@
+global:
+  agent:
+    enabled: true
+  backend:
+    enabled: true
+    name:
+
+  ingress:
+    # set ingress site for inCloud / on-prem sensor only deployments
+    site:
+
+  groundcover_token:
+  # groundcover_token is preceding groundcoverPredefinedTokenSecret, make sure its empty if using existing secret
+  # if the secret is preloaded in the namespace, you can refer it here instead
+  # example for a preloaded secret :
+  # apiVersion: v1
+  # kind: Secret
+  # metadata:
+  #   name: <secretName>
+  # stringData:
+  #   <secretKey>: <apikey>
+  # type: Opaque
+  groundcoverPredefinedTokenSecret:
+    # the name of the secret
+    secretName: groundcover-api-key
+    # the key in the secret containing the token value
+    secretKey: credential
+
+  origin:
+    registry: public.ecr.aws/groundcovercom
+    tag: "" # rewrites Chart.AppVersion
+  imagePullSecrets: []
+
+  groundcoverPartOf: groundcover
+  groundcoverLabels:
+
+  clickhouse:
+    auth:
+      # override to use exisiting secret
+      existingSecret: ""
+      existingSecretKey: admin-password
+
+  logs:
+    overrideUrl: ""
+    retention: 3d # {amount}[h(ours), d(ays), w(eeks), y(ears)]
+
+  metrics:
+    tls:
+      enabled: false
+    overrideUrl: ""
+
+  otlp:
+    tls:
+      enabled: false
+    overrideGrpcURL: ""
+    overrideHttpURL: ""
+
+  datadogapm:
+    overrideUrl: ""
+
+  traces:
+    retention: 24h # {amount}[h(ours), d(ays), w(eeks), y(ears)]
+
+  events:
+    retention: 7d # {amount}[h(ours), d(ays), w(eeks), y(ears)]
+
+  sources:
+    retention: 30d # {amount}[h(ours), d(ays), w(eeks), y(ears)]
+
+  entities:
+    retention: 5d # {amount}[h(ours), d(ays), w(eeks), y(ears)]
+
+  telemetry:
+    enabled: true
+    logs:
+      url: https://logs.groundcover.com/v1/logs
+    metrics:
+      url: https://metrics.groundcover.com/api/v1/write
+    traces:
+      otlpUrl: https://traces.groundcover.com/v1/traces
+      zipkinUrl: https://traces.groundcover.com/api/v2/spans
+
+  monitors:
+    evaluation:
+      retention: 30d # {amount}[h(ours), d(ays), w(eeks), y(ears)]
+
+  postgresql:
+    enabled: true
+    overrideUrl: ""
+
+tags:
+  # InCloud - Enterprise Setup. groundcover's control-plane reconciled observability infrastructure deployment.
+  incloud: false
+
+# optional parameters: stable, legacy, experimental
+mode: stable
+
+# SAAS parameters, token is mendatory, others only if in cloud mode
+saas:
+  tls_skip_verify: false
+  scheme: wss
+  host: client.groundcover.com
+  port: 443
+  basePath: ""
+
+#GENERAL
+clusterId: ${clusterName}
+installationId:
+# multipleClusterIds:
+#  - clusterA
+#  - clusterB
+region:
+dropRunningNamespaceLogs: true
+storeIssuesLogsOnly: false
+tracesNamespaceFilters:
+  []
+  # - matchType: "allow"
+#   regex: "my-namespace"
+tracesWorkloadFilters:
+  []
+  # - matchType: "block"
+#   regex: "do-not-show-me"
+logsDropFilters: []
+# - '{namespace="demo-ng",workload="loadgenerator"} |~ ".*GET.*"'
+logsMultiLines:
+  []
+  # - namespace: demo-ng             # mandatory
+  #   workload: ".*"                 # mandatory
+  #   container: "test"              # optional
+  #   firstLineRegex: "PlaceOrder"   # mandatory
+  #   maxLines: 100                  # optional, default = 1024
+#   maxWaitTime: 10s               # optional, default = 3s
+decolorizeLogs: false
+shouldDropRunningNamespaces: true
+commitHashKeyName:
+repositoryUrlKeyName:
+
+priorityClass:
+  create: false
+  name:
+  value:
+  preemptionPolicy:
+
+#imagePullSecrets: []
+
+volume-expansion:
+  enabled: true
+  image:
+    #tag: latest
+    repository: "{{ .Values.global.origin.registry }}/bitnami/kubectl"
+
+agent:
+  additionalLabels:
+  podLabels:
+  additionalAnnotations:
+  podAnnotations:
+  tolerations: []
+  affinity:
+  # nodeSelector:
+  #   nodeclass: general # should be run everywhere, it's a daemonset
+  priorityClassName:
+  hostNetwork: false
+  monitoring:
+    port: 9102
+  flb:
+    image:
+      #tag: 2.1.4
+      repository: "{{ .Values.global.origin.registry }}/fluent/fluent-bit"
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits: {}
+    #            cpu: 200m # default is 100m
+    #            memory: 64Mi
+    env: []
+  alligator:
+    image:
+      repository: "{{ .Values.global.origin.registry }}/alligator"
+    resources:
+      requests:
+        memory: 300Mi
+        cpu: 160m
+      limits: {}
+    #            memory: 1000Mi # default is 700Mi
+    #            cpu: 800m
+    nodelabels: []
+    contentTypesToDrop: []
+    watchOnlyLocalNode: false
+    apmIngestor:
+      dataDog:
+        proxyEnabled: true
+        tracesPort: 8126
+      otel:
+        proxyEnabled: false
+        direct:
+          enabled: true
+          zipkin:
+            enabled: true
+            port: 9411
+          otlp:
+            enabled: true
+            grpcPort: 4317
+            httpPort: 4318
+    pprof:
+      enabled: true
+      interval: 10s
+      exponent: 40
+      uploaderType: pyroscope
+      cpuSamplingDuration: 60s
+    httphandler:
+      truncationConfig:
+        enabled: true
+        payloadSizeLimit: 10240
+      obfuscationConfig:
+        keyValueConfig:
+        unstructuredConfig:
+    grpchandler:
+      truncationConfig:
+        enabled: true
+        payloadSizeLimit: 10240
+      obfuscationConfig:
+        keyValueConfig:
+        unstructuredConfig:
+    redishandler:
+      truncationConfig:
+        enabled: true
+        payloadSizeLimit: 10240
+      obfuscationConfig:
+        keyValueConfig:
+        unstructuredConfig:
+    sqlhandler:
+      truncationConfig:
+        enabled: true
+        payloadSizeLimit: 10240
+      obfuscationConfig:
+        keyValueConfig:
+        unstructuredConfig:
+    kafkahandler:
+      truncationConfig:
+        enabled: true
+        payloadSizeLimit: 10240
+      obfuscationConfig:
+        keyValueConfig:
+        unstructuredConfig:
+    dnshandler:
+      truncationConfig:
+        enabled: false
+      obfuscationConfig:
+        keyValueConfig:
+        unstructuredConfig:
+    mongodbhandler:
+      truncationConfig:
+        enabled: true
+        payloadSizeLimit: 10240
+      obfuscationConfig:
+        keyValueConfig:
+        unstructuredConfig:
+    noPayloadsMode: false
+    sensitiveHeadersObfuscationConfig:
+      enabled: true
+      mode: "ObfuscateSpecificValues"
+      specificKeys:
+        [
+          "Authorization",
+          "Proxy-Authorization",
+          "X-Amz-Security-Token",
+          "X-Amz-Credential",
+        ]
+    env:
+  tracy:
+    image:
+      repository: "{{ .Values.global.origin.registry }}/tracy"
+    resources:
+      requests:
+        memory: 512Mi
+        cpu: 125m
+      limits: {}
+#            memory: 2048Mi
+#            cpu: 750m
+dbManager:
+  additionalLabels:
+  podLabels:
+  additionalAnnotations:
+  podAnnotations:
+  affinity:
+  nodeSelector:
+    nodeclass: general
+  tolerations: []
+  priorityClassName:
+  image:
+    repository: "{{ .Values.global.origin.registry }}/db-manager"
+  resources:
+    limits: {}
+    #          cpu: 100m
+    #          memory: 1Gi
+    requests:
+      cpu: 15m
+      memory: 15Mi
+  extraEnvVars:
+    - name: CLICKHOUSE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: '{{ include "clickhouse.secretKey" . }}'
+          name: '{{ include "clickhouse.secretName" . }}'
+
+k8sWatcher:
+  image:
+    repository: "{{ .Values.global.origin.registry }}/k8s-watcher"
+  additionalLabels:
+  podLabels:
+  additionalAnnotations:
+  podAnnotations:
+  affinity:
+  nodeSelector:
+    nodeclass: general
+  tolerations: []
+  priorityClassName:
+  resources:
+    limits: {}
+    #          cpu: 1000m
+    #          memory: 1024Mi
+    requests:
+      cpu: 50m
+      memory: 256Mi
+  pprof:
+    enabled: true
+    interval: 10s
+    exponent: 40
+    uploaderType: pyroscope
+    cpuSamplingDuration: 60s
+  env:
+  readinessProbe:
+    httpGet:
+      scheme: HTTP
+      path: /health
+      port: watcher-http
+    initialDelaySeconds: 45
+    periodSeconds: 15
+    failureThreshold: 20
+  livenessProbe:
+    httpGet:
+      scheme: HTTP
+      path: /health
+      port: watcher-http
+    initialDelaySeconds: 45
+    periodSeconds: 15
+    failureThreshold: 20
+
+portal:
+  additionalLabels:
+  podLabels:
+  additionalAnnotations:
+  podAnnotations:
+  affinity:
+  nodeSelector:
+    nodeclass: general
+  tolerations: []
+  priorityClassName:
+  env:
+  extraHeaders:
+  # - Key: "Header Key"
+  #   Value: "Header Value"
+  image:
+    repository: "{{ .Values.global.origin.registry }}/portal"
+  resources:
+    limits: {}
+    #          cpu: 800m # default is 300m
+    #          memory: 512Mi
+    requests:
+      cpu: 50m
+      memory: 256Mi
+  pprof:
+    enabled: true
+    interval: 10s
+    exponent: 40
+    uploaderType: pyroscope
+    cpuSamplingDuration: 60s
+
+clickhouse:
+  enabled: true
+  shards: 1
+  replicaCount: 1
+  image:
+    registry: public.ecr.aws/groundcovercom
+  containerSecurityContext:
+    enabled: false
+  podLabels:
+    app.kubernetes.io/part-of: '{{ include "groundcover.labels.partOf" . }}'
+  podSecurityContext:
+    enabled: false
+  volumePermissions:
+    enabled: true
+    image:
+      registry: public.ecr.aws/groundcovercom
+  zookeeper:
+    enabled: false
+  metrics:
+    enabled: true
+  auth:
+    existingSecret: "false" # override global.clickhouse.auth.existingSecret to use exisiting secret
+  extraEnvVars:
+    - name: CLICKHOUSE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: '{{ include "clickhouse.secretKey" . }}'
+          name: '{{ include "clickhouse.secretName" . }}'
+  extraOverrides: |
+    <clickhouse>
+      <max_table_size_to_drop>0</max_table_size_to_drop>
+      <max_partition_size_to_drop>0</max_partition_size_to_drop>
+      <merge_tree>
+        <materialize_ttl_recalculate_only>1</materialize_ttl_recalculate_only>
+        <max_suspicious_broken_parts_bytes>5368709120</max_suspicious_broken_parts_bytes>
+        <max_suspicious_broken_parts>1000</max_suspicious_broken_parts>
+      </merge_tree>
+      <profiles>
+        <default>
+          <async_insert>true</async_insert>
+          <max_execution_time>60</max_execution_time>
+          <wait_for_async_insert>true</wait_for_async_insert>
+        </default>
+      </profiles>
+      <query_log>
+        <ttl>event_date + INTERVAL 3 DAY</ttl>
+      </query_log>
+      <trace_log>
+        <ttl>event_date + INTERVAL 3 DAY</ttl>
+      </trace_log>
+      <metric_log>
+        <ttl>event_date + INTERVAL 3 DAY</ttl>
+      </metric_log>
+    </clickhouse>
+  usersExtraOverrides: |
+    <clickhouse>
+      <profiles>
+        <readonly_with_settings>
+          <readonly>2</readonly>
+        </readonly_with_settings>
+      </profiles>
+      <users>
+        <reader>
+          <password from_env="CLICKHOUSE_PASSWORD" />
+          <networks>
+            <ip>::/0</ip>
+          </networks>
+          <profile>readonly_with_settings</profile>
+          <quota>default</quota>
+        </reader>
+      </users>
+    </clickhouse>
+  persistence:
+    ## @param persistence.enabled Enable persistence using Persistent Volume Claims
+    ##
+    enabled: true
+    ## @param persistence.storageClass Storage class of backing PVC
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+    ##
+    storageClass: "k8s-rbd"
+    ## @param persistence.labels Persistent Volume Claim labels
+    ##
+    labels:
+      app.kubernetes.io/managed-by: Helm
+      helm.sh/chart: clickhouse-3.2.1
+    ## @param persistence.annotations Persistent Volume Claim annotations
+    ##
+    annotations: {}
+    ## @param persistence.accessModes Persistent Volume Access Modes
+    ##
+    accessModes:
+      - ReadWriteOnce
+    ## @param persistence.size Size of data volume
+    ##
+    size: 25Gi
+
+  ## ClickHouse resource requests and limits
+  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ## @param resources.limits The resources limits for the ClickHouse containers
+  ## @param resources.requests The requested resources for the ClickHouse containers
+  ##
+  resources:
+    requests:
+      cpu: 300m
+      memory: 2048Mi
+    limits: {}
+  #          memory: 4096Mi
+
+  ## @param affinity Affinity for ClickHouse pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+  ## NOTE: `podAffinityPreset`, `podAntiAffinityPreset`, and `nodeAffinityPreset` will be ignored when it's set
+  ##
+  affinity: {}
+  ## @param nodeSelector Node labels for ClickHouse pods assignment
+  ## ref: https://kubernetes.io/docs/user-guide/node-selection/
+  ##
+  nodeSelector:
+    nodeclass: general
+  ## @param tolerations Tolerations for ClickHouse pods assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  ##
+  tolerations: []
+  ## @param updateStrategy.type ClickHouse statefulset strategy type
+  ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
+  ##
+
+  extraVolumes:
+    - name: clickhouse-client-config
+      configMap:
+        name: clickhouse-client-config-map
+
+  extraVolumeMounts:
+    - name: clickhouse-client-config
+      mountPath: /etc/clickhouse-client/
+
+opentelemetry-collector:
+  enabled: true
+  mode: deployment
+  extraEnvs:
+    - name: GC_GROUNDCOVERVERSION
+      value: '{{ default .Chart.AppVersion .Values.global.origin.tag }}'
+    - name: DB_MANAGER_ADDRESS
+      value: '{{ include "db-manager.ready.http.url" .}}'
+    - name: CLICKHOUSE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: '{{ include "clickhouse.secretKey" . }}'
+          name: '{{ include "clickhouse.secretName" . }}'
+    - name: TLS_CONFIG
+      value: '{{ include "opentelemetry-collector.tlsConfig" . }}'
+    - name: CLUSTER_ID
+      valueFrom:
+        secretKeyRef:
+          name: groundcover-config
+          key: GC_CLUSTER_ID
+  extraVolumes:
+    - name: certificate
+      secret:
+        secretName: opentelemetry-collector-certificate
+    - name: persistent-queues
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: certificate
+      readOnly: true
+      mountPath: /etc/ssl/certs
+    - name: persistent-queues
+      mountPath: /persistent_queues
+  image:
+    repository: public.ecr.aws/groundcovercom/otel/opentelemetry-collector-contrib
+    #tag: ""
+  podLabels:
+    app.kubernetes.io/part-of: '{{ include "groundcover.labels.partOf" . }}'
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: '{{ index .Values "ports" "metrics" "containerPort" | int }}'
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: opentelemetry-collector
+    - maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: opentelemetry-collector
+  ports:
+    metrics:
+      enabled: true
+    pprof:
+      enabled: true
+      containerPort: 1777
+      servicePort: 1777
+      hostPort: 1777
+      protocol: TCP
+    faro:
+      enabled: true
+      containerPort: 12347
+      servicePort: 12347
+      hostPort: 12347
+      protocol: TCP
+    loki-historian:
+      enabled: true
+      containerPort: 3500
+      servicePort: 3500
+      hostPort: 3500
+      protocol: TCP
+    loki-http:
+      enabled: true
+      containerPort: 3100
+      servicePort: 3100
+      hostPort: 3100
+      protocol: TCP
+    health:
+      enabled: true
+      containerPort: 13133
+      servicePort: 13133
+      hostPort: 13133
+      protocol: TCP
+    datadogapm:
+      enabled: true
+      containerPort: 8126
+      servicePort: 8126
+      hostPort: 8126
+      protocol: TCP
+    awsfirehose:
+      enabled: true
+      containerPort: 4433
+      servicePort: 4433
+      hostPort: 4433
+      protocol: TCP
+  config:
+    extensions:
+      health_check:
+        path: /health
+        tls: ${env:TLS_CONFIG}
+        endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "health" "containerPort" | int ) }}'
+      pprof:
+        endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "pprof" "containerPort" | int ) }}'
+      groundcover_file_storage:
+        directory: /persistent_queues
+        merge_interval: 1m
+    receivers:
+      loki/historian:
+        protocols:
+          http:
+            tls: ${env:TLS_CONFIG}
+            endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "loki-historian" "containerPort" | int ) }}'
+        use_incoming_timestamp: true
+      loki:
+        protocols:
+          http:
+            tls: ${env:TLS_CONFIG}
+            endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "loki-http" "containerPort" | int ) }}'
+        use_incoming_timestamp: true
+      otlp:
+        protocols:
+          grpc:
+            max_recv_msg_size_mib: 50
+            tls: ${env:TLS_CONFIG}
+            endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "otlp" "containerPort" | int ) }}'
+          http:
+            tls: ${env:TLS_CONFIG}
+            cors:
+              allowed_origins:
+                - "*"
+              allowed_headers:
+                - "*"
+            endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "otlp-http" "containerPort" | int ) }}'
+      faro:
+        http:
+          tls: ${env:TLS_CONFIG}
+          cors:
+            allowed_origins:
+              - "*"
+            allowed_headers:
+              - "*"
+          endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "faro" "containerPort" | int ) }}'
+      datadog:
+        endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "datadogapm" "containerPort" | int ) }}'
+      awsfirehose:
+        endpoint: '{{ printf "0.0.0.0:%d" (index .Values "ports" "awsfirehose" "containerPort" | int ) }}'
+        record_type: "cwlogs"
+    processors:
+      batch/monitorState:
+        timeout: 5s
+        send_batch_size: 1000
+      batch/logs:
+        timeout: 5s
+        send_batch_size: 20000
+      batch/custom:
+        timeout: 5s
+        send_batch_size: 1000
+      batch/traces:
+        timeout: 5s
+        send_batch_size: 5000
+      filter/dropNoneCustom:
+        error_mode: ignore
+        logs:
+          log_record:
+            # custom logs have explicit log_type or type so log is excluded
+            - attributes["log_type"] == "log"
+            - attributes["type"] == nil
+      filter/dropNoneLogs:
+        logs:
+          log_record:
+            # logs can have either explicit 'log' log_type or no log_type at all and no type (reserved for custom logs)
+            - attributes["log_type"] != nil and attributes["log_type"] != "log"
+            - attributes["type"] != nil
+    exporters:
+      groundcover/monitorState:
+        type: monitorState
+        timeout: 5s
+        password: ${env:CLICKHOUSE_PASSWORD}
+        username: '{{ include "clickhouse.username" . }}'
+        database: '{{ include "clickhouse.database" . }}'
+        endpoint: '{{ include "clickhouse.nativeEndpoint" . }}'
+        sending_queue:
+          queue_size: 100
+          storage: groundcover_file_storage
+        retry_on_failure:
+          initial_interval: 5s
+          max_interval: 5s
+          max_elapsed_time: 3m
+      groundcover/logs:
+        type: logs
+        timeout: 5s
+        password: ${env:CLICKHOUSE_PASSWORD}
+        username: '{{ include "clickhouse.username" . }}'
+        database: '{{ include "clickhouse.database" . }}'
+        endpoint: '{{ include "clickhouse.nativeEndpoint" . }}'
+        ttl_interval: '{{ include "logs.retention" . }}'
+        sending_queue:
+          queue_size: 100
+          storage: groundcover_file_storage
+        retry_on_failure:
+          initial_interval: 5s
+          max_interval: 5s
+          max_elapsed_time: 3m
+      groundcover/custom:
+        type: custom
+        timeout: 5s
+        ttl_interval: 5d
+        logs_table_name: k8s_objects
+        password: ${env:CLICKHOUSE_PASSWORD}
+        username: '{{ include "clickhouse.username" . }}'
+        database: '{{ include "clickhouse.database" . }}'
+        endpoint: '{{ include "clickhouse.nativeEndpoint" . }}'
+        sending_queue:
+          queue_size: 100
+          storage: groundcover_file_storage
+        retry_on_failure:
+          initial_interval: 5s
+          max_interval: 5s
+          max_elapsed_time: 3m
+      groundcover/traces:
+        type: traces
+        timeout: 5s
+        ttl_interval: '{{ include "traces.retention" . }}'
+        traces_table_name: traces
+        password: ${env:CLICKHOUSE_PASSWORD}
+        username: '{{ include "clickhouse.username" . }}'
+        database: '{{ include "clickhouse.database" . }}'
+        endpoint: '{{ include "clickhouse.nativeEndpoint" . }}'
+        sending_queue:
+          queue_size: 100
+          storage: groundcover_file_storage
+        retry_on_failure:
+          initial_interval: 5s
+          max_interval: 5s
+          max_elapsed_time: 3m
+    service:
+      telemetry:
+        metrics:
+          address: '{{ printf "0.0.0.0:%d" (index .Values "ports" "metrics" "containerPort" | int ) }}'
+      extensions: [health_check, pprof, groundcover_file_storage]
+      pipelines:
+        logs/monitorState:
+          receivers:
+            - loki/historian
+          processors:
+            - batch/monitorState
+          exporters:
+            - groundcover/monitorState
+        metrics:
+          receivers:
+            - otlp
+        traces:
+          receivers:
+            - otlp
+            - datadog
+            - faro
+          processors:
+            - batch/traces
+          exporters:
+            - groundcover/traces
+        logs:
+          receivers:
+            - loki
+            - otlp
+            - faro
+            - awsfirehose
+          processors:
+            - filter/dropNoneLogs
+            - batch/logs
+          exporters:
+            - groundcover/logs
+        logs/custom:
+          receivers:
+            - otlp
+          processors:
+            - filter/dropNoneCustom
+            - batch/custom
+          exporters:
+            - groundcover/custom
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits: {}
+  #          cpu: 1000m
+  #          memory: 512Mi # default is 2048
+  podDisruptionBudget:
+    enabled: true
+    maxUnavailable: "25%"
+  rollout:
+    maxUnavailable: 0
+    maxSurge: 1
+    strategy: RollingUpdate
+  affinity: {}
+  nodeSelector:
+    nodeclass: general
+  tolerations: []
+
+router:
+  # onprem or cloud
+  mode: cloud
+  enabled: false
+  additionalLabels:
+  additionalAnnotations:
+
+metrics-ingester:
+  nodeSelector:
+    nodeclass: general
+  rbac:
+    enabled: false
+  service:
+    enabled: true
+  podAnnotations:
+    prometheus.io/port: "8429"
+    prometheus.io/scrape: "true"
+  image:
+    repository: "{{ .Values.global.origin.registry }}/vmagent"
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: ScheduleAnyway
+    - maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: ScheduleAnyway
+  extraArgs:
+    promscrape.streamParse: "true"
+    promscrape.dropOriginalLabels: "true"
+    remoteWrite.showURL: "true"
+    remoteWrite.maxDiskUsagePerURL: 10GB
+    remoteWrite.headers: "apikey:%{API_KEY}"
+    remoteWrite.tlsInsecureSkipVerify: "true"
+    remoteWrite.url: '{{ include "victoria-metrics.write.http.url" . }}'
+    tlsKeyFile: /etc/ssl/certs/tls.key
+    tlsCertFile: /etc/ssl/certs/tls.crt
+    tls: "{{ .Values.global.metrics.tls.enabled }}"
+  env:
+    - name: API_KEY
+      valueFrom:
+        secretKeyRef:
+          key: '{{ include "groundcover.apikeySecretKey" . }}'
+          name: '{{ include "groundcover.apikeySecretName" . }}'
+  extraVolumes:
+    - name: certificate
+      secret:
+        optional: true
+        secretName: metrics-ingester-certificate
+  extraVolumeMounts:
+    - name: certificate
+      readOnly: true
+      mountPath: /etc/ssl/certs
+  resources:
+    limits: {}
+    #          cpu: 500m
+    #          memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  rollout:
+    maxUnavailable: 0
+    maxSurge: 1
+    strategy: RollingUpdate
+  config:
+    scrape_configs: []
+
+victoria-metrics-agent:
+  nodeSelector:
+    nodeclass: general
+  rbac:
+    namespaced: true
+  resources:
+    limits: {}
+    #          cpu: 500m
+    #          memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  podAnnotations:
+    prometheus.io/port: "8429"
+    prometheus.io/scrape: "true"
+  # imagePullSecrets:
+  image:
+    repository: "{{ .Values.global.origin.registry }}/vmagent"
+  extraArgs:
+    promscrape.streamParse: "true"
+    promscrape.dropOriginalLabels: "true"
+    remoteWrite.showURL: "true"
+    remoteWrite.maxDiskUsagePerURL: 10GB
+    remoteWrite.headers: "apikey:%{API_KEY}"
+    remoteWrite.url: '{{ include "telemetry.metrics.url" . }}'
+    remoteWrite.label: clusterId=$(GC_CLUSTER_ID),groundcover_version=$(GC_VERSION)
+  env:
+    - name: GC_CLUSTER_ID
+      valueFrom:
+        secretKeyRef:
+          name: groundcover-config
+          key: GC_CLUSTER_ID
+    - name: GC_VERSION
+      valueFrom:
+        secretKeyRef:
+          name: groundcover-config
+          key: GC_VERSION
+    - name: API_KEY
+      valueFrom:
+        secretKeyRef:
+          key: '{{ include "groundcover.apikeySecretKey" . }}'
+          name: '{{ include "groundcover.apikeySecretName" . }}'
+  config:
+    scrape_configs:
+      - job_name: groundcover
+        kubernetes_sd_configs:
+          - namespaces:
+              own_namespace: true
+            role: pod
+        relabel_configs:
+          - action: keep
+            source_labels:
+              - __meta_kubernetes_pod_label_app_kubernetes_io_part_of
+            regex: ".*groundcover.*"
+          - action: drop
+            regex: true
+            source_labels:
+              - __meta_kubernetes_pod_container_init
+          - action: keep_if_equal
+            source_labels:
+              - __meta_kubernetes_pod_annotation_prometheus_io_port
+              - __meta_kubernetes_pod_container_port_number
+          - action: keep
+            regex: true
+            source_labels:
+              - __meta_kubernetes_pod_annotation_prometheus_io_scrape
+          - action: replace
+            source_labels:
+              - __meta_kubernetes_pod_annotation_prometheus_io_scheme
+            target_label: __scheme__
+          - action: replace
+            regex: (.+)
+            source_labels:
+              - __meta_kubernetes_pod_annotation_prometheus_io_path
+            target_label: __metrics_path__
+          - action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            source_labels:
+              - __address__
+              - __meta_kubernetes_pod_annotation_prometheus_io_port
+            target_label: __address__
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+          - action: replace
+            source_labels:
+              - __meta_kubernetes_namespace
+            target_label: kubernetes_namespace
+          - action: replace
+            source_labels:
+              - __meta_kubernetes_pod_name
+            target_label: kubernetes_pod_name
+          - source_labels:
+              - __meta_kubernetes_pod_name
+            target_label: instance
+        tls_config:
+          insecure_skip_verify: true
+
+kube-state-metrics:
+  nodeSelector:
+    nodeclass: general
+  nameOverride: kube-state-metrics
+  customLabels:
+    app.groundcover.com/owner: groundcover
+  service:
+    port: 8080
+    annotations:
+      prometheus.io/port: "8080"
+  collectors:
+    - certificatesigningrequests
+    - configmaps
+    - cronjobs
+    - daemonsets
+    - deployments
+    - endpoints
+    - horizontalpodautoscalers
+    - ingresses
+    - jobs
+    - leases
+    - limitranges
+    - mutatingwebhookconfigurations
+    - namespaces
+    - networkpolicies
+    - nodes
+    - persistentvolumeclaims
+    - persistentvolumes
+    - poddisruptionbudgets
+    - pods
+    - replicasets
+    - replicationcontrollers
+    - resourcequotas
+    - secrets
+    - services
+    - statefulsets
+    - storageclasses
+    - validatingwebhookconfigurations
+    - volumeattachments
+
+victoria-metrics-operator:
+  enabled: false
+  builtinVMAgent:
+    enabled: false
+    spec:
+      podScrapeSelector: {}
+      serviceScrapeSelector: {}
+      nodeScrapeSelector: {}
+      staticScrapeSelector: {}
+      probeSelector: {}
+      replicaCount: 1
+      remoteWrite:
+        - url: '{{ include "custom-metrics.write.http.url" . }}'
+
+custom-metrics:
+  enabled: false
+  service:
+    enabled: true
+  nodeSelector:
+    nodeclass: general
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8429"
+  rbac:
+    namespaced: false
+  image:
+    repository: "{{ .Values.global.origin.registry }}/vmagent"
+  resources:
+    limits: {}
+    #          cpu: 500m
+    #          memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  extraArgs:
+    promscrape.streamParse: "true"
+    promscrape.dropOriginalLabels: "true"
+    remoteWrite.showURL: "true"
+    remoteWrite.maxDiskUsagePerURL: 10GB
+    remoteWrite.maxDailySeries: "1000000"
+    remoteWrite.maxHourlySeries: "100000"
+    remoteWrite.headers: "apikey:%{API_KEY}"
+    remoteWrite.tlsInsecureSkipVerify: "true"
+    remoteWrite.url: '{{ include "victoria-metrics.write.http.url" . }}'
+    remoteWrite.label: clusterId=$(GC_CLUSTER_ID)
+  env:
+    - name: GC_CLUSTER_ID
+      valueFrom:
+        secretKeyRef:
+          name: groundcover-config
+          key: GC_CLUSTER_ID
+    - name: API_KEY
+      valueFrom:
+        secretKeyRef:
+          key: '{{ include "groundcover.apikeySecretKey" . }}'
+          name: '{{ include "groundcover.apikeySecretName" . }}'
+  extraScrapeConfigs: []
+  config:
+    scrape_configs:
+      ## COPY from Prometheus helm chart https://github.com/helm/charts/blob/master/stable/prometheus/values.yaml
+      # Scrape config for API servers.
+      #
+      # Kubernetes exposes API servers as endpoints to the default/kubernetes
+      # service so this uses `endpoints` role and uses relabelling to only keep
+      # the endpoints associated with the default/kubernetes service using the
+      # default named port `https`. This works for single API server deployments as
+      # well as HA API server deployments.
+      - job_name: "kubernetes-apiservers"
+        honor_labels: true
+        kubernetes_sd_configs:
+          - role: endpoints
+        # Default to scraping over https. If required, just disable this or change to
+        # `http`.
+        scheme: https
+        # This TLS & bearer token file config is used to connect to the actual scrape
+        # endpoints for cluster components. This is separate to discovery auth
+        # configuration because discovery & scraping are two separate concerns in
+        # Prometheus. The discovery auth config is automatic if Prometheus runs inside
+        # the cluster. Otherwise, more config options have to be provided within the
+        # <kubernetes_sd_config>.
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          # If your node certificates are self-signed or use a different CA to the
+          # master CA, then disable certificate verification below. Note that
+          # certificate verification is an integral part of a secure infrastructure
+          # so this should only be disabled in a controlled environment. You can
+          # disable certificate verification by uncommenting the line below.
+          #
+          insecure_skip_verify: true
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        # Keep only the default/kubernetes service endpoints for the https port. This
+        # will add targets for each API server which Kubernetes adds an endpoint to
+        # the default/kubernetes service.
+        relabel_configs:
+          - action: drop
+            source_labels:
+              - __meta_kubernetes_pod_label_app_kubernetes_io_part_of
+            regex: groundcover
+          - source_labels:
+              [
+                __meta_kubernetes_namespace,
+                __meta_kubernetes_service_name,
+                __meta_kubernetes_endpoint_port_name,
+              ]
+            action: keep
+            regex: default;kubernetes;https
+      - job_name: "kubernetes-nodes"
+        honor_labels: true
+        # Default to scraping over https. If required, just disable this or change to
+        # `http`.
+        scheme: https
+        # This TLS & bearer token file config is used to connect to the actual scrape
+        # endpoints for cluster components. This is separate to discovery auth
+        # configuration because discovery & scraping are two separate concerns in
+        # Prometheus. The discovery auth config is automatic if Prometheus runs inside
+        # the cluster. Otherwise, more config options have to be provided within the
+        # <kubernetes_sd_config>.
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          # If your node certificates are self-signed or use a different CA to the
+          # master CA, then disable certificate verification below. Note that
+          # certificate verification is an integral part of a secure infrastructure
+          # so this should only be disabled in a controlled environment. You can
+          # disable certificate verification by uncommenting the line below.
+          #
+          insecure_skip_verify: true
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        kubernetes_sd_configs:
+          - role: node
+        relabel_configs:
+          - action: drop
+            source_labels:
+              - __meta_kubernetes_pod_label_app_kubernetes_io_part_of
+            regex: groundcover
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
+          - target_label: __address__
+            replacement: kubernetes.default.svc:443
+          - source_labels: [__meta_kubernetes_node_name]
+            regex: (.+)
+            target_label: __metrics_path__
+            replacement: /api/v1/nodes/$1/proxy/metrics
+      # Scrape config for service endpoints.
+      #
+      # The relabeling allows the actual service scrape endpoint to be configured
+      # via the following annotations:
+      #
+      # * `prometheus.io/scrape`: Only scrape services that have a value of `true`
+      # * `prometheus.io/scheme`: If the metrics endpoint is secured then you will need
+      # to set this to `https` & most likely set the `tls_config` of the scrape config.
+      # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
+      # * `prometheus.io/port`: If the metrics are exposed on a different port to the
+      # service then set this appropriately.
+      - job_name: "kubernetes-service-endpoints"
+        honor_labels: true
+        kubernetes_sd_configs:
+          - role: endpointslices
+        relabel_configs:
+          - action: drop
+            source_labels:
+              - __meta_kubernetes_pod_label_app_kubernetes_io_part_of
+            regex: groundcover
+          - action: drop
+            source_labels:
+              - __meta_kubernetes_pod_label_app_kubernetes_io_name
+              - __meta_kubernetes_pod_label_app_groundcover_com_owner
+            regex: kube-state-metrics;groundcover
+          - action: drop
+            source_labels: [__meta_kubernetes_pod_container_init]
+            regex: true
+          - action: keep_if_equal
+            source_labels:
+              [
+                __meta_kubernetes_service_annotation_prometheus_io_port,
+                __meta_kubernetes_pod_container_port_number,
+              ]
+          - source_labels:
+              [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels:
+              [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+            action: replace
+            target_label: __scheme__
+            regex: (https?)
+          - source_labels:
+              [__meta_kubernetes_service_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels:
+              [
+                __address__,
+                __meta_kubernetes_service_annotation_prometheus_io_port,
+              ]
+            action: replace
+            target_label: __address__
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+          - action: labelmap
+            regex: __meta_kubernetes_service_label_(.+)
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            target_label: container
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_service_name]
+            target_label: service
+          - source_labels: [__meta_kubernetes_service_name]
+            target_label: job
+            replacement: ${1}
+          - source_labels: [__meta_kubernetes_pod_node_name]
+            action: replace
+            target_label: node
+      # Scrape config for slow service endpoints; same as above, but with a larger
+      # timeout and a larger interval
+      #
+      # The relabeling allows the actual service scrape endpoint to be configured
+      # via the following annotations:
+      #
+      # * `prometheus.io/scrape-slow`: Only scrape services that have a value of `true`
+      # * `prometheus.io/scheme`: If the metrics endpoint is secured then you will need
+      # to set this to `https` & most likely set the `tls_config` of the scrape config.
+      # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
+      # * `prometheus.io/port`: If the metrics are exposed on a different port to the
+      # service then set this appropriately.
+      - job_name: "kubernetes-service-endpoints-slow"
+        honor_labels: true
+        scrape_interval: 5m
+        scrape_timeout: 30s
+        kubernetes_sd_configs:
+          - role: endpointslices
+        relabel_configs:
+          - action: drop
+            source_labels:
+              - __meta_kubernetes_pod_label_app_kubernetes_io_part_of
+            regex: groundcover
+          - action: drop
+            source_labels:
+              - __meta_kubernetes_pod_label_app_kubernetes_io_name
+              - __meta_kubernetes_pod_label_app_groundcover_com_owner
+            regex: kube-state-metrics;groundcover
+          - action: drop
+            source_labels: [__meta_kubernetes_pod_container_init]
+            regex: true
+          - action: keep_if_equal
+            source_labels:
+              [
+                __meta_kubernetes_service_annotation_prometheus_io_port,
+                __meta_kubernetes_pod_container_port_number,
+              ]
+          - source_labels:
+              [__meta_kubernetes_service_annotation_prometheus_io_scrape_slow]
+            action: keep
+            regex: true
+          - source_labels:
+              [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+            action: replace
+            target_label: __scheme__
+            regex: (https?)
+          - source_labels:
+              [__meta_kubernetes_service_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels:
+              [
+                __address__,
+                __meta_kubernetes_service_annotation_prometheus_io_port,
+              ]
+            action: replace
+            target_label: __address__
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+          - action: labelmap
+            regex: __meta_kubernetes_service_label_(.+)
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            target_label: container
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_service_name]
+            target_label: service
+          - source_labels: [__meta_kubernetes_service_name]
+            target_label: job
+            replacement: ${1}
+          - source_labels: [__meta_kubernetes_pod_node_name]
+            action: replace
+            target_label: node
+      # Example scrape config for probing services via the Blackbox Exporter.
+      #
+      # The relabeling allows the actual service scrape endpoint to be configured
+      # via the following annotations:
+      #
+      # * `prometheus.io/probe`: Only probe services that have a value of `true`
+      - job_name: "kubernetes-services"
+        honor_labels: true
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+        kubernetes_sd_configs:
+          - role: service
+        relabel_configs:
+          - action: drop
+            source_labels:
+              - __meta_kubernetes_pod_label_app_kubernetes_io_part_of
+            regex: groundcover
+          - source_labels:
+              [__meta_kubernetes_service_annotation_prometheus_io_probe]
+            action: keep
+            regex: true
+          - source_labels: [__address__]
+            target_label: __param_target
+          - target_label: __address__
+            replacement: blackbox
+          - source_labels: [__param_target]
+            target_label: instance
+          - action: labelmap
+            regex: __meta_kubernetes_service_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_service_name]
+            target_label: service
+      # Example scrape config for pods
+      #
+      # The relabeling allows the actual pod scrape endpoint to be configured via the
+      # following annotations:
+      #
+      # * `prometheus.io/scrape`: Only scrape pods that have a value of `true`
+      # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
+      # * `prometheus.io/port`: Scrape the pod on the indicated port instead of the default of `9102`.
+      - job_name: "kubernetes-pods"
+        honor_labels: true
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          - action: drop
+            source_labels:
+              - __meta_kubernetes_pod_label_app_kubernetes_io_part_of
+            regex: groundcover
+          - action: drop
+            source_labels:
+              - __meta_kubernetes_pod_label_app_kubernetes_io_name
+              - __meta_kubernetes_pod_label_app_groundcover_com_owner
+            regex: kube-state-metrics;groundcover
+          - action: drop
+            source_labels: [__meta_kubernetes_pod_container_init]
+            regex: true
+          - action: keep_if_equal
+            source_labels:
+              [
+                __meta_kubernetes_pod_annotation_prometheus_io_port,
+                __meta_kubernetes_pod_container_port_number,
+              ]
+          - source_labels:
+              [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - source_labels:
+              [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            target_label: container
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_service_name]
+            target_label: service
+          - source_labels: [__meta_kubernetes_service_name]
+            target_label: job
+            replacement: ${1}
+          - source_labels: [__meta_kubernetes_pod_node_name]
+            action: replace
+            target_label: node
+
+victoria-metrics-single:
+  # imagePullSecrets: []
+  server:
+    image:
+      repository: public.ecr.aws/groundcovercom/victoria-metrics
+
+    extraArgs:
+      search.maxUniqueTimeseries: "2000000"
+      search.maxSeries: "30000"
+      search.maxTagKeys: "200000"
+      search.maxTagValues: "500000"
+      search.maxQueryLen: "100000"
+      search.maxConcurrentRequests: "8"
+      maxLabelsPerTimeseries: "50"
+      promscrape.maxScrapeSize: "100MB"
+      streamAggr.config: "/extra-config/aggregation_config.yaml"
+
+    # -- Data retention period, {amount}[h(ours), d(ays), w(eeks), y(ears)], default is 1 month
+    retentionPeriod: 7d
+    # -- Sts/Deploy additional labels
+    extraLabels: {}
+    # -- Pod's additional labels
+    podLabels: {}
+    # -- Pod's annotations
+    podAnnotations:
+      prometheus.io/port: "8428"
+      prometheus.io/scrape: "true"
+    # -- Name of Priority Class
+    priorityClassName:
+
+    service:
+      # -- Service annotations
+      annotations: {}
+      # -- Service labels
+      labels: {}
+      # -- Service ClusterIP
+      clusterIP: None
+
+    matchLabels: {}
+
+    statefulSet:
+      annotations: {}
+      # -- Headless service labels
+      labels: {}
+
+    persistentVolume:
+      # enabled: true
+      # -- Persistant volume annotations
+      annotations: {}
+
+      # -- StorageClass to use for persistent volume. Requires server.persistentVolume.enabled: true. If defined, PVC created automatically
+      storageClass: "k8s-rbd"
+
+      # -- Use this to override the prefix for the pvc, the suffix is auto-generated by k8s according to the pod name
+      #pvcNameOverride:
+
+      size: 25Gi
+    extraVolumes:
+      - name: extra-config
+        configMap:
+          name: victoria-metrics-aggregation-config
+    extraVolumeMounts:
+      - name: extra-config
+        mountPath: "/extra-config"
+        readOnly: true
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 500Mi # default is 3000
+      limits: {}
+    #            memory: 1000Mi # default is 3000
+
+    # -- Node tolerations for server scheduling to nodes with taints. Ref: [https://kubernetes.io/docs/concepts/configuration/assign-pod-node/](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/)
+    tolerations: []
+
+    # -- Pod's node selector. Ref: [https://kubernetes.io/docs/user-guide/node-selection/](https://kubernetes.io/docs/user-guide/node-selection/)
+    nodeSelector:
+      nodeclass: general
+
+    # -- Pod affinity
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+                - key: eks.amazonaws.com/capacityType
+                  operator: NotIn
+                  values:
+                    - SPOT
+
+monitors-manager:
+  image:
+    registry: public.ecr.aws
+    repository: groundcovercom/grafana-groundcover
+    #tag: v0.0.14-grafana10.1.2
+  nameOverride: monitors-manager
+  persistence:
+    enabled: true
+    type: statefulset
+    size: 5Gi
+  envValueFrom:
+    CLICKHOUSE_PASSWORD:
+      secretKeyRef:
+        key: '{{ include "clickhouse.secretKey" . }}'
+        name: '{{ include "clickhouse.secretName" . }}'
+    GF_DATABASE_PASSWORD:
+      secretKeyRef:
+        name: '{{ include "postgresql.secretName" . }}'
+        key: '{{ include "postgresql.adminPasswordKey" . }}'
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: VM
+          type: prometheus
+          uid: victoria-metrics
+          url: '{{ include "victoria-metrics.base.http.url" . }}'
+          access: proxy
+          jsonData:
+            prometheusType: "Prometheus"
+            prometheusVersion: "2.50.1"
+        - name: Clickhouse
+          type: grafana-clickhouse-datasource
+          uid: clickhouse
+          url: '{{ include "clickhouse.fullname" . }}:{{ .Values.global.clickhouse.containerPorts.tcp | int }}'
+          jsonData:
+            defaultDatabase: '{{ include "clickhouse.database" . }}'
+            port: "{{ .Values.global.clickhouse.containerPorts.tcp | int }}"
+            server: '{{ include "clickhouse.fullname" . }}'
+            username: '{{ include "clickhouse.username" . }}'
+          access: proxy
+          secureJsonData:
+            password: $CLICKHOUSE_PASSWORD
+  grafana.ini:
+    "unified_alerting.state_history":
+      enabled: true
+      backend: "loki"
+      loki_remote_url: '{{ include "opentelemetry-collector.loki-historian.http.url" . }}'
+      log_all: true
+    feature_toggles:
+      enable: "alertStateHistoryLokiSecondary, alertStateHistoryLokiPrimary, alertStateHistoryLokiOnly"
+    server:
+      enable_gzip: true
+    paths:
+      data: /var/lib/grafana/
+      logs: /var/log/grafana
+      plugins: /usr/share/grafana/plugins
+      provisioning: /etc/grafana/provisioning
+    database:
+      type: postgres
+      host: '{{ (include "postgresql.base.url" .) }}'
+      name: monitors_manager
+      user: postgres
+      ssl_mode: require
+  extraInitContainers:
+    - name: wait-for-db
+      image: '{{ include "postgresql.image" . }}'
+      env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: '{{ include "postgresql.secretName" . }}'
+              key: '{{ include "postgresql.adminPasswordKey" . }}'
+      command:
+        - /bin/sh
+        - -c
+      args:
+        - |
+          pg_isready \
+            -U "postgres" \
+            -d "dbname=postgres" \
+            -h {{ splitList ":" (include "postgresql.base.url" .) | first }} \
+            -p {{ splitList ":" (include "postgresql.base.url" .) | last }}
+rbac:
+  pspEnabled: false
+  sccEnabled: true
+  labels:
+  annotations:
+
+apikey:
+  labels:
+  annotations:
+
+config:
+  labels:
+  annotations:
+
+backend:
+  postgresql:
+    dbs:
+      monitors-manager: monitors_manager

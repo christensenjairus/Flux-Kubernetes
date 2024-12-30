@@ -7,7 +7,7 @@ image:
   repository: docker.io/rook/ceph
   # -- Image tag
   # @default -- `v1.16.0`
-  tag: v1.16.0
+  #tag: v1.16.0
   # -- Image pull policy
   pullPolicy: IfNotPresent
 
@@ -480,37 +480,37 @@ csi:
     # -- Ceph CSI image repository
     repository: quay.io/cephcsi/cephcsi
     # -- Ceph CSI image tag
-    tag: v3.13.0
+    #tag: v3.13.0
 
   registrar:
     # -- Kubernetes CSI registrar image repository
     repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
     # -- Registrar image tag
-    tag: v2.11.1
+    #tag: v2.11.1
 
   provisioner:
     # -- Kubernetes CSI provisioner image repository
     repository: registry.k8s.io/sig-storage/csi-provisioner
     # -- Provisioner image tag
-    tag: v5.0.1
+    #tag: v5.0.1
 
   snapshotter:
     # -- Kubernetes CSI snapshotter image repository
     repository: registry.k8s.io/sig-storage/csi-snapshotter
     # -- Snapshotter image tag
-    tag: v8.0.1
+    #tag: v8.0.1
 
   attacher:
     # -- Kubernetes CSI Attacher image repository
     repository: registry.k8s.io/sig-storage/csi-attacher
     # -- Attacher image tag
-    tag: v4.6.1
+    #tag: v4.6.1
 
   resizer:
     # -- Kubernetes CSI resizer image repository
     repository: registry.k8s.io/sig-storage/csi-resizer
     # -- Resizer image tag
-    tag: v1.11.1
+    #tag: v1.11.1
 
   # -- Image pull policy
   imagePullPolicy: IfNotPresent
@@ -530,7 +530,7 @@ csi:
     # -- CSIAddons sidecar image repository
     repository: quay.io/csiaddons/k8s-sidecar
     # -- CSIAddons sidecar image tag
-    tag: v0.11.0
+    #tag: v0.11.0
 
   nfs:
     # -- Enable the nfs csi driver

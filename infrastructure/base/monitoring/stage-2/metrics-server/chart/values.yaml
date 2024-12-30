@@ -5,7 +5,7 @@
 image:
   repository: registry.k8s.io/metrics-server/metrics-server
   # Overrides the image tag whose default is v{{ .Chart.AppVersion }}
-  tag: ""
+  #tag: ""
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -130,7 +130,7 @@ addonResizer:
   enabled: false
   image:
     repository: registry.k8s.io/autoscaling/addon-resizer
-    tag: 1.8.21
+    #tag: 1.8.21
   securityContext:
     allowPrivilegeEscalation: false
     readOnlyRootFilesystem: true
