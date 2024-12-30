@@ -16,9 +16,8 @@ spec:
           path: /spec/template/spec/containers/0/args/-
           value: "--ignore-exclude-lb"
       target:
-        kind: Pod
-        namespace: metallb-system
-        labelSelector: "app.kubernetes.io/component=speaker"
+        kind: DaemonSet
+        name: metallb-speaker
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
