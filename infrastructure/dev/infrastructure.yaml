@@ -17,8 +17,9 @@ spec:
         metadata:
           name: not-used
         spec:
-          speaker:
-            ignoreExcludeLB: true
+          values:
+            speaker:
+              ignoreExcludeLB: true
       target:
         kind: HelmRelease
         name: metallb
