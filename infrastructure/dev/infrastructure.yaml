@@ -383,3 +383,85 @@ spec:
     name: flux-system
   path: ./infrastructure/base/observability
   prune: true
+  patches:
+    # set resource requirements to 10% of their defaults
+    - patch: |-
+        apiVersion: helm.toolkit.fluxcd.io/v2
+        kind: HelmRelease
+        metadata:
+          name: not-used
+        spec:
+          values:
+            agent:
+              flb:
+                resources:
+                  requests:
+                    cpu: 5m
+                    memory: 6Mi
+              sensor:
+                resources:
+                  requests:
+                    cpu: 16m
+                    memory: 30Mi
+            dbmanager:
+              resources:
+                requests:
+                  cpu: 2m
+                  memory: 2Mi
+            k8sWatcher:
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 25Mi
+            portal:
+              resources:
+                requests:
+                  cpu: 5m
+                  memory: 25Mi
+            clickhouse:
+              resources:
+                requests:
+                  cpu: 30m
+                  memory: 20Mi
+            opentelemetry-collector:
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 51Mi
+            vector:
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 20Mi
+            metrics-ingester:
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 25Mi
+            victoria-metrics-agent:
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 12Mi
+            custom-metrics:
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 25Mi
+            victoria-metrics-single:
+              server:
+                resources:
+                  requests:
+                    cpu: 100m
+                    memory: 30Mi
+            backend:
+              keep:
+                backend:
+                resources:
+                  requests:
+                    cpu: 50m
+                    memory: 100Mi
+      target:
+        kind: HelmRelease
+        name: groundcover
+        namespace: groundcover
