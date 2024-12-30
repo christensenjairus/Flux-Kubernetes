@@ -8,3 +8,12 @@ resources:
   - clusterrolebinding.yaml
   - cluster-ids.yaml
   - deployment.yaml
+
+patches:
+  - patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/env/1/valueFrom/secretKeyRef/key
+        value: ${clusterName,,}
+    target:
+      kind: Deployment
+      name: cloudcasa-kubeagent-manager
