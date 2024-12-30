@@ -1,8 +1,0 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: newrelic
-  namespace: newrelic
-spec:
-  interval: 24h
-  url: https://helm-charts.newrelic.com
