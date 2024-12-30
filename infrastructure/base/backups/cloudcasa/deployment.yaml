@@ -35,7 +35,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: "cluster-ids"
-                  key: ${clusterName,,}
+                  key: '${clusterName,,}'
             - name: KUBEMOVER_IMAGE
               value: catalogicsoftware/amds-kagent:3.1.0-prod.360
             - name: DEPLOYMENT_PLATFORM
