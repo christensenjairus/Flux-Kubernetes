@@ -5,7 +5,7 @@ metadata:
   namespace: metallb-system
 spec:
   driftDetection:
-    mode: warn
+    mode: enabled
 #    ignore:
 #      - paths: [ "/spec/template/spec/containers/0/args" ]
 #        target:
