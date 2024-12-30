@@ -4,13 +4,13 @@ metadata:
   name: metallb
   namespace: metallb-system
 spec:
-  driftDetection:
-    mode: enabled
-    ignore:
-      - paths: [ "/spec/template/spec/containers/0/args" ]
-        target:
-          kind: DaemonSet
-          name: metallb-speaker
+#  driftDetection:
+#    mode: enabled
+#    ignore:
+#      - paths: [ "/spec/template/spec/containers/0/args" ]
+#        target:
+#          kind: DaemonSet
+#          name: metallb-speaker
   install:
     crds: CreateReplace
   upgrade:
