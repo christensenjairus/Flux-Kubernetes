@@ -5,6 +5,8 @@ metadata:
   namespace: kube-system
 spec:
   interval: 30m
+  upgrade:
+    force: true
   chart:
     spec:
       chart: metrics-server
