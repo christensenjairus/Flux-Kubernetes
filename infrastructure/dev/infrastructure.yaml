@@ -359,8 +359,6 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  retryInterval: 1m
-  timeout: 5m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -383,3 +381,18 @@ spec:
 #  path: ./infrastructure/base/general-operators
 #  prune: true
 #  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-observability
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-storage-stage-2 # pvc
+  interval: 1h
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/base/observability
+  prune: true
