@@ -20,6 +20,18 @@ spec:
         name: vmware-tanzu
         namespace: velero
       interval: 12h
+  postRenderers:
+    # Not sure why this was needed. Flux couldn't tell the state of this resource, but it's working fine
+    - kustomize:
+        patches:
+          - target:
+              version: v1
+              kind: VolumeSnapshotLocation
+              name: rook-ceph
+            patch: |
+              - op: add
+                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
+                value: disabled
   valuesFrom:
     - kind: ConfigMap
       name: velero-values
