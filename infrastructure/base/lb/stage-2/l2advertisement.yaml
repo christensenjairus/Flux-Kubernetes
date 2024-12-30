@@ -6,6 +6,3 @@ metadata:
 spec:
   ipAddressPools:
   - metallb-ipaddresspool
-  nodeSelectors:
-    - matchLabels:
-        nodeclass: general
