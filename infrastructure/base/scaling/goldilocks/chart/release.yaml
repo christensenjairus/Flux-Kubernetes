@@ -1,0 +1,30 @@
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: goldilocks
+  namespace: goldilocks
+spec:
+  driftDetection:
+    mode: enabled
+  install:
+    remediation:
+      retries: -1
+    crds: CreateReplace
+  upgrade:
+    remediation:
+      retries: -1
+    crds: CreateReplace
+  interval: 30m
+  chart:
+    spec:
+      chart: goldilocks
+      version: "8.x.x"
+      sourceRef:
+        kind: HelmRepository
+        name: fairwinds-stable
+        namespace: goldilocks
+      interval: 12h
+  valuesFrom:
+    - kind: ConfigMap
+      name: goldilocks-values

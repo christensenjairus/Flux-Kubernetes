@@ -289,19 +289,21 @@ spec:
     name: flux-system
   path: ./infrastructure/base/policies/stage-2/overlays/harbor-registry-all-pods
   prune: true
-#---
-#apiVersion: kustomize.toolkit.fluxcd.io/v1
-#kind: Kustomization
-#metadata:
-#  name: infra-scaling
-#  namespace: flux-system
-#spec:
-#  interval: 1h
-#  sourceRef:
-#    kind: GitRepository
-#    name: flux-system
-#  path: ./infrastructure/base/scaling
-#  prune: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-scaling
+  namespace: flux-system
+spec:
+  interval: 1h
+  dependsOn:
+    - name: infra-ingress-stage-2 # gateway
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/base/scaling
+  prune: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
