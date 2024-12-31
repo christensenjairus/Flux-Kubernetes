@@ -177,8 +177,7 @@ dashboard:
     capabilities:
       drop:
         - ALL
-  nodeSelector:
-    nodeclass: general
+  nodeSelector: {}
   tolerations: []
   affinity: {}
   # dashboard.topologySpreadConstraints -- Topology spread constraints for the dashboard pods

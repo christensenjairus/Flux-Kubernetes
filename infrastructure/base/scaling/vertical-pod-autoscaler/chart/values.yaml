@@ -202,8 +202,7 @@ admissionController:
   #   memory: 256Mi
 
   ## @param admissionController.nodeSelector Node labels for pod assignment
-  nodeSelector:
-    nodeclass: general
+  nodeSelector: {}
 
   ## @param admissionController.tolerations Tolerations for pod assignment
   tolerations: []
@@ -441,8 +440,7 @@ recommender:
   #   memory: 512Mi
 
   ## @param recommender.nodeSelector Node labels for pod assignment
-  nodeSelector:
-    nodeclass: general
+  nodeSelector: {}
 
   ## @param recommender.tolerations Tolerations for pod assignment
   tolerations: []
@@ -704,8 +702,7 @@ updater:
   #   memory: 512Mi
 
   ## @param updater.nodeSelector Node labels for pod assignment
-  nodeSelector:
-    nodeclass: general
+  nodeSelector: {}
 
   ## @param updater.tolerations Tolerations for pod assignment
   tolerations: []
@@ -831,8 +828,7 @@ crds:
   #   memory: 128Mi
 
   ## @param crds.nodeSelector Node labels for pod assignment
-  nodeSelector:
-    nodeclass: general
+  nodeSelector: {}
 
   ## @param crds.securityContext Container security context
   securityContext: {}
