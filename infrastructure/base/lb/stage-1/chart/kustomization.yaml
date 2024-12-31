@@ -11,3 +11,6 @@ configMapGenerator:
 
 configurations:
   - kustomizeconfig.yaml
+
+commonAnnotations:
+  app: metallb
