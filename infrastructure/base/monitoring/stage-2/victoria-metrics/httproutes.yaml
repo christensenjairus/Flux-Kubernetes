@@ -9,7 +9,7 @@ spec:
     - name: gateway
       namespace: cloudflare-gateway
   hostnames:
-    - grafana{clusterServicesDNSSuffix,,}
+    - grafana${clusterServicesDNSSuffix,,}
   rules:
     - backendRefs:
         - name: victoria-metrics-k8s-stack-grafana
