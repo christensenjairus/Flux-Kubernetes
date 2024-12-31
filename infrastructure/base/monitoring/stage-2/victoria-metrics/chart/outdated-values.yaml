@@ -284,7 +284,7 @@ vmsingle:
     #       port:
     #         name: service
     tls: #[]
-      - secretName: vm-${clusterName,,}-christensencloud.us-tls
+      - secretName: vm${clusterServicesDNSSuffix,,}-tls
         hosts:
           - vm${clusterServicesDNSSuffix,,}
 
@@ -437,7 +437,7 @@ vmcluster:
       #       port:
       #         name: service
       tls: #[]
-        - secretName: vmstorage-${clusterName,,}-christensencloud.us-tls
+        - secretName: vmstorage${clusterServicesDNSSuffix,,}-tls
           hosts:
             - vmstorage${clusterServicesDNSSuffix,,}
     select:
@@ -478,8 +478,8 @@ vmcluster:
               port:
                 number: 8480
       tls: #[]
-        # - secretName: vmselect-${clusterName,,}-christensencloud.us-tls
-        - secretName: vm-${clusterName,,}-christensencloud.us-tls
+        # - secretName: vmselect${clusterServicesDNSSuffix,,}-tls
+        - secretName: vm${clusterServicesDNSSuffix,,}-tls
           hosts:
             # - vmselect${clusterServicesDNSSuffix,,}
             - vm${clusterServicesDNSSuffix,,}
@@ -520,7 +520,7 @@ vmcluster:
               port:
                 number: 8481
       tls: #[]
-        - secretName: vminsert-${clusterName,,}-christensencloud.us-tls
+        - secretName: vminsert${clusterServicesDNSSuffix,,}-tls
           hosts:
             - vminsert${clusterServicesDNSSuffix,,}
 
@@ -722,7 +722,7 @@ alertmanager:
     #       port:
     #         name: service
     tls: #[]
-      - secretName: alertmanager-${clusterName,,}-christensencloud.us-tls
+      - secretName: alertmanager${clusterServicesDNSSuffix,,}-tls
         hosts:
           - alertmanager${clusterServicesDNSSuffix,,}
 
@@ -812,7 +812,7 @@ vmalert:
     #       port:
     #         name: service
     tls: #[]
-      - secretName: vmalert-${clusterName,,}-christensencloud.us-tls
+      - secretName: vmalert${clusterServicesDNSSuffix,,}-tls
         hosts:
           - vmalert${clusterServicesDNSSuffix,,}
 
@@ -887,7 +887,7 @@ vmagent:
     #       port:
     #         name: service
     tls: #[]
-      - secretName: vmagent-${clusterName,,}-christensencloud.us-tls
+      - secretName: vmagent${clusterServicesDNSSuffix,,}-tls
         hosts:
           - vmagent${clusterServicesDNSSuffix,,}
 
@@ -1110,7 +1110,7 @@ grafana:
     #       port:
     #         name: service
     tls: #[]
-      - secretName:  grafana-${clusterName,,}-christensencloud.us-tls
+      - secretName:  grafana${clusterServicesDNSSuffix,,}-tls
         hosts:
           -  grafana${clusterServicesDNSSuffix,,}
 

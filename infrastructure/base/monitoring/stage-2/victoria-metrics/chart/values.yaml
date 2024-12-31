@@ -481,7 +481,7 @@ vmcluster:
       # -- Array of TLS objects
       tls:
       #  - secretName: vmselect-ingress-tls
-        - secretName: vmselect-${clusterName,,}-christensencloud.us-tls
+        - secretName: vmselect${clusterServicesDNSSuffix,,}-tls
           hosts:
             - vm${clusterServicesDNSSuffix,,}
     insert:
@@ -792,7 +792,7 @@ vmalert:
     #       port:
     #         name: service
     tls:
-      - secretName: vmalert-${clusterName,,}-christensencloud.us-tls
+      - secretName: vmalert${clusterServicesDNSSuffix,,}-tls
         hosts:
           - vmalert${clusterServicesDNSSuffix,,}
 
@@ -874,7 +874,7 @@ vmagent:
     #       port:
     #         name: service
     tls:
-      - secretName: vmagent-${clusterName,,}-christensencloud.us-tls
+      - secretName: vmagent${clusterServicesDNSSuffix,,}-tls
         hosts:
           - vmagent${clusterServicesDNSSuffix,,}
 
@@ -978,7 +978,7 @@ grafana:
     #       port:
     #         name: service
     tls:
-      - secretName:  grafana-${clusterName,,}-christensencloud.us-tls
+      - secretName:  grafana${clusterServicesDNSSuffix,,}-tls
         hosts:
           -  grafana${clusterServicesDNSSuffix,,}
 
