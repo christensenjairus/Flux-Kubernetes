@@ -195,7 +195,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/ingress/stage-1
+  path: ./infrastructure/base/ingress/stage-1
   prune: false
   patches:
     - patch: |-
@@ -239,7 +239,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/ingress/stage-2
+  path: ./infrastructure/base/ingress/stage-2
   prune: false
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
