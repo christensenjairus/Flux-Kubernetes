@@ -25,7 +25,14 @@ spec:
     - kustomize:
         patches:
           - target:
-              annotationSelector: 'meta.helm.sh/release-name=cert-manager'
+              group: cert-manager.io
+              kind: CustomResourceDefinition
+            patch: |
+              - op: add
+                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
+                value: disabled
+          - target:
+              group: acme.cert-manager.io
               kind: CustomResourceDefinition
             patch: |
               - op: add
