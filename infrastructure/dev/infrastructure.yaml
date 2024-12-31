@@ -392,6 +392,12 @@ spec:
           name: not-used
         spec:
           values:
+            global:
+              postgresql:
+                resources:
+                  requests:
+                    cpu: 25m
+                    memory: 25Mi
             agent:
               flb:
                 resources:
@@ -457,10 +463,10 @@ spec:
             backend:
               keep:
                 backend:
-                resources:
-                  requests:
-                    cpu: 50m
-                    memory: 100Mi
+                  resources:
+                    requests:
+                      cpu: 50m
+                      memory: 100Mi
       target:
         kind: HelmRelease
         name: groundcover
