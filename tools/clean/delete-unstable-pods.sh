@@ -5,8 +5,19 @@ delete_pods() {
   local namespace=$1
   echo "Checking namespace: $namespace"
 
-  # Get pods that are not Running, Completed (Succeeded), or Unknown
-  pods_to_delete=$(kubectl get pods -n "$namespace" --field-selector=status.phase!=Running,status.phase!=Succeeded,status.phase!=Unknown -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}')
+  # Get pods in Unknown state using kubectl and jq
+  pods_in_unknown_state=$(kubectl get pods -n "$namespace" -o json | jq -r '
+    .items[] |
+    select(.status.containerStatuses != null) |
+    select(.status.containerStatuses[].state.terminated != null and .status.containerStatuses[].state.terminated.reason == "Unknown") |
+    .metadata.name
+  ')
+
+  # Get pods that are not Running or Succeeded
+  other_pods_to_delete=$(kubectl get pods -n "$namespace" --field-selector=status.phase!=Running,status.phase!=Succeeded,status.phase!=Pending -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}')
+
+  # Combine both lists of pods to delete
+  pods_to_delete=$(echo -e "$pods_in_unknown_state\n$other_pods_to_delete" | sort | uniq)
 
   if [ -z "$pods_to_delete" ]; then
     echo "No pods to delete in namespace: $namespace"
@@ -14,7 +25,7 @@ delete_pods() {
     echo "Deleting pods in namespace: $namespace"
     for pod in $pods_to_delete; do
       echo "Deleting pod: $pod"
-      kubectl delete pod "$pod" -n "$namespace"
+      kubectl delete pod "$pod" -n "$namespace" --grace-period=1
     done
   fi
 }
