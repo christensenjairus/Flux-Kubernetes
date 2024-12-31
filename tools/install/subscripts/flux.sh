@@ -6,7 +6,7 @@ flux bootstrap github \
   --owner=christensenjairus \
   --repository=Flux-Kubernetes \
   --branch=modularize_infrastructure_with_cluster_variables \
-  --path=./clusters/$current_context \
+  --path=./clusters/dev/$current_context \
   --context=$current_context \
   --components-extra image-reflector-controller,image-automation-controller \
   --personal #\

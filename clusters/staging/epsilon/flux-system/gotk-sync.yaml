@@ -20,7 +20,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./clusters/epsilon
+  path: ./clusters/staging/epsilon
   prune: true
   sourceRef:
     kind: GitRepository
