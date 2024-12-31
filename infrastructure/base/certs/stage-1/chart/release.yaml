@@ -20,6 +20,24 @@ spec:
         name: cert-manager
         namespace: cert-manager
       interval: 12h
+  postRenderers:
+    # Not sure why this was needed. The CRD was being edited.
+    - kustomize:
+        patches:
+          - target:
+              group: "cert-manager.io"
+              kind: CustomResourceDefinition
+            patch: |
+              - op: add
+                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
+                value: disabled
+          - target:
+              group: "acme.cert-manager.io"
+              kind: CustomResourceDefinition
+            patch: |
+              - op: add
+                path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
+                value: disabled
   valuesFrom:
     - kind: ConfigMap
       name: cert-manager-values
