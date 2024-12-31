@@ -7,11 +7,15 @@ spec:
   driftDetection:
     mode: enabled
   install:
+    remediation:
+      retries: -1
     crds: CreateReplace
     timeout: 20m # takes a while to install because every pod needs to roll out one at a time
   upgrade:
+    remediation:
+      retries: -1
     crds: CreateReplace
-    timeout: 20m
+    timeout: 20m # takes a while to upgrade because every pod needs to roll out one at a time
   interval: 30m
   chart:
     spec:

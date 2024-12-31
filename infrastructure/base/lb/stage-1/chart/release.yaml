@@ -20,8 +20,12 @@ spec:
                 path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection
                 value: disabled
   install:
+    remediation:
+      retries: -1
     crds: CreateReplace
   upgrade:
+    remediation:
+      retries: -1
     crds: CreateReplace
   interval: 30m
   chart:

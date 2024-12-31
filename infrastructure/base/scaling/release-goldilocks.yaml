@@ -8,8 +8,12 @@ spec:
   driftDetection:
     mode: enabled
   install:
+    remediation:
+      retries: -1
     crds: CreateReplace
   upgrade:
+    remediation:
+      retries: -1
     crds: CreateReplace
   interval: 30m
   chart:
