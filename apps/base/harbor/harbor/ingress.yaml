@@ -13,7 +13,7 @@ metadata:
   name: harbor-portal
   namespace: harbor
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
   - host: harbor.christensencloud.us
     http:
@@ -38,7 +38,7 @@ metadata:
   name: harbor-core
   namespace: harbor
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
   - host: harbor.christensencloud.us
     http:

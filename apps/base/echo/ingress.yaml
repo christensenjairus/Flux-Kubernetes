@@ -12,7 +12,7 @@ metadata:
   name: echo
   namespace: echo
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: echo.christensencloud.us
       http:

@@ -229,7 +229,7 @@ spec:
       target:
         kind: HelmRelease
         name: ingress-nginx
-        namespace: ingress-nginx-private
+        namespace: ingress-nginx
     - patch: |
         - op: replace
           path: /spec/values/controller/service/annotations/metallb.universe.tf~1loadBalancerIPs
@@ -237,7 +237,7 @@ spec:
       target:
         kind: HelmRelease
         name: ingress-nginx
-        namespace: ingress-nginx-public
+        namespace: ingress-nginx
     # reduce the severity of NGINXTooMany400s alert
     - patch: |
         - op: replace

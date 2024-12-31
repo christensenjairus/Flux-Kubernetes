@@ -3233,7 +3233,7 @@ spec:
     # If you enable this, make sure to disable the gateway's ingress.
     ingress:
       enabled: false
-      ingressClassName: nginx-public
+      ingressClassName: nginx
       annotations: {}
       paths:
         distributor-headless:

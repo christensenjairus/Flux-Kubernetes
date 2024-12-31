@@ -301,7 +301,7 @@ vmsingle:
     # -- Ingress path type
     pathType: Prefix
     # -- Ingress controller class name
-    ingressClassName: nginx-private
+    ingressClassName: nginx
 
     hosts:
       - vm-${clusterName,,}.christensencloud.us
@@ -410,7 +410,7 @@ vmcluster:
       labels: {}
 
       # -- Ingress controller class name
-      ingressClassName: nginx-private
+      ingressClassName: nginx
 
       # -- Ingress path type
       pathType: Prefix
@@ -456,7 +456,7 @@ vmcluster:
       labels: {}
 
       # -- Ingress controller class name
-      ingressClassName: nginx-private
+      ingressClassName: nginx
 
       # -- Ingress path type
       pathType: Prefix
@@ -502,7 +502,7 @@ vmcluster:
       labels: {}
 
       # -- Ingress controller class name
-      ingressClassName: nginx-private
+      ingressClassName: nginx
 
       # -- Ingress path type
       pathType: Prefix
@@ -691,7 +691,7 @@ alertmanager:
     enabled: true
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    ingressClassName: nginx-private
+    ingressClassName: nginx
     # Values can be templated
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
@@ -766,7 +766,7 @@ vmalert:
     enabled: true
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    ingressClassName: nginx-private
+    ingressClassName: nginx
     # Values can be templated
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
@@ -849,7 +849,7 @@ vmagent:
     enabled: true
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    ingressClassName: nginx-private
+    ingressClassName: nginx
     # Values can be templated
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
@@ -952,7 +952,7 @@ grafana:
     enabled: true
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    ingressClassName: nginx-private
+    ingressClassName: nginx
     # Values can be templated
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt

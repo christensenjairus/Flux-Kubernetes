@@ -12,7 +12,7 @@ metadata:
   name: sonarr
   namespace: media
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: sonarr.christensencloud.us
       http:

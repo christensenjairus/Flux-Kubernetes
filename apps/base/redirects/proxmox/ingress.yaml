@@ -14,7 +14,7 @@ metadata:
   name: proxmox
   namespace: redirects
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: proxmox.christensencloud.us
       http:

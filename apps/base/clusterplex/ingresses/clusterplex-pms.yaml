@@ -13,7 +13,7 @@ metadata:
     app.kubernetes.io/version: 1.4.11
     helm.sh/chart: clusterplex-1.1.6
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   tls:
     - hosts:
         - "clusterplex.christensencloud.us"

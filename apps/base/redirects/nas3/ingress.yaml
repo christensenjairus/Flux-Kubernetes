@@ -8,7 +8,7 @@ metadata:
   name: nas3
   namespace: redirects
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: nas3.christensencloud.us
       http:

@@ -10,7 +10,7 @@ metadata:
   name: s3
   namespace: redirects
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: s3.christensencloud.us
       http:

@@ -11,7 +11,7 @@ metadata:
   name: radarr-4k
   namespace: media
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: radarr-4k.christensencloud.us
       http:

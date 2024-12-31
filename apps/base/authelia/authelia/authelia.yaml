@@ -70,7 +70,7 @@ metadata:
   name: auth
   namespace: authelia
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
   - host: auth.christensencloud.us
     http:

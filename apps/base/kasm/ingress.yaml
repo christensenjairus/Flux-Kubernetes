@@ -13,7 +13,7 @@ metadata:
   name: kasm
   namespace: kasm
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: kasm.christensencloud.us
       http:

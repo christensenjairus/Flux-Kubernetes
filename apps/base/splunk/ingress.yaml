@@ -14,7 +14,7 @@ metadata:
   name: splunk-collector
   namespace: splunk
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: splunk-collector.christensencloud.us
       http:
@@ -60,7 +60,7 @@ metadata:
   name: splunk-services
   namespace: splunk
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: splunk-manager.christensencloud.us
       http:
@@ -130,7 +130,7 @@ metadata:
   name: splunk-web
   namespace: splunk
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: splunk.christensencloud.us
       http:

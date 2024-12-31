@@ -14,7 +14,7 @@ metadata:
       SecRuleRemoveById 920350 911100 949110
   name: joplin
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: joplin.christensencloud.us
       http:

@@ -47,7 +47,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-ingress # validating webhook, grafana crds (infra-monitoring-stage-1)
+    - name: infra-ingress-stage-2 # cloudflare gateway, validating webhook (infra-ingress-stage-1), grafana crds (infra-monitoring-stage-1)
   interval: 1h
   sourceRef:
     kind: GitRepository
@@ -92,7 +92,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-ingress  # ingress validating webhook, pvc (infra-storage-stage-2)
+    - name: infra-ingress-stage-2  # cloudflare gateway, validating webhook (infra-ingress-stage-1), pvc (infra-storage-stage-2)
     - name: infra-monitoring-stage-1
   interval: 1h
   sourceRef:
@@ -151,7 +151,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-ingress # Validating webhook
+    - name: infra-ingress-stage-1 # Validating webhook
   interval: 1h
   sourceRef:
     kind: GitRepository
@@ -172,7 +172,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/certs/stage-2
-  prune: false # don't delete my storage
+  prune: false
   patches:
     - patch: | # use staging letsencrypt server
         - op: replace
@@ -185,7 +185,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-ingress
+  name: infra-ingress-stage-1
   namespace: flux-system
 spec:
   dependsOn:
@@ -195,8 +195,8 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/ingress/overlays
-  prune: false # don't delete my storage
+  path: ./infrastructure/ingress/stage-1
+  prune: false
   patches:
     - patch: |-
         apiVersion: helm.toolkit.fluxcd.io/v2
@@ -226,6 +226,21 @@ spec:
         kind: PrometheusRule
         name: prometheus-ingress-rules
         namespace: ingress-nginx.*
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-ingress-stage-2
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-ingress-stage-1
+  interval: 1h
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/ingress/stage-2
+  prune: false
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -299,7 +314,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/storage/stage-1
-  prune: true
+  prune: false # don't delete my storage
   patches:
     - patch: |-
         apiVersion: helm.toolkit.fluxcd.io/v2
@@ -341,7 +356,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/storage/stage-2
-  prune: true
+  prune: false # don't delete my storage
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

@@ -75,7 +75,7 @@ spec:
 
     ingress:
       enabled: true
-      className: "nginx-public"
+      className: "nginx"
       extraLabels:
         {}
         # vhost: uptime-kuma.company.corp

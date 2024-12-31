@@ -63,7 +63,7 @@ spec:
             nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
         - op: replace
           path: /spec/ingressClassName
-          value: nginx-public
+          value: nginx
       target:
         kind: Ingress
         name: hubble
@@ -101,7 +101,7 @@ spec:
             nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
         - op: replace
           path: /spec/values/vmsingle/ingress/ingressClassName
-          value: nginx-public
+          value: nginx
         - op: replace
           path: /spec/values/alertmanager/ingress/annotations
           value:
@@ -114,7 +114,7 @@ spec:
             nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
         - op: replace
           path: /spec/values/alertmanager/ingress/ingressClassName
-          value: nginx-public
+          value: nginx
         - op: replace
           path: /spec/values/vmalert/ingress/annotations
           value:
@@ -127,7 +127,7 @@ spec:
             nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
         - op: replace
           path: /spec/values/vmalert/ingress/ingressClassName
-          value: nginx-public
+          value: nginx
         - op: replace
           path: /spec/values/vmagent/ingress/annotations
           value:
@@ -140,7 +140,7 @@ spec:
             nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
         - op: replace
           path: /spec/values/vmagent/ingress/ingressClassName
-          value: nginx-public
+          value: nginx
         - op: replace
           path: /spec/values/grafana/ingress/annotations
           value:
@@ -153,7 +153,7 @@ spec:
             nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
         - op: replace
           path: /spec/values/grafana/ingress/ingressClassName
-          value: nginx-public
+          value: nginx
       target:
         kind: HelmRelease
         name: victoria-metrics-k8s-stack
@@ -216,7 +216,7 @@ spec:
     - target:
         kind: ConfigMap
         name: tcp-services
-        namespace: ingress-nginx-public
+        namespace: ingress-nginx
       patch: |-
         - op: add
           path: /data/32400
@@ -224,7 +224,7 @@ spec:
     - target:
         kind: ConfigMap
         name: udp-services
-        namespace: ingress-nginx-public
+        namespace: ingress-nginx
       patch: |-
         - op: add
           path: /data/32400
@@ -299,7 +299,7 @@ spec:
             nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
         - op: replace
           path: /spec/values/dashboard/ingress/ingressClassName
-          value: nginx-public
+          value: nginx
       target:
         kind: HelmRelease
         name: goldilocks
@@ -382,7 +382,7 @@ spec:
 #          {
 #            "op": "replace",
 #            "path": "/spec/values/ingress/dashboard/ingressClassName",
-#            "value": "nginx-public"
+#            "value": "nginx"
 #          }
 #        ]
 ---

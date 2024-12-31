@@ -14,7 +14,7 @@ metadata:
   name: alertmanager
   namespace: alertmanager
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: alertmanager.christensencloud.us
       http:

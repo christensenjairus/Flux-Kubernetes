@@ -12,7 +12,7 @@ metadata:
   name: home-assistant
   namespace: redirects
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: assistant.christensencloud.us
       http:

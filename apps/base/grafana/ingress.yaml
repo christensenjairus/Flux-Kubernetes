@@ -16,7 +16,7 @@ metadata:
   name: grafana
   namespace: monitoring
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: grafana.christensencloud.us
       http:

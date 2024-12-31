@@ -137,7 +137,7 @@ spec:
       # -- Enable ingress
       enabled: false
       # -- Ingress class name
-      ingressClassName: "nginx-public"
+      ingressClassName: "nginx"
       # -- Ingress annotations
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt

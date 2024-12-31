@@ -324,7 +324,7 @@ spec:
       target:
         kind: HelmRelease
         name: ingress-nginx
-        namespace: ingress-nginx-public
+        namespace: ingress-nginx
     - patch: |
         - op: replace
           path: /spec/values/controller/autoscaling/enabled
@@ -347,7 +347,7 @@ spec:
       target:
         kind: HelmRelease
         name: ingress-nginx
-        namespace: ingress-nginx-private
+        namespace: ingress-nginx
     # reduce the severity of NGINXTooMany400s alert
     - patch: |
         - op: replace

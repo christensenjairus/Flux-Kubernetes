@@ -14,7 +14,7 @@ metadata:
   name: unifi
   namespace: redirects
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: unifi.christensencloud.us
       http:

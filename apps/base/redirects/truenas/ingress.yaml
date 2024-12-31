@@ -14,7 +14,7 @@ metadata:
   name: truenas
   namespace: redirects
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: nas.christensencloud.us
       http:

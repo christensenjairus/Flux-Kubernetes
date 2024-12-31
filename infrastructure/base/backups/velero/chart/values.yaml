@@ -781,8 +781,8 @@ schedules:
         - general-operators
         - goldilocks
         - groundcover
-        - ingress-nginx-public
-        - ingress-nginx-private
+        - ingress-nginx
+        - ingress-nginx
         - ingress-nginx-test
         - keda
         - kube-node-lease
@@ -828,8 +828,8 @@ schedules:
         - general-operators
         - goldilocks
         - groundcover
-        - ingress-nginx-public
-        - ingress-nginx-private
+        - ingress-nginx
+        - ingress-nginx
         - ingress-nginx-test
         - keda
         - kube-node-lease

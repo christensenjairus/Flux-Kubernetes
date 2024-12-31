@@ -10,7 +10,7 @@ metadata:
   name: plex
   namespace: redirects
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: plex.christensencloud.us
       http:

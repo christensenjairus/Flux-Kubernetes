@@ -107,7 +107,7 @@ spec:
         configureCertmanager: false
         useNewIngressForCerts: false
         provider: nginx
-        class: nginx-public
+        class: nginx
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
           nginx.ingress.kubernetes.io/ssl-redirect: "true"

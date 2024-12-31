@@ -11,7 +11,7 @@ metadata:
   name: overseerr
   namespace: media
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: overseerr.christensencloud.us
       http:

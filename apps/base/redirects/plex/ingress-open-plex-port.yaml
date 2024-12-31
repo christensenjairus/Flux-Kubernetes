@@ -11,9 +11,9 @@ spec:
           kinds:
             - Service
           names:
-            - ingress-nginx-public-controller
+            - ingress-nginx-controller
           namespaces:
-            - ingress-nginx-public
+            - ingress-nginx
       mutate:
         patchStrategicMerge:
           spec:

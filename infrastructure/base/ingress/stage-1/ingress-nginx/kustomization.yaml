@@ -7,3 +7,4 @@ resources:
   - prometheus-rules.yaml
   - ./tcp-udp-forwards
   - ./chart
+  - ./dashboards

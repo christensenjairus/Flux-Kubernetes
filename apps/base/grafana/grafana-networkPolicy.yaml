@@ -22,7 +22,7 @@ spec:
   - from:
       - namespaceSelector:
           matchLabels:
-            kubernetes.io/metadata.name: ingress-nginx-public
+            kubernetes.io/metadata.name: ingress-nginx
     ports:
       - port: 3000
         protocol: TCP

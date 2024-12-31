@@ -201,7 +201,7 @@ spec:
     # Kubernetes Ingress
     ingress:
       enabled: true
-      className: nginx-public
+      className: nginx
       host: "vaultwarden.christensencloud.us"
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt

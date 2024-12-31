@@ -75,7 +75,7 @@ spec:
 
     ingress:
       enabled: true
-      ingressClassName: "nginx-public"
+      ingressClassName: "nginx"
       annotations: #{ }
         # kubernetes.io/ingress.class: nginx
         cert-manager.io/cluster-issuer: letsencrypt

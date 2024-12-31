@@ -1040,7 +1040,7 @@ spec:
     # You'll need to supply authn configuration for your ingress controller.
     ingress:
       enabled: false
-      ingressClassName: nginx-public
+      ingressClassName: nginx
       annotations: #{}
     #    nginx.ingress.kubernetes.io/auth-type: basic
     #    nginx.ingress.kubernetes.io/auth-secret: loki-distributed-basic-auth
@@ -1210,7 +1210,7 @@ spec:
         enabled: false
         # -- Ingress Class Name. MAY be required for Kubernetes versions >= 1.18
         # For example: `ingressClassName: nginx`
-        ingressClassName: 'nginx-public'
+        ingressClassName: 'nginx'
 
         # -- Annotations for the gateway ingress
         annotations: {}

@@ -16,7 +16,7 @@ metadata:
   name: prometheus
   namespace: monitoring
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: prometheus.christensencloud.us
       http:

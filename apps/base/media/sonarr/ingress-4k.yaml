@@ -11,7 +11,7 @@ metadata:
   name: sonarr-4k
   namespace: media
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: sonarr-4k.christensencloud.us
       http:

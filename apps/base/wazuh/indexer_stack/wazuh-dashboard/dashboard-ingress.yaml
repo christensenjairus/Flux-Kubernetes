@@ -13,8 +13,8 @@ metadata:
     nginx.ingress.kubernetes.io/secure-backends: "true"
   name: wazuh
 spec:
-#  ingressClassName: nginx-public
-  ingressClassName: nginx-private
+#  ingressClassName: nginx
+  ingressClassName: nginx
   rules:
   - host: wazuh.christensencloud.us
     http:

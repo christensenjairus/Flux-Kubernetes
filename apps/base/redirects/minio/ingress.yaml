@@ -13,7 +13,7 @@ metadata:
   name: minio
   namespace: redirects
 spec:
-  ingressClassName: nginx-public
+  ingressClassName: nginx
   rules:
     - host: minio.christensencloud.us
       http:
