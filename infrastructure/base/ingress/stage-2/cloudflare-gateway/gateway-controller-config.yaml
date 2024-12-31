@@ -3,6 +3,5 @@ kind: OnePasswordItem
 metadata:
   name: cloudflare-config
   namespace: cloudflare-gateway
-type: kubernetes.io/dockerconfigjson
 spec:
   itemPath: vaults/HomeLab K8S/items/Cloudflare Gateway Controller Config
