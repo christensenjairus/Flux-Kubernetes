@@ -11,9 +11,8 @@ spec:
     - kustomize:
         patches:
           - target:
-              version: v1
               kind: CustomResourceDefinition
-              name: bgppeers.metallb.io
+              annotationSelector: 'meta.helm.sh/release-name=metallb'
             patch: |
               - op: add
                 path: /metadata/annotations/helm.toolkit.fluxcd.io~1driftDetection

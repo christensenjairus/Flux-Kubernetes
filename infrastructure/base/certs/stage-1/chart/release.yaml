@@ -25,7 +25,7 @@ spec:
     - kustomize:
         patches:
           - target:
-              labelSelector: 'app=cert-manager'
+              annotationSelector: 'meta.helm.sh/release-name=cert-manager'
               kind: CustomResourceDefinition
             patch: |
               - op: add
