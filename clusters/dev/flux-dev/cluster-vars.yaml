@@ -6,7 +6,7 @@ metadata:
 data:
   clusterId: "8"
   clusterName: "Flux-Dev"
-  highAvailability: "false"
+  clusterServicesDNSSuffix: "-flux-dev.christensencloud.us"
   ipv4LbPrefix: "10.0.8"
   ipv6LbPrefix: "2607:fa18:47fd:800:34"
   radosNamespaceClusterID: "5b62ef8a9d817aeb1d27ec54bae65fcc"

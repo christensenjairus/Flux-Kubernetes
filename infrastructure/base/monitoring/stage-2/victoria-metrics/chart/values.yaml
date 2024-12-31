@@ -304,7 +304,7 @@ vmsingle:
     ingressClassName: nginx
 
     hosts:
-      - vm-${clusterName,,}.christensencloud.us
+      - vm${clusterServicesDNSSuffix,,}
     ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
     extraPaths: []
     # - path: /*
@@ -317,7 +317,7 @@ vmsingle:
     tls:
       - secretName: vm-christensencloud.us-tls
         hosts:
-          - vm-${clusterName,,}.christensencloud.us
+          - vm${clusterServicesDNSSuffix,,}
 
 vmcluster:
   # -- Create VMCluster CR
@@ -420,7 +420,7 @@ vmcluster:
 
       # -- Array of host objects
       hosts:
-        - vmstorage-${clusterName,,}.christensencloud.us
+        - vmstorage${clusterServicesDNSSuffix,,}
       #  - vmstorage.domain.com
 
       # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
@@ -437,7 +437,7 @@ vmcluster:
       tls:
         - secretName: vmstorage-christensencloud.us-tls
           hosts:
-            - vmstorage-${clusterName,,}.christensencloud.us
+            - vmstorage${clusterServicesDNSSuffix,,}
     select:
       # -- Enable deployment of ingress for server component
       enabled: false
@@ -466,7 +466,7 @@ vmcluster:
 
       # -- Array of host objects
       hosts:
-        - vm-${clusterName,,}.christensencloud.us
+        - vm${clusterServicesDNSSuffix,,}
       #  - vmselect.domain.com
       # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
       extraPaths: []
@@ -483,7 +483,7 @@ vmcluster:
       #  - secretName: vmselect-ingress-tls
         - secretName: vmselect-${clusterName,,}-christensencloud.us-tls
           hosts:
-            - vm-${clusterName,,}.christensencloud.us
+            - vm${clusterServicesDNSSuffix,,}
     insert:
       # -- Enable deployment of ingress for server component
       enabled: false
@@ -512,7 +512,7 @@ vmcluster:
 
       # -- Array of host objects
       hosts:
-        - vminsert-${clusterName,,}.christensencloud.us
+        - vminsert${clusterServicesDNSSuffix,,}
       # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
       extraPaths: []
       # - path: /*
@@ -527,7 +527,7 @@ vmcluster:
       tls:
         - secretName: vminsert-christensencloud.us-tls
           hosts:
-            - vminsert-${clusterName,,}.christensencloud.us
+            - vminsert${clusterServicesDNSSuffix,,}
 
 alertmanager:
   # -- Create VMAlertmanager CR
@@ -541,7 +541,7 @@ alertmanager:
     selectAllByDefault: true
     image:
       #tag: v0.27.0
-    externalURL: "https://alertmanager-${clusterName,,}.christensencloud.us"
+    externalURL: "https://alertmanager${clusterServicesDNSSuffix,,}"
     routePrefix: /
 
     # -- (string) If this one defined, it will be used for alertmanager configuration and config parameter will be ignored
@@ -706,7 +706,7 @@ alertmanager:
     pathType: Prefix
 
     hosts:
-      - alertmanager-${clusterName,,}.christensencloud.us
+      - alertmanager${clusterServicesDNSSuffix,,}
     # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
     extraPaths: []
     # - path: /*
@@ -719,7 +719,7 @@ alertmanager:
     tls: #[]
       - secretName: alertmanager-christensencloud.us-tls
         hosts:
-          - alertmanager-${clusterName,,}.christensencloud.us
+          - alertmanager${clusterServicesDNSSuffix,,}
 
 vmalert:
   # -- VMAlert annotations
@@ -737,7 +737,7 @@ vmalert:
     evaluationInterval: 15s
     extraArgs:
       loggerTimezone: "America/Denver"
-      external.url: "https://vmalert-${clusterName,,}.christensencloud.us"
+      external.url: "https://vmalert${clusterServicesDNSSuffix,,}"
       http.pathPrefix: "/"
 
     # External labels to add to all generated recording rules and alerts
@@ -781,7 +781,7 @@ vmalert:
     pathType: Prefix
 
     hosts:
-      - vmalert-${clusterName,,}.christensencloud.us
+      - vmalert${clusterServicesDNSSuffix,,}
     # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
     extraPaths: []
     # - path: /*
@@ -794,7 +794,7 @@ vmalert:
     tls:
       - secretName: vmalert-${clusterName,,}-christensencloud.us-tls
         hosts:
-          - vmalert-${clusterName,,}.christensencloud.us
+          - vmalert${clusterServicesDNSSuffix,,}
 
 vmauth:
   # -- Enable VMAuth CR
@@ -864,7 +864,7 @@ vmagent:
     pathType: Prefix
 
     hosts:
-      - vmagent-${clusterName,,}.christensencloud.us
+      - vmagent${clusterServicesDNSSuffix,,}
     extraPaths: []
     # - path: /*
     #   pathType: Prefix
@@ -876,7 +876,7 @@ vmagent:
     tls:
       - secretName: vmagent-${clusterName,,}-christensencloud.us-tls
         hosts:
-          - vmagent-${clusterName,,}.christensencloud.us
+          - vmagent${clusterServicesDNSSuffix,,}
 
 defaultDatasources:
   victoriametrics:
@@ -967,7 +967,7 @@ grafana:
     pathType: Prefix
 
     hosts:
-      - grafana-${clusterName,,}.christensencloud.us
+      - grafana${clusterServicesDNSSuffix,,}
     # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
     extraPaths: []
     # - path: /*
@@ -980,7 +980,7 @@ grafana:
     tls:
       - secretName:  grafana-${clusterName,,}-christensencloud.us-tls
         hosts:
-          -  grafana-${clusterName,,}.christensencloud.us
+          -  grafana${clusterServicesDNSSuffix,,}
 
   # -- Grafana VM scrape config
   vmScrape:
