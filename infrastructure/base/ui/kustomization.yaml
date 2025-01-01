@@ -4,3 +4,5 @@ resources:
 - namespace.yaml
 - ./chart
 - httproutes.yaml
+- sa.yaml
+- crb.yaml
