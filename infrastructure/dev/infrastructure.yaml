@@ -47,7 +47,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-ingress-stage-2 # cloudflare gateway, validating webhook (infra-ingress-stage-1), grafana crds (infra-monitoring-stage-1)
+    - name: infra-ingress-stage-2 # cloudflare gateway, validating webhook (infra-ingress-stage-1), grafana crds & monitoring ns (infra-monitoring-stage-1)
   interval: 1h
   sourceRef:
     kind: GitRepository
@@ -190,7 +190,7 @@ metadata:
 spec:
   dependsOn:
     - name: infra-storage-stage-2    # cache pvc
-    - name: infra-monitoring-stage-1 # grafana crds
+    - name: infra-monitoring-stage-1 # grafana crds & monitoring ns
   interval: 1h
   sourceRef:
     kind: GitRepository
