@@ -14,3 +14,67 @@ spec:
     - backendRefs:
         - name: victoria-metrics-k8s-stack-grafana
           port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: vmsingle
+  namespace: monitoring
+spec:
+  parentRefs:
+    - name: gateway
+      namespace: cloudflare-gateway
+  hostnames:
+    - vm${clusterServicesDNSSuffix,,}
+  rules:
+    - backendRefs:
+        - name: vmsingle-victoria-metrics-k8s-stack
+          port: 8429
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: vmalertmanager
+  namespace: monitoring
+spec:
+  parentRefs:
+    - name: gateway
+      namespace: cloudflare-gateway
+  hostnames:
+    - alertmanager${clusterServicesDNSSuffix,,}
+  rules:
+    - backendRefs:
+        - name: vmalertmanager-victoria-metrics-k8s-stack
+          port: 9093
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: vmalert
+  namespace: monitoring
+spec:
+  parentRefs:
+    - name: gateway
+      namespace: cloudflare-gateway
+  hostnames:
+    - vmalert${clusterServicesDNSSuffix,,}
+  rules:
+    - backendRefs:
+        - name: vmalert-victoria-metrics-k8s-stack
+          port: 8080
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: vmagent
+  namespace: monitoring
+spec:
+  parentRefs:
+    - name: gateway
+      namespace: cloudflare-gateway
+  hostnames:
+    - vmagent${clusterServicesDNSSuffix,,}
+  rules:
+    - backendRefs:
+        - name: vmagent-victoria-metrics-k8s-stack
+          port: 8429

@@ -14,24 +14,29 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 ```
 
 ### List of Environments
-* `development`
-  * `Delta` cluster - Single-node, minimal addons, no apps. Runs `development` branch.
-* `staging`
-  * `Epsilon` cluster - Smaller version of a `production` cluster. Apps enabled. Runs `staging` branch. 
-* `production`
-  * `Zeta` and `Omega` clusters - Apps enabled. Runs `production` branch.
+* `development` - Single-node, minimal addons, no apps. Runs `development` branch.
+* `staging` - Smaller version of a `production` cluster. Apps enabled. Runs `staging` branch. 
+* `production` - Apps enabled. Runs `production` branch.
 
 ### Steps to add a Cluster
 ##### Pre-Install
 * Add a `cluster-vars.yaml` file to the correct `./clusters` location
 * Add an entry for your cluster in `./tools/install/subscripts/flux.sh` so the correct branch is chosen
 * Add `<clusterName>-cluster` bucket to Minio for Velero backups
-* Add a cluster in CloudCasa and place the cluster ID in 1Password.
+* Add a cluster in CloudCasa and place the cluster ID in 1Password
 * Run external ceph preparation script to set up RadosNamespace and CephFS SubVolume group
+* Allow cluster to communicate with PVE Ceph through firewall in PVE Datacenter > Security Group
+* Create an App in CloudFlare ZeroTrust that uses a wildcard for your cluster's url. Then set the permissions accordingly.
 
 ##### Post-Install
 * Add the `StrictPostBuildSubstitutions` flag to the flux-system kustomization
 * Correct the `radosNamespaceClusterID` and `subvolumeGroupClusterID` in your `cluster-vars.tf`
+  * You'll need to delete both relevant objects of  `storageClass` and `volumeSnapshotClass` so they can be recreated.
+  * You may also need to restart all the pods in `rook-ceph` namespace
+
+##### Re-Install
+* Run the script to purge ceph of the images/filesystems in the cluster's namespace/subvolumegroup
+* Run the script to purge cloudflare of the DNS entries used specifically for this cluster
 
 [//]: # (### List of Flux-Managed Infrastructure)
 [//]: # (* Cert-Manager w/ DNS ClusterIssuer)

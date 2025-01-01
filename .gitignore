@@ -8,5 +8,5 @@ bin/
 *.csr
 *.srl
 */.terraform*
-talos/manifests/raw
-talos/manifests/presigned-urls
+tools/talos/manifests/raw
+tools/talos/manifests/presigned-urls
