@@ -13,7 +13,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/dev
+  path: ./infrastructure/development
   patches:
     # Centralized controls over child Kustomizations
     - patch: |-

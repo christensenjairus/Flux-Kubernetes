@@ -6,16 +6,16 @@ current_context=$(kubectl config current-context)
 # Determine the branch based on the context, default to 'dev'
 case $current_context in
   delta|flux-dev)
-    branch="dev"
+    branch="development"
     ;;
   epsilon)
     branch="staging"
     ;;
   omega|zeta)
-    branch="main"
+    branch="production"
     ;;
   *)
-    echo "Unrecognized context: $current_context. Defaulting to 'dev' branch."
+    echo "Unrecognized context: $current_context. Defaulting to 'development' branch."
     branch="dev"
     ;;
 esac
