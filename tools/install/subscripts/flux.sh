@@ -5,7 +5,7 @@ current_context=$(kubectl config current-context)
 
 # Determine the branch based on the context, default to 'dev'
 case $current_context in
-  delta|flux-dev)
+  delta)
     branch="development"
     ;;
   epsilon)
@@ -16,7 +16,7 @@ case $current_context in
     ;;
   *)
     echo "Unrecognized context: $current_context. Defaulting to 'development' branch."
-    branch="dev"
+    branch="development"
     ;;
 esac
 

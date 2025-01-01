@@ -14,12 +14,12 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 ```
 
 ### List of Environments
-* `dev`
-  * `Delta` cluster - Single-node, minimal addons, no apps. Runs `dev` branch.
+* `development`
+  * `Delta` cluster - Single-node, minimal addons, no apps. Runs `development` branch.
 * `staging`
-  * `Epsilon` cluster - Smaller version of a `prod` cluster. Apps enabled. Runs `staging` branch. 
-* `prod`
-  * `Zeta` and `Omega` clusters - Apps enabled. Runs `main` branch.
+  * `Epsilon` cluster - Smaller version of a `production` cluster. Apps enabled. Runs `staging` branch. 
+* `production`
+  * `Zeta` and `Omega` clusters - Apps enabled. Runs `production` branch.
 
 ### Steps to add a Cluster
 ##### Pre-Install
