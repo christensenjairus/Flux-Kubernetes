@@ -6,7 +6,7 @@ resources:
   - release.yaml
 
 configMapGenerator:
-  - name: ww-gitops-values
+  - name: capacitor-values
     files:
       - values.yaml=values.yaml
 
