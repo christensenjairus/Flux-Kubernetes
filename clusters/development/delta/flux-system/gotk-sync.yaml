@@ -8,7 +8,7 @@ metadata:
 spec:
   interval: 1m0s
   ref:
-    branch: main
+    branch: development
   secretRef:
     name: flux-system
   url: ssh://git@github.com/christensenjairus/Flux-Kubernetes
@@ -25,12 +25,3 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-
-  patches:
-    - patch: |
-        - op: add
-          path: /spec/template/spec/containers/0/args/-
-          value: --feature-gates=StrictPostBuildSubstitutions=true
-      target:
-        kind: Deployment
-        name: "kustomize-controller"
