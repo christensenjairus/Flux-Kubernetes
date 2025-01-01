@@ -9,5 +9,5 @@ data:
   clusterServicesDNSSuffix: "-delta.christensencloud.us"
   ipv4LbPrefix: "10.0.4"
   ipv6LbPrefix: "2607:fa18:47fd:400:34"
-  radosNamespaceClusterID: "NONE" # FIXME
-  subvolumeGroupClusterID: "NONE" # FIXME
+  radosNamespaceClusterID: "1a7ecfe26614b5fc1e5e686e5e9f68a1"
+  subvolumeGroupClusterID: "14550e78036547a51eaec2d55f4c644c"
