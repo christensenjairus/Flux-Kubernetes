@@ -1,21 +1,29 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  annotations:
-    metadata.weave.works/description: This is the Weave GitOps Dashboard.  It provides
-      a simple way to get insights into your GitOps workloads.
-  name: ww-gitops
+  name: capacitor
   namespace: flux-system
 spec:
   driftDetection:
     mode: enabled
+  install:
+    remediation:
+      retries: -1
+    crds: CreateReplace
+  upgrade:
+    remediation:
+      retries: -1
+    crds: CreateReplace
+  interval: 30m
   chart:
     spec:
-      chart: weave-gitops
+      chart: onechart
+      version: "0.x"
       sourceRef:
         kind: HelmRepository
-        name: ww-gitops
-  interval: 30m
+        name: onechart
+        namespace: flux-system
+      interval: 12h
   valuesFrom:
     - kind: ConfigMap
-      name: ww-gitops-values
+      name: capacitor-values

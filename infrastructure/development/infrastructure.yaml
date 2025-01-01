@@ -83,7 +83,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/monitoring/stage-1
-  prune: true
+  prune: false # don't touch prometheus crds or the monitoring ns
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -99,7 +99,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/monitoring/stage-2
-  prune: true
+  prune: false # don't delete victoriametrics
   patches:
     - patch: |-
         apiVersion: helm.toolkit.fluxcd.io/v2
@@ -172,7 +172,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/certs/stage-2
-  prune: false
+  prune: true
   patches:
     - patch: | # use staging letsencrypt server
         - op: replace
@@ -196,7 +196,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/ingress/stage-1
-  prune: false
+  prune: true
   patches:
     - patch: |-
         apiVersion: helm.toolkit.fluxcd.io/v2
@@ -240,7 +240,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/base/ingress/stage-2
-  prune: false
+  prune: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
