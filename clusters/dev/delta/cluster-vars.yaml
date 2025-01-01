@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-vars
+  namespace: flux-system
+data:
+  clusterId: "4"
+  clusterName: "Delta"
+  clusterServicesDNSSuffix: "-delta.christensencloud.us"
+  ipv4LbPrefix: "10.0.4"
+  ipv6LbPrefix: "2607:fa18:47fd:400:34"
+  radosNamespaceClusterID: "NONE" # FIXME
+  subvolumeGroupClusterID: "NONE" # FIXME

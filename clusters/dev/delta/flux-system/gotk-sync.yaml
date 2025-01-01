@@ -25,3 +25,12 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+
+  patches:
+    - patch: |
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --feature-gates=StrictPostBuildSubstitutions=true
+      target:
+        kind: Deployment
+        name: "kustomize-controller"
