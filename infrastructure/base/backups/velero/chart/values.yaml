@@ -775,15 +775,16 @@ schedules:
         - cert-manager
         - cilium-secrets
         - cloudcasa-io
+        - cloudflare-gateway
         - democratic-csi-iscsi
         - democratic-csi-nfs
         - flux-system
         - general-operators
         - goldilocks
+        - grafana-operator
         - groundcover
+        - headlamp
         - ingress-nginx
-        - ingress-nginx
-        - ingress-nginx-test
         - keda
         - kube-node-lease
         - kube-public
@@ -791,16 +792,12 @@ schedules:
         - kubevirt
         - kyverno
         - local-path-storage
-        - loki     # not a system namespace, but we shouldn't need to back it up
         - metallb-system
-        - mimir    # not a system namespace, but we shouldn't need to back it up
         - monitoring
-        - newrelic
         - node-problem-detector
         - onepassword-connect
-        - promtail # not a system namespace, but we shouldn't need to back it up
         - rook-ceph
-        - splunk   # not a system namespace, but we shouldn't need to back it up
+        - rook-ceph-external
         - velero
   ${clusterName,,}-3h-cluster-snapshot-24h:
     disabled: false
@@ -822,15 +819,16 @@ schedules:
         - cert-manager
         - cilium-secrets
         - cloudcasa-io
+        - cloudflare-gateway
         - democratic-csi-iscsi
         - democratic-csi-nfs
         - flux-system
         - general-operators
         - goldilocks
+        - grafana-operator
         - groundcover
+        - headlamp
         - ingress-nginx
-        - ingress-nginx
-        - ingress-nginx-test
         - keda
         - kube-node-lease
         - kube-public
@@ -838,16 +836,15 @@ schedules:
         - kubevirt
         - kyverno
         - local-path-storage
-        - loki     # not a system namespace, but we shouldn't need to back it up
+        - loki     # don't back it up with snapshots
         - metallb-system
-        - mimir    # not a system namespace, but we shouldn't need to back it up
+        - mimir    # don't back it up with snapshots
         - monitoring
-        - newrelic
         - node-problem-detector
         - onepassword-connect
-        - promtail # not a system namespace, but we shouldn't need to back it up
         - rook-ceph
-        - splunk   # not a system namespace, but we shouldn't need to back it up
+        - rook-ceph-external
+        - splunk   # don't back it up with snapshots
         - velero
 
 # Velero ConfigMaps.
