@@ -11,8 +11,6 @@ metadata:
     nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
     nginx.ingress.kubernetes.io/auth-signin: 'https://auth.christensencloud.us?rm=$request_method'
     nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
-    nginx.ingress.kubernetes.io/modsecurity-snippet: |
-      SecRuleRemoveById 942100 949110 932110 920350
   name: grafana
   namespace: monitoring
 spec:

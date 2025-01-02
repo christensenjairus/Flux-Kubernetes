@@ -9,8 +9,6 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-    nginx.ingress.kubernetes.io/modsecurity-snippet: |
-      SecRuleRemoveById 920220
   name: splunk-collector
   namespace: splunk
 spec:
@@ -55,8 +53,6 @@ metadata:
     nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/authz/auth-request'
     nginx.ingress.kubernetes.io/auth-signin: 'https://auth.christensencloud.us?rm=$request_method'
     nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
-    nginx.ingress.kubernetes.io/modsecurity-snippet: |
-      SecRuleRemoveById 920220
   name: splunk-services
   namespace: splunk
 spec:

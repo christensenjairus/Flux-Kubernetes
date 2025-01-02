@@ -5,9 +5,6 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/custom-http-errors: "400,401,403,404,405,407,408,409,410,411,412,413,418,429,500,502,503,504,505"
-    nginx.ingress.kubernetes.io/modsecurity-snippet: |
-      SecRuleRemoveById 920350
-      SecRuleEngine DetectionOnly
   name: overseerr
   namespace: media
 spec:

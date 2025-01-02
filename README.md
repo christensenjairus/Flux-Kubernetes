@@ -38,6 +38,17 @@ See [Cluster Creator](https://github.com/christensenjairus/ClusterCreator) to kn
 * Run the script to purge ceph of the images/filesystems in the cluster's namespace/subvolumegroup
 * Run the script to purge cloudflare of the DNS entries used specifically for this cluster
 
+##### Delete
+* Run the script to purge ceph of the images/filesystems in the cluster's namespace/subvolumegroup
+* Run the script to purge cloudflare of the DNS entries used specifically for this cluster
+* Delete the kubeconfig file
+* Remove the cluster entry in `./tools/install/subscripts/flux.sh` and `./clusters`
+* Delete the cluster in Cloudcasa and remove the cluster id from the Cloudcasa item in 1password
+* Delete the RadosNamespace and CephFS SubVolume group
+* Remove the firewall rules allowed in PVE Firewall
+* Delete the Cloudflare ZeroTrust app
+* Delete the cluster backup bucket in Minio.
+
 [//]: # (### List of Flux-Managed Infrastructure)
 [//]: # (* Cert-Manager w/ DNS ClusterIssuer)
 [//]: # (* MetalLB L2 Load Balancer)
