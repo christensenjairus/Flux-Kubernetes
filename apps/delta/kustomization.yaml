@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: podinfo
 resources:
   - ../base/podinfo
+  - ../base/mimir
 patches:
   - path: podinfo-values.yaml
     target:
