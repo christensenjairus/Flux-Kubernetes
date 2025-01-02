@@ -42,7 +42,7 @@ kubectl label ns kube-system goldilocks.fairwinds.com/enabled="true"
 kubectl label ns flux-system toolkit.fluxcd.io/tenant=sre-team
 kubectl label ns flux-system goldilocks.fairwinds.com/enabled="true"
 
-echo -e "${GREEN}If not done already, add the following to your cluster's flux-system kustomization in gotk-sync.yaml:"
+echo -e "${GREEN}Add and commit the following to your cluster's flux-system kustomization in gotk-sync.yaml:"
 echo ""
 cat <<EOF
 patches:
