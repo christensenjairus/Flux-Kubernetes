@@ -189,11 +189,11 @@ spec:
         alertmanager_storage:
           backend: s3
           s3:
-            access_key_id: "${AWS_ACCESS_KEY_ID_ALERTMANAGER}"
+            access_key_id: "$${AWS_ACCESS_KEY_ID_ALERTMANAGER}"
             bucket_name: ${clusterName,,}-mimir-alertmanager
             endpoint: 10.0.0.100:8080
             insecure: true
-            secret_access_key: "${AWS_SECRET_ACCESS_KEY_ALERTMANAGER}"
+            secret_access_key: "$${AWS_SECRET_ACCESS_KEY_ALERTMANAGER}"
 
         {{- if .Values.enterprise.enabled }}
         auth:
@@ -235,11 +235,11 @@ spec:
             {{- end }}
             sync_dir: /data/tsdb-sync
           s3:
-            access_key_id: "${AWS_ACCESS_KEY_ID_TSDB}"
+            access_key_id: "$${AWS_ACCESS_KEY_ID_TSDB}"
             bucket_name: ${clusterName,,}-mimir-tsdb
             endpoint: 10.0.0.100:8080
             insecure: true
-            secret_access_key: "${AWS_SECRET_ACCESS_KEY_TSDB}"
+            secret_access_key: "$${AWS_SECRET_ACCESS_KEY_TSDB}"
           tsdb:
             dir: /data/tsdb
             head_compaction_interval: 15m
@@ -392,11 +392,11 @@ spec:
         ruler_storage:
           backend: s3
           s3:
-            access_key_id: "${AWS_ACCESS_KEY_ID_RULER}"
+            access_key_id: "$${AWS_ACCESS_KEY_ID_RULER}"
             bucket_name: ${clusterName,,}-mimir-ruler
             endpoint: 10.0.0.100:8080
             insecure: true
-            secret_access_key: "${AWS_SECRET_ACCESS_KEY_RULER}"
+            secret_access_key: "$${AWS_SECRET_ACCESS_KEY_RULER}"
           {{- if index .Values "metadata-cache" "enabled" }}
           cache:
             backend: memcached
@@ -463,8 +463,8 @@ spec:
 #            s3:
 #              bucket_name: "${clusterName,,}-mimir-tsdb"
 #              endpoint: "10.0.0.100:8080"
-#              access_key_id: "${AWS_ACCESS_KEY_ID}" # This is a secret injected via an environment variable
-#              secret_access_key: "${AWS_SECRET_ACCESS_KEY}" # This is a secret injected via an environment variable
+#              access_key_id: "$${AWS_ACCESS_KEY_ID}" # This is a secret injected via an environment variable
+#              secret_access_key: "$${AWS_SECRET_ACCESS_KEY}" # This is a secret injected via an environment variable
 #              http:
 #                insecure_skip_verify: true
       structuredConfig: {}
