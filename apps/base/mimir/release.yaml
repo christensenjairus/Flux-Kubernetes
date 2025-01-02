@@ -160,7 +160,7 @@ spec:
             type: s3
             s3:
               access_key_id: {{ .Values.minio.rootUser }}
-              bucket_name: enterprise-metrics-admin
+              bucket_name: ${clusterName,,}-enterprise-metrics-admin
               endpoint: {{ .Release.Name }}-minio.{{ .Release.Namespace }}.svc:9000
               insecure: true
               secret_access_key: {{ .Values.minio.rootPassword }}
@@ -190,7 +190,7 @@ spec:
           backend: s3
           s3:
             access_key_id: "${AWS_ACCESS_KEY_ID_ALERTMANAGER}"
-            bucket_name: mimir-alertmanager
+            bucket_name: ${clusterName,,}-mimir-alertmanager
             endpoint: 10.0.0.100:8080
             insecure: true
             secret_access_key: "${AWS_SECRET_ACCESS_KEY_ALERTMANAGER}"
@@ -236,7 +236,7 @@ spec:
             sync_dir: /data/tsdb-sync
           s3:
             access_key_id: "${AWS_ACCESS_KEY_ID_TSDB}"
-            bucket_name: mimir-tsdb
+            bucket_name: ${clusterName,,}-mimir-tsdb
             endpoint: 10.0.0.100:8080
             insecure: true
             secret_access_key: "${AWS_SECRET_ACCESS_KEY_TSDB}"
@@ -393,7 +393,7 @@ spec:
           backend: s3
           s3:
             access_key_id: "${AWS_ACCESS_KEY_ID_RULER}"
-            bucket_name: mimir-ruler
+            bucket_name: ${clusterName,,}-mimir-ruler
             endpoint: 10.0.0.100:8080
             insecure: true
             secret_access_key: "${AWS_SECRET_ACCESS_KEY_RULER}"
@@ -461,7 +461,7 @@ spec:
 #          storage:
 #            backend: s3
 #            s3:
-#              bucket_name: "mimir-tsdb"
+#              bucket_name: "${clusterName,,}-mimir-tsdb"
 #              endpoint: "10.0.0.100:8080"
 #              access_key_id: "${AWS_ACCESS_KEY_ID}" # This is a secret injected via an environment variable
 #              secret_access_key: "${AWS_SECRET_ACCESS_KEY}" # This is a secret injected via an environment variable
@@ -725,12 +725,12 @@ spec:
         - name: AWS_ACCESS_KEY_ID_ALERTMANAGER
           valueFrom:
             secretKeyRef:
-              name: mimir-alertmanager-bucket-claim
+              name: ${clusterName,,}-mimir-alertmanager-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_ALERTMANAGER
           valueFrom:
             secretKeyRef:
-              name: mimir-alertmanager-bucket-claim
+              name: ${clusterName,,}-mimir-alertmanager-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
       extraEnvFrom: []
 
@@ -1057,12 +1057,12 @@ spec:
         - name: AWS_ACCESS_KEY_ID_TSDB
           valueFrom:
             secretKeyRef:
-              name: mimir-tsdb-bucket-claim
+              name: ${clusterName,,}-mimir-tsdb-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_TSDB
           valueFrom:
             secretKeyRef:
-              name: mimir-tsdb-bucket-claim
+              name: ${clusterName,,}-mimir-tsdb-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
       extraEnvFrom: []
 
@@ -1355,23 +1355,23 @@ spec:
         - name: AWS_ACCESS_KEY_ID_RULER
           valueFrom:
             secretKeyRef:
-              name: mimir-ruler-bucket-claim
+              name: ${clusterName,,}-mimir-ruler-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_RULER
           valueFrom:
             secretKeyRef:
-              name: mimir-ruler-bucket-claim
+              name: ${clusterName,,}-mimir-ruler-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
         # s3 blocks storage
         - name: AWS_ACCESS_KEY_ID_TSDB
           valueFrom:
             secretKeyRef:
-              name: mimir-tsdb-bucket-claim
+              name: ${clusterName,,}-mimir-tsdb-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_TSDB
           valueFrom:
             secretKeyRef:
-              name: mimir-tsdb-bucket-claim
+              name: ${clusterName,,}-mimir-tsdb-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
       extraEnvFrom: []
 
@@ -1812,12 +1812,12 @@ spec:
         - name: AWS_ACCESS_KEY_ID_TSDB
           valueFrom:
             secretKeyRef:
-              name: mimir-tsdb-bucket-claim
+              name: ${clusterName,,}-mimir-tsdb-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_TSDB
           valueFrom:
             secretKeyRef:
-              name: mimir-tsdb-bucket-claim
+              name: ${clusterName,,}-mimir-tsdb-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
       extraEnvFrom: []
 
@@ -2149,12 +2149,12 @@ spec:
         - name: AWS_ACCESS_KEY_ID_TSDB
           valueFrom:
             secretKeyRef:
-              name: mimir-tsdb-bucket-claim
+              name: ${clusterName,,}-mimir-tsdb-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_TSDB
           valueFrom:
             secretKeyRef:
-              name: mimir-tsdb-bucket-claim
+              name: ${clusterName,,}-mimir-tsdb-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
       extraEnvFrom: []
 
@@ -2359,12 +2359,12 @@ spec:
         - name: AWS_ACCESS_KEY_ID_TSDB
           valueFrom:
             secretKeyRef:
-              name: mimir-tsdb-bucket-claim
+              name: ${clusterName,,}-mimir-tsdb-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_TSDB
           valueFrom:
             secretKeyRef:
-              name: mimir-tsdb-bucket-claim
+              name: ${clusterName,,}-mimir-tsdb-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
       extraEnvFrom: []
 
@@ -2857,19 +2857,19 @@ spec:
       mode: standalone
       rootUser: grafana-mimir
       buckets:
-        - name: mimir-tsdb
+        - name: ${clusterName,,}-mimir-tsdb
           policy: none
           purge: false
-        - name: mimir-ruler
+        - name: ${clusterName,,}-mimir-ruler
           policy: none
           purge: false
-        - name: enterprise-metrics-tsdb
+        - name: ${clusterName,,}-enterprise-metrics-tsdb
           policy: none
           purge: false
-        - name: enterprise-metrics-admin
+        - name: ${clusterName,,}-enterprise-metrics-admin
           policy: none
           purge: false
-        - name: enterprise-metrics-ruler
+        - name: ${clusterName,,}-enterprise-metrics-ruler
           policy: none
           purge: false
       persistence:

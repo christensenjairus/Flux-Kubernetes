@@ -9,7 +9,7 @@ spec:
   # an existing bucket the bucket name needs to be defined in
   # the StorageClass referenced here, and both `bucketName` and
   # `generateBucketName` must be omitted in the OBC.
-  bucketName: mimir-alertmanager
+  bucketName: ${clusterName,,}-mimir-alertmanager
   #generateBucketName: ceph-bkt
   storageClassName: k8s-rgw
   #additionalConfig:
