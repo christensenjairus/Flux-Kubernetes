@@ -28,7 +28,7 @@ global:
 
 automountServiceAccountToken: true
 
-enableHolmesGPT: false
+enableHolmesGPT: true
 
 # see https://docs.robusta.dev/master/user-guide/configuration.html#global-config and https://docs.robusta.dev/master/configuration/additional-settings.html#global-config
 globalConfig:
