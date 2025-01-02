@@ -25,7 +25,7 @@ delete_pods() {
     echo "Deleting pods in namespace: $namespace"
     for pod in $pods_to_delete; do
       echo "Deleting pod: $pod"
-      kubectl delete pod "$pod" -n "$namespace" --grace-period=1
+      kubectl delete pod "$pod" -n "$namespace" --grace-period=0 --force
     done
   fi
 }
