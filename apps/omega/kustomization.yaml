@@ -19,7 +19,6 @@ resources:
   - ../base/kasm
   - ../base/nextcloud
   #- ../base/wazuh
-
   - ../base/loki
   - ../base/promtail
   - ../base/grafana
