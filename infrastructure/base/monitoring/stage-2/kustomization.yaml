@@ -4,3 +4,4 @@ resources:
   - ./node-problem-detector
   - ./metrics-server/chart
   - ./victoria-metrics
+  - ./robusta

@@ -53,5 +53,12 @@ patches:
     target:
       kind: Deployment
       name: "kustomize-controller"
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --rate-limit-interval=1m
+    target:
+      kind: Deployment
+      name: "notification-controller"
 EOF
 echo -e "${NC}"
