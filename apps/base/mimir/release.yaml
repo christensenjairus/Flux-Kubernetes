@@ -725,12 +725,12 @@ spec:
         - name: AWS_ACCESS_KEY_ID_ALERTMANAGER
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-alertmanager-bucket-claim
+              name: mimir-alertmanager-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_ALERTMANAGER
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-alertmanager-bucket-claim
+              name: mimir-alertmanager-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
       extraEnvFrom: []
 
@@ -1057,12 +1057,12 @@ spec:
         - name: AWS_ACCESS_KEY_ID_TSDB
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-tsdb-bucket-claim
+              name: mimir-tsdb-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_TSDB
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-tsdb-bucket-claim
+              name: mimir-tsdb-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
       extraEnvFrom: []
 
@@ -1355,23 +1355,23 @@ spec:
         - name: AWS_ACCESS_KEY_ID_RULER
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-ruler-bucket-claim
+              name: mimir-ruler-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_RULER
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-ruler-bucket-claim
+              name: mimir-ruler-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
         # s3 blocks storage
         - name: AWS_ACCESS_KEY_ID_TSDB
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-tsdb-bucket-claim
+              name: mimir-tsdb-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_TSDB
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-tsdb-bucket-claim
+              name: mimir-tsdb-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
       extraEnvFrom: []
 
@@ -1812,12 +1812,12 @@ spec:
         - name: AWS_ACCESS_KEY_ID_TSDB
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-tsdb-bucket-claim
+              name: mimir-tsdb-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_TSDB
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-tsdb-bucket-claim
+              name: mimir-tsdb-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
       extraEnvFrom: []
 
@@ -2149,12 +2149,12 @@ spec:
         - name: AWS_ACCESS_KEY_ID_TSDB
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-tsdb-bucket-claim
+              name: mimir-tsdb-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_TSDB
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-tsdb-bucket-claim
+              name: mimir-tsdb-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
       extraEnvFrom: []
 
@@ -2359,12 +2359,12 @@ spec:
         - name: AWS_ACCESS_KEY_ID_TSDB
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-tsdb-bucket-claim
+              name: mimir-tsdb-bucket-claim
               key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY_TSDB
           valueFrom:
             secretKeyRef:
-              name: ${clusterName,,}-mimir-tsdb-bucket-claim
+              name: mimir-tsdb-bucket-claim
               key: AWS_SECRET_ACCESS_KEY
       extraEnvFrom: []
 
