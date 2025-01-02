@@ -604,7 +604,6 @@ clickhouse:
           <async_insert>true</async_insert>
           <max_execution_time>60</max_execution_time>
           <wait_for_async_insert>true</wait_for_async_insert>
-          <allow_simdjson>false</allow_simdjson>
         </default>
       </profiles>
       <query_log>
