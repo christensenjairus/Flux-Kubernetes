@@ -22,6 +22,7 @@ kubectl rollout restart -n harbor deployment harbor-jobservice
   * `registry.k8s.io` (docker registry)
   * `us-docker.pkg.dev` (docker registry)
   * `public.ecr.aws` (docker registry)
+  * `us-central1-docker.pkg.dev` (docker registry)
 * Create new project
   * Project Name: line6
   * Access Level: Private

@@ -595,7 +595,7 @@ image:
 # parameters for the robusta forwarder deployment
 kubewatch:
   image: ~ # image can be used to override image.registry/imageName
-  imageName: kubewatch:v2.9.0
+  #imageName: kubewatch:v2.9.0
   imagePullPolicy: IfNotPresent
   pprof: True
   resources:
@@ -668,7 +668,7 @@ kubewatch:
 grafanaRenderer:
   enableContainer: false
   image: ~  # image can be used to override image.registry/imageName
-  imageName: grafana-renderer:7
+  #imageName: grafana-renderer:7
   imagePullPolicy: IfNotPresent
   resources:
     requests:
@@ -690,7 +690,7 @@ runnerServiceAccount:
 # parameters for the robusta runner
 runner:
   image: ~  # image can be used to override image.registry/imageName
-  imageName: robusta-runner:0.18.0
+  #imageName: robusta-runner:0.18.0
   imagePullPolicy: IfNotPresent
   log_level: INFO
   sentry_dsn: https://4f1a66f025c60830fec303a094dcdf94@o1120648.ingest.sentry.io/6156573
